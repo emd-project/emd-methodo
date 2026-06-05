@@ -1,5 +1,6 @@
 {
   "name": "emd-methodo",
+  "description": "Méthodo éditoriale EMD — marketplace du plugin emd-methodo.",
   "owner": {
     "name": "EMD",
     "email": "emd@mentionbox.be"
@@ -8,7 +9,11 @@
     {
       "name": "emd-methodo",
       "source": ".",
-      "description": "Méthodo éditoriale EMD : init de site, DA auto, rédaction SEO/GEO, anti-IA, génération d'images."
+      "description": "Méthodo éditoriale EMD : init de site, DA auto, rédaction SEO/GEO, anti-IA, génération d'images.",
+      "version": "0.1.0",
+      "author": {
+        "name": "EMD"
+      }
     }
   ]
 }
