@@ -1,0 +1,14 @@
+{
+  "name": "emd-methodo",
+  "owner": {
+    "name": "EMD",
+    "email": "emd@mentionbox.be"
+  },
+  "plugins": [
+    {
+      "name": "emd-methodo",
+      "source": ".",
+      "description": "Méthodo éditoriale EMD : init de site, DA auto, rédaction SEO/GEO, anti-IA, génération d'images."
+    }
+  ]
+}
