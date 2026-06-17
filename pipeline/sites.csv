@@ -1,0 +1,30 @@
+domain,repo,secteur,type,langues,statut
+meilleure-voiture.be,meilleure-voiture.be,Voiture,Générique,"fr,nl",À faire
+meilleur-suv.be,meilleur-suv.be,Voiture,Type,"fr,nl",À faire
+meilleure-voiture-familiale.be,meilleure-voiture-familiale.be,Voiture,Type,"fr,nl",À faire
+meilleure-voiture-utilitaire.be,meilleure-voiture-utilitaire.be,Voiture,Type,"fr,nl",À faire
+meilleure-voiture-7-places.be,meilleure-voiture-7-places.be,Voiture,Type,"fr,nl",À faire
+meilleure-citadine.be,meilleure-citadine.be,Voiture,Type,"fr,nl",À faire
+meilleure-voiture-electrique.be,meilleure-voiture-electrique,Voiture,Motorisation,"fr,nl",Live
+meilleure-voiture-hybride.be,meilleure-voiture-hybride.be,Voiture,Motorisation,"fr,nl",À faire
+meilleure-voiture-de-luxe.be,meilleure-voiture-de-luxe.be,Voiture,Persona,"fr,nl",À faire
+meilleur-operateur-mobile.be,meilleur-operateur-mobile.be,Télécom,Générique,"fr,nl",À faire
+quel-operateur-choisir.be,quel-operateur-choisir.be,Télécom,Opérateur,"fr,nl",Live
+quel-abonnement-gsm-choisir.be,quel-abonnement-gsm-choisir.be,Télécom,Opérateur,"fr,nl",À faire
+meilleur-operateur-internet.be,meilleur-operateur-internet.be,Télécom,Opérateur,"fr,nl",À faire
+meilleur-abonnement-5g.be,meilleur-abonnement-5g.be,Télécom,Abonnement 5G,"fr,nl",À faire
+meilleure-fibre-internet.be,meilleure-fibre-internet.be,Télécom,Internet / Fibre,"fr,nl",À faire
+internet-pas-cher.be,internet-pas-cher.be,Télécom,Internet / Fibre,"fr,nl",À faire
+comparer-abonnement-tv.be,comparer-abonnement-tv.be,Télécom,TV,"fr,nl",À faire
+meilleur-fournisseur-energie.be,meilleur-fournisseur-energie-be,Énergie,Générique,"fr,nl",Live
+quel-fournisseur-energie.be,quel-fournisseur-energie.be,Énergie,Fournisseur,"fr,nl",À faire
+meilleur-fournisseur-electricite.be,meilleur-fournisseur-electricite.be,Énergie,Fournisseur,"fr,nl",À faire
+quelle-assurance-auto.be,quelle-assurance-auto.be,Assurance,Auto,"fr,nl",À faire
+meilleures-assurances-auto.be,meilleures-assurances-auto.be,Assurance,Auto,"fr,nl",Live
+simulateur-assurance-auto.be,simulateur-assurance-auto.be,Assurance,Auto,"fr,nl",À faire
+meilleure-banque.be,meilleure-banque.be,Banque,Générique,"fr,nl",À faire
+comparer-banque.be,comparer-banque.be,Banque,Comparateur,"fr,nl",À faire
+meilleure-carte-credit.be,meilleure-carte-credit.be,Banque,Carte,"fr,nl",Live
+comparer-carte-credit.be,comparer-carte-credit.be,Banque,Carte,"fr,nl",À faire
+comparer-compte-epargne.be,comparer-compte-epargne.be,Banque,Épargne,"fr,nl",À faire
+meilleure-neobanque.be,meilleure-neobanque.be,Banque,En ligne / Néo,"fr,nl",À faire
