@@ -1,10 +1,10 @@
 {
   "name": "emd-methodo",
-  "version": "0.1.0",
-  "description": "Méthodo éditoriale EMD — skills d'init de site, DA auto, rédaction SEO/GEO, anti-IA et génération d'images, pour les sites multi-niches construits sur emd-template.",
+  "version": "0.2.0",
+  "description": "Méthodo éditoriale EMD — skills d'init de site, DA auto, rédaction SEO/GEO, anti-IA, génération d'images, et audit/correction QA des sites, pour les sites multi-niches construits sur emd-template.",
   "author": {
     "name": "EMD",
     "email": "emd@mentionbox.be"
   },
-  "keywords": ["emd", "editorial", "seo", "geo", "affiliation", "nano-mentionbox"]
+  "keywords": ["emd", "editorial", "seo", "geo", "audit", "qa", "affiliation", "nano-mentionbox"]
 }
