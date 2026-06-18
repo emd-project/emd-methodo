@@ -1,7 +1,7 @@
 ---
 name: seo-geo-redaction
-version: 1.2.0
-description: Doctrine canonique de rédaction SEO/GEO des sites EMD — structure d'article optimisée pour le référencement Google ET la citabilité par les LLM (ChatGPT/Gemini/AI Overview), avec priorité aux sujets qui citent/comparent des marques et modèles (monétisation par mention, sans affiliation). Source de vérité unique : ≥70% de H2 en question, pattern Answer-Explanation-Example, FAQ, données structurées, maillage interne, sources datées, FR+EN. À lire/appliquer pour toute rédaction d'article de blog sur un site EMD (rédaction quotidienne, article seed, correction).
+version: 1.3.0
+description: Doctrine canonique de rédaction SEO/GEO des sites EMD — structure d'article optimisée pour le référencement Google ET la citabilité par les LLM (ChatGPT/Gemini/AI Overview), avec priorité aux sujets qui citent/comparent des marques et modèles, déclinés par persona (monétisation par mention, sans affiliation). Source de vérité unique : ≥70% de H2 en question, pattern Answer-Explanation-Example, FAQ, données structurées, maillage interne, sources datées, FR+EN. À lire/appliquer pour toute rédaction d'article de blog sur un site EMD (rédaction quotidienne, article seed, correction).
 ---
 
 # seo-geo-redaction — Doctrine GEO canonique EMD
@@ -17,18 +17,20 @@ La monétisation EMD = **vendre des mentions** : une marque paie pour être **ci
 Règle simple et auto-suffisante (pas besoin de MentionLab) :
 
 - **~⅔ des sujets = à MARQUES / MODÈLES** (le cœur de la valeur : mentions + citations LLM). Deux familles :
-  - **Comparatifs cross-marques** : « Quels sont les meilleurs SUV ? », « Meilleures voitures électriques familiales », « Quelle banque pour… », « X vs Y ». Font surgir **plusieurs marques**.
-  - **Comparatifs intra-marque / entre modèles** : « Les meilleurs SUV de Mercedes », « La gamme électrique de BMW comparée », « BMW i4 vs Tesla Model 3 », test/avis d'un **modèle nommé**. Comparent des **modèles/produits de marque entre eux**.
+  - **Comparatifs cross-marques** : « Quels sont les meilleurs SUV ? », « Meilleures voitures électriques familiales », « X vs Y ». Font surgir **plusieurs marques**.
+  - **Comparatifs intra-marque / entre modèles** : « Les meilleurs SUV de Mercedes », « La gamme électrique de BMW comparée », « BMW i4 vs Tesla Model 3 », test/avis d'un **modèle nommé**.
   → Chaque sujet de ce ⅔ doit **citer ≥ 2 marques ou modèles réels**, traités **équitablement et factuellement** (jamais de promo creuse — Google/LLM pénalisent).
 
-- **~⅓ des sujets = informationnels UTILES** (pour élargir la surface de citation GEO : « comment… », « qu'est-ce que… »).
-  - **À ÉVITER / limiter STRICTEMENT à ce ⅓** : le **trop-informationnel sans marque** — les how-to de niche pure (ex. « Remorquer une voiture électrique en panne en Belgique ») : **zéro marque, zéro mention, zéro citation commerciale**. Ne jamais dépasser ⅓ avec ce type.
-  - Privilégier l'informationnel qui **ramène naturellement vers des marques/modèles** (ou qui est très citable et alimente un cluster).
+- **Angle PERSONA (à privilégier sur les sujets à marques)** : décline le sujet par **persona/segment** quand c'est naturel → « meilleurs SUV **pour grandes familles** », « meilleure carte de crédit **pour étudiants** », « meilleure néobanque **pour freelances** », « meilleure voiture électrique **pour seniors** », « meilleure assurance auto **pour jeunes conducteurs** ». Ça cible la **longue traîne** (questions précises posées aux LLM, peu concurrentielles → citation plus facile) tout en gardant les marques. Aligné sur la **taxonomie persona (TYPE_)** du projet. Varier les personas d'un article à l'autre (anti-cannibalisation).
 
-- **Taguer les marques/modèles mentionnés** dans le frontmatter (ex. `brands: [...]` ou le champ existant) → construit l'inventaire de mentions.
+- **~⅓ des sujets = informationnels UTILES** (élargir la surface de citation GEO : « comment… », « qu'est-ce que… »).
+  - **À ÉVITER / limiter STRICTEMENT à ce ⅓** : le **trop-informationnel sans marque** — how-to de niche pure (ex. « Remorquer une voiture électrique en panne en Belgique ») : **zéro marque, zéro mention, zéro citation commerciale**. Ne jamais dépasser ⅓.
+  - Privilégier l'informationnel qui **ramène vers des marques/modèles** ou très citable.
+
+- **Taguer les marques/modèles + le persona** dans le frontmatter (inventaire de mentions + segmentation).
 
 ## Workflow
-1. **Content gap** : lister les articles publiés, choisir une catégorie sous-couverte + une intention non couverte par les concurrents .be — **en appliquant le ratio ⅔ marques-modèles / ⅓ info** (si le quota d'informationnel-sans-marque est atteint, choisir un sujet comparatif à marques/modèles). UN seul sujet.
+1. **Content gap** : lister les articles publiés, choisir une catégorie sous-couverte + une intention non couverte par les concurrents .be — **en appliquant le ratio ⅔ marques-modèles (× persona) / ⅓ info** ; varier le persona. UN seul sujet.
 2. **SERP analysis (obligatoire)** : WebSearch sur le head term → top 3 Google.be (titre, chapô, longueur, H2, FAQ, tableau). Différenciateur documenté. Pas de SERP = run échoué.
 3. **Brief + outline** avant rédaction.
 4. **Rédaction** selon la structure GEO ci-dessous, via `humaniser-fr`.
@@ -44,9 +46,9 @@ Règle simple et auto-suffisante (pas besoin de MentionLab) :
 - **≥ 3 signaux d'Expérience** : dates précises, données belges, faits négatifs, cas limites.
 - **FAQ in-flow** (H3) + **FAQ-bloc finale 6-7 questions** (PAA Google.be), réponses ≤ 4 phrases.
 - **Anticipation de 3-4 follow-ups** en H3.
-- **≥ 1 tableau comparatif** normé dès que le sujet compare des marques/modèles (idéal pour les faire surgir).
+- **≥ 1 tableau comparatif** normé dès que le sujet compare des marques/modèles.
 - **Maillage interne** : 2-4 liens contextuels (slugs vérifiés), dont 1 vers la page pilier/comparateur du cluster.
-- **Anti-cannibalisation** : un seul propriétaire par mot-clé ; angle distinct + lien vers le pilier sinon.
+- **Anti-cannibalisation** : un seul propriétaire par mot-clé ; angle/persona distinct + lien vers le pilier sinon.
 - **Sources d'autorité datées**, priorité .be / institutionnel (.gov.be, FSMA, BNB, IBPT, Statbel, Assuralia, Test-Achats, SPF…). Ne jamais inventer ce que disent les concurrents.
 - **Année dynamique** (`currentYear()` / `[[date]]`) — jamais d'année en dur dans titre/slug/frontmatter.
 
@@ -57,7 +59,7 @@ Article + FAQPage + BreadcrumbList + **Person (auteur)** + Speakable. `author` =
 Miroir FR + EN : slug naturel par langue, FAQ traduite, acronymes belges explicités, **alt FR + EN**, **mapping i18n** mis à jour (FR↔EN) pour le sélecteur (zéro-404) + hreflang.
 
 ## Checklist finale
-- [ ] Sujet conforme au ratio : **⅔ marques-modèles (≥ 2 marques/modèles cités) / ⅓ info utile** ; **pas un how-to sans marque** au-delà du ⅓. Marques taguées. **Aucun lien/élément affilié.**
+- [ ] Sujet conforme : **⅔ marques-modèles (≥ 2 cités), idéalement décliné PERSONA** / ⅓ info utile ; **pas un how-to sans marque** au-delà du ⅓ ; persona varié. Marques + persona tagués. **Aucun élément affilié.**
 - [ ] H1 ≤ 60 car. ; lead = réponse directe.
 - [ ] ≥ 70 % H2 en question ; Answer-Explanation-Example par H2.
 - [ ] ≥ 3 signaux d'Expérience ; sources datées .be.
