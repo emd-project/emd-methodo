@@ -1,7 +1,7 @@
 ---
 name: emd-audit
-version: 1.2.0
-description: Audit QA d'un ou de tous les sites EMD — multilingue, contenu (thin content < 800 mots), SEO sémantique + technique, images, DA, identité de marque (favicon/logo), auteur/E-E-A-T, légal + RGPD (mentions noindex, infos société, bandeau cookies), responsive (zéro scroll horizontal), accessibilité, anti-footprint inter-sites. LECTURE SEULE : ne modifie aucun repo de site, produit un dashboard consolidé dans emd-methodo/pipeline/audits/. À utiliser quand on dit « audite les sites EMD », « audit QA », « vérifie le SEO / la DA / le multilingue / le responsive / l'auteur d'un site », « check thin content », ou depuis la tâche planifiée d'audit hebdomadaire.
+version: 1.3.0
+description: Audit QA d'un ou de tous les sites EMD — multilingue, contenu (thin content < 800 mots), SEO sémantique + technique, GEO (structure article : ≥70% H2-questions, réponse-first, FAQ, JSON-LD), images, DA, identité de marque (favicon/logo), auteur/E-E-A-T, légal + RGPD (mentions noindex, infos société, bandeau cookies), responsive (zéro scroll horizontal), accessibilité, anti-footprint inter-sites. LECTURE SEULE : ne modifie aucun repo de site, produit un dashboard consolidé dans emd-methodo/pipeline/audits/. À utiliser quand on dit « audite les sites EMD », « audit QA », « vérifie le SEO / la GEO / la DA / le multilingue / le responsive / l'auteur d'un site », « check thin content », ou depuis la tâche planifiée d'audit hebdomadaire.
 ---
 
 # emd-audit — Audit QA des sites EMD
@@ -27,6 +27,14 @@ Repo = colonne `repo` sous l'org `emd-project`. URL de prod = `https://<repo san
 
 ### SEO SÉMANTIQUE
 - Intent cohérent avec le type de page ; mot-clé cible (title/H1/intro/meta) ; un seul H1 ; FAQ/PAA ; **maillage interne** (orphelins de liens) ; **cannibalisation**.
+
+### GEO / STRUCTURE ARTICLE — priorité
+Conformité à la doctrine `skills/seo-geo-redaction/SKILL.md` (lis-la pour les critères exacts). Pour un échantillon d'articles par site :
+- **% de H2 en question** : compte les H2 et calcule le ratio. **Flag si < 70 % de H2 en question stricte** (Faut-il / Quel / Comment / Pourquoi / Est-ce que / Quand / X vs Y). C'est le signal n°1 de non-conformité GEO.
+- **Réponse-first** : lead 40-60 mots en réponse directe, et **réponse directe < 60 mots en tête de chaque H2** (pattern Answer-Explanation-Example). Flag les H2 qui partent dans le contexte sans répondre d'abord.
+- **FAQ-bloc 6-7 questions** présent ; **TL;DR / aiSummary 3-5 bullets** dans le frontmatter.
+- **JSON-LD** Article + FAQPage + **Person (auteur)** + Breadcrumb + Speakable.
+- **Année dynamique** (pas d'année en dur dans title/slug/frontmatter).
 
 ### SEO TECHNIQUE
 - `sitemap.xml` (2 locales) ; `robots.txt` non bloquant ; `canonical` correct ; **pas de noindex/nofollow accidentel** sur le contenu ; **hreflang FR↔EN réciproque** (+ x-default) ; OpenGraph + Twitter card ; **JSON-LD** Article/FAQ/Breadcrumb ; slugs propres ; pas de lien mort.
@@ -71,13 +79,13 @@ Signale toute paire trop similaire (même type de home ET palette proche, logos 
 
 ## Sortie — dashboard consolidé
 Rapport Markdown :
-- **Scorecard** : sites × catégories (Multilingue / Contenu / SEO sém. / SEO tech. / Identité / Auteur / Images / Légal-RGPD / Responsive / DA / A11y / Santé) en ✅ / ⚠️ / ❌.
-- **Détail par site** trié par sévérité ; mets en avant : bandeau cookies / pages légales manquants, scroll horizontal, **auteur générique « la rédaction »**, articles thin content, favicon/logo manquants, covers de catégorie non rendues, cannibalisation, JSON-LD manquant.
+- **Scorecard** : sites × catégories (Multilingue / Contenu / SEO sém. / GEO / SEO tech. / Identité / Auteur / Images / Légal-RGPD / Responsive / DA / A11y / Santé) en ✅ / ⚠️ / ❌.
+- **Détail par site** trié par sévérité ; mets en avant : bandeau cookies / pages légales manquants, scroll horizontal, **auteur générique « la rédaction »**, **articles sous 70 % de H2-questions (avec le % mesuré)**, articles thin content, favicon/logo manquants, covers de catégorie non rendues, cannibalisation, JSON-LD manquant.
 - Section **anti-footprint**.
-- **Top des actions prioritaires** (❌ d'abord — RGPD, responsive, auteur en tête).
+- **Top des actions prioritaires** (❌ d'abord — RGPD, responsive, auteur, GEO en tête).
 
 Écris dans `emd-project/emd-methodo` → `pipeline/audits/audit-AAAA-MM-JJ.md` (date du jour), et mets à jour `pipeline/audits/LATEST.md` (overwrite=true). C'est ce `LATEST.md` que le skill `emd-fix` consomme.
 
 ## Contraintes
 - LECTURE SEULE sur les repos de sites ; tu n'écris QUE le rapport dans `emd-methodo`.
-- Efficace : énumère les fichiers, lis frontmatters/configs et corps d'articles pour le comptage de mots, plutôt que de tout relire inutilement.
+- Efficace : énumère les fichiers, lis frontmatters/configs et corps d'articles (échantillon pour le GEO) plutôt que de tout relire inutilement.
