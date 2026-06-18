@@ -1,6 +1,6 @@
 ---
 name: integrate-claude-design
-version: 1.1.0
+version: 1.1.1
 description: Intègre les outputs livrés par Claude Design (JSX, HTML, snippets Tailwind, mockups, descriptions de sections) dans la structure du template emd-template. Mappe les pages vers app/, les composants vers components/, les tokens vers niche.config.ts, applique les conversions techniques (variables CSS, next/image, RSC vs 'use client'), et réutilise les composants MDX existants. À utiliser quand l'utilisateur dit « intègre ce qui est dans design-incoming », « merge les designs », « applique les outputs Claude Design », « intègre les écrans livrés », ou quand le dossier design-incoming/ à la racine du repo contient des fichiers à traiter.
 allowed-tools:
   - Read
@@ -127,20 +127,20 @@ Verify avec `grep -r "text-opacity-\|bg-opacity-" components/ app/` — si ça r
 
 Si Claude Design a inclus un `<link href="https://fonts.googleapis.com/...">` : à retirer. Les fonts passent par `next/font` configuré dans `app/layout.tsx`.
 
-### 3.6 Liens Amazon → `addAffiliateTag()` ou `<AffiliateLink>`
+### 3.6 Liens sortants → liens neutres (pas d'affiliation)
 
-Si un output contient un lien Amazon brut (`https://amazon.fr/dp/...`), le convertir :
+Un lien sortant (vers une marque, un fabricant, une source) est un **lien neutre**. Le modèle EMD ne repose sur **aucune affiliation** : pas de tag d'affiliation, pas de composant `AffiliateLink`, pas de plugin de réécriture de liens. La monétisation passe par la mention de marque, pas par une commission sur ces sites.
 
 ```tsx
-// ❌ Avant
-<a href="https://amazon.fr/dp/B08X1234">Voir sur Amazon</a>
-
-// ✅ Après
+// ❌ Avant (livré par Claude Design, à ne PAS reproduire)
 import { AffiliateLink } from '@/components/AffiliateLink'
-<AffiliateLink href="https://amazon.fr/dp/B08X1234">Voir sur Amazon</AffiliateLink>
+<AffiliateLink href="https://exemple.com/produit">Voir le produit</AffiliateLink>
+
+// ✅ Après (lien neutre standard)
+<a href="https://exemple.com/produit" rel="noopener">Voir le produit</a>
 ```
 
-Ou en MDX, le plugin remark s'en charge automatiquement— mais vérifier que le tag affilié est bien configuré dans `niche.config.ts`.
+Si un output contient un lien « affilié » (tag d'affiliation dans l'URL, wrapper `AffiliateLink`, plugin remark de tagging) : le **décâbler** vers un lien sortant neutre. Aucune affiliation n'est configurée sur ces sites, et il ne faut pas en introduire.
 
 ---
 
@@ -151,7 +151,7 @@ Le template embarque déjà une bibliothèque de composants pour le contenu édi
 | Besoin | Composant template à réutiliser |
 |---|---|
 | Image inline dans un article | `<ArticleImage>` |
-| Carte produit affilié | `<ProductCTA>` |
+| Carte produit | `<ProductCTA>` |
 | Carousel horizontal de produits | `<ProductCarousel>` |
 | Barre de comparaison visuelle | `<CompareBar>` / `<CompareBarGroup>` |
 | Bloc conseil | `<Tip>` |
@@ -186,7 +186,7 @@ Avant de marquer l'intégration terminée, vérifier :
 - [ ] Aucune couleur hex en dur dans le JSX (`grep -rE "#[0-9a-fA-F]{3,6}" app/ components/` — ne devrait rien retourner sauf cas justifiés)
 - [ ] Aucune référence à `fonts.googleapis.com`
 - [ ] `'use client'` uniquement sur composants interactifs
-- [ ] Liens Amazon via `addAffiliateTag()` ou `<AffiliateLink>`
+- [ ] Liens sortants neutres (aucun tag d'affiliation ni composant `AffiliateLink` — pas d'affiliation sur ces sites)
 - [ ] `prefers-reduced-motion` respecté si animations
 - [ ] Composants nouveaux < 150 lignes (sinon à splitter)
 
@@ -241,3 +241,5 @@ Pour chaque intégration, livrer à l'utilisateur :
 4. **Résultat du filtre qualité** (les checks passés, les checks failés).
 5. **Proposition de commit** (message + branche).
 6. **Nettoyage** (confirmation que `design-incoming/` est vide).
+</content>
+</invoke>
