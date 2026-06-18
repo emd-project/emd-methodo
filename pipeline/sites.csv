@@ -1,7 +1,7 @@
 domain,repo,secteur,type,langues,statut
 meilleure-voiture.be,meilleure-voiture.be,Voiture,Générique,"fr,en",Live
 meilleur-suv.be,meilleur-suv.be,Voiture,Type,"fr,en",À faire
-meilleure-voiture-familiale.be,meilleure-voiture-familiale.be,Voiture,Type,"fr,en",À faire
+meilleure-voiture-familiale.be,meilleure-voiture-familiale.be,Voiture,Type,"fr,nl",Configuré
 meilleure-voiture-utilitaire.be,meilleure-voiture-utilitaire.be,Voiture,Type,"fr,en",À faire
 meilleure-voiture-7-places.be,meilleure-voiture-7-places.be,Voiture,Type,"fr,en",À faire
 meilleure-citadine.be,meilleure-citadine.be,Voiture,Type,"fr,en",À faire
