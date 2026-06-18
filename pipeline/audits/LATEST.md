@@ -1,140 +1,42 @@
-# Audit QA des sites EMD — 2026-06-18
+> **Dernier audit : 2026-06-18** — source : [`pipeline/audits/audit-2026-06-18.md`](./audit-2026-06-18.md). Fichier consommé par le skill `emd-fix`.
 
-Mode **lecture seule**. Périmètre : sites au statut « Live » ou « Configuré » de `pipeline/sites.csv`.
-Doctrine appliquée : `skills/emd-audit/SKILL.md` (v1.3.0) + `skills/seo-geo-redaction/SKILL.md`.
-Méthode GEO : échantillon de 2-3 articles par site, comptage des H2 et calcul du **% de H2 en question stricte** (Faut-il / Quel / Comment / Pourquoi / Est-ce que / Quand / X vs Y). Seuil doctrine : **≥ 70 %**.
+# Audit QA EMD — 2026-06-18
 
-Sites audités (8) : meilleure-voiture.be, meilleur-suv.be, meilleure-voiture-familiale.be (Configuré), meilleure-voiture-electrique, quel-operateur-choisir.be, meilleur-fournisseur-energie-be, meilleures-assurances-auto.be, meilleure-carte-credit.be.
+Mode **lecture seule**. Périmètre : sites « Live » + « Configuré » de `pipeline/sites.csv` (8 sites). Doctrine appliquée : `skills/emd-audit/SKILL.md` v1.3.0 + `skills/seo-geo-redaction/SKILL.md`.
 
----
+**Bilan chiffré** : 8 sites audités · **18 ❌ (bloquants)** · **29 ⚠️ (importants)** · **~9 articles thin content (< 800 mots)**.
 
-## 1. Scorecard
-
-Légende : ✅ conforme · ⚠️ à corriger (important) · ❌ bloquant · — non évalué.
-
-| Site | % H2-Q | Multiling. | Contenu | SEO sém. | GEO | SEO tech. | Identité | Auteur | Images | Légal/RGPD | Responsive | DA | A11y |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| **meilleure-carte-credit.be** | **86 %** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ⚠️ | ✅ |
-| **quel-operateur-choisir.be** | **83 %** | ⚠️ | ✅ | ✅ | ✅ | ⚠️ | ✅ | ✅ | ✅ | ❌ | ✅ | ⚠️ | ✅ |
-| **meilleure-voiture-electrique** | **100 %** | ✅ | ✅ | ✅ | ✅ | ⚠️ | ⚠️ | ✅ | ⚠️ | ❌ | ✅ | ✅ | ✅ |
-| **meilleur-suv.be** | **78 %** | ❌ | ✅ | ✅ | ✅ | ⚠️ | ⚠️ | ❌ | ⚠️ | ❌ | ✅ | ⚠️ | ✅ |
-| **meilleures-assurances-auto.be** | **25 %** | ⚠️ | ✅ | ✅ | ❌ | ⚠️ | ✅ | ✅ | ⚠️ | ❌ | ✅ | ⚠️ | ✅ |
-| **meilleur-fournisseur-energie-be** | **20 %** | ⚠️ | ⚠️ | ✅ | ❌ | ⚠️ | ✅ | ✅ | ⚠️ | ❌ | ✅ | ✅ | ✅ |
-| **meilleure-voiture.be** | **0 %** | ❌ | ⚠️ | ⚠️ | ❌ | ⚠️ | ⚠️ | ❌ | ❌ | ❌ | ✅ | ⚠️ | ✅ |
-| **meilleure-voiture-familiale.be** (Configuré) | n/a* | ❌ | — | — | — | — | ⚠️ | ❌ | — | ❌ | ✅ | ⚠️ | ✅ |
-
-\* familiale : statut « Configuré », contenu minimal (échantillon non significatif) ; pénalisé uniquement sur les défauts structurels confirmés (NL présent, légal placeholder, auteur générique).
-
-### % H2-questions mesuré par site (métrique prioritaire)
-
-| Site | Articles échantillonnés | H2 en question | % | Verdict |
-|---|---|---|---|---|
-| meilleure-voiture-electrique | meilleure-citadine-electrique | 4/4 | **100 %** | ✅ |
-| meilleure-carte-credit.be | meilleure-carte-credit-belgique | 6/7 | **86 %** | ✅ |
-| quel-operateur-choisir.be | quel-operateur-mobile-choisir | 5/6 | **83 %** | ✅ |
-| meilleur-suv.be | meilleur-suv-compact-belgique | 7/9 | **78 %** | ✅ |
-| meilleures-assurances-auto.be | meilleure-assurance-auto-belgique | 2/8 | **25 %** | ❌ < 70 % |
-| meilleur-fournisseur-energie-be | changer-fournisseur-energie | 1/5 | **20 %** | ❌ < 70 % |
-| meilleure-voiture.be | guide-VE-2026 (0/6) + suv-2026 (0/4) | 0/10 | **0 %** | ❌ < 70 % |
+Constat transversal n°1 : **7 sites sur 8 sont non conformes RGPD** (pages légales en placeholder + aucun bandeau cookies + tracker chargé sans consentement). Seul `meilleure-carte-credit.be` est propre sur ce volet et constitue la **référence de réseau** à répliquer.
 
 ---
 
-## 2. Détail par site (trié par sévérité)
+## Scorecard
 
-### ❌ meilleure-voiture.be — Live — le plus de problèmes
-- **GEO 0 % H2-questions (BLOQUANT).** Les 2 articles échantillonnés n'ont AUCUN H2 en question : titres factuels type « Méthode », « Verdict », « Notre sélection VE 2026 », « Fiscalité société 2026 ». Pattern Answer-first absent en tête de H2. Le site est resté sur l'ancien gabarit rédactionnel, non aligné sur la doctrine GEO.
-- **Auteur générique « La rédaction Meilleure Voiture » (BLOQUANT E-E-A-T).** Pas d'auteur identifié, pas de persona, slug `redaction`.
-- **Cookie banner RGPD absent (BLOQUANT).** Aucun composant CookieConsent dans `components/`, rien dans `app/layout.tsx` ni `app/(site)/layout.tsx`.
-- **Mentions légales = placeholder (BLOQUANT).** `app/(site)/mentions-legales/page.tsx` : « Nom / Raison sociale : [À compléter] », adresse/email/directeur « [À compléter] ». Infos MentionBox SRL (BE 0784.700.405) absentes.
-- **Sélecteur de langue non monté (BLOQUANT multilingue).** `LangSwitcher.tsx` existe mais `Nav.tsx` ne l'importe pas — aucun switch FR/EN dans le header ni le menu mobile, alors que le site est déclaré fr+en.
-- **Images (important).** `featureImage` = image de catégorie partagée (`/images/blog/category-electriques.jpeg`, `category-suv.jpeg`) — non unique par article. Aucune image in-body (0 au lieu de ~2).
-- **Année en dur (important).** « 2026 » dans le slug ET le titre (`meilleur-suv-belgique-2026`, `voiture-electrique-belgique-guide-2026`).
-- **FAQ sous le minimum (important).** 4 questions au lieu de 6-7.
-- **sitemap.ts incomplet (important).** Ne liste que les pages statiques ; aucun article de blog, aucune URL /en, aucun hreflang.
-- **JSON-LD (à vérifier).** aiSummary présent, mais Person auteur = « la rédaction ».
+Légende : ✅ conforme · ⚠️ important · ❌ bloquant
 
-### ❌ meilleur-suv.be — Live
-- **NL présent (BLOQUANT).** `content/blog/nl/compacts/beste-compacte-suv-belgie.mdx` + dossiers `nl/familiaux`, `nl/hybrides`. La doctrine interdit le NL (« Jamais de NL »).
-- **Auteur générique « La rédaction Meilleur SUV » (BLOQUANT E-E-A-T).**
-- **Cookie banner RGPD absent (BLOQUANT).** Pas de CookieConsent.
-- **Mentions légales placeholder (BLOQUANT)** (même template `[À compléter]`).
-- **Sélecteur de langue non monté (multilingue).** Même schéma que voiture.be (LangSwitcher non importé).
-- **GEO OK (78 %).** Bon point : article compact = 7/9 H2-questions, FAQ 7, aiSummary 5 bullets, ~1700 mots. Structure conforme.
-- **Images (important).** featureImage par article (mieux que voiture.be) mais aucune image in-body.
-
-### ❌ meilleures-assurances-auto.be — Live
-- **GEO 25 % H2-questions (BLOQUANT).** Sur l'article pilier (meilleure-assurance-auto-belgique), seuls 2/8 H2 sont en question ; le reste est factuel (« Comment nous avons comparé », « Les 6 grands assureurs au crible », « Les 5 critères… », « 4 erreurs… »). À réécrire en H2-questions.
-- **Cookie banner RGPD absent (BLOQUANT).** `app/layout.tsx` + `(site)/layout.tsx` sans CookieConsent.
-- **Mentions légales placeholder (BLOQUANT).**
-- **Bons points.** Auteur nommé (thomas-renard), FAQ 6, tldr, cover image + alt, ~1500 mots, sources datées CallMePower 06/2026. Schéma faq en `question/answer` (cohérent, à harmoniser réseau).
-- **Sélecteur de langue.** À vérifier qu'il est monté (LangSwitcher présent).
-
-### ❌ meilleur-fournisseur-energie-be — Live (monolingue FR)
-- **GEO 20 % H2-questions (BLOQUANT).** Article changer-fournisseur : 1/5 H2 en question. Réécrire les H2 (« Les démarches, étape par étape », « Préavis et délais… », « Les idées reçues à oublier », « Et après ? »).
-- **Cookie banner RGPD absent (BLOQUANT).**
-- **Mentions légales placeholder (BLOQUANT).**
-- **Doublon d'article (important).** `fournisseur-gaz-electricite-moins-cher-belgique.mdx` ET `2026-06-02-fournisseur-gaz-electricite-moins-cher-belgique.mdx` — risque de cannibalisation + année en dur dans le nom de fichier.
-- **Incohérence i18n (important).** `niche.config.ts` déclare `locales: ['fr']` (monolingue) mais le repo contient `app/en/` et `components/en/` — soit i18n EN à finir, soit reliquats à supprimer. sites.csv attend « fr,en » → parité EN à trancher.
-- **Thin content (important).** L'article changer-fournisseur fait ~700 mots (< 800). FAQ 4 questions.
-- **Bons points.** Auteur nommé crédible (Camille Mertens, analyste énergie, 7 ans), aiSummary présent, catégories en tokens CSS (`var(--elec)`…), marque visuelle distincte (Voltéo).
-
-### ❌ quel-operateur-choisir.be — Live — quasi-référence
-- **Cookie banner RGPD absent (BLOQUANT).** À confirmer (pas de CookieConsent dans components/layout ; LangSwitch/LangSwitcher présents).
-- **Mentions légales placeholder (BLOQUANT)** — à corriger comme le réseau.
-- **NL résiduel (à vérifier).** Présence de dossiers `en` confirmée ; vérifier l'absence de NL.
-- **Bons points (référence GEO).** Article mobile = 5/6 H2-questions (83 %), aiSummary + tldr, FAQ 7, auteur nommé (maxime-dubois), cover + mid images avec alt FR/EN, composants éditoriaux (StatRow, ProConTable, Verdict, Warning), sources IBPT/Test-Achats datées. **C'est le meilleur gabarit rédactionnel du réseau, à dupliquer.**
-- **SEO tech (important).** Vérifier sitemap multi-locale + hreflang réciproque.
-
-### ⚠️ meilleure-voiture-electrique — Live
-- **GEO 100 % H2-questions.** Meilleur score du réseau (4/4). Article citadine = tldr 3 bullets, FAQ 7, related avec slugs propres, ~1700 mots, signaux d'expérience (anecdote Colruyt Uccle, PullQuote auteur). Excellent.
-- **Cookie banner RGPD (BLOQUANT à confirmer).** Pas de CookieConsent visible dans `components/layout` (Header/Footer/LanguageSwitcher/MobileMenu/MobileNav).
-- **Mentions légales.** Template différent (routing `app/[locale]`) — à vérifier que les infos société y sont remplies.
-- **Images (important).** Frontmatter de l'article sans champ `featureImage`/`cover` — featured image potentiellement manquante. Pas d'images in-body explicites (que des composants Stat).
-- **Identité (important).** Auteur `christophe-f` nommé (bien), mais vérifier bio E-E-A-T + page auteur + favicon unique.
-- **DA.** Unités « EUR » écrites en toutes lettres au lieu de « € » — cosmétique.
-
-### ✅ meilleure-carte-credit.be — Live — RÉFÉRENCE du réseau
-- **Le seul site conforme Légal/RGPD.** Mentions légales complètes et bilingues FR/EN avec infos exactes : **MentionBox SRL · SRL de droit belge · BE 0784.700.405 · Rue Blanche-Eau 15, 6950 Nassogne, Belgique**, noindex, date de MAJ, hébergeur, droit applicable belge. **Composant `CookieConsent.tsx` présent.**
-- **GEO 86 %** (6/7 H2-questions), aiSummary, FAQ 7, auteur nommé (sophie-laurent, ex-conseillère bancaire), cover + mid images avec alt + caption FR/EN, maillage interne riche et slugs vérifiés, ~2000 mots, signaux d'expérience.
-- **Contenu volumineux** (~37 articles guides + banques-tradi + neobanques).
-- **À nettoyer (mineur).** Dossiers scaffolding résiduels `content/fr/articles/_example.fr.mdx`, `content/articles/_example.mdx`, `content/en/blog` vides — supprimer pour éviter la confusion de structure.
-- **DA (mineur).** Hex en dur dans `niche.config.ts` (palette + blogTags + categories) — acceptable comme source de config, mais vérifier qu'aucun hex ne fuit dans le JSX.
-
-### ❌ meilleure-voiture-familiale.be — Configuré (à peine construit)
-- **NL présent (BLOQUANT).** Dossier `content/blog/nl` + article EN seed (`best-family-car-2026.mdx`).
-- **Auteur générique probable** (même template V1 que voiture.be/suv.be).
-- **Mentions légales placeholder + cookie banner absent (BLOQUANT)** (template V1).
-- **Sélecteur de langue non monté** (LangSwitcher non importé, comme la fratrie V1).
-- Statut « Configuré » : contenu insuffisant pour un audit GEO significatif. **Non pénalisé sur Contenu/SEO/GEO**, mais les défauts structurels ci-dessus sont déjà présents dans le template et doivent être corrigés avant passage Live.
+| Site | Multi | Contenu | SEO sém | GEO | SEO tech | Identité | Auteur | Images | Légal-RGPD | Resp. | DA | A11y |
+|---|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
+| meilleure-voiture.be | ❌ | ⚠️ | ⚠️ | ✅ | ❌ | ✅ | ❌ | ⚠️ | ❌ | ✅ | ✅ | ⚠️ |
+| meilleur-suv.be | ❌ | ⚠️ | ✅ | ✅ | ⚠️ | ❌ | ❌ | ⚠️ | ❌ | ✅ | ✅ | ✅ |
+| meilleure-voiture-familiale.be *(Configuré)* | ❌ | ⚠️ | ⚠️ | ⚠️ | ⚠️ | ❌ | ❌ | ⚠️ | ❌ | ✅ | ❌ | ⚠️ |
+| meilleure-voiture-electrique.be | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ⚠️ | ⚠️ | ❌ | ✅ | ⚠️ | ✅ |
+| quel-operateur-choisir.be | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ⚠️ | ❌ | ✅ | ⚠️ | ✅ |
+| meilleur-fournisseur-energie.be | ⚠️ | ✅ | ✅ | ⚠️ | ⚠️ | ⚠️ | ⚠️ | ✅ | ❌ | ✅ | ⚠️ | ✅ |
+| meilleures-assurances-auto.be | ❌ | ✅ | ✅ | ✅ | ⚠️ | ✅ | ✅ | ⚠️ | ❌ | ✅ | ✅ | ✅ |
+| meilleure-carte-credit.be | ✅ | ✅ | ✅ | ✅ | ⚠️ | ✅ | ⚠️ | ⚠️ | ✅ | ✅ | ✅ | ✅ |
 
 ---
 
-## 3. Anti-footprint inter-sites
+## Top des actions prioritaires
 
-- **Fratrie « template V1 » trop homogène : meilleure-voiture.be + meilleur-suv.be + meilleure-voiture-familiale.be.** Même arborescence exacte, même `NicheConfig`, même home (hero centered + cat-band + articles + feature-banner + recent-grid + newsletter), **même auteur générique « La rédaction <SiteName> »** avec **bio et formulations quasi identiques** (« En pratique, ça donne… », « Les données ADAC/TÜV montrent que », « Ce qu'on éviterait… »). Footprint réseau évident côté auteur + structure. À différencier : personas auteurs nommés et distincts par site, variation de home.
-- **Placeholder légal identique sur 7/8 sites** (`[À compléter]`) — empreinte technique commune ; seul carte-credit a divergé en remplissant les vraies infos.
-- **Palettes correctement différenciées** (voiture.be bleu naval clair / suv.be graphite « Carbone » sombre / energie aurora bleu+orange / assurances « Sérénité » IBM Plex / carte-credit crème éditorial Fraunces). Bon point anti-footprint sur la DA visuelle.
-- **Logos majoritairement textuels** (= nom du site) sauf energie (« Voltéo », marque distincte). Risque faible de logo template par défaut, mais vérifier favicons uniques (icon.svg générique possible).
-- **Sites « comparateur » systématiques** : tagline « comparateur indépendant » répétée — cohérent avec le NDD pour chaque site, pas un footprint bloquant, mais à surveiller pour ne pas dupliquer les CTA/home au mot près.
+1. **🔴 RGPD — bloquant réseau (7 sites).** Aucun bandeau cookies sur `meilleure-voiture.be`, `meilleur-suv.be`, `meilleure-voiture-familiale.be`, `quel-operateur-choisir.be`, `meilleur-fournisseur-energie.be`, `meilleures-assurances-auto.be`, alors que **Vercel Analytics est chargé sans consentement**. Cas `meilleure-voiture-electrique.be` : bandeau présent mais la politique nie l'usage de Google Analytics pourtant chargé. → Déployer le composant cookie conforme de `meilleure-carte-credit.be` et gater les trackers.
+2. **🔴 Pages légales « [À compléter] » (6 sites).** Injecter partout l'éditeur : **MentionBox SRL · SRL de droit belge · BE 0784.700.405 · Rue Blanche-Eau 15, 6950 Nassogne, Belgique.**
+3. **🔴 Multilingue cassé / interdit (4 sites).** NL interdit sur `meilleur-suv.be` (contenu mort) et `meilleure-voiture-familiale.be` (NL rendu). Mono-FR de fait sur `meilleure-voiture.be` et `meilleures-assurances-auto.be` (switcher non monté, zéro EN). Supprimer tout NL.
+4. **🔴 Identité = assets template « 10min » (3 sites).** `meilleur-suv.be` (favicon+logo), `meilleure-voiture-familiale.be` (favicon), `meilleur-fournisseur-energie.be` (OG image). Remplacer.
+5. **🔴 Auteur « la rédaction » — cluster Voiture (3 sites).** Créer un auteur humain nommé, crédible et unique par site.
 
----
-
-## 4. Top des actions prioritaires
-
-**P0 — Bloquants RGPD/Légal (réseau entier sauf carte-credit)**
-1. **Remplir les mentions légales** sur les 7 sites en placeholder avec les infos MentionBox SRL (BE 0784.700.405, Rue Blanche-Eau 15, 6950 Nassogne). Source à recopier : `meilleure-carte-credit.be/app/[lang]/mentions-legales/page.tsx`.
-2. **Ajouter le bandeau cookies RGPD** (léger, Accepter/Refuser, choix mémorisé, FR+EN, aucun tracker avant consentement) sur tous les sites sauf carte-credit. Réutiliser `CookieConsent.tsx` de carte-credit.
-
-**P1 — GEO (cœur de la doctrine)**
-3. **Réécrire les H2 en questions** sur meilleure-voiture.be (0 %), meilleur-fournisseur-energie-be (20 %) et meilleures-assurances-auto.be (25 %) pour atteindre ≥ 70 %, avec réponse-first < 60 mots en tête de chaque H2. Gabarits de référence : quel-operateur-choisir.be (83 %) et meilleure-voiture-electrique (100 %).
-
-**P2 — Auteur / E-E-A-T + multilingue**
-4. **Remplacer l'auteur générique « la rédaction »** par un persona nommé crédible (bio + page auteur + JSON-LD Person) sur meilleure-voiture.be, meilleur-suv.be, meilleure-voiture-familiale.be — et le rendre **unique par site** (anti-footprint).
-5. **Monter le sélecteur de langue** dans le `Nav.tsx` de la fratrie V1 (voiture/suv/familiale) ; **supprimer tout le contenu NL** (suv.be, familiale.be) ; trancher la parité EN d'energie (config `['fr']` vs dossiers `app/en`).
-
-**P3 — Hygiène SEO/contenu (important)**
-6. Compléter le **sitemap** (articles + locales + hreflang) sur la fratrie V1 ; supprimer les **doublons** (energie : `2026-06-02-…` vs `…`) et l'**année en dur** dans slugs/titres ; porter les **FAQ à 6-7 questions** et corriger le **thin content** (energie ~700 mots) ; ajouter **featured image unique + ~2 images in-body** où elles manquent (voiture.be, electrique).
+**À suivre (important) :** GEO H2-questions < 70 % sur familiale, energie et plusieurs guides assurances (reformuler les H2 déclaratifs en questions). `Speakable` JSON-LD absent sauf electrique/operateur/carte-credit. Sitemaps statiques sur le cluster Voiture ; hreflang de sitemap cassé sur carte-credit. FAQ souvent à 3-5 Q (cible 6-7).
 
 ---
 
-*Rapport généré par le skill `emd-audit`. Lecture seule sur les repos de sites. % H2-questions = métrique prioritaire mesurée sur échantillon. Prochaine étape : `emd-fix` consomme ce `LATEST.md`.*
+*Pour le détail complet par site, l'anti-footprint et les listes thin content / GEO par article, voir [`audit-2026-06-18.md`](./audit-2026-06-18.md).*
