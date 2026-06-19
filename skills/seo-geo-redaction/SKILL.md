@@ -1,12 +1,14 @@
 ---
 name: seo-geo-redaction
-version: 1.4.0
+version: 1.4.1
 description: Doctrine canonique de rédaction SEO/GEO des sites EMD — structure d'article optimisée pour le référencement Google ET la citabilité par les LLM (ChatGPT/Gemini/AI Overview), avec priorité aux sujets qui citent/comparent des marques et modèles, déclinés par persona (monétisation par mention, sans affiliation). Source de vérité unique : ≥70% de H2 en question, pattern Answer-Explanation-Example, FAQ, données structurées, maillage interne, sources datées, FR+EN. Priorise les briefs GEO mesurés (content/priorites-geo.md) issus de la boucle MentionLab. À lire/appliquer pour toute rédaction d'article de blog sur un site EMD (rédaction quotidienne, article seed, correction).
 ---
 
 # seo-geo-redaction — Doctrine GEO canonique EMD
 
 Référence absolue pour la structure d'un article EMD. Optimise à la fois le **SEO** (Google.be) et la **GEO** (citabilité par les LLM). À combiner toujours avec `humaniser-fr` (anti-IA, mode production) et la voix/auteur du site.
+
+**Avant toute écriture/commit, respecte `references/garde-fous.md`** (emd-methodo) : vérifier non-vide avant commit, jamais de read-modify-write juste après un write, ne jamais écraser du contenu existant par du vide, build-risqué = signaler.
 
 > Le **schéma de frontmatter** (noms de champs : `aiSummary` vs `tldr`, `faq[q/a]` vs `faq[question/answer]`, `cover` vs `featureImage`, `category` vs `categorie`) **varie selon les sites**. Lis toujours `niche.config.ts` et un article existant du repo pour calquer le schéma exact. La doctrine porte sur la STRUCTURE, pas sur les noms de champs.
 
@@ -60,6 +62,7 @@ Article + FAQPage + BreadcrumbList + **Person (auteur)** + Speakable. `author` =
 Miroir FR + EN : slug naturel par langue, FAQ traduite, acronymes belges explicités, **alt FR + EN**, **mapping i18n** mis à jour (FR↔EN) pour le sélecteur (zéro-404) + hreflang.
 
 ## Checklist finale
+- [ ] **`references/garde-fous.md` respecté** : commit seulement si contenu non-vide, aucun écrasement de contenu existant.
 - [ ] **Brief `priorites-geo.md` non coché traité en priorité s'il en existe** (puis coché après publication).
 - [ ] Sujet conforme : **⅔ marques-modèles (≥ 2 cités), idéalement décliné PERSONA** / ⅓ info utile ; **pas un how-to sans marque** au-delà du ⅓ ; persona varié. Marques + persona tagués. **Aucun élément affilié.**
 - [ ] H1 ≤ 60 car. ; lead = réponse directe.
