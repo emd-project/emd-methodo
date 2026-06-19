@@ -1,68 +1,71 @@
 ---
 name: emd-fix
-version: 1.5.1
-description: Corrige automatiquement les problèmes d'un audit EMD directement sur la branche main des sites — correctifs mécaniques (alt, next/image, OG/JSON-LD, sitemap, multilingue, images, favicon/logo, auteur/persona E-E-A-T, pages légales noindex + infos société, bandeau cookies RGPD, responsive zéro scroll horizontal, covers de catégorie, structure GEO : H2 en questions / réponse-first / FAQ, identité DA : logo/favicon/OG = mark SVG unique) + correctifs lourds plafonnés (réécriture thin content ≥ 800 mots, traductions EN manquantes). La refonte d'une direction de design sur un site live = signalée, jamais auto. Corrige la SOURCE réellement rendue (pas le fichier au bon nom) et vérifie le câblage après coup. À utiliser quand on dit « corrige les sites depuis l'audit », « applique les fixes », « répare le multilingue / les images / le responsive / le RGPD / l'auteur / la GEO / l'identité DA », ou depuis la tâche planifiée hebdomadaire. ÉCRIT EN PROD : précis, idempotent, zéro casse.
+version: 1.6.0
+description: Corrige les sites EMD directement sur main — MANDAT ÉLARGI : ose les gros chantiers (refonte de DA d'un site sans direction, restructuration de page, reconstruction de la liaison i18n FR↔EN, réécriture de plusieurs articles), pas seulement des correctifs de surface. Couvre aussi le mécanique (alt, next/image, OG/JSON-LD, sitemap, multilingue, images, favicon/logo, auteur/persona E-E-A-T, légal noindex + société, cookies RGPD, responsive zéro scroll horizontal, GEO : H2-questions/réponse-first/FAQ, identité DA). Corrige la SOURCE réellement rendue et garde le build cohérent (énumère les consommateurs avant tout renommage). À utiliser quand on dit « corrige les sites », « applique les fixes », « refais la DA / l'i18n / l'auteur / la GEO », ou depuis les tâches planifiées hebdo. ÉCRIT EN PROD sur main : ose, mais zéro perte de données.
 ---
 
-# emd-fix — Correction automatique des sites EMD
+# emd-fix — Correction des sites EMD (mandat élargi)
 
-Tu corriges les problèmes du dernier audit **directement sur `main`** de chaque site. Tu agis en prod : édits ciblés, minimaux, idempotents, jamais de casse.
+Tu corriges les problèmes du dernier audit **directement sur `main`** de chaque site. **N'ose pas à moitié** : un site doit ressortir **matériellement meilleur**, pas juste rafistolé en surface. Tu es autorisé à entreprendre de **gros chantiers** (cf. § Mandat). La prod est surveillée sur Vercel par l'humain.
 
-Outils : `github_read_file`, `github_list_files`, `github_list_repos`, `github_write_file`, `github_commit_batch`, `generate_image`, `wait_for_image` (MCP nano-mentionbox). Lis aussi la doctrine `skills/humaniser-fr/SKILL.md` (anti-IA) et `skills/seo-geo-redaction/SKILL.md` (structure GEO) du repo emd-methodo pour tout correctif de contenu.
+Outils : `github_read_file`, `github_list_files`, `github_list_repos`, `github_write_file`, `github_commit_batch`, `generate_image`, `wait_for_image` (MCP nano-mentionbox). Lis aussi `skills/humaniser-fr/SKILL.md` (anti-IA) et `skills/seo-geo-redaction/SKILL.md` (structure GEO) pour tout correctif de contenu.
 
-**Avant toute écriture, applique `references/garde-fous.md`** (emd-methodo) : anti perte de données (jamais de read-modify-write juste après un write, vérifier non-vide avant commit, ne jamais écraser un non-vide par du vide, ne jamais réduire un article à un stub), build-risqué = signaler, idempotence, périmètre d'écriture.
+**Avant toute écriture, applique `references/garde-fous.md`** (emd-methodo). Deux choses à retenir : (1) **INVARIANT ABSOLU** — jamais de read-modify-write juste après un write, vérifier non-vide avant commit, ne jamais écraser du contenu par du vide, ne jamais réduire un article à un stub ; (2) **cohérence build** — avant de renommer/déplacer un symbole (type, champ, export, props), **énumère TOUS ses consommateurs dans le repo et mets-les à jour dans le même commit** (un renommage qui laisse une référence pendante = build cassé).
 
-## 0 — Principe ABSOLU : corriger la SOURCE rendue, pas le fichier au bon nom (anti correctif fantôme)
-Un commit qui édite un fichier **non câblé** ne change rien à l'écran = **correctif fantôme**. Avant de « corriger » un asset, TRACE ce qui est réellement rendu, puis corrige là, puis **vérifie le câblage**.
+## Mandat — OSE les gros chantiers (mais idempotents)
+Tu n'es plus limité aux retouches mécaniques. Quand l'audit révèle un défaut de fond, **traite-le pour de vrai** :
+- **DA / identité** : un site **sans direction assumée** (skin générique, palette non mutée, logo « éclair » par défaut) → **refais sa DA** : applique l'une des 5 directions de `docs/DA-DIRECTIONS.md`, mute-la (unique, anti-footprint), dessine un **vrai mark SVG** (logo inline `Nav.tsx` + favicon `app/icon.svg` + OG). Une fois la DA propre, **n'y retouche plus** (idempotent — on ne la churn pas chaque semaine).
+- **Structure de page / type de home** incohérent avec le NDD → **restructure** (sections, archétype), sans homogénéiser le réseau.
+- **Liaison i18n FR↔EN** cassée/absente → **reconstruis-la** : crée les fichiers EN manquants (`content/blog/en/<cat>/<slug-en>.mdx`, même slug de catégorie que le FR) + remplis le **mapping** que le sélecteur consomme réellement (article-slugs / pathnames selon le site) + hreflang réciproque. Vérifie le rendu du corps EN, pas juste un 200.
+- **Contenu** : réécris **autant d'articles** que nécessaire (thin content, GEO non conforme), pas un quota symbolique.
+- Tout chantier reste soumis à l'INVARIANT anti-perte-de-données et à la cohérence build.
 
-Pièges Next.js fréquents (à vérifier systématiquement) :
-- **Logo header** : souvent un **SVG inline dans `Nav.tsx`/`Header.tsx`** (le « éclair » réseau générique), PAS `public/.../logo.svg`. → corrige le tracé **dans le composant qui le rend** (garde la même mécanique CSS, change juste le path). Éditer `logo.svg` seul ne change rien.
-- **Favicon** : servi par la **convention `app/icon.svg` / `app/icon.png` / `app/favicon.ico`** (Next émet le `<link rel="icon">` auto). Un `public/favicon.svg` non référencé n'est PAS servi. → crée/édite `app/icon.svg`.
-- **OG / Twitter image** : un **`app/opengraph-image.(tsx|png)`** dynamique **prime** sur un `og-default.svg` + metadata statique. → vérifie sa présence AVANT d'éditer un fichier OG statique ; corrige la source effective.
-- **Cover de catégorie** : vérifie que la page catégorie **rend** la cover (composant/champ), pas seulement qu'un fichier existe dans `public/`.
-- **Auteur** : l'auteur affiché vient du `authorSlug`/`author` résolu par la config auteurs ou un composant `AuthorCard` — change la **source** + ré-attribue, pas juste un texte isolé.
+## 0 — Principe : corriger la SOURCE rendue, pas le fichier au bon nom (anti correctif fantôme)
+Un commit qui édite un fichier **non câblé** ne change rien à l'écran = **correctif fantôme**. Avant de « corriger » un asset, TRACE ce qui est réellement rendu, corrige là, puis **vérifie le câblage**.
+- **Logo header** : souvent un **SVG inline dans `Nav.tsx`/`Header.tsx`**, PAS `public/.../logo.svg`. Corrige le tracé **dans le composant qui le rend**.
+- **Favicon** : convention **`app/icon.svg` / `app/icon.png` / `app/favicon.ico`** (Next émet le `<link rel="icon">`). Un `public/favicon.svg` non référencé n'est PAS servi.
+- **OG / Twitter image** : un **`app/opengraph-image.(tsx|png)`** prime sur un OG statique + metadata. Vérifie sa présence avant d'éditer un fichier OG.
+- **Cover de catégorie** : vérifie que la page catégorie **rend** la cover (composant/champ), pas seulement qu'un fichier existe.
+- **Auteur** : l'auteur affiché vient du `author`/`authorSlug` résolu par la config/`AuthorByline` — change la **source** + ré-attribue.
 
-**Vérification post-fix OBLIGATOIRE** : après chaque correctif d'asset/structure, confirme qu'il est dans le **chemin de rendu** (grep le composant/route/metadata qui l'émet). Si tu n'as pas pu confirmer le câblage, **logue-le comme “à vérifier”** plutôt que de le marquer corrigé. L'idempotence inclut : ne pas « re-corriger » un asset déjà bien câblé, et ne pas marquer corrigé un asset dont le câblage n'est pas prouvé.
+**Vérification post-fix** : confirme que le correctif est dans le **chemin de rendu**. Sinon **logue « à vérifier »** plutôt que « corrigé ».
 
 ## 1 — Charger la to-do
-Lis `pipeline/audits/LATEST.md` dans `emd-project/emd-methodo`. Note sa date. Absent → « Aucun audit disponible », stop. Site ciblé → ne traite que celui-là. Priorise **❌ d'abord, puis ⚠️** (RGPD, responsive, auteur, GEO en tête).
+Lis `pipeline/audits/LATEST.md` (ou le rapport de domaine, ex. `ux-LATEST.md`) dans `emd-project/emd-methodo`. Absent → « Aucun audit disponible », stop. Site ciblé → ne traite que celui-là. Priorise **❌ d'abord, puis ⚠️** (RGPD, responsive, auteur, i18n, GEO, DA en tête).
 
 ## 2 — Corriger chaque site (commits sur `main`, un site à la fois)
 
 ### Correctifs MÉCANIQUES (partout où l'audit les signale)
-- On-page/A11y/SEO : `alt` descriptifs, `<img>` → `next/image`, OpenGraph + Twitter + **JSON-LD** (Article/FAQ/Breadcrumb/Person), `sitemap.xml` (2 locales), `robots.txt`, `canonical` ; retirer tout `noindex/nofollow` accidentel sur le contenu. (OG : vérifier `app/opengraph-image` avant tout — cf. §0.)
-- Multilingue : monter le **sélecteur de langue** (vérifier qu'il est **importé ET rendu** dans le Nav, pas seulement présent en fichier) ; réparer les **liens d'alternance FR↔EN** (vers l'article équivalent, pas la home) ; hreflang réciproque + attribut `lang`.
-- **Identité de marque** : favicon manquant/générique → générer un favicon UNIQUE (1:1) **et le câbler via `app/icon.svg`** ; logo manquant/générique/cloné (éclair réseau par défaut) → **dessiner une marque SVG unique** (mark sur mesure selon la niche + accent + wordmark, cf. spec LOGO de `docs/DA-DIRECTIONS.md`) et la poser **là où elle est rendue** (SVG inline du `Nav.tsx`/`Header.tsx`), pas juste `logo.svg` ; OG via `app/opengraph-image`. Vérifier le rendu de chaque (cf. §0).
-- **Auteur / E-E-A-T** : articles signés « la rédaction » / générique / vide → **créer un persona auteur UNIQUE** (nom réaliste, spécialité niche, **bio E-E-A-T** FR + EN via `humaniser-fr`, **avatar** 1:1, **page auteur**), le câbler comme **auteur par défaut**, **ré-attribuer les articles existants** (frontmatter + JSON-LD author), et le transmettre à la tâche de rédaction du site. Unique au site.
-- **GEO / structure article** (doctrine `seo-geo-redaction`) : articles non conformes (< 70 % H2-questions, pas de réponse-first, FAQ incomplète, JSON-LD/aiSummary manquant, année en dur) → **reformuler les H2 en questions** (≥ 70 %), ajouter la **réponse directe < 60 mots en tête de H2** (Answer-Explanation-Example), compléter la **FAQ à 6-7**, ajouter **TL;DR/aiSummary**, ajouter le **JSON-LD**, années dynamiques. Édition de structure (pas une réécriture complète) → léger ; refonte de fond → correctif lourd plafonné.
-- **Images** : générer les **cover de catégorie manquantes** (16:9) ET **vérifier qu'elles s'affichent** sur la page catégorie ; **featured manquantes ou doublons** (16:9, unique) ; ajouter **~2 images in-body réutilisées** aux articles qui n'en ont pas ; chemins cassés.
-- **Légal & RGPD** : pages légales en **noindex** + infos société exactes (MentionBox SRL · SRL de droit belge · BE 0784.700.405 · Rue Blanche-Eau 15, 6950 Nassogne, Belgique) ; **bandeau cookies RGPD** s'il manque (léger/discret, Accepter/Refuser, lien politique, choix mémorisé, aucun tracker non essentiel avant consentement, FR + EN, tokens). Vérifier que le composant est **monté dans le layout**, pas seulement créé.
-- **Responsive (zéro scroll horizontal)** : largeurs fixes → responsive, tableaux/code en `overflow-x-auto`, `max-width:100%` médias, meta `viewport`, `break-words`, supprimer `100vw`/`min-w` qui débordent. Objectif **0 scroll horizontal** à 320/375/768/1024/1440.
-- **DA / tokens (mécanique)** : hex en dur dans `app/`/`components/` → **tokens `globals`** ; **couleurs en dur dans `volteo.css :root` = bug** → la DA doit passer par **`niche.config.palette`** (+ fonts dans `layout.tsx`), JAMAIS par des valeurs écrites dans `volteo.css :root` (qui n'est qu'une couche d'alias) ; contraste AA ; mode light/dark fixe (pas de mélange) — **sans changer la direction/identité du site** (cf. À SIGNALER pour la refonte).
+- On-page/A11y/SEO : `alt` descriptifs, `<img>` → `next/image`, OpenGraph + Twitter + **JSON-LD** (Article/FAQ/Breadcrumb/Person), `sitemap.xml` (2 locales), `robots.txt`, `canonical` ; retirer tout `noindex/nofollow` accidentel sur le contenu.
+- Multilingue : **sélecteur de langue importé ET rendu** ; **liens d'alternance FR↔EN** vers l'article équivalent (cf. Mandat pour la reconstruction de fond) ; hreflang réciproque + `lang`.
+- **Identité de marque** : favicon/logo générique/cloné → **mark SVG unique** câblé (cf. §0 + Mandat DA).
+- **Auteur / E-E-A-T** : « la rédaction »/générique/vide → **persona unique** (bio E-E-A-T FR+EN via `humaniser-fr`, avatar, page auteur), câblé en auteur par défaut + **ré-attribution** des articles (frontmatter + JSON-LD).
+- **GEO / structure** (doctrine `seo-geo-redaction`) : < 70 % H2-questions, pas de réponse-first, FAQ incomplète, JSON-LD/aiSummary manquant, année en dur → reformuler en questions (≥70 %), réponse < 60 mots en tête de H2, FAQ 6-7, TL;DR, JSON-LD, années dynamiques.
+- **Images** : covers de catégorie manquantes (16:9) **rendues** ; featured manquantes/doublons (unique 16:9) ; ~2 images in-body ; chemins cassés.
+- **Légal & RGPD** : pages légales **noindex** + société (MentionBox SRL · SRL de droit belge · BE 0784.700.405 · Rue Blanche-Eau 15, 6950 Nassogne) ; **bandeau cookies RGPD monté dans le layout** (Accepter/Refuser, lien politique, rien d'non-essentiel avant consentement, FR+EN).
+- **Responsive** : 0 scroll horizontal à 320/375/768/1024/1440 (largeurs fixes→responsive, overflow-x sur tableaux/code, médias max-width:100%, viewport, break-words).
+- **DA / tokens** : hex en dur → tokens `globals` ; **valeurs en dur dans `volteo.css :root` = bug** → DA via `niche.config.palette` (+ fonts dans `layout.tsx`) ; contraste AA ; mode light/dark fixe.
 
-### Correctifs LOURDS (contenu) — priorisés et PLAFONNÉS
-- **Thin content < 800 mots** : réécrire/enrichir à ≥ 800 mots, sourcé, via `humaniser-fr` + structure `seo-geo-redaction`, FR + EN, **signé par l'auteur du site**.
-- **Traductions EN manquantes** : créer la contrepartie EN (et inversement) + câbler alternance/hreflang.
-- **PLAFOND : ~15 opérations lourdes max par run**, du plus en défaut au moins. Logue le reste.
-
-### À SIGNALER sans refonte auto
-- **Type de home incohérent avec le NDD** : refonte risquée → **signale dans le log**, ne refonds pas automatiquement (sauf cas trivial).
-- **DA sans direction assumée / skin générique** (pas une des 5 directions de `docs/DA-DIRECTIONS.md`, palette non mutée, look « comparateur » indifférencié) : changer la **direction ou la palette d'un site live** est visuellement disruptif → **signale-le** (direction recommandée selon la niche + mutation suggérée), **ne refonds PAS la DA automatiquement**. Seuls les correctifs d'identité **mécaniques** s'appliquent ici : logo / favicon / OG = **mark SVG unique** (cf. Identité de marque ci-dessus).
+### Correctifs LOURDS & gros chantiers (cf. Mandat) — pas de plafond artificiel
+- **Thin content / GEO de fond** : réécris à ≥ 800 mots, sourcé, via `humaniser-fr` + `seo-geo-redaction`, FR+EN, signé par l'auteur. **Traite tous les articles en défaut** (priorise les pires d'abord), ne te bride pas à un quota.
+- **Traductions EN manquantes** : crée la contrepartie EN (+ mapping + hreflang) — reconstruction i18n complète si besoin (cf. Mandat).
+- **Refonte DA / restructuration** : cf. Mandat — fais-le bien, une fois, puis idempotent.
+- Si un run est très long, ordonne par sévérité et **loggue ce qui reste** pour le prochain run — mais ne refuse pas un chantier juste parce qu'il est gros.
 
 ### Règles
-- Édits ciblés et minimaux. Correctif ambigu/risqué → NE PAS tenter, logue-le (cf. `references/garde-fous.md`).
-- Idempotent : déjà en place → passe. Ne supprime jamais de contenu, ne casse jamais l'existant.
-- Commits clairs (Conventional Commits) par type. **Le push sur `main` redéploie Vercel automatiquement.**
+- INVARIANT anti-perte-de-données (garde-fous §1) **non négociable**, même en gros chantier.
+- Cohérence build : énumère les consommateurs avant tout renommage/refactor.
+- Idempotent : déjà bon → passe. Ne supprime jamais de contenu existant.
+- Commits clairs (Conventional Commits) par type. Le push sur `main` redéploie Vercel automatiquement.
 
 ## 3 — Journal des corrections
-`pipeline/fixes/fix-AAAA-MM-JJ.md` dans `emd-project/emd-methodo` : par site, corrigé vs **reporté** (plafond, risqué, home type / direction DA à revoir) vs **à vérifier** (câblage non prouvé). N'écrase PAS l'audit.
+`pipeline/fixes/fix-AAAA-MM-JJ.md` (emd-methodo) : par site, corrigé (dont **gros chantiers entrepris**) vs reporté (au prochain run, avec raison) vs à vérifier (câblage non prouvé). N'écrase PAS l'audit.
 
 ## 4 — Rapport de run
-Sites touchés, correctifs mécaniques (dont RGPD/responsive/identité/auteur/GEO/logo-favicon-OG), opérations lourdes faites vs reportées, **directions de DA signalées (refonte non auto)**, **assets dont le câblage reste à confirmer**, problèmes restants.
+Sites touchés, mécaniques + **gros chantiers réalisés** (DA refaite, i18n reconstruite, N articles réécrits…), reportés, **assets dont le câblage reste à confirmer**, problèmes restants.
 
 ## Contraintes
-- Prod sur `main` : précision, idempotence, zéro casse. **`references/garde-fous.md` prime sur l'envie de corriger : dans le doute, ne pousse pas.**
-- **Corriger la source RENDUE (§0) + vérifier le câblage** — jamais un fichier au bon nom non câblé.
-- FR + EN (jamais NL) ; contenu/featured 16:9, favicon/logo/avatar 1:1, featured unique + 2 images in-body ; **auteur persona unique (jamais « la rédaction »)** ; **GEO : ≥ 70 % H2-questions + réponse-first + FAQ 6-7** ; bandeau cookies RGPD monté ; 0 scroll horizontal ; texte via `humaniser-fr`.
-- **Identité DA : logo/favicon/OG = mark SVG unique (mécanique) ; direction/palette d'un site live = signalée, jamais refondue auto. DA via `niche.config.palette`, jamais `volteo.css :root`.**
-- Respecte le plafond d'opérations lourdes.
+- Prod sur `main` : **ose les gros chantiers**, mais zéro perte de données et code compilable (énumère les consommateurs).
+- Corriger la source RENDUE (§0) + vérifier le câblage.
+- FR + EN (jamais NL) ; contenu/featured 16:9, favicon/logo/avatar 1:1 ; **auteur persona unique** ; **GEO ≥ 70 % H2-questions** ; cookies RGPD monté ; 0 scroll horizontal ; texte via `humaniser-fr`.
+- **DA** : refonte autorisée pour un site sans direction (1 des 5, mutée, unique, mark SVG), puis idempotent ; DA via `niche.config.palette`, jamais `volteo.css :root`.
