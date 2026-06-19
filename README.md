@@ -11,10 +11,10 @@ Installé **une fois** par machine, mis à jour **au centre**.
 
 | Type | Détail |
 |---|---|
-| **Skills site** | `nouveau-site`, `init-site`, `configure-from-spec`, `seo-geo-redaction`, `integrate-claude-design`, `ton-of-voice`, `humaniser-fr`, `emd-audit`, `emd-fix` |
+| **Skills site** | `nouveau-site` (routeur d'init → `configure-from-spec`), `configure-from-spec`, `seo-geo-redaction`, `integrate-claude-design`, `ton-of-voice`, `humaniser-fr`, `emd-audit`, `emd-fix` |
 | **Skills GEO/MentionLab** | `mentionlab-run` (grille de prompts MentionLab + lecture du positionnement), `geo-writer` (rédige des articles GEO et les commit) |
-| **Pipeline** | `pipeline/sites.csv`, `pipeline/audits/`, `pipeline/fixes/` |
-| **Références** | `references/` — i18n multilingue, pages clés, etc. |
+| **Pipeline** | `pipeline/sites.csv`, `pipeline/audits/`, `pipeline/fixes/`, `pipeline/mentionlab-grids/` (grilles CSV des sites sans projet), `pipeline/geo-loop/` (logs de la boucle GEO mensuelle) |
+| **Références** | `references/` — `garde-fous.md` (règles dures des tâches autonomes), `i18n-multilingue.md`, `pages-cles.md` |
 
 ## Skills indisponibles ? (1re session / nouvelle machine)
 
@@ -31,7 +31,7 @@ puis `/plugin update` pour récupérer les mises à jour.
 - **Automatisation** : les tâches planifiées **lisent la doctrine directement depuis ce repo** via `github_read_file` (MCP nano-mentionbox) → aucune installation requise.
 - **Usage interactif** : installe les skills via **Réglages → Capacités** (fichiers `.skill`).
 
-**Pré-requis** : accès lecture au repo privé `emd-project/emd-methodo` + MCP `nano-mentionbox` connecté (et MCP `MentionLab` pour `mentionlab-run`/`geo-writer`).
+**Pré-requis** : accès lecture au repo privé `emd-project/emd-methodo` + MCP `nano-mentionbox` connecté (et MCP `MentionLab` pour `mentionlab-run`/`geo-writer`/`emd-geo-loop`).
 
 ## Mise à jour
 ```
@@ -40,12 +40,15 @@ puis `/plugin update` pour récupérer les mises à jour.
 Un push ici → chaque collègue fait `/plugin update`.
 
 ## Utilisation
-- Configurer un site neuf : **`/nouveau-site`**.
+- Configurer un site neuf : **`/nouveau-site`** (génère une spec fullAuto si besoin → `configure-from-spec`).
 - Rédiger : « rédige un article… » → `ton-of-voice` + `seo-geo-redaction` + `humaniser-fr`.
 - Intégrer un design : déposer dans `design-incoming/` → `integrate-claude-design`.
 - **Auditer** : « audite les sites EMD » → `emd-audit` (dashboard dans `pipeline/audits/`).
 - **Corriger** : « applique les fixes » → `emd-fix`.
-- **Visibilité GEO** : « grille MentionLab pour <projet> » → `mentionlab-run` ; « rédige du contenu GEO pour boucher les gaps » → `geo-writer`.
+- **Visibilité GEO** : « grille MentionLab pour <projet> » → `mentionlab-run` ; « rédige du contenu GEO pour boucher les gaps » → `geo-writer`. La boucle mensuelle `emd-geo-loop` (tâche planifiée) lit MentionLab → injecte des briefs dans `content/priorites-geo.md` de chaque site (ou génère une grille CSV pour les sites sans projet).
+
+## Garde-fous
+Toute tâche qui écrit lit `references/garde-fous.md` : jamais de read-modify-write juste après un write, vérifier non-vide avant commit, ne jamais écraser du contenu par du vide, build-risqué = signaler.
 
 ## Versions
 Voir `.claude-plugin/plugin.json`. Semver : correction de doctrine = patch, nouveau skill = minor.
