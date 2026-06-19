@@ -1,7 +1,7 @@
 ---
 name: seo-geo-redaction
-version: 1.3.0
-description: Doctrine canonique de rédaction SEO/GEO des sites EMD — structure d'article optimisée pour le référencement Google ET la citabilité par les LLM (ChatGPT/Gemini/AI Overview), avec priorité aux sujets qui citent/comparent des marques et modèles, déclinés par persona (monétisation par mention, sans affiliation). Source de vérité unique : ≥70% de H2 en question, pattern Answer-Explanation-Example, FAQ, données structurées, maillage interne, sources datées, FR+EN. À lire/appliquer pour toute rédaction d'article de blog sur un site EMD (rédaction quotidienne, article seed, correction).
+version: 1.4.0
+description: Doctrine canonique de rédaction SEO/GEO des sites EMD — structure d'article optimisée pour le référencement Google ET la citabilité par les LLM (ChatGPT/Gemini/AI Overview), avec priorité aux sujets qui citent/comparent des marques et modèles, déclinés par persona (monétisation par mention, sans affiliation). Source de vérité unique : ≥70% de H2 en question, pattern Answer-Explanation-Example, FAQ, données structurées, maillage interne, sources datées, FR+EN. Priorise les briefs GEO mesurés (content/priorites-geo.md) issus de la boucle MentionLab. À lire/appliquer pour toute rédaction d'article de blog sur un site EMD (rédaction quotidienne, article seed, correction).
 ---
 
 # seo-geo-redaction — Doctrine GEO canonique EMD
@@ -30,11 +30,12 @@ Règle simple et auto-suffisante (pas besoin de MentionLab) :
 - **Taguer les marques/modèles + le persona** dans le frontmatter (inventaire de mentions + segmentation).
 
 ## Workflow
-1. **Content gap** : lister les articles publiés, choisir une catégorie sous-couverte + une intention non couverte par les concurrents .be — **en appliquant le ratio ⅔ marques-modèles (× persona) / ⅓ info** ; varier le persona. UN seul sujet.
-2. **SERP analysis (obligatoire)** : WebSearch sur le head term → top 3 Google.be (titre, chapô, longueur, H2, FAQ, tableau). Différenciateur documenté. Pas de SERP = run échoué.
-3. **Brief + outline** avant rédaction.
-4. **Rédaction** selon la structure GEO ci-dessous, via `humaniser-fr`.
-5. **Images, i18n, publication** selon les workflows du site.
+1. **Briefs GEO mesurés EN PRIORITÉ** : si `content/priorites-geo.md` existe dans le repo et contient des briefs **non cochés**, en traiter UN en priorité avant tout autre content gap. Ce fichier est alimenté par la **boucle MentionLab mensuelle** (`emd-geo-loop`) : chaque brief = un **segment où le site est faiblement cité par les LLM** (gap mesuré, donc plus rentable qu'un sujet choisi à l'aveugle). Respecte quand même le ratio ⅔ marques-modèles × persona / ⅓ info sur l'ensemble. **Après publication, coche le brief** (`- [x]`) dans `content/priorites-geo.md` (write idempotent, ne supprime rien d'autre). Aucun brief non coché → workflow normal ci-dessous.
+2. **Content gap (sinon)** : lister les articles publiés, choisir une catégorie sous-couverte + une intention non couverte par les concurrents .be — **en appliquant le ratio ⅔ marques-modèles (× persona) / ⅓ info** ; varier le persona. UN seul sujet.
+3. **SERP analysis (obligatoire)** : WebSearch sur le head term → top 3 Google.be (titre, chapô, longueur, H2, FAQ, tableau). Différenciateur documenté. Pas de SERP = run échoué.
+4. **Brief + outline** avant rédaction.
+5. **Rédaction** selon la structure GEO ci-dessous, via `humaniser-fr`.
+6. **Images, i18n, publication** selon les workflows du site.
 
 ## Structure GEO obligatoire
 - **H1** ≤ 60 caractères, head term en tête.
@@ -59,6 +60,7 @@ Article + FAQPage + BreadcrumbList + **Person (auteur)** + Speakable. `author` =
 Miroir FR + EN : slug naturel par langue, FAQ traduite, acronymes belges explicités, **alt FR + EN**, **mapping i18n** mis à jour (FR↔EN) pour le sélecteur (zéro-404) + hreflang.
 
 ## Checklist finale
+- [ ] **Brief `priorites-geo.md` non coché traité en priorité s'il en existe** (puis coché après publication).
 - [ ] Sujet conforme : **⅔ marques-modèles (≥ 2 cités), idéalement décliné PERSONA** / ⅓ info utile ; **pas un how-to sans marque** au-delà du ⅓ ; persona varié. Marques + persona tagués. **Aucun élément affilié.**
 - [ ] H1 ≤ 60 car. ; lead = réponse directe.
 - [ ] ≥ 70 % H2 en question ; Answer-Explanation-Example par H2.
