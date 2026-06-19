@@ -1,10 +1,10 @@
 {
   "name": "emd-methodo",
   "version": "0.6.0",
-  "description": "Méthodo éditoriale EMD — skills d'init de site, DA auto, rédaction SEO/GEO (doctrine centralisée), anti-IA, génération d'images, et audit/correction QA des sites (SEO, GEO, RGPD, responsive, identité, auteur/E-E-A-T) avec vérification du câblage réel, pour les sites multi-niches construits sur emd-template.",
+  "description": "Méthodo éditoriale EMD — skills d'init de site, DA auto, rédaction SEO/GEO (doctrine centralisée), anti-IA, génération d'images, audit/correction QA, et skills GEO/MentionLab (mentionlab-run, geo-writer), pour les sites multi-niches construits sur emd-template.",
   "author": {
     "name": "EMD",
     "email": "emd@mentionbox.be"
   },
-  "keywords": ["emd", "editorial", "seo", "geo", "audit", "qa", "rgpd", "responsive", "eeat", "affiliation", "nano-mentionbox"]
+  "keywords": ["emd", "editorial", "seo", "geo", "mentionlab", "audit", "qa", "rgpd", "responsive", "eeat", "nano-mentionbox"]
 }
