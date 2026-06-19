@@ -1,6 +1,6 @@
 ---
 name: emd-fix
-version: 1.5.0
+version: 1.5.1
 description: Corrige automatiquement les problèmes d'un audit EMD directement sur la branche main des sites — correctifs mécaniques (alt, next/image, OG/JSON-LD, sitemap, multilingue, images, favicon/logo, auteur/persona E-E-A-T, pages légales noindex + infos société, bandeau cookies RGPD, responsive zéro scroll horizontal, covers de catégorie, structure GEO : H2 en questions / réponse-first / FAQ, identité DA : logo/favicon/OG = mark SVG unique) + correctifs lourds plafonnés (réécriture thin content ≥ 800 mots, traductions EN manquantes). La refonte d'une direction de design sur un site live = signalée, jamais auto. Corrige la SOURCE réellement rendue (pas le fichier au bon nom) et vérifie le câblage après coup. À utiliser quand on dit « corrige les sites depuis l'audit », « applique les fixes », « répare le multilingue / les images / le responsive / le RGPD / l'auteur / la GEO / l'identité DA », ou depuis la tâche planifiée hebdomadaire. ÉCRIT EN PROD : précis, idempotent, zéro casse.
 ---
 
@@ -9,6 +9,8 @@ description: Corrige automatiquement les problèmes d'un audit EMD directement s
 Tu corriges les problèmes du dernier audit **directement sur `main`** de chaque site. Tu agis en prod : édits ciblés, minimaux, idempotents, jamais de casse.
 
 Outils : `github_read_file`, `github_list_files`, `github_list_repos`, `github_write_file`, `github_commit_batch`, `generate_image`, `wait_for_image` (MCP nano-mentionbox). Lis aussi la doctrine `skills/humaniser-fr/SKILL.md` (anti-IA) et `skills/seo-geo-redaction/SKILL.md` (structure GEO) du repo emd-methodo pour tout correctif de contenu.
+
+**Avant toute écriture, applique `references/garde-fous.md`** (emd-methodo) : anti perte de données (jamais de read-modify-write juste après un write, vérifier non-vide avant commit, ne jamais écraser un non-vide par du vide, ne jamais réduire un article à un stub), build-risqué = signaler, idempotence, périmètre d'écriture.
 
 ## 0 — Principe ABSOLU : corriger la SOURCE rendue, pas le fichier au bon nom (anti correctif fantôme)
 Un commit qui édite un fichier **non câblé** ne change rien à l'écran = **correctif fantôme**. Avant de « corriger » un asset, TRACE ce qui est réellement rendu, puis corrige là, puis **vérifie le câblage**.
@@ -48,7 +50,7 @@ Lis `pipeline/audits/LATEST.md` dans `emd-project/emd-methodo`. Note sa date. Ab
 - **DA sans direction assumée / skin générique** (pas une des 5 directions de `docs/DA-DIRECTIONS.md`, palette non mutée, look « comparateur » indifférencié) : changer la **direction ou la palette d'un site live** est visuellement disruptif → **signale-le** (direction recommandée selon la niche + mutation suggérée), **ne refonds PAS la DA automatiquement**. Seuls les correctifs d'identité **mécaniques** s'appliquent ici : logo / favicon / OG = **mark SVG unique** (cf. Identité de marque ci-dessus).
 
 ### Règles
-- Édits ciblés et minimaux. Correctif ambigu/risqué → NE PAS tenter, logue-le.
+- Édits ciblés et minimaux. Correctif ambigu/risqué → NE PAS tenter, logue-le (cf. `references/garde-fous.md`).
 - Idempotent : déjà en place → passe. Ne supprime jamais de contenu, ne casse jamais l'existant.
 - Commits clairs (Conventional Commits) par type. **Le push sur `main` redéploie Vercel automatiquement.**
 
@@ -59,7 +61,7 @@ Lis `pipeline/audits/LATEST.md` dans `emd-project/emd-methodo`. Note sa date. Ab
 Sites touchés, correctifs mécaniques (dont RGPD/responsive/identité/auteur/GEO/logo-favicon-OG), opérations lourdes faites vs reportées, **directions de DA signalées (refonte non auto)**, **assets dont le câblage reste à confirmer**, problèmes restants.
 
 ## Contraintes
-- Prod sur `main` : précision, idempotence, zéro casse.
+- Prod sur `main` : précision, idempotence, zéro casse. **`references/garde-fous.md` prime sur l'envie de corriger : dans le doute, ne pousse pas.**
 - **Corriger la source RENDUE (§0) + vérifier le câblage** — jamais un fichier au bon nom non câblé.
 - FR + EN (jamais NL) ; contenu/featured 16:9, favicon/logo/avatar 1:1, featured unique + 2 images in-body ; **auteur persona unique (jamais « la rédaction »)** ; **GEO : ≥ 70 % H2-questions + réponse-first + FAQ 6-7** ; bandeau cookies RGPD monté ; 0 scroll horizontal ; texte via `humaniser-fr`.
 - **Identité DA : logo/favicon/OG = mark SVG unique (mécanique) ; direction/palette d'un site live = signalée, jamais refondue auto. DA via `niche.config.palette`, jamais `volteo.css :root`.**
