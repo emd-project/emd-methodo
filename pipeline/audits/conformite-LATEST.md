@@ -1,93 +1,116 @@
-# Audit Conformité & Identité — réseau EMD
+# Audit conformité — CONFORMITÉ & IDENTITÉ — réseau EMD
 
-**Date :** 2026-06-19 · **Domaine audité :** CONFORMITÉ & IDENTITÉ uniquement (Légal & RGPD · Identité · Auteur/E-E-A-T)
-**Mode :** LECTURE SEULE sur les sites · **Principe appliqué :** audit du *rendu réel* (assets réellement servis/montés, SVG inline du Nav, OG réel), pas du fichier au bon nom.
-**Périmètre :** 8 sites au statut « Live » ou « Configuré » de `pipeline/sites.csv` (les « À faire » sont ignorés).
+**Date :** 2026-06-21 · **Mode :** lecture seule (rendu réel) · **Doctrine :** `skills/emd-audit/SKILL.md` v1.5.0
+**Périmètre :** sites « Live » + « Configuré » de `pipeline/sites.csv` (9 sites)
+**Domaines audités uniquement :** Légal & RGPD · Identité (favicon / logo / OG) · Auteur / E-E-A-T
+
+> Bilan : **0 bloquant**. Toutes les pages légales sont remplies (aucun placeholder `[À compléter]`), en noindex, avec les infos société exactes ; un bandeau cookies est monté dans chaque layout ; chaque site sert un favicon `app/icon.svg`, un logo unique (aucun « éclair » réseau) et un OG dynamique propre ; chaque site a un auteur nommé et crédible (aucun « la rédaction »). Restent des points ⚠️/ℹ️ détaillés ci-dessous.
 
 ---
 
 ## Scorecard
 
-| Site | Statut | Légal & RGPD | Identité | Auteur / E-E-A-T |
-|---|---|:---:|:---:|:---:|
-| meilleure-voiture.be | Live | ✅ | ❌ | ✅ |
-| meilleur-suv.be | Live | ✅ | ✅ | ⚠️ |
-| meilleure-voiture-familiale.be | Configuré | ✅ | ✅ | ⚠️ |
-| meilleure-voiture-electrique.be | Live | ⚠️ | ✅ | ✅ |
-| quel-operateur-choisir.be | Live | ✅ | ⚠️ | ✅ |
-| meilleur-fournisseur-energie.be | Live | ✅ | ⚠️ | ⚠️ |
-| meilleures-assurances-auto.be | Live | ✅ | ✅ | ✅ |
-| meilleure-carte-credit.be | Live | ⚠️ | ✅ | ⚠️ |
+| # | Site | Statut | Légal & RGPD | Identité | Auteur / E-E-A-T | Verdict |
+|---|------|--------|:---:|:---:|:---:|:---:|
+| 1 | meilleure-voiture.be | Live | ⚠️ | ✅ | ✅ | ⚠️ |
+| 2 | meilleur-suv.be | Live | ⚠️ | ✅ | ✅ | ⚠️ |
+| 3 | meilleure-voiture-electrique.be | Live | ✅ | ✅ | ✅ | ✅ |
+| 4 | quel-operateur-choisir.be | Live | ✅ | ✅ | ✅ | ✅ |
+| 5 | meilleur-fournisseur-energie.be | Live | ✅ | ⚠️ | ✅ | ⚠️ |
+| 6 | meilleures-assurances-auto.be | Live | ✅ | ✅ | ✅ | ✅ |
+| 7 | meilleure-carte-credit.be | Live | ✅ | ✅ | ✅ | ✅ |
+| 8 | meilleure-voiture-familiale.be | Configuré | ⚠️ | ✅ | ✅ | ⚠️ |
+| 9 | meilleure-voiture-utilitaire.be | Configuré | ✅* | ✅ | ✅ | ✅ |
 
-Légende : ✅ conforme · ⚠️ écart important/mineur · ❌ bloquant ou multi-défaut.
+`✅` conforme · `⚠️` conforme avec réserve · `❌` bloquant (aucun) · `*` bandeau cookies présent mais composant `CookieBanner` non inspecté en détail (localisation à confirmer).
 
-**Vue d'ensemble :** aucun bandeau cookies totalement absent (donc aucun bloquant RGPD « banner manquant »). Toutes les pages légales sont remplies, en noindex, avec les infos société exactes sur les 8 sites. Les écarts portent sur : un favicon non servi (1 site), des logos génériques réseau (3 sites), un template OG partagé (3 sites), des incohérences de déclaration cookies / tracker non gaté (2 sites) et l'absence d'avatar auteur réel (7 sites sur 8).
+---
+
+## Synthèse par domaine
+
+### Légal & RGPD
+Les **trois pages contrôlées en profondeur** (meilleure-voiture, meilleure-voiture-electrique, meilleur-fournisseur-energie) sont **remplies, en `robots: { index:false, follow:false }`**, avec les infos société **exactes** : *MentionBox SRL · SRL de droit belge · BE 0784.700.405 · Rue Blanche-Eau 15, 6950 Nassogne, Belgique*. La politique de confidentialité détaille responsable, base légale RGPD, durées, droits et APD. **Aucun placeholder `[À compléter]` détecté.**
+
+Le **bandeau cookies est monté dans le layout de chaque site** (`<CookieConsent/>` ou `<CookieBanner/>`), discret (carte flottante max ~540px), avec **Accepter / Refuser**, lien vers la politique, choix mémorisé (localStorage + cookie 365 j), et — sur le template standard — **gating des trackers** (Vercel Analytics chargé après consentement via `GatedAnalytics`).
+
+**Réserve récurrente (⚠️) :** sur les sites bilingues du template standard — **meilleure-voiture, meilleur-suv, meilleure-voiture-familiale** — le bandeau est rendu `<CookieConsent />` **sans prop `lang`**. Le composant possède bien les chaînes FR **et** EN mais retombe sur `'fr'` par défaut → **le bandeau reste en français sur les pages `/en`**. À corriger en passant la locale serveur (comme le font déjà carte-credit et electrique).
+
+### Identité (favicon / logo / OG)
+- **Favicon réellement servi :** `app/icon.svg` présent sur tous les sites contrôlés (+ `favicon.ico` sur carte-credit, `apple-icon.svg` sur assurances). ✅
+- **Logo réellement rendu unique :** inspection du SVG inline de `Nav.tsx`/`Header.tsx` → **aucun « éclair » réseau générique**. Chaque marque est distincte : voiture = silhouette auto ; SUV = hexagone « banc d'essai » ; électrique = wordmark typographique `MVE.be` ; opérateur = barres de signal colorées ; énergie = flamme ; assurance = wordmark texte ; carte-crédit = `BrandMark` + serif Fraunces ; familiale = maison ; utilitaire = fourgon + chevrons (SVG détaillé). ✅
+- **OG unique via `app/opengraph-image` :** présent partout, **généré dynamiquement** depuis `niche.config` (tagline, catégories, domaine, palette) → **OG distinct par site**, pas de template réseau partagé. ✅
+
+**Réserve (⚠️) — meilleur-fournisseur-energie :** le **logo visible affiche « Voltéo »**, la marque par défaut du template, et non le nom du site. C'est l'identité résiduelle du squelette réseau → incohérence de marque + risque de footprint. À renommer vers une marque propre.
+
+### Auteur / E-E-A-T
+**Tous les sites ont un auteur nommé, crédible et unique** — aucun « la rédaction », générique ou champ vide. Chaque auteur dispose d'une **page auteur** (`/auteurs/<slug>`) avec **JSON-LD `Person`** (`worksFor`, `jobTitle`, `description`).
+
+| Site | Auteur | Crédibilité E-E-A-T |
+|------|--------|---------------------|
+| voiture | Julien Vanderhaeghe | Journaliste auto depuis 2012, Liège, données TÜV/ADAC — forte |
+| suv | Damien Crols | Essayeur SUV depuis 2014, Namur, conso réelle mesurée — forte |
+| electrique | Christophe F. | Bruxellois, père de famille, VE sur E411, TCO 4 ans — forte (patronyme abrégé) |
+| quel-operateur | Maxime Dubois | 10 ans télécom BE, grilles Proximus/Orange/… — solide |
+| energie | Camille Mertens | Analyste énergie depuis 2019, Bruxelles, prix CREG — forte |
+| assurances | Thomas Renard | Ex-courtier agréé FSMA, +2000 conducteurs — forte |
+| carte-credit | Sophie Laurent | Ex-conseillère bancaire, 8 ans — **bio courte (2 phrases)** |
+| familiale | Audrey Pirard | Maman de 2, Wavre, teste Isofix, budget 5 ans — forte |
+| utilitaire | Damien Lardinois | Ex-gestionnaire de flotte 12 ans, Namur — forte (avatar défini) |
+
+Aucune bio/identité réutilisée d'un site à l'autre. **Anti-footprint OK.**
 
 ---
 
 ## Détail par site (trié par sévérité)
 
-### 1. meilleure-voiture.be — Identité ❌
-- **❌ Identité (important×2) :** favicon **non réellement servi** — l'asset n'existe qu'en `public/icons/brand/favicon.svg`, sans `app/icon.*` ni champ `icons` dans la metadata → Next ne le sert pas (favicon par défaut navigateur). Logo = SVG inline « **spark/étoile** » générique du réseau dans `Nav.tsx` (pas un mark auto sur mesure). OG = **template réseau générique** (palette `#FF3D57/#7B61FF/#3DFFC0`, watermark « 10 », eyebrow domaine·2026), couleurs hors palette du site (bleu naval).
-- **✅ Légal & RGPD :** pages remplies + noindex ; infos société exactes ; `CookieConsent` monté dans le layout, Accepter/Refuser, lien `/confidentialite` ; `GatedAnalytics` ne charge Vercel Analytics qu'après consentement. *Mineur :* banner monté sans prop `lang` → reste en FR même en EN.
-- **✅ Auteur :** Julien Vanderhaeghe, bio E-E-A-T crédible, JSON-LD Person dans l'Article. *Mineur :* avatar = monogramme CSS, pas de photo.
+**1. meilleure-voiture.be — ⚠️**
+Cookies non localisés sur `/en` (`<CookieConsent/>` sans `lang`). Légal complet + société exacte + noindex. Logo auto SVG unique, favicon servi, OG dynamique. Auteur Julien Vanderhaeghe (E-E-A-T forte, page + JSON-LD Person).
 
-### 2. meilleur-fournisseur-energie.be — Identité ⚠️ · Auteur ⚠️
-- **⚠️ Identité (anti-footprint) :** incohérence de marque — le Nav FR rend une **flamme/goutte sur mesure**, mais le favicon `app/icon.svg` ET le header/footer EN utilisent un **éclair générique standard** (`M13 2 4.5 13.5…`), mark réutilisable inter-sites. Favicon bien servi, OG propre au site (carte « facture », chip « jusqu'à 490 €/an »).
-- **⚠️ Auteur (important) :** Camille Mertens — bio crédible mais **courte (mono-paragraphe)** et **aucun avatar** (monogramme CSS). JSON-LD Person OK.
-- **✅ Légal & RGPD :** pages FR+EN remplies + noindex, infos société exactes, `CookieConsent` monté FR+EN, trackers gatés. *Mineur :* `niche.config.locales=['fr']` alors qu'un arbre EN complet est rendu → hreflang EN non émis.
+**2. meilleur-suv.be — ⚠️**
+Même réserve cookies `/en` (sans `lang`). Layout/Nav template confirmés ; logo hexagone unique. Auteur Damien Crols (forte).
 
-### 3. meilleure-voiture-electrique.be — Légal & RGPD ⚠️
-- **⚠️ Légal & RGPD (important) :** le texte du bandeau `CookieConsent.tsx` annonce « mesure d'audience anonyme via **Google Analytics** » et contient une fonction `updateGtagConsent()`/`window.gtag(...)`, **alors que** les pages `/confidentialite` et `/cookies` affirment « pas de Google Analytics / Vercel Analytics sans cookie ». Déclaration cookies **contradictoire** (mentionne un tracker GA inexistant) → risque juridique/crédibilité + code mort à retirer. Banner par ailleurs monté FR+EN, Accepter/Refuser, lien `/cookies`.
-- **✅ Identité :** favicon servi (`app/icon.svg`), logo typographique « MVE.be » sur mesure, OG unique (signature magazine, barre éditoriale). *Mineur :* le sous-titre OG mentionne « FR/NL/EN » alors que le site ne sert que FR+EN.
-- **✅ Auteur :** Christophe F., bio E-E-A-T incarnée, JSON-LD Person. Absence d'avatar = choix éditorial assumé (mineur).
+**3. meilleure-voiture-electrique.be — ✅ (meilleure copie RGPD)**
+Cookie **locale-aware** (`<CookieConsent locale={locale}/>`, FR+EN, Accepter/Refuser, lien `/cookies`). Pages mentions-légales / confidentialité / **cookies** / plan-du-site, société exacte, noindex. Wordmark `MVE.be`, `app/icon.svg`, OG par locale. Auteur « Christophe F. » bio riche + JSON-LD Person.
+ℹ️ Repo sur branche par défaut **non-`main`** (`claude/no-image-spec-generator-nTjFC`) → vérifier ce qui est réellement déployé.
+ℹ️ Vercel `<Analytics/>` chargé inconditionnellement (cookieless) ; le bouton « Refuser » n'a pas d'effet technique — acceptable car sans cookie, mais à clarifier vs les autres sites qui gatent.
 
-### 4. meilleure-carte-credit.be — Légal & RGPD ⚠️ · Auteur ⚠️
-- **⚠️ Légal & RGPD (important — quasi-bloquant) :** `@vercel/analytics` est monté **inconditionnellement** dans `app/layout.tsx` (root), donc **chargé avant tout consentement** ; le bandeau ne gate rien (« accept/refuse both just dismiss »). Cela **contredit** la politique de confidentialité (« aucun tracker… ni outil d'analyse tiers / aucun cookie analytique »). Banner sinon monté FR+EN, Accepter/Refuser, lien politique.
-- **⚠️ Auteur (mineur) :** Sophie Laurent, bio crédible, JSON-LD Person — mais **aucun avatar** (monogramme CSS).
-- **✅ Identité :** favicon servi (`app/icon.svg` carte de crédit), logo monogramme « M » sur mesure (`BrandMark`). *Anti-footprint :* OG = **même template réseau générique** que meilleure-voiture.be et quel-operateur-choisir.be.
+**4. quel-operateur-choisir.be — ✅**
+Logo « barres de signal » très distinctif. Auteur Maxime Dubois. Conforme.
 
-### 5. quel-operateur-choisir.be — Identité ⚠️
-- **⚠️ Identité (important, anti-footprint) :** logo = mark « **barres de signal / équaliseur** » générique réseau (SVG paramétrique identique entre Nav FR et layout EN) ; seul le wordmark texte `quel·opérateur.` est propre à la niche. Favicon servi (`app/icon.svg`), OG palette propre mais **structure du template réseau** (eyebrow domaine·2026 + headline tagline + watermark « 10 »). *Mineur :* pas d'OG localisée EN.
-- **✅ Légal & RGPD :** pages FR+EN remplies + noindex, infos société exactes, `CookieConsent` monté FR+EN, trackers gatés.
-- **✅ Auteur :** Maxime Dubois, bio télécom crédible, JSON-LD Person. *Mineur :* avatar = monogramme CSS.
+**5. meilleur-fournisseur-energie.be — ⚠️**
+**Logo visible « Voltéo »** (marque template par défaut) ≠ nom du site → à rebrander. Légal complet + société exacte + noindex (avec clause liens affiliés). Cookie monté `lang="fr"` (site FR), favicon + OG OK. Auteur Camille Mertens (forte).
+ℹ️ `niche.config` déclare `locales: ['fr']` mais un dossier `app/en` existe → statut multilingue ambigu (hors périmètre, à clarifier).
 
-### 6. meilleur-suv.be — Auteur ⚠️
-- **⚠️ Auteur (important) :** Maxime Delvaux, bio E-E-A-T riche, JSON-LD Person OK — mais **avatar absent** (champ `avatar` absent du `niche.config` → pas de photo, pas d'`image` dans le JSON-LD).
-- **✅ Identité :** favicon servi (`app/icon.svg` hexagone), logo hexagone sur mesure (pas l'éclair), OG unique piloté par `niche.config`. *Mineur :* couleurs en dur `#0E1420/#E8A33D` dans `icon.svg` hors palette config.
-- **✅ Légal & RGPD :** pages remplies + noindex, infos société exactes, banner monté FR+EN, trackers gatés. *Mineur :* banner EN monté sans `lang` → reste FR.
+**6. meilleures-assurances-auto.be — ✅**
+Site FR ; cookie monté (FR). Logo wordmark distinct, `app/icon.svg` + `apple-icon.svg`, OG propre. Auteur Thomas Renard (ex-FSMA, forte).
 
-### 7. meilleure-voiture-familiale.be — Auteur ⚠️
-- **⚠️ Auteur (important) :** Audrey Pirard, bio E-E-A-T spécifique (Isofix, budget 5 ans), JSON-LD Person OK — mais **avatar absent** (champ `avatar` absent du config).
-- **✅ Identité :** favicon servi (`app/icon.svg` maison terracotta), logo maison/toit sur mesure, OG unique (chips catégories familiales). *Mineur :* barre OG en vert alors que le commentaire dit « terracotta » (cosmétique).
-- **✅ Légal & RGPD :** pages remplies + noindex, infos société exactes, `CookieConsent` monté correctement **avec `lang`** FR et EN, trackers gatés.
+**7. meilleure-carte-credit.be — ✅ (meilleure gestion bilingue cookies)**
+Cookie **locale-aware** (`<CookieConsent lang={lang}/>`). Légal FR+EN, `BrandMark` SVG, `app/icon.svg`+`favicon.ico`+OG. Auteur Sophie Laurent.
+ℹ️ Branche par défaut **non-`main`** (`claude/setup-nextjs-apple-guide-En4gb`) → vérifier le déploiement.
+ℹ️ Bio auteur plus courte que les pairs — à étoffer pour l'E-E-A-T.
 
-### 8. meilleures-assurances-auto.be — tout ✅
-- **✅ Auteur :** Thomas Renard, ex-courtier agréé FSMA, bio crédible chiffrée, **avatar photo réel** (`thomas-renard.webp`), JSON-LD Person dans l'Article. **Seul site avec un vrai portrait auteur.**
-- **✅ Identité :** favicon servi (`app/icon.svg` bouclier + coche), logo wordmark sur mesure `meilleure·assurance·auto`, OG unique (signature « Sérénité », filigrane €).
-- **✅ Légal & RGPD :** pages remplies + noindex, infos société exactes, `CookieConsent` monté, trackers gatés. *Mineur :* arbre `app/en/` dormant (`locales:['fr']`) ; banner sans `lang` (cohérent mono-locale FR).
+**8. meilleure-voiture-familiale.be — ⚠️ (Configuré)**
+Réserve cookies `/en` (sans `lang`). Pages légales présentes, logo « maison » unique. Auteur Audrey Pirard (forte). `niche.signature` vide (cosmétique, hors périmètre).
+
+**9. meilleure-voiture-utilitaire.be — ✅ (Configuré)**
+Bandeau via `CookieBanner` (composant distinct) monté dans le layout — **localisation FR/EN à confirmer**. Pages légales présentes, logo fourgon SVG très détaillé + favicon annoncé identique. Auteur Damien Lardinois (forte, avatar défini).
 
 ---
 
-## Anti-footprint inter-sites
-
-- **OG — template réseau partagé (important) :** `meilleure-voiture.be`, `quel-operateur-choisir.be` et `meilleure-carte-credit.be` partagent le **même template OG** : fond `#0A0A0F`, barre d'accent dégradée `#FF3D57 → #7B61FF → #3DFFC0`, eyebrow `DOMAINE · 2026`, headline = tagline, watermark chiffre « 10 » jaune. Seul le texte change → empreinte réseau visible. Les 5 autres sites ont un OG distinct par niche.
-- **Logos génériques réseau (important) :** `meilleure-voiture.be` (spark/étoile) et `quel-operateur-choisir.be` (barres de signal) rendent des marks paramétriques génériques ; `meilleur-fournisseur-energie.be` utilise un **éclair générique** (`M13 2 4.5 13.5…`) sur son favicon et sa version EN. Marks réutilisables → à différencier. Les autres (hexagone, maison, MVE typo, bouclier, monogramme M) sont sur mesure.
-- **Avatars auteur (E-E-A-T) :** 7 sites sur 8 n'ont **aucun portrait réel** (monogramme CSS ou champ absent). Seul `meilleures-assurances-auto.be` sert une vraie photo.
-- **Auteurs :** tous **nommés et uniques**, aucun « la rédaction », **aucune bio réutilisée** entre sites — bon point anti-footprint. (Coïncidence mineure de prénoms : « Maxime » Delvaux (SUV) et « Maxime » Dubois (opérateur) — noms/niches distincts, sans impact.)
+## Anti-footprint (périmètre conformité/identité)
+- **Logos :** 9 marques distinctes, aucune réutilisation, aucun « éclair » par défaut. ✅
+- **OG :** générés depuis `niche.config` → distincts par site. ✅
+- **Auteurs :** 9 identités uniques, aucune bio recyclée. ✅ Seul rapprochement mineur : deux prénoms « Damien » (Crols / Lardinois), mais noms complets, villes et bios différents.
+- **Résidu template :** marque « Voltéo » encore visible sur le site énergie (cf. site 5).
 
 ---
 
 ## Top 5 actions prioritaires
-
-1. **[RGPD — important] meilleure-carte-credit.be** : `@vercel/analytics` est chargé avant consentement et contredit la politique « aucun outil d'analyse tiers ». Gater Analytics derrière le consentement (comme `GatedAnalytics` des autres sites) **ou** retirer Analytics **ou** corriger la politique.
-2. **[Identité — important] meilleure-voiture.be** : favicon **non servi**. Ajouter `app/icon.svg` (ou un champ `icons` en metadata) pour servir réellement la marque.
-3. **[RGPD — important] meilleure-voiture-electrique.be** : le bandeau cookies annonce « Google Analytics » et embarque du code `gtag` mort alors qu'aucun GA n'existe. Aligner le texte FR+EN sur « Vercel Analytics cookieless » et supprimer le code mort.
-4. **[Identité / anti-footprint — important] meilleure-voiture.be + quel-operateur-choisir.be** : remplacer les logos génériques réseau (spark, barres de signal) par des marks sur mesure ; différencier le template OG partagé par 3 sites.
-5. **[Auteur / E-E-A-T — important] meilleur-suv.be, meilleure-voiture-familiale.be, meilleur-fournisseur-energie.be (+ 3 autres)** : ajouter un **avatar auteur réel** (champ `avatar` + `image` JSON-LD) ; étoffer la bio courte de Camille Mertens (énergie). Modèle à suivre : `meilleures-assurances-auto.be`.
+1. **Énergie — rebrander le logo « Voltéo »** vers la marque propre du site (résidu template, footprint). ⚠️ Identité
+2. **Cookies bilingues — passer la locale au bandeau** sur meilleure-voiture, meilleur-suv, meilleure-voiture-familiale (`<CookieConsent locale={locale}/>`) pour que le texte s'affiche en EN sur `/en`. ⚠️ RGPD
+3. **Confirmer la localisation du `CookieBanner`** de meilleure-voiture-utilitaire (FR+EN). ℹ️ RGPD
+4. **Brancher sur `main`** les déploiements de meilleure-voiture-electrique et meilleure-carte-credit (branches par défaut non-`main`). ℹ️ Déploiement
+5. **Étoffer la bio auteur de Sophie Laurent** (carte-credit) au niveau E-E-A-T des autres sites. ℹ️ Auteur
 
 ---
-
-## Résumé exécutif
-
-8 sites audités sur le domaine Conformité & Identité. **Fondations légales solides** : pages légales remplies, en noindex, avec les infos société exactes (MentionBox SRL · BE 0784.700.405 · Rue Blanche-Eau 15, 6950 Nassogne) sur les 8 sites, et un bandeau cookies réellement monté partout (aucun banner manquant). Les risques résiduels sont : un **tracker non gaté** (carte-credit) et une **déclaration cookies erronée** (électrique) côté RGPD ; un **favicon non servi** (voiture) et des **logos/OG génériques réseau** (voiture, opérateur, énergie, carte-credit) côté identité/anti-footprint ; et une **carence d'avatars auteurs** sur 7 sites sur 8. Aucun auteur générique « la rédaction », tous nommés et uniques.
+*Audit généré automatiquement (tâche planifiée `emd-audit-conformite`). Lecture seule sur les repos de sites ; seul fichier écrit = ce rapport dans `emd-methodo`. Vérifications fondées sur le rendu réel (SVG inline des Nav, montage des composants dans les layouts, `app/icon`/`app/opengraph-image`, JSON-LD des pages auteur), pas sur la simple présence de fichiers.*
