@@ -1,14 +1,24 @@
 ---
 name: mentionlab-run
-version: 1.0.0
+version: 1.1.0
 description: "Génère une grille de prompts taguée prête à importer dans un projet MentionLab, puis lit le positionnement des sites dans les réponses des LLM. Utiliser quand l'utilisateur veut auditer la visibilité GEO d'une marque, créer/étendre les queries d'un projet MentionLab, monter une grille de prompts par persona/segment, ou voir comment ses sites se positionnent dans ChatGPT/Gemini/AI Overview."
 ---
 
 # mentionlab-run
 
-Tu construis une **grille de prompts instrumentée** pour un projet MentionLab : pas des "bonnes questions" isolées, mais une matrice où chaque prompt isole **une cellule mesurable** `CAT × TYPE × SCAT × CR × FUN × QT`. Cette répétition structurée est le design : elle rend la visibilité attribuable par segment.
+Tu construis une **grille de prompts instrum5entée** pour un projet MentionLab : une matrice où chaque ligne isole **une cellule mesurable** `CAT × TYPE × SCAT × CR × FUN × QT`. MAIS le texte de chaque query reste **une vraie question d'internaute, écrite à la main** — on écrit la question, PUIS on la tague. La matrice est une **checklist de couverture**, pas un générateur de phrases.
 
 Livrable par défaut : un **CSV à valider puis importer** (l'humain relit avant de lancer un run). Ne pousse PAS les queries directement dans le projet sauf demande explicite.
+
+> ⚠️ **Le piège à éviter (retour terrain) : la génération mécanique `template × segment`.** Elle produit des phrases correctes mais **robotiques, répétitives et non naturelles** (« vaut le plus le coup en ce moment » en boucle), des fautes d'accord, et des cellules « Generic » de remplissage. Écris les questions **une par une**. N'utilise du code (Python/run_code) QUE pour **assembler/valider le CSV**, jamais pour fabriquer la formulation.
+
+## Les 5 règles de NATURALITÉ (non négociables)
+
+1. **Toujours une question.** Une phrase interrogative qu'un internaute tape vraiment. **Jamais de style mots-clés** (« Meilleure petite voiture pas chère » → « Quelle petite voiture pas chère à l'achat ? »).
+2. **Zéro vouvoiement.** Formulation **impersonnelle** ou langage utilisateur naturel. Jamais « recommandez-vous » → « Quels modèles sortent du lot ? », « Quelle est la meilleure… ? ».
+3. **Variété réelle.** Aucune tête de question répétée en boucle. Varier tournures, angles et formats (question directe, contrainte budget en €, contexte d'usage, profil, critère précis…). Si deux lignes commencent pareil, réécris.
+4. **Pas de patron artificiel.** Interdit : « X ou Y : laquelle choisir ? ». À la place : « Vaut-il mieux X ou Y pour… ? », « X ou Y, lequel est plus fiable ? ».
+5. **Grammaire relue par langue.** Écrire et valider d'abord en une langue, **puis traduire de façon naturelle** (jamais mot-à-mot). Corriger accords/superlatifs (pas de « les meilleures voiture », pas de « the most safe » → « the safest »).
 
 ## Étape 0 — Bootstrap MentionLab (obligatoire, dans l'ordre)
 
@@ -19,27 +29,33 @@ Le serveur MCP MentionLab expose ~110 outils, beaucoup masqués. Utilise `search
 3. `set_active_context(projectId)` — l'org se résout automatiquement ; ensuite tu peux omettre les IDs.
 4. `get_last_execution_date` — ancre de fraîcheur des données.
 
-## Étape 1 — Choisir le projet
+## Étape 1 — Choisir le(s) projet(s) / le scope
 
 Si l'utilisateur n'a pas nommé le projet, liste les projets et demande lequel. Puis `set_active_context`.
+
+**Scope par date de création (ex. « repos créés entre le 15 et le 22 juin ») :** `github_list_repos` **ne renvoie PAS la date de création** → ne devine pas. Demande à l'utilisateur la liste exacte des repos concernés (ou croise via le premier commit si l'info est dispo). Propose comme indice les repos **sans projet MentionLab existant**.
+
+**Plusieurs sites :** génère **UN site, présente-le pour validation, puis enchaîne** un par un. Ne sors pas 6 fichiers d'un coup tant que le 1er n'est pas validé (formulations, tags, répartition).
 
 ## Étape 2 — Lire le contexte du projet (pour la dérivation hybride)
 
 Avant de proposer quoi que ce soit, lis :
 - `get_project` → description, website, industry, nameAliases (la marque), blackListAliases.
 - `list_entities` → la marque propre + les concurrents suivis (ça cadre le marché).
-- `list_queries` + `list_tags` (paginés, via `run_code` si volumineux) → la taxonomie déjà en place et les prompts existants, pour **ne pas dupliquer** et **réutiliser les conventions de tags**.
+- `list_queries` + `list_tags` (paginés, via `run_code` si volumineux) → la taxonomie déjà en place et les prompts existants, pour **ne pas dupliquer** et **réutiliser les conventions de tags** (préfixes, casse, valeurs).
 
 ## Étape 3 — Proposer la taxonomie (mode HYBRIDE — défaut)
 
-Déduis depuis la description + entities une proposition de taxonomie sur 6 axes (voir `reference/taxonomy.md` pour le gabarit-or ING Belgium). Présente-la à l'utilisateur **pour validation/ajustement avant génération**. Structure :
+Déduis depuis la description + entities une proposition sur 6 axes (gabarit-or ING dans `reference/taxonomy.md`). Présente-la **pour validation avant génération**.
 
-- **`CAT_`** : 2–4 macro-catégories client (ex. Starters / Business, ou B2C / B2B).
-- **`TYPE_`** : les personas fins (ex. Freelancer, SME, Family, Senior, Student…), incluant les segments sectoriels si pertinents.
-- **`SCAT_`** : les produits/besoins (ex. Financing, Insurance, Current_Account…).
-- **`CR_`** : les critères de choix (ex. Quality_Price, Advice_Expertise, Digital_Experience, Reputation…).
-- **`FUN_`** : l'étape du cycle de vie / funnel (ex. Discovery, Company_Creation, Operational_Setup, Expanding, Retention…).
-- **`QT_`** : Comparative / Informative / Brand.
+- **`CAT_`** : 2–4 macro-catégories client.
+- **`TYPE_`** : personas fins (Freelancer, Famille, JeuneConducteur, Senior, Navetteur, Société…).
+- **`SCAT_`** : produits/segments/besoins (Citadine, SUV, Hybride, Financing, Insurance…).
+- **`CR_`** : critères de choix (Prix, Fiabilité, Coffre, Conso, Sécurité, Fiscalité…).
+- **`FUN_`** : étape du cycle (Discovery, Decision, Achat, Revente…).
+- **`QT_`** : Comparative / Informative (**Brand seulement si explicitement demandé**, cf. étape 4).
+
+> **Règle d'intégrité (erreur terrain) :** `SCAT_` = **uniquement un produit/segment** ; `TYPE_` = **uniquement un persona**. **Jamais le même libellé dans les deux colonnes** (ex. « JeuneConducteur » est un `TYPE_`, le produit associé est `Citadine` en `SCAT_`). « Generic » seulement quand AUCUN tag pertinent n'existe — jamais comme remplissage par défaut.
 
 Si l'utilisateur dit "auto", génère sans valider. S'il fournit une liste de personas, pars de la sienne.
 
@@ -47,25 +63,23 @@ Si l'utilisateur dit "auto", génère sans valider. S'il fournit une liste de pe
 
 Demande (avec des défauts sensés) :
 - **Nombre de prompts par langue** (défaut 100).
-- **Langues** + pays (défaut: la langue/pays du projet ; en BE → FR + NL).
-- **Répartition QT** : % Comparative / Informative / Brand (défaut 60/30/10 ; pour un pur comparateur, monter le comparative ; pour une marque à monitorer, garder ≥10% Brand).
+- **Langues** + pays (défaut : langue/pays du projet ; en BE → FR + NL, ou FR + EN selon le projet). Pays porté par la colonne `country`, **hors de la phrase**.
+- **Répartition QT** — **défaut SANS Brand** : **65 Comparative / 35 Informative / 0 Brand**. **Le Brand n'est ajouté QUE si l'utilisateur le demande explicitement** (et reste ≤ 10 %, qualité > quantité). Ne jamais descendre l'informatif à ~0.
 
-## Étape 5 — Générer la grille (règles de rédaction NON négociables)
+## Étape 5 — Écrire les questions (à la main, naturelles) + tagger
 
-Décline la matrice : chaque ligne = une intersection unique, le même besoin décliné sur chaque persona et inversement. Applique :
+Pour chaque cellule de la matrice à couvrir, **écris une vraie question** (cf. les 5 règles de naturalité en tête), puis tague-la sur les 6 axes. La matrice sert à garantir la **couverture** (chaque persona, segment, critère est représenté) — pas à fabriquer la phrase.
 
-- **QT pilote la formulation** :
-  - *Comparative* → formule pour **forcer des noms d'entreprises** ("Quelle banque offre le meilleur…", "What are the best…"). **Ne jamais citer la marque.** On mesure la visibilité spontanée et le share of voice.
-  - *Informative* → la vraie question d'un utilisateur, **sans pousser de noms** ("Comment financer…", "Qu'est-ce que le VAPZ ?"). On mesure quelles **sources** le LLM cite.
-  - *Brand* → **nommer explicitement la marque** ("Que pensez-vous de l'offre X pour…"). On mesure perception/sentiment. ~10 questions ciblées, qualité > quantité.
-- **Simplifier au maximum.** Pas de contexte superflu. **Sortir le pays de la phrase** quand c'est possible (le pays est porté par la colonne `country`).
-- **Variation sémantique** : alterner "quelle / recommande / liste les meilleures / quels sont…".
-- **Workflow langues** : rédiger et valider d'abord en une langue, **puis traduire**. Chaque prompt existe dans chaque langue demandée.
-- **Un seul type de question à la fois** lors de la rédaction.
+Par type de question :
+- **Comparative** → formuler pour **forcer des noms d'entreprises/modèles** (« Quelle est la meilleure citadine à moins de 15.000 € ? »). **Ne jamais citer la marque du site.** On mesure la visibilité spontanée et le share of voice. Varier : budget, usage, profil, critère, comparaison fronto (« Vaut-il mieux… ou… ? »).
+- **Informative** → la vraie question d'un utilisateur, **sans pousser de noms**, orientée vers des **familles de sources variées** (organismes officiels, tests conso, financier/TCO, marché/actu, occasion, fiscalité régionale…) avec des **marqueurs temporels** (« en 2026 », « actuellement ») sur une partie pour déclencher la recherche live. On mesure quelles **sources** le LLM cite.
+- **Brand** (si et seulement si demandé) → nommer la marque. Perception/sentiment. ~10 questions ciblées.
+
+Couverture : vérifier que `TYPE_`, `SCAT_`, `CR_` sont **réellement** peuplés (pas tous « Generic »). Si un axe est vide partout, c'est un gap à corriger, pas à masquer.
 
 ## Étape 6 — Sortir le CSV
 
-Colonnes exactes (voir `reference/csv_and_rules.md`) : `query,language,country,CAT_,SCAT_,TYPE_,CR_,FUN_,QT_`. Une ligne par prompt × langue. Calquer le format des tags existants lus à l'étape 2. Sauvegarder le CSV et le présenter ; récap : nb de prompts, répartition QT/TYPE/SCAT, langues, cellules vides (gaps).
+Colonnes exactes (voir `reference/csv_and_rules.md`) : `query,language,country,CAT_,SCAT_,TYPE_,CR_,FUN_,QT_`. Une ligne par prompt × langue. Calquer le format des tags existants (étape 2). Sauvegarder et présenter ; récap : nb de prompts, répartition QT/TYPE/SCAT, langues, cellules vides (gaps). **Relecture finale anti-répétition** : si une tournure revient > 2–3 fois, réécris.
 
 ## Étape 7 — (Optionnel) Pousser + lancer + lire le positionnement
 
@@ -75,3 +89,4 @@ Seulement si l'utilisateur valide : pousser via `create_tags` puis `create_queri
 - `organisationId` requis pour tout appel projet — `set_active_context` le mémorise.
 - Les models qui ONT des données viennent de `get_project_models`, jamais de `llmProviders`.
 - Résultat tronqué/"too large" → relance le MÊME appel dans `run_code` et agrège.
+- **Ne pas dépendre du sandbox bash** pour la formulation : les queries s'écrivent à la main ; le code ne sert qu'à écrire le fichier CSV final.
