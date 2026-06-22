@@ -1,14 +1,14 @@
 ---
 name: mentionlab-run
-version: 1.1.0
-description: "Génère une grille de prompts taguée prête à importer dans un projet MentionLab, puis lit le positionnement des sites dans les réponses des LLM. Utiliser quand l'utilisateur veut auditer la visibilité GEO d'une marque, créer/étendre les queries d'un projet MentionLab, monter une grille de prompts par persona/segment, ou voir comment ses sites se positionnent dans ChatGPT/Gemini/AI Overview."
+version: 1.1.1
+description: "Génère une grille de prompts taguée prête à importer dans un projet MentionLab (format queries,language,country,tags), puis lit le positionnement des sites dans les réponses des LLM. Utiliser quand l'utilisateur veut auditer la visibilité GEO d'une marque, créer/étendre les queries d'un projet MentionLab, monter une grille de prompts par persona/segment, ou voir comment ses sites se positionnent dans ChatGPT/Gemini/AI Overview."
 ---
 
 # mentionlab-run
 
-Tu construis une **grille de prompts instrum5entée** pour un projet MentionLab : une matrice où chaque ligne isole **une cellule mesurable** `CAT × TYPE × SCAT × CR × FUN × QT`. MAIS le texte de chaque query reste **une vraie question d'internaute, écrite à la main** — on écrit la question, PUIS on la tague. La matrice est une **checklist de couverture**, pas un générateur de phrases.
+Tu construis une **grille de prompts instrumentée** pour un projet MentionLab : une matrice où chaque ligne isole **une cellule mesurable** `CAT × TYPE × SCAT × CR × FUN × QT`. MAIS le texte de chaque query reste **une vraie question d'internaute, écrite à la main** — on écrit la question, PUIS on la tague. La matrice est une **checklist de couverture**, pas un générateur de phrases.
 
-Livrable par défaut : un **CSV à valider puis importer** (l'humain relit avant de lancer un run). Ne pousse PAS les queries directement dans le projet sauf demande explicite.
+Livrable par défaut : un **CSV à valider puis importer** au format **`queries,language,country,tags`** (cf. étape 6). L'humain relit avant de lancer un run. Ne pousse PAS les queries directement dans le projet sauf demande explicite.
 
 > ⚠️ **Le piège à éviter (retour terrain) : la génération mécanique `template × segment`.** Elle produit des phrases correctes mais **robotiques, répétitives et non naturelles** (« vaut le plus le coup en ce moment » en boucle), des fautes d'accord, et des cellules « Generic » de remplissage. Écris les questions **une par une**. N'utilise du code (Python/run_code) QUE pour **assembler/valider le CSV**, jamais pour fabriquer la formulation.
 
@@ -55,7 +55,7 @@ Déduis depuis la description + entities une proposition sur 6 axes (gabarit-or 
 - **`FUN_`** : étape du cycle (Discovery, Decision, Achat, Revente…).
 - **`QT_`** : Comparative / Informative (**Brand seulement si explicitement demandé**, cf. étape 4).
 
-> **Règle d'intégrité (erreur terrain) :** `SCAT_` = **uniquement un produit/segment** ; `TYPE_` = **uniquement un persona**. **Jamais le même libellé dans les deux colonnes** (ex. « JeuneConducteur » est un `TYPE_`, le produit associé est `Citadine` en `SCAT_`). « Generic » seulement quand AUCUN tag pertinent n'existe — jamais comme remplissage par défaut.
+> **Règle d'intégrité (erreur terrain) :** `SCAT_` = **uniquement un produit/segment** ; `TYPE_` = **uniquement un persona**. **Jamais le même libellé dans les deux** (ex. « JeuneConducteur » est un `TYPE_`, le produit associé est `Citadine` en `SCAT_`). « Generic » seulement quand AUCUN tag pertinent n'existe — jamais comme remplissage par défaut.
 
 Si l'utilisateur dit "auto", génère sans valider. S'il fournit une liste de personas, pars de la sienne.
 
@@ -64,7 +64,7 @@ Si l'utilisateur dit "auto", génère sans valider. S'il fournit une liste de pe
 Demande (avec des défauts sensés) :
 - **Nombre de prompts par langue** (défaut 100).
 - **Langues** + pays (défaut : langue/pays du projet ; en BE → FR + NL, ou FR + EN selon le projet). Pays porté par la colonne `country`, **hors de la phrase**.
-- **Répartition QT** — **défaut SANS Brand** : **65 Comparative / 35 Informative / 0 Brand**. **Le Brand n'est ajouté QUE si l'utilisateur le demande explicitement** (et reste ≤ 10 %, qualité > quantité). Ne jamais descendre l'informatif à ~0.
+- **Répartition QT** — **défaut SANS Brand** : **65 Comparative / 35 Informative / 0 Brand**. **Le Brand n'est ajouté QUE si l'utilisateur le demande explicitement** (et reste ≤ 10 %). Ne jamais descendre l'informatif à ~0.
 
 ## Étape 5 — Écrire les questions (à la main, naturelles) + tagger
 
@@ -77,9 +77,23 @@ Par type de question :
 
 Couverture : vérifier que `TYPE_`, `SCAT_`, `CR_` sont **réellement** peuplés (pas tous « Generic »). Si un axe est vide partout, c'est un gap à corriger, pas à masquer.
 
-## Étape 6 — Sortir le CSV
+## Étape 6 — Sortir le CSV (format d'import MentionLab OBLIGATOIRE)
 
-Colonnes exactes (voir `reference/csv_and_rules.md`) : `query,language,country,CAT_,SCAT_,TYPE_,CR_,FUN_,QT_`. Une ligne par prompt × langue. Calquer le format des tags existants (étape 2). Sauvegarder et présenter ; récap : nb de prompts, répartition QT/TYPE/SCAT, langues, cellules vides (gaps). **Relecture finale anti-répétition** : si une tournure revient > 2–3 fois, réécris.
+Format **EXACT** attendu par l'import (cf. `reference/import-template.csv` + `reference/csv_and_rules.md`) :
+```
+queries,language,country,tags
+```
+- **`queries`** : le texte de la question (en-tête au **pluriel**).
+- **`language`** (fr/nl/en) · **`country`** (ISO majuscule, `BE`).
+- **`tags`** : **UN seul champ** entre guillemets, tags **séparés par des virgules**, chacun **préfixé par son axe** : `"CAT_…,SCAT_…,TYPE_…,CR_…,FUN_…,QT_…"`. Les 6 axes ne sont **PAS** des colonnes séparées.
+
+Exemple :
+```
+queries,language,country,tags
+"Quelle citadine pas chère à l'achat pour un jeune conducteur ?",fr,BE,"CAT_Auto,SCAT_Citadine,TYPE_JeuneConducteur,CR_Prix,FUN_Decision,QT_Comparative"
+```
+
+Une ligne par prompt × langue. Calquer la casse/les préfixes des tags existants (étape 2). Sauvegarder et présenter ; récap : nb de prompts, répartition QT/TYPE/SCAT, langues, gaps. **Relecture finale anti-répétition** : si une tournure revient > 2–3 fois, réécris.
 
 ## Étape 7 — (Optionnel) Pousser + lancer + lire le positionnement
 
@@ -89,4 +103,4 @@ Seulement si l'utilisateur valide : pousser via `create_tags` puis `create_queri
 - `organisationId` requis pour tout appel projet — `set_active_context` le mémorise.
 - Les models qui ONT des données viennent de `get_project_models`, jamais de `llmProviders`.
 - Résultat tronqué/"too large" → relance le MÊME appel dans `run_code` et agrège.
-- **Ne pas dépendre du sandbox bash** pour la formulation : les queries s'écrivent à la main ; le code ne sert qu'à écrire le fichier CSV final.
+- **Ne pas dépendre du sandbox bash** pour la formulation : les queries s'écrivent à la main ; le code ne sert qu'à écrire le fichier CSV final au format `queries,language,country,tags`.

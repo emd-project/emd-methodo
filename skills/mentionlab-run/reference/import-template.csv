@@ -1,0 +1,4 @@
+queries,language,country,tags
+"Example query 1",en,US,"tag1,tag2"
+"Example query 2",fr,FR,"tag3"
+"Example query 3",en,GB,"tag1,tag3"
