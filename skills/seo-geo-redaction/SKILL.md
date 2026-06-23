@@ -1,7 +1,7 @@
 ---
 name: seo-geo-redaction
-version: 1.4.1
-description: Doctrine canonique de rédaction SEO/GEO des sites EMD — structure d'article optimisée pour le référencement Google ET la citabilité par les LLM (ChatGPT/Gemini/AI Overview), avec priorité aux sujets qui citent/comparent des marques et modèles, déclinés par persona (monétisation par mention, sans affiliation). Source de vérité unique : ≥70% de H2 en question, pattern Answer-Explanation-Example, FAQ, données structurées, maillage interne, sources datées, FR+EN. Priorise les briefs GEO mesurés (content/priorites-geo.md) issus de la boucle MentionLab. À lire/appliquer pour toute rédaction d'article de blog sur un site EMD (rédaction quotidienne, article seed, correction).
+version: 1.5.0
+description: Doctrine canonique de rédaction SEO/GEO des sites EMD — structure d'article optimisée pour le référencement Google ET la citabilité par les LLM (ChatGPT/Gemini/AI Overview), avec priorité aux sujets qui citent/comparent des marques et modèles, déclinés par persona (monétisation par mention, sans affiliation). Source de vérité unique : ≥70% de H2 en question, pattern Answer-Explanation-Example, FAQ, données structurées, maillage interne, sources datées, FR+EN, anti-cannibalisation par frontière head-nu/long-tail. À lire/appliquer pour toute rédaction d'article de blog sur un site EMD (rédaction quotidienne, article seed, correction).
 ---
 
 # seo-geo-redaction — Doctrine GEO canonique EMD
@@ -31,16 +31,33 @@ Règle simple et auto-suffisante (pas besoin de MentionLab) :
 
 - **Taguer les marques/modèles + le persona** dans le frontmatter (inventaire de mentions + segmentation).
 
+### Frontière des assets — UN propriétaire par requête EXACTE (anti-cannibalisation)
+Le blog FAIT des comparatifs marques (c'est le cœur des mentions), mais il ne **duplique jamais le head nu** d'un asset dédié. Frontière par **spécificité de requête** :
+
+| Requête | Propriétaire | Le blog ne duplique PAS |
+|---|---|---|
+| head nu « les meilleurs X / top X / classement X » | **Classement** `/classement/X` (page rankée de référence) | ✗ ce terme nu |
+| « meilleurs X **pour [persona/usage]** » (long-tail) | **Blog** (comparatif persona — cœur mentions) | ✓ légitime |
+| « X vs Y » (2 items, face-à-face) | **Blog** | ✓ légitime |
+| « comparer X » côte à côte, multi-items interactif | **Comparateur** `/comparer/X` | ✗ l'outil |
+| « quel X choisir / quel X pour moi » | **Choisir / Quiz** `/choisir/X`, `/quiz` | ✗ la reco perso |
+| comment / pourquoi / qu'est-ce que / prix / définition | **Blog** (informationnel, le ⅓) | — |
+
+→ Le blog **maille vers** le classement/comparateur du cluster ; jamais deux pages sur la **même requête exacte**. Le head nu déjà pris par un asset va dans `content/mots-cles.md` → « requêtes à ÉVITER » (blog).
+
+### Page Classement — ≥ 1000 mots
+La page `/classement/X` est l'asset GEO #1 et fait **≥ 1000 mots** : intro + TL;DR + critères + méthodologie + sources + FAQ + par item verdict/pros/cons/bestFor. Contenu data-driven dans `content/data/classements.json` (+ `.en`). En dessous de 1000 mots = thin, non citable → enrichir le JSON (pas le template).
+
 ## Workflow
 1. **Briefs GEO mesurés EN PRIORITÉ** : si `content/priorites-geo.md` existe dans le repo et contient des briefs **non cochés**, en traiter UN en priorité avant tout autre content gap. Ce fichier est alimenté par la **boucle MentionLab mensuelle** (`emd-geo-loop`) : chaque brief = un **segment où le site est faiblement cité par les LLM** (gap mesuré, donc plus rentable qu'un sujet choisi à l'aveugle). Respecte quand même le ratio ⅔ marques-modèles × persona / ⅓ info sur l'ensemble. **Après publication, coche le brief** (`- [x]`) dans `content/priorites-geo.md` (write idempotent, ne supprime rien d'autre). Aucun brief non coché → workflow normal ci-dessous.
-2. **Content gap (sinon)** : lister les articles publiés, choisir une catégorie sous-couverte + une intention non couverte par les concurrents .be — **en appliquant le ratio ⅔ marques-modèles (× persona) / ⅓ info** ; varier le persona. UN seul sujet.
+2. **Content gap (sinon)** : lister les articles publiés, choisir une catégorie sous-couverte + une intention non couverte par les concurrents .be — **en appliquant le ratio ⅔ marques-modèles (× persona) / ⅓ info** ; varier le persona. UN seul sujet. Respecter la **frontière des assets** (ne pas reprendre un head nu déjà pris).
 3. **SERP analysis (obligatoire)** : WebSearch sur le head term → top 3 Google.be (titre, chapô, longueur, H2, FAQ, tableau). Différenciateur documenté. Pas de SERP = run échoué.
 4. **Brief + outline** avant rédaction.
 5. **Rédaction** selon la structure GEO ci-dessous, via `humaniser-fr`.
 6. **Images, i18n, publication** selon les workflows du site.
 
 ## Structure GEO obligatoire
-- **H1** ≤ 60 caractères, head term en tête.
+- **H1** ≤ 60 caractères, head term en tête (sans année — la marque est ajoutée par le template racine).
 - **Lead/chapô** 40-60 mots = **réponse directe** dès la première phrase.
 - **TL;DR / résumé IA** : 3-5 bullets chiffrés dans le frontmatter (jamais en dur dans le corps).
 - **≥ 70 % des H2 en QUESTION stricte** (Faut-il / Quel / Comment / Pourquoi / Est-ce que / Quand / Où / « X vs Y »). 30 % factuels (pas de clickbait).
@@ -50,13 +67,13 @@ Règle simple et auto-suffisante (pas besoin de MentionLab) :
 - **FAQ in-flow** (H3) + **FAQ-bloc finale 6-7 questions** (PAA Google.be), réponses ≤ 4 phrases.
 - **Anticipation de 3-4 follow-ups** en H3.
 - **≥ 1 tableau comparatif** normé dès que le sujet compare des marques/modèles.
-- **Maillage interne** : 2-4 liens contextuels (slugs vérifiés), dont 1 vers la page pilier/comparateur du cluster.
-- **Anti-cannibalisation** : un seul propriétaire par mot-clé ; angle/persona distinct + lien vers le pilier sinon.
+- **Maillage interne** : 2-4 liens contextuels (slugs vérifiés), dont 1 vers la page pilier/comparateur du cluster + 1 vers l'asset commercial (classement/comparateur/choisir).
+- **Anti-cannibalisation** : un seul propriétaire par requête exacte (cf. « Frontière des assets ») ; angle/persona distinct + lien vers le pilier sinon.
 - **Sources d'autorité datées**, priorité .be / institutionnel (.gov.be, FSMA, BNB, IBPT, Statbel, Assuralia, Test-Achats, SPF…). Ne jamais inventer ce que disent les concurrents.
 - **Année dynamique** (`currentYear()` / `[[date]]`) — jamais d'année en dur dans titre/slug/frontmatter.
 
 ## Données structurées (JSON-LD)
-Article + FAQPage + BreadcrumbList + **Person (auteur)** + Speakable. `author` = l'auteur/persona du site (jamais « la rédaction »).
+Article + FAQPage + BreadcrumbList + **Person (auteur)** + Speakable. Classement : ItemList + FAQPage + BreadcrumbList. `author` = l'auteur/persona du site (jamais « la rédaction »).
 
 ## Multilingue (FR + EN par défaut)
 Miroir FR + EN : slug naturel par langue, FAQ traduite, acronymes belges explicités, **alt FR + EN**, **mapping i18n** mis à jour (FR↔EN) pour le sélecteur (zéro-404) + hreflang.
@@ -65,6 +82,8 @@ Miroir FR + EN : slug naturel par langue, FAQ traduite, acronymes belges explici
 - [ ] **`references/garde-fous.md` respecté** : commit seulement si contenu non-vide, aucun écrasement de contenu existant.
 - [ ] **Brief `priorites-geo.md` non coché traité en priorité s'il en existe** (puis coché après publication).
 - [ ] Sujet conforme : **⅔ marques-modèles (≥ 2 cités), idéalement décliné PERSONA** / ⅓ info utile ; **pas un how-to sans marque** au-delà du ⅓ ; persona varié. Marques + persona tagués. **Aucun élément affilié.**
+- [ ] **Frontière des assets respectée** : ne duplique pas le head nu « les meilleurs X / top X » (= classement) ni « comparer X » (= comparateur) ni « quel X choisir » (= choisir) ; variantes persona/long-tail + « X vs Y » OK ; maille vers l'asset.
+- [ ] Page classement (si c'est l'objet) **≥ 1000 mots**.
 - [ ] H1 ≤ 60 car. ; lead = réponse directe.
 - [ ] ≥ 70 % H2 en question ; Answer-Explanation-Example par H2.
 - [ ] ≥ 3 signaux d'Expérience ; sources datées .be.
