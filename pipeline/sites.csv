@@ -1,30 +1,153 @@
-domain,repo,secteur,type,langues,statut
-meilleure-voiture.be,meilleure-voiture.be,Voiture,Générique,"fr,en",Live
-meilleur-suv.be,meilleur-suv.be,Voiture,Type,"fr,en",Live
-meilleure-voiture-familiale.be,meilleure-voiture-familiale.be,Voiture,Type,"fr,en",Configuré
-meilleure-voiture-utilitaire.be,meilleure-voiture-utilitaire.be,Voiture,Type,"fr,en",Configuré
-meilleure-voiture-7-places.be,meilleure-voiture-7-places.be,Voiture,Type,"fr,en",Configuré
-meilleure-citadine.be,meilleure-citadine.be,Voiture,Type,"fr,en",À faire
-meilleure-voiture-electrique.be,meilleure-voiture-electrique,Voiture,Motorisation,"fr,en",Live
-meilleure-voiture-hybride.be,meilleure-voiture-hybride.be,Voiture,Motorisation,"fr,en",À faire
-meilleure-voiture-de-luxe.be,meilleure-voiture-de-luxe.be,Voiture,Persona,"fr,en",À faire
-meilleur-operateur-mobile.be,meilleur-operateur-mobile.be,Télécom,Générique,"fr,en",À faire
-quel-operateur-choisir.be,quel-operateur-choisir.be,Télécom,Opérateur,"fr,en",Live
-quel-abonnement-gsm-choisir.be,quel-abonnement-gsm-choisir.be,Télécom,Opérateur,"fr,en",À faire
-meilleur-operateur-internet.be,meilleur-operateur-internet.be,Télécom,Opérateur,"fr,en",À faire
-meilleur-abonnement-5g.be,meilleur-abonnement-5g.be,Télécom,Abonnement 5G,"fr,en",À faire
-meilleure-fibre-internet.be,meilleure-fibre-internet.be,Télécom,Internet / Fibre,"fr,en",À faire
-internet-pas-cher.be,internet-pas-cher.be,Télécom,Internet / Fibre,"fr,en",À faire
-comparer-abonnement-tv.be,comparer-abonnement-tv.be,Télécom,TV,"fr,en",À faire
-meilleur-fournisseur-energie.be,meilleur-fournisseur-energie-be,Énergie,Générique,"fr,en",Live
-quel-fournisseur-energie.be,quel-fournisseur-energie.be,Énergie,Fournisseur,"fr,en",À faire
-meilleur-fournisseur-electricite.be,meilleur-fournisseur-electricite.be,Énergie,Fournisseur,"fr,en",À faire
-quelle-assurance-auto.be,quelle-assurance-auto.be,Assurance,Auto,"fr,en",À faire
-meilleures-assurances-auto.be,meilleures-assurances-auto.be,Assurance,Auto,"fr,en",Live
-simulateur-assurance-auto.be,simulateur-assurance-auto.be,Assurance,Auto,"fr,en",À faire
-meilleure-banque.be,meilleure-banque.be,Banque,Générique,"fr,en",À faire
-comparer-banque.be,comparer-banque.be,Banque,Comparateur,"fr,en",À faire
-meilleure-carte-credit.be,meilleure-carte-credit.be,Banque,Carte,"fr,en",Live
-comparer-carte-credit.be,comparer-carte-credit.be,Banque,Carte,"fr,en",À faire
-comparer-compte-epargne.be,comparer-compte-epargne.be,Banque,Épargne,"fr,en",À faire
-meilleure-neobanque.be,meilleure-neobanque.be,Banque,En ligne / Néo,"fr,en",À faire
+DOMAINE,CATÉGORIE,SOUS-TYPE,STATUT,URL,ACHETÉ
+151,0,141,7% live,,29
+meilleure-voiture.be,Voiture,Générique,Live,https://www.meilleure-voiture.be/,Acheté
+meilleur-suv.be,Voiture,Type,Live,https://www.meilleur-suv.be/,Acheté
+meilleure-voiture-familiale.be,Voiture,Type,Live,https://www.meilleure-voiture-familiale.be/,Acheté
+meilleure-voiture-utilitaire.be,Voiture,Type,Live,https://www.meilleure-voiture-utilitaire.be/,Acheté
+meilleure-voiture-7-places.be,Voiture,Type,Live,https://www.meilleure-voiture-7-places.be/,Acheté
+meilleure-citadine.be,Voiture,Type,À faire,,Acheté
+voiture-familiale.be,Voiture,Type,À faire,,À acheter
+quelle-voiture-de-societe.be,Voiture,Type,À faire,,À acheter
+meilleure-voiture-electrique.be,Voiture,Motorisation,Live,https://www.meilleure-voiture-electrique.be,Acheté
+meilleure-voiture-hybride.be,Voiture,Motorisation,À faire,,Acheté
+quelle-voiture-electrique-choisir.be,Voiture,Motorisation,À faire,,À acheter
+meilleure-voiture-de-luxe.be,Voiture,Persona,À faire,,Acheté
+meilleure-voiture-pour-senior.be,Voiture,Persona,À faire,,À acheter
+meilleure-voiture-jeune-conducteur.be,Voiture,Persona,À faire,,À acheter
+ma-voiture-de-societe.be,Voiture,Persona,À faire,,À acheter
+quelle-voiture-pour-tracter.be,Voiture,Usage,À faire,,À acheter
+quelle-voiture-acheter.be,Voiture,Usage,À faire,,À acheter
+quelle-citadine-choisir.be,Voiture,Usage,À faire,,À acheter
+ma-voiture-familiale.be,Voiture,Usage,À faire,,À acheter
+leasing-ou-renting.be,Voiture,Financement,À faire,,À acheter
+credit-ballon.be,Voiture,Financement,À faire,,À acheter
+quel-leasing-choisir.be,Voiture,Financement,À faire,,À acheter
+meilleur-operateur-mobile.be,Télécom,Générique,À faire,,Acheté
+quel-operateur-choisir.be,Télécom,Opérateur,Live,https://www.quel-operateur-choisir.be,Acheté
+quel-abonnement-gsm-choisir.be,Télécom,Opérateur,À faire,,Acheté
+meilleur-operateur-internet.be,Télécom,Opérateur,À faire,,Acheté
+quel-operateur-internet.be,Télécom,Opérateur,À faire,,À acheter
+meilleur-abonnement-5g.be,Télécom,Abonnement 5G,À faire,,Acheté
+abonnement-5g.be,Télécom,Abonnement 5G,À faire,,À acheter
+meilleure-fibre-internet.be,Télécom,Internet / Fibre,À faire,,Acheté
+internet-pas-cher.be,Télécom,Internet / Fibre,À faire,,Acheté
+internet-haut-debit.be,Télécom,Internet / Fibre,À faire,,À acheter
+ma-box-internet.be,Télécom,Internet / Fibre,À faire,,À acheter
+comparer-abonnement-internet.be,Télécom,Internet / Fibre,À faire,,À acheter
+meilleur-esim-belgique.be,Télécom,Internet / Fibre,À faire,,À acheter
+comparer-abonnement-tv.be,Télécom,TV,À faire,,Acheté
+quel-abonnement-tv.be,Télécom,TV,À faire,,À acheter
+mon-abonnement-tv.be,Télécom,TV,À faire,,À acheter
+connexion-satellite.be,Télécom,Satellite,À faire,,À acheter
+comparer-connexion-satellite.be,Télécom,Satellite,À faire,,À acheter
+meilleur-fournisseur-energie.be,Énergie,Générique,Live,https://www.meilleur-fournisseur-energie.be,Acheté
+quel-fournisseur-energie.be,Énergie,Fournisseur,À faire,,Acheté
+meilleur-fournisseur-electricite.be,Énergie,Fournisseur,À faire,,Acheté
+avis-fournisseur-electricite.be,Énergie,Fournisseur,À faire,,À acheter
+mon-comparateur-energie.be,Énergie,Comparateur,À faire,,À acheter
+comparer-mon-energie.be,Énergie,Comparateur,À faire,,À acheter
+je-compare-mon-energie.be,Énergie,Comparateur,À faire,,À acheter
+comparateur-energie-belgique.be,Énergie,Comparateur,À faire,,À acheter
+energie-moins-chere.be,Énergie,Comparateur,À faire,,À acheter
+je-compare-mon-electricite.be,Énergie,Electricité,À faire,,À acheter
+comparer-mon-gaz.be,Énergie,Gaz,À faire,,À acheter
+comparateur-eau.be,Énergie,Eau,À faire,,À acheter
+comparer-panneaux-solaires.be,Énergie,Solaire,À faire,,À acheter
+meilleur-panneau-solaire.be,Énergie,Solaire,À faire,,À acheter
+mes-panneaux-solaires.be,Énergie,Solaire,À faire,,À acheter
+meilleure-assurance.be,Assurance,Générique,À faire,,À acheter
+quelle-assurance-auto.be,Assurance,Auto,À faire,,Acheté
+meilleures-assurances-auto.be,Assurance,Auto,Live,https://www.meilleures-assurances-auto.be,Acheté
+simulateur-assurance-auto.be,Assurance,Auto,À faire,,Acheté
+comparateur-credit-auto.be,Assurance,Auto / Crédit,À faire,,À acheter
+simulateur-credit-auto.be,Assurance,Auto / Crédit,À faire,,À acheter
+quelle-assurance-habitation.be,Assurance,Habitation,À faire,,À acheter
+quelle-assurance-moto.be,Assurance,Moto,À faire,,À acheter
+credit-hypothecaire-belgique.be,Assurance,Immobilier,À faire,,À acheter
+quel-credit-hypothecaire.be,Assurance,Immobilier,À faire,,À acheter
+simulateur-credit-immobilier.be,Assurance,Immobilier,À faire,,À acheter
+mon-credit-immobilier.be,Assurance,Immobilier,À faire,,À acheter
+meilleure-banque.be,Banque,Générique,À faire,,Acheté
+comparer-banque.be,Banque,Comparateur,À faire,,Acheté
+quelle-banque-choisir.be,Banque,Comparateur,À faire,,À acheter
+meilleure-carte-credit.be,Banque,Carte,Live,https://www.meilleure-carte-credit.be,Acheté
+comparer-carte-credit.be,Banque,Carte,À faire,,Acheté
+comparer-compte-epargne.be,Banque,Épargne,À faire,,Acheté
+quel-compte-epargne.be,Banque,Épargne,À faire,,À acheter
+meilleure-neobanque.be,Banque,En ligne / Néo,À faire,,Acheté
+meilleure-banque-en-ligne.be,Banque,En ligne / Néo,À faire,,À acheter
+comparer-comptes-jeunes.be,Banque,Jeunes,À faire,,À acheter
+meilleur-compte-jeune.be,Banque,Jeunes,À faire,,À acheter
+meilleur-pret.be,Banque,Prêt,À faire,,À acheter
+meilleur-compte-bancaire.be,Banque,Compte,À faire,,À acheter
+meilleur-credit.be,Banque,Crédit,À faire,,
+meilleur-credit-immobilier.be,Banque,Crédit,À faire,,
+meilleur-credit-auto.be,Banque,Crédit,À faire,,
+meilleur-credit-personnel.be,Banque,Crédit,À faire,,
+meilleur-compte-epargne.be,Banque,Épargne,À faire,,
+meilleure-carte-bancaire.be,Banque,Carte,À faire,,
+meilleure-banque-pro.be,Banque,Pro,À faire,,
+meilleur-compte-professionnel.be,Banque,Pro,À faire,,
+meilleur-casino-online.be,Casino & Paris,Générique,À faire,,À acheter
+meilleur-casino-belgique.be,Casino & Paris,Casino,À faire,,À acheter
+quel-casino-choisir.be,Casino & Paris,Casino,À faire,,À acheter
+meilleur-bonus-casino.be,Casino & Paris,Casino,À faire,,À acheter
+meilleur-casino-live.be,Casino & Paris,Casino,À faire,,À acheter
+meilleur-pari-sportif.be,Casino & Paris,Paris Sportifs,À faire,,À acheter
+parier-foot.be,Casino & Paris,Paris Sportifs,À faire,,À acheter
+pari-sportif-belgique.be,Casino & Paris,Paris Sportifs,À faire,,À acheter
+comparateur-paris-sportifs.be,Casino & Paris,Paris Sportifs,À faire,,À acheter
+meilleur-site-paris.be,Casino & Paris,Paris Sportifs,À faire,,À acheter
+parier-tennis.be,Casino & Paris,Paris Sportifs,À faire,,À acheter
+meilleur-bonus-pari-sportif.be,Casino & Paris,Bonus,À faire,,À acheter
+parier-en-ligne.be,Casino & Paris,Bonus,À faire,,À acheter
+meilleur-electromenager.be,Retailer & Tech,Générique,À faire,,À acheter
+comparateur-electromenager.be,Retailer & Tech,Électroménager,À faire,,À acheter
+meilleur-frigo.be,Retailer & Tech,Électroménager,À faire,,À acheter
+meilleur-lave-linge.be,Retailer & Tech,Électroménager,À faire,,À acheter
+meilleur-aspirateur.be,Retailer & Tech,Électroménager,À faire,,À acheter
+meilleur-robot-culinaire.be,Retailer & Tech,Électroménager,À faire,,À acheter
+meilleure-bouilloire.be,Retailer & Tech,Électroménager,À faire,,À acheter
+meilleur-appareil-photo.be,Retailer & Tech,High-tech,À faire,,À acheter
+meilleur-smartphone.be,Retailer & Tech,High-tech,À faire,,À acheter
+meilleur-laptop.be,Retailer & Tech,High-tech,À faire,,À acheter
+meilleur-ordinateur.be,Retailer & Tech,High-tech,À faire,,À acheter
+meilleure-tablette.be,Retailer & Tech,High-tech,À faire,,À acheter
+meilleure-television.be,Retailer & Tech,High-tech,À faire,,À acheter
+meilleure-tv-4k.be,Retailer & Tech,High-tech,À faire,,À acheter
+meilleur-casque-audio.be,Retailer & Tech,High-tech,À faire,,À acheter
+meilleur-projecteur.be,Retailer & Tech,High-tech,À faire,,À acheter
+meilleure-console.be,Retailer & Tech,Gaming,À faire,,À acheter
+meilleur-pc-gaming.be,Retailer & Tech,Gaming,À faire,,À acheter
+meilleur-pc.be,Retailer & Tech,Gaming,À faire,,À acheter
+meilleure-agence-geo.be,Agence,Générique,À faire,,À acheter
+meilleur-soin-visage.be,Beauty,Soin visage,À faire,,À acheter
+meilleure-creme-hydratante.be,Beauty,Soin visage,À faire,,À acheter
+meilleur-serum-visage.be,Beauty,Soin visage,À faire,,
+meilleur-serum-anti-age.be,Beauty,Soin visage,À faire,,À acheter
+quel-serum-visage.be,Beauty,Soin visage,À faire,,À acheter
+meilleure-creme-de-nuit.be,Beauty,Soin visage,À faire,,À acheter
+meilleure-huile-visage.be,Beauty,Soin visage,À faire,,À acheter
+meilleur-serum-hyaluronique.be,Beauty,Soin visage,À faire,,À acheter
+meilleur-serum-vitamine-c.be,Beauty,Soin visage,À faire,,À acheter
+meilleure-creme-solaire.be,Beauty,Solaire,À faire,,À acheter
+meilleur-soin-cheveux.be,Beauty,Cheveux,À faire,,À acheter
+meilleur-shampoing.be,Beauty,Cheveux,À faire,,À acheter
+meilleur-shampoing-cheveux-secs.be,Beauty,Cheveux,À faire,,À acheter
+meilleur-shampoing-cheveux-gras.be,Beauty,Cheveux,À faire,,À acheter
+meilleur-shampoing-anti-pellicules.be,Beauty,Cheveux,À faire,,À acheter
+meilleur-masque-cheveux.be,Beauty,Cheveux,À faire,,À acheter
+meilleure-huile-cheveux.be,Beauty,Cheveux,À faire,,À acheter
+meilleur-parfum.be,Beauty,Parfum,À faire,,À acheter
+meilleur-parfum-homme.be,Beauty,Parfum,À faire,,À acheter
+meilleur-parfum-femme.be,Beauty,Parfum,À faire,,À acheter
+meilleur-cosmetique.be,Beauty,Maquillage,À faire,,À acheter
+meilleur-maquillage.be,Beauty,Maquillage,À faire,,À acheter
+meilleur-fond-de-teint.be,Beauty,Maquillage,À faire,,À acheter
+meilleur-demaquillant.be,Beauty,Maquillage,À faire,,À acheter
+meilleur-hotel.be,Hospitality,Hôtel,À faire,,
+meilleur-hotel-belgique.be,Hospitality,Hôtel,À faire,,
+meilleur-hotel-bruxelles.be,Hospitality,Hôtel,À faire,,
+meilleur-hotel-bruges.be,Hospitality,Hôtel,À faire,,
+meilleur-hotel-luxe.be,Hospitality,Hôtel,À faire,,
+meilleur-restaurant.be,Hospitality,Restaurant,À faire,,
