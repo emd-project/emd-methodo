@@ -1,6 +1,6 @@
 ---
 name: configure-from-spec
-version: 2.6.1
+version: 2.6.2
 description: Configure un nouveau site fork-é depuis emd-template À PARTIR D'UN FICHIER SPEC pré-rempli par le wizard nano-mentionbox. Lit `init-spec.md`, analyse les exports Semrush dans `semrush-exports/` pour clusteriser et déterminer l'arborescence (categories), écrit `niche.config.ts` + tous les `content/*` (miroir si N langues), compose une DA UNIQUE via le SYSTÈME DE VARIANTES (suggestVariants/suggestFonts/palette preset seedés sur le domaine — jamais un clone d'un autre site), bâtit l'arborescence + un seed BILINGUE (FR + miroir EN + mapping i18n), commit le site, PUIS génère TOUTES les images À LA FIN une par une (checklist EXHAUSTIVE via lib/image-slots.ts → getAllImageSlots, aucun slot oublié), et crée la scheduled task EN TOUT DERNIER (auto, sans confirmation). À utiliser SEULEMENT quand un init-spec.md fraîchement poussé par le wizard est présent à la racine et que l'utilisateur dit « configure le site depuis init-spec.md », « configure depuis la spec », « init from spec », « lance la configuration », « setup le repo ». Ne JAMAIS utiliser pour un site déjà configuré (niche.config.ts.market défini → init-site pour amender). Ne JAMAIS proposer si init-spec.md n'existe pas — proposer init-site.
 allowed-tools:
   - Read
@@ -17,6 +17,14 @@ allowed-tools:
 
 # configure-from-spec v2.6 — Configurer un site depuis un init-spec.md du wizard
 
+> **v2.6.1 → v2.6.2 (accord en genre FR)** :
+> Renseigner **`niche.config.entityGender`** (`'m'` / `'f'`) selon le genre RÉEL de l'entité
+> (« néobanque » → `'f'`, « opérateur » → `'m'`, « assurance » → `'f'`…) — et `dealWordGender`
+> si `dealWord` diffère. Pour CHAQUE classement, écrire son **`genre`** dans
+> `content/data/classements.json`. Le template accorde alors automatiquement « meilleur·e·s »,
+> « Quel/Quelle », « le/la », « tous/toutes », participes (via `lib/utils/grammar.ts`).
+> **NE JAMAIS laisser le défaut masculin** si l'entité est féminine (sinon « meilleurs néobanques » = faute).
+>
 > **v2.6 → v2.6.1 (auteur sans nom de famille)** :
 > `niche.config.author.name` = **prénom seul** (« Jean ») **OU prénom + initiale** (« Jean M. »),
 > **JAMAIS de nom de famille inventé** ; `slug` = kebab du prénom (`jean` / `jean-m`). Même si le
@@ -62,6 +70,7 @@ Agréger/dédoublonner · classer l'intent · clusteriser (5-10) · dériver `ni
 
 ## Étape 4 — Écrire `niche.config.ts`
 Mapping spec → config. Dériver entity/entities/heroPrefix/rotatingWords des clusters. TODO seulement si ambigu.
+**Genre (`entityGender`)** : déterminer le genre RÉEL de l'entité et l'écrire (`'m'`/`'f'`) — pilote TOUS les accords FR du template (« néobanque » → `'f'`, « assurance » → `'f'`, « opérateur » → `'m'`). Si `dealWord` est d'un autre genre, renseigner `dealWordGender`. **JAMAIS** laisser le défaut masculin pour une entité féminine. Accorder aussi `heroPrefix`/`heroSuffix`/`rotatingWords` au genre (« Choisir votre néobarque » → « Choisir votre néobanque idéale » accordé).
 **Auteur (`niche.config.author`)** : `name` = **PRÉNOM SEUL** (« Jean ») **OU prénom + initiale** (« Jean M. ») — **JAMAIS de nom de famille inventé** ; `slug` = kebab du prénom (`jean` / `jean-m`). Même si le Bloc 7 donne un nom complet, ne conserver que le prénom (+ initiale). La `bio` peut détailler l'expertise sans jamais révéler de nom de famille.
 
 ## Étape 5 — `content/mots-cles.md`
@@ -103,6 +112,7 @@ En tête : règle SERP-first obligatoire. 50 articles classés par priorité (vo
   `lib/i18n/article-slugs.ts`**. Sinon : `/en` vide + **LangSwitch 404** + hreflang manquant = **échec d'init**.
   Modèle de référence : `content/blog/guides/article-modele.mdx` ↔ `content/blog/en/guides/article-model.mdx`.
   Si `locales = 1` → un seul fichier, pas d'arbre `/en`.
+- **Titres FR accordés au genre** (`entityGender`) : « Les **meilleures** néobanques », jamais « meilleurs ».
 - **Vérifier** : le sélecteur de langue fonctionne (mapping présent), hreflang réciproque sur le seed.
 
 ---
@@ -156,7 +166,7 @@ par slot**, jamais un simple total.
 ---
 
 ## Étape 16 — PROGRESS.md + DECISIONS.md
-Documenter : variante + permutations + palette + typo retenues (et **pourquoi elles divergent** des voisins), seed bilingue, **images générées/placeholder SLOT PAR SLOT** (depuis `getAllImageSlots()`), previews dépubliées.
+Documenter : variante + permutations + palette + typo retenues (et **pourquoi elles divergent** des voisins), **genre de l'entité (`entityGender`)**, seed bilingue, **images générées/placeholder SLOT PAR SLOT** (depuis `getAllImageSlots()`), previews dépubliées.
 
 ---
 
@@ -164,18 +174,19 @@ Documenter : variante + permutations + palette + typo retenues (et **pourquoi el
 
 **DERNIÈRE action**, une fois le site complet (code + images). **La spec vaut CONSENTEMENT → créer la tâche
 AUTOMATIQUEMENT, SANS demander confirmation** (un run nocturne ne doit JAMAIS bloquer ici).
-Gabarit canonique **`docs/SCHEDULED-TASK-REDACTION.md`** : remplacer les `[placeholders]` depuis `niche.config.ts` + la spec (byline = auteur **prénom seul / prénom + initiale**, jamais de nom de famille ni « la rédaction »).
+Gabarit canonique **`docs/SCHEDULED-TASK-REDACTION.md`** : remplacer les `[placeholders]` depuis `niche.config.ts` + la spec (byline = auteur **prénom seul / prénom + initiale**, jamais de nom de famille ni « la rédaction » ; titres **accordés au genre**).
 - TaskId : `[repoName]-article-daily` · Cron : cadence Bloc 3 (`0 8 * * *` défaut).
 Si la création de tâche échoue (API indispo) → log « tâche à créer » dans PROGRESS, **ne pas bloquer** : le site est déjà livré.
 
 ## Étape 18 — Récap utilisateur
-Marché/locales · clusters/categories · **DA : variante + permutations + palette + typo (divergentes)** · **auteur (prénom seul / prénom + initiale, jamais de nom de famille)** · seed bilingue (LangSwitch OK) · **images SLOT PAR SLOT (générées / placeholder)** depuis `getAllImageSlots()` + covers seed · scheduled task créée · lien repo.
+Marché/locales · clusters/categories · **DA : variante + permutations + palette + typo (divergentes)** · **genre entité (`entityGender`)** · **auteur (prénom seul / prénom + initiale, jamais de nom de famille)** · seed bilingue (LangSwitch OK) · **images SLOT PAR SLOT (générées / placeholder)** depuis `getAllImageSlots()` + covers seed · scheduled task créée · lien repo.
 
 ---
 
 ## Règles strictes
 - **NE JAMAIS exécuter** sans `init-spec.md` · **NE JAMAIS écraser** un `niche.config.ts` rempli.
 - **DA = système de variantes, JAMAIS un clone** : `layouts` + `permutations` + `palette` + typo écrits, dérivés du **seed domaine** ; interdiction de copier un site voisin ; check de divergence.
+- **Genre : `entityGender` renseigné au genre RÉEL** ('m'/'f' ; + `dealWordGender` si besoin ; + `genre` par classement dans `classements.json`) — sinon accords FR faux (« meilleurs néobanques »). Le template accorde via `lib/utils/grammar.ts`.
 - **Auteur = PRÉNOM SEUL ou prénom + initiale, JAMAIS de nom de famille inventé** (`name` = prénom [+ initiale], `slug` = kebab du prénom) ; byline de tout le site cohérente.
 - **Seed BILINGUE dès N≥2** : FR + miroir + mapping i18n (LangSwitch/hreflang OK). Sinon échec d'init.
 - **Images À LA FIN, une par une** : worklist = `lib/image-slots.ts` (`getAllImageSlots()`) + 1 cover/seed + 2 réemplois in-content ; **aucun slot oublié** (vérif `github_list_files` en fin) ; échec → placeholder + log précis du slot + continuer. **JAMAIS** de liste d'images en dur.
@@ -184,5 +195,5 @@ Marché/locales · clusters/categories · **DA : variante + permutations + palet
 
 ## Lien avec les autres skills / docs
 `nouveau-site` (routeur) · `init-site` (sans spec — même doctrine) · `integrate-claude-design` (étape 12 cas A) ·
-`docs/AUTO-DESIGN.md` + `lib/variants.ts` + `lib/typography.ts` (DA) · `docs/IMAGES-WORKFLOW.md` + `lib/image-slots.ts` (registre images) ·
+`docs/AUTO-DESIGN.md` + `lib/variants.ts` + `lib/typography.ts` (DA) · `docs/IMAGES-WORKFLOW.md` + `lib/image-slots.ts` (registre images) · `lib/utils/grammar.ts` (accords FR genre/nombre) ·
 `docs/SCHEDULED-TASK-REDACTION.md` · `seo-geo-redaction` + `ton-of-voice` + `humaniser-fr`.
