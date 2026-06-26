@@ -1,6 +1,6 @@
 ---
 name: configure-from-spec
-version: 2.6.0
+version: 2.6.1
 description: Configure un nouveau site fork-é depuis emd-template À PARTIR D'UN FICHIER SPEC pré-rempli par le wizard nano-mentionbox. Lit `init-spec.md`, analyse les exports Semrush dans `semrush-exports/` pour clusteriser et déterminer l'arborescence (categories), écrit `niche.config.ts` + tous les `content/*` (miroir si N langues), compose une DA UNIQUE via le SYSTÈME DE VARIANTES (suggestVariants/suggestFonts/palette preset seedés sur le domaine — jamais un clone d'un autre site), bâtit l'arborescence + un seed BILINGUE (FR + miroir EN + mapping i18n), commit le site, PUIS génère TOUTES les images À LA FIN une par une (checklist EXHAUSTIVE via lib/image-slots.ts → getAllImageSlots, aucun slot oublié), et crée la scheduled task EN TOUT DERNIER (auto, sans confirmation). À utiliser SEULEMENT quand un init-spec.md fraîchement poussé par le wizard est présent à la racine et que l'utilisateur dit « configure le site depuis init-spec.md », « configure depuis la spec », « init from spec », « lance la configuration », « setup le repo ». Ne JAMAIS utiliser pour un site déjà configuré (niche.config.ts.market défini → init-site pour amender). Ne JAMAIS proposer si init-spec.md n'existe pas — proposer init-site.
 allowed-tools:
   - Read
@@ -17,6 +17,12 @@ allowed-tools:
 
 # configure-from-spec v2.6 — Configurer un site depuis un init-spec.md du wizard
 
+> **v2.6 → v2.6.1 (auteur sans nom de famille)** :
+> `niche.config.author.name` = **prénom seul** (« Jean ») **OU prénom + initiale** (« Jean M. »),
+> **JAMAIS de nom de famille inventé** ; `slug` = kebab du prénom (`jean` / `jean-m`). Même si le
+> Bloc 7 fournit un nom complet, ne garder QUE le prénom (+ initiale). La bio peut détailler l'expertise
+> mais ne révèle jamais de nom de famille. S'applique à la byline de TOUT le site.
+>
 > **v2.5 → v2.6 (images : AUCUN slot oublié)** :
 > L'**étape 15** pilote désormais la génération sur **`lib/image-slots.ts` → `getAllImageSlots()`**
 > (source UNIQUE et EXHAUSTIVE, dérivée de `niche.config.categories`/`author`) **+** 1 cover par seed.
@@ -56,6 +62,7 @@ Agréger/dédoublonner · classer l'intent · clusteriser (5-10) · dériver `ni
 
 ## Étape 4 — Écrire `niche.config.ts`
 Mapping spec → config. Dériver entity/entities/heroPrefix/rotatingWords des clusters. TODO seulement si ambigu.
+**Auteur (`niche.config.author`)** : `name` = **PRÉNOM SEUL** (« Jean ») **OU prénom + initiale** (« Jean M. ») — **JAMAIS de nom de famille inventé** ; `slug` = kebab du prénom (`jean` / `jean-m`). Même si le Bloc 7 donne un nom complet, ne conserver que le prénom (+ initiale). La `bio` peut détailler l'expertise sans jamais révéler de nom de famille.
 
 ## Étape 5 — `content/mots-cles.md`
 Positionnement · méthodo · clusters (head/longue traîne/quick wins/à éviter) · « **requêtes à ÉVITER** » = head nu déjà pris par un asset (classement/comparateur/choisir) — cf. `seo-geo-redaction`.
@@ -63,7 +70,7 @@ Positionnement · méthodo · clusters (head/longue traîne/quick wins/à évite
 ## Étape 6 — `content/calendrier-edito.md` (50 articles)
 En tête : règle SERP-first obligatoire. 50 articles classés par priorité (volume × intent / KD). **Modèle MENTION** (cf. `seo-geo-redaction`) : ~⅔ sujets marques/modèles (dont « meilleurs X pour [persona] ») / ⅓ info. **Anti-cannibalisation** : ne pas inscrire au calendrier le **head nu** réservé au classement/comparateur/choisir.
 
-## Étape 7 — `content/ton-of-voice.md` · Étape 7bis — `content/personas.md` (auto-dérivé, 2-4 personas) · Étape 8 — `content/concurrents.md` · Étape 9 — `content/faq-base.md` (PAA auto) · Étape 10 — `content/pages/mentions-legales.yaml` (+ locales) · Étape 11 — `docs/AUTHOR-[slug].md` (si Bloc 7).
+## Étape 7 — `content/ton-of-voice.md` · Étape 7bis — `content/personas.md` (auto-dérivé, 2-4 personas) · Étape 8 — `content/concurrents.md` · Étape 9 — `content/faq-base.md` (PAA auto) · Étape 10 — `content/pages/mentions-legales.yaml` (+ locales) · Étape 11 — `docs/AUTHOR-[slug].md` (si Bloc 7 — **prénom seul / prénom + initiale, jamais de nom de famille**).
 
 ---
 
@@ -157,18 +164,19 @@ Documenter : variante + permutations + palette + typo retenues (et **pourquoi el
 
 **DERNIÈRE action**, une fois le site complet (code + images). **La spec vaut CONSENTEMENT → créer la tâche
 AUTOMATIQUEMENT, SANS demander confirmation** (un run nocturne ne doit JAMAIS bloquer ici).
-Gabarit canonique **`docs/SCHEDULED-TASK-REDACTION.md`** : remplacer les `[placeholders]` depuis `niche.config.ts` + la spec.
+Gabarit canonique **`docs/SCHEDULED-TASK-REDACTION.md`** : remplacer les `[placeholders]` depuis `niche.config.ts` + la spec (byline = auteur **prénom seul / prénom + initiale**, jamais de nom de famille ni « la rédaction »).
 - TaskId : `[repoName]-article-daily` · Cron : cadence Bloc 3 (`0 8 * * *` défaut).
 Si la création de tâche échoue (API indispo) → log « tâche à créer » dans PROGRESS, **ne pas bloquer** : le site est déjà livré.
 
 ## Étape 18 — Récap utilisateur
-Marché/locales · clusters/categories · **DA : variante + permutations + palette + typo (divergentes)** · seed bilingue (LangSwitch OK) · **images SLOT PAR SLOT (générées / placeholder)** depuis `getAllImageSlots()` + covers seed · scheduled task créée · lien repo.
+Marché/locales · clusters/categories · **DA : variante + permutations + palette + typo (divergentes)** · **auteur (prénom seul / prénom + initiale, jamais de nom de famille)** · seed bilingue (LangSwitch OK) · **images SLOT PAR SLOT (générées / placeholder)** depuis `getAllImageSlots()` + covers seed · scheduled task créée · lien repo.
 
 ---
 
 ## Règles strictes
 - **NE JAMAIS exécuter** sans `init-spec.md` · **NE JAMAIS écraser** un `niche.config.ts` rempli.
 - **DA = système de variantes, JAMAIS un clone** : `layouts` + `permutations` + `palette` + typo écrits, dérivés du **seed domaine** ; interdiction de copier un site voisin ; check de divergence.
+- **Auteur = PRÉNOM SEUL ou prénom + initiale, JAMAIS de nom de famille inventé** (`name` = prénom [+ initiale], `slug` = kebab du prénom) ; byline de tout le site cohérente.
 - **Seed BILINGUE dès N≥2** : FR + miroir + mapping i18n (LangSwitch/hreflang OK). Sinon échec d'init.
 - **Images À LA FIN, une par une** : worklist = `lib/image-slots.ts` (`getAllImageSlots()`) + 1 cover/seed + 2 réemplois in-content ; **aucun slot oublié** (vérif `github_list_files` en fin) ; échec → placeholder + log précis du slot + continuer. **JAMAIS** de liste d'images en dur.
 - **Scheduled task EN DERNIER, AUTO sans confirmation** (provisionnement autonome).
