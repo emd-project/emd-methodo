@@ -1,7 +1,7 @@
 ---
 name: configure-from-spec
-version: 2.5.0
-description: Configure un nouveau site fork-é depuis emd-template À PARTIR D'UN FICHIER SPEC pré-rempli par le wizard nano-mentionbox. Lit `init-spec.md`, analyse les exports Semrush dans `semrush-exports/` pour clusteriser et déterminer l'arborescence (categories), écrit `niche.config.ts` + tous les `content/*` (miroir si N langues), compose une DA UNIQUE via le SYSTÈME DE VARIANTES (suggestVariants/suggestFonts/palette preset seedés sur le domaine — jamais un clone d'un autre site), bâtit l'arborescence + un seed BILINGUE (FR + miroir EN + mapping i18n), commit le site, PUIS génère les images À LA FIN une par une, et crée la scheduled task EN TOUT DERNIER (auto, sans confirmation). À utiliser SEULEMENT quand un init-spec.md fraîchement poussé par le wizard est présent à la racine et que l'utilisateur dit « configure le site depuis init-spec.md », « configure depuis la spec », « init from spec », « lance la configuration », « setup le repo ». Ne JAMAIS utiliser pour un site déjà configuré (niche.config.ts.market défini → init-site pour amender). Ne JAMAIS proposer si init-spec.md n'existe pas — proposer init-site.
+version: 2.6.0
+description: Configure un nouveau site fork-é depuis emd-template À PARTIR D'UN FICHIER SPEC pré-rempli par le wizard nano-mentionbox. Lit `init-spec.md`, analyse les exports Semrush dans `semrush-exports/` pour clusteriser et déterminer l'arborescence (categories), écrit `niche.config.ts` + tous les `content/*` (miroir si N langues), compose une DA UNIQUE via le SYSTÈME DE VARIANTES (suggestVariants/suggestFonts/palette preset seedés sur le domaine — jamais un clone d'un autre site), bâtit l'arborescence + un seed BILINGUE (FR + miroir EN + mapping i18n), commit le site, PUIS génère TOUTES les images À LA FIN une par une (checklist EXHAUSTIVE via lib/image-slots.ts → getAllImageSlots, aucun slot oublié), et crée la scheduled task EN TOUT DERNIER (auto, sans confirmation). À utiliser SEULEMENT quand un init-spec.md fraîchement poussé par le wizard est présent à la racine et que l'utilisateur dit « configure le site depuis init-spec.md », « configure depuis la spec », « init from spec », « lance la configuration », « setup le repo ». Ne JAMAIS utiliser pour un site déjà configuré (niche.config.ts.market défini → init-site pour amender). Ne JAMAIS proposer si init-spec.md n'existe pas — proposer init-site.
 allowed-tools:
   - Read
   - Write
@@ -15,8 +15,16 @@ allowed-tools:
   - mcp__nano-mentionbox__github_push_images
 ---
 
-# configure-from-spec v2.5 — Configurer un site depuis un init-spec.md du wizard
+# configure-from-spec v2.6 — Configurer un site depuis un init-spec.md du wizard
 
+> **v2.5 → v2.6 (images : AUCUN slot oublié)** :
+> L'**étape 15** pilote désormais la génération sur **`lib/image-slots.ts` → `getAllImageSlots()`**
+> (source UNIQUE et EXHAUSTIVE, dérivée de `niche.config.categories`/`author`) **+** 1 cover par seed.
+> Fini le plafond « ≤5 » codé en dur qui faisait sauter des catégories : la worklist se construit
+> automatiquement, donc **aucune image (home, par catégorie, auteur, article) ne peut être oubliée**.
+> Toujours **une image à la fois, à la toute fin**, avec **vérif finale `github_list_files`** que
+> chaque slot visible existe bien dans le repo (sinon retry puis log précis pour rattrapage).
+>
 > **v2.4 → v2.5 (corrige les pannes terrain du provisionnement)** :
 > 1. **DA par le SYSTÈME DE VARIANTES** (étape 12) : `suggestVariants`/`suggestFonts` + palette preset
 >    **seedés sur le domaine** + **règle anti-clone + check de divergence**. Fini le `composePreset` à
@@ -98,25 +106,50 @@ UN commit : `niche.config.ts` + `content/*` + DA (`globals.css`/`layout.tsx`) + 
 
 ---
 
-## Étape 15 — Images À LA FIN, UNE PAR UNE (anti-saturation MCP)
+## Étape 15 — Images À LA FIN, UNE PAR UNE, AUCUN SLOT OUBLIÉ
 
-APRÈS que le site est bâti **et commité**. Génération **STRICTEMENT SÉQUENTIELLE** (jamais deux `generate_image` en parallèle) :
-pour chaque slot → `generate_image` → `wait_for_image` → compresser WebP → `github_push_images` → **PUIS la suivante**. Petite pause entre deux pour ménager le MCP.
+APRÈS que le site est bâti **et commité** (étape 14). La **checklist d'images = `lib/image-slots.ts` →
+`getAllImageSlots()`** : c'est la **source UNIQUE et EXHAUSTIVE** (générée depuis `niche.config.categories`
+et `niche.config.author`), donc **aucune catégorie ni aucun slot ne peut être oublié**. **NE JAMAIS** coder
+une liste « ≤ N » en dur ni énumérer les images à la main : on **itère sur ce que renvoie le registre**.
 
-- **Plafond ≤ ~5 structurelles** : hero home + couverture hub `/blog` + **illustration/fond par catégorie**
-  (ces images de catégorie servent aussi de **réemploi in-content** des articles).
-- **Par article seed : 1 cover GÉNÉRÉ** (`featureImage`, `[slug]-cover.webp`, 16:9) **+ 1 image EXISTANTE
-  réutilisée in-content** (`<ArticleImage>` vers une image de catégorie déjà générée) pour le rythme. Aucune autre génération.
+**Construire la worklist** = `getAllImageSlots()` (tous les slots structurels) **+** 1 cover par article seed.
+Puis générer **STRICTEMENT EN SÉQUENCE** (jamais deux `generate_image` en parallèle). Pour CHAQUE entrée :
+`generate_image` (prompt du slot, aligné DA) → `wait_for_image` → compresser WebP → `github_push_images`
+au **chemin EXACT du slot** (`slot.path`) → **cocher dans PROGRESS** → courte pause → entrée suivante.
+
+**Couverture attendue (vient du registre — ne rien retirer de la partie visible) :**
+1. **Home** : `home-hero-background` **+** `home-hero-visual` — anime l'above-fold.
+2. **Catégories — les DEUX slots PAR catégorie** (impératif : pages catégorie + réemploi in-content) :
+   `home-category-[slug]` (`/images/categories/[slug].webp`) **ET** `blog-category-background-[slug]`
+   (`/images/blog/category-[slug].webp`), **pour CHAQUE** entrée de `niche.categories`.
+3. **Auteur** : `author-[slug]` (1:1) si un auteur est défini.
+4. **Article(s) seed** : **1 cover GÉNÉRÉ** par seed (`[slug]-cover.webp`, 16:9 → frontmatter `featureImage`
+   + `featureImageAlt` fr+locales) **+ exactement 2 `<ArticleImage>` RÉUTILISÉES** (AUCUNE génération :
+   elles pointent vers les images catégorie du point 2, à ~1/3 et ~2/3 de l'article).
+5. **OG + bandeaux outils** (`og-default`, `comparer/quiz/simulateur/deals-hero`) : générer **si la page
+   correspondante existe** (l'OG dynamique `app/opengraph-image.tsx` couvre déjà le partage ; les bandeaux
+   outils n'existent qu'une fois la page outil bâtie par la boucle build-pages). Sinon **logguer en TODO**
+   pour la boucle week-end — ne pas bloquer.
+
+**Anti-oubli — vérif finale OBLIGATOIRE.** Après la boucle, re-parcourir `getAllImageSlots()` et **vérifier via
+`github_list_files`** que CHAQUE fichier de la partie visible (points 1-4) existe bien dans le repo. Tout slot
+manquant → **retry une fois (`-v2`)** ; si encore absent → laisser le placeholder + **inscrire le slot précis
+dans PROGRESS** (rattrapage par la boucle week-end). Le récap (étape 18) liste « générées / placeholder » **slot
+par slot**, jamais un simple total.
+
 - Prompts ≤ ~20 mots alignés DA, finir par « no text, no logos, no watermark », jamais de marque réelle.
-- **Échec d'une image → retry une fois (`-v2`)**, sinon **laisser le placeholder + log dans PROGRESS, CONTINUER** (ne bloque jamais : le site est déjà commité à l'étape 14).
-- Pousser les images en commits séparés.
+- Pousser les images en commits séparés (1 ou quelques slots par commit).
 
-> Pourquoi à la fin + une par une : si le MCP sature ou si une génération échoue (souvent la nuit, sans humain), **le site est déjà prêt et déployé** — seules les images manquent, rattrapables.
+> Pourquoi à la fin + une par une + checklist registre : si le MCP sature ou qu'une génération échoue
+> (souvent la nuit, sans humain), **le site est déjà commité et déployé** ; et comme la worklist vient de
+> `getAllImageSlots()`, **aucune catégorie/slot ne passe à la trappe** — ce qui manque est tracé précisément
+> pour rattrapage.
 
 ---
 
 ## Étape 16 — PROGRESS.md + DECISIONS.md
-Documenter : variante + permutations + palette + typo retenues (et **pourquoi elles divergent** des voisins), seed bilingue, images générées/échouées, previews dépubliées.
+Documenter : variante + permutations + palette + typo retenues (et **pourquoi elles divergent** des voisins), seed bilingue, **images générées/placeholder SLOT PAR SLOT** (depuis `getAllImageSlots()`), previews dépubliées.
 
 ---
 
@@ -129,7 +162,7 @@ Gabarit canonique **`docs/SCHEDULED-TASK-REDACTION.md`** : remplacer les `[place
 Si la création de tâche échoue (API indispo) → log « tâche à créer » dans PROGRESS, **ne pas bloquer** : le site est déjà livré.
 
 ## Étape 18 — Récap utilisateur
-Marché/locales · clusters/categories · **DA : variante + permutations + palette + typo (divergentes)** · seed bilingue (LangSwitch OK) · images ≤5 + covers seed · scheduled task créée · lien repo.
+Marché/locales · clusters/categories · **DA : variante + permutations + palette + typo (divergentes)** · seed bilingue (LangSwitch OK) · **images SLOT PAR SLOT (générées / placeholder)** depuis `getAllImageSlots()` + covers seed · scheduled task créée · lien repo.
 
 ---
 
@@ -137,11 +170,11 @@ Marché/locales · clusters/categories · **DA : variante + permutations + palet
 - **NE JAMAIS exécuter** sans `init-spec.md` · **NE JAMAIS écraser** un `niche.config.ts` rempli.
 - **DA = système de variantes, JAMAIS un clone** : `layouts` + `permutations` + `palette` + typo écrits, dérivés du **seed domaine** ; interdiction de copier un site voisin ; check de divergence.
 - **Seed BILINGUE dès N≥2** : FR + miroir + mapping i18n (LangSwitch/hreflang OK). Sinon échec d'init.
-- **Images À LA FIN, une par une**, ≤5 structurelles + 1 cover/seed + 1 réemploi in-content ; échec → placeholder + continuer.
+- **Images À LA FIN, une par une** : worklist = `lib/image-slots.ts` (`getAllImageSlots()`) + 1 cover/seed + 2 réemplois in-content ; **aucun slot oublié** (vérif `github_list_files` en fin) ; échec → placeholder + log précis du slot + continuer. **JAMAIS** de liste d'images en dur.
 - **Scheduled task EN DERNIER, AUTO sans confirmation** (provisionnement autonome).
 - **TOUJOURS** : commit atomique du site avant images · categories depuis Semrush · miroir strict si N≥2 · modèle MENTION (pas d'affiliation) · anti-cannibalisation (head nu réservé aux assets).
 
 ## Lien avec les autres skills / docs
 `nouveau-site` (routeur) · `init-site` (sans spec — même doctrine) · `integrate-claude-design` (étape 12 cas A) ·
-`docs/AUTO-DESIGN.md` + `lib/variants.ts` + `lib/typography.ts` (DA) · `docs/IMAGES-WORKFLOW.md` ·
+`docs/AUTO-DESIGN.md` + `lib/variants.ts` + `lib/typography.ts` (DA) · `docs/IMAGES-WORKFLOW.md` + `lib/image-slots.ts` (registre images) ·
 `docs/SCHEDULED-TASK-REDACTION.md` · `seo-geo-redaction` + `ton-of-voice` + `humaniser-fr`.
