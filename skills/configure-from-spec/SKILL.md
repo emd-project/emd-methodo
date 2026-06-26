@@ -1,7 +1,7 @@
 ---
 name: configure-from-spec
-version: 2.4.0
-description: Configure un nouveau site fork-é depuis emd-template À PARTIR D'UN FICHIER SPEC pré-rempli par le wizard nano-mentionbox. Lit `init-spec.md` à la racine du repo, analyse les exports Semrush bruts dans `semrush-exports/` pour clusteriser les mots-clés et déterminer l'arborescence du site (categories), écrit `niche.config.ts` + tous les fichiers `content/*` (dont `content/personas.md` auto-dérivé) + `docs/AUTHOR-*` en miroir dans toutes les locales, délègue à `integrate-claude-design` si `design-incoming/` contient des fichiers OU exécute `docs/AUTO-DESIGN.md` pour composer une vraie DA si aucun design n'est fourni, génère les images structurelles via le MCP nano-mentionbox, génère un `content/calendrier-edito.md` avec 50 articles prêts à rédiger classés par priorité (volume × intent / KD), et crée la scheduled task de rédaction quotidienne selon `docs/SCHEDULED-TASK-REDACTION.md`. À utiliser dans CE cas et CE cas SEULEMENT : un init-spec.md fraîchement poussé par le wizard est présent à la racine du repo et l'utilisateur dit explicitement « configure le site depuis init-spec.md », « configure depuis la spec », « init from spec », « lance la configuration », « setup le repo ». Ne JAMAIS utiliser pour un site déjà configuré (niche.config.ts.market défini → utiliser init-site classique pour amender). Ne JAMAIS proposer ce skill si init-spec.md n'existe pas — proposer init-site à la place.
+version: 2.5.0
+description: Configure un nouveau site fork-é depuis emd-template À PARTIR D'UN FICHIER SPEC pré-rempli par le wizard nano-mentionbox. Lit `init-spec.md`, analyse les exports Semrush dans `semrush-exports/` pour clusteriser et déterminer l'arborescence (categories), écrit `niche.config.ts` + tous les `content/*` (miroir si N langues), compose une DA UNIQUE via le SYSTÈME DE VARIANTES (suggestVariants/suggestFonts/palette preset seedés sur le domaine — jamais un clone d'un autre site), bâtit l'arborescence + un seed BILINGUE (FR + miroir EN + mapping i18n), commit le site, PUIS génère les images À LA FIN une par une, et crée la scheduled task EN TOUT DERNIER (auto, sans confirmation). À utiliser SEULEMENT quand un init-spec.md fraîchement poussé par le wizard est présent à la racine et que l'utilisateur dit « configure le site depuis init-spec.md », « configure depuis la spec », « init from spec », « lance la configuration », « setup le repo ». Ne JAMAIS utiliser pour un site déjà configuré (niche.config.ts.market défini → init-site pour amender). Ne JAMAIS proposer si init-spec.md n'existe pas — proposer init-site.
 allowed-tools:
   - Read
   - Write
@@ -15,305 +15,133 @@ allowed-tools:
   - mcp__nano-mentionbox__github_push_images
 ---
 
-# configure-from-spec v2.4 — Configurer un site depuis un init-spec.md du wizard
+# configure-from-spec v2.5 — Configurer un site depuis un init-spec.md du wizard
 
-> **Changement v2.3 → v2.4** : (1) le MCP nano-mentionbox (`generate_image`, `wait_for_image`,
-> `github_push_images`) est déclaré dans `allowed-tools` — sans ça, la génération d'images de
-> l'étape 12 échoue silencieusement. (2) L'étape 7bis écrit `content/personas.md` **auto-dérivé**
-> (audience + clusters), car `seo-geo-redaction` l'exige et personne ne le créait avant.
->
-> **Changement v2.2 → v2.3** : L'étape 13 (scheduled task) pointe vers le gabarit canonique
-> **`docs/SCHEDULED-TASK-REDACTION.md`**. Une seule source de vérité.
->
-> **Changement v2.1 → v2.2** : L'étape 12 (design) ne laisse plus JAMAIS les placeholders quand
-> aucun Claude Design n'est fourni. Si `design-incoming/` est vide, on exécute `docs/AUTO-DESIGN.md`.
-
-Ce skill prend en entrée un fichier `init-spec.md` à la racine du repo + (optionnel) des exports Semrush bruts dans `semrush-exports/` + (optionnel) un dossier `design-incoming/` rempli de fichiers Claude Design extraits. Il produit en sortie une configuration complète du site en un seul commit atomique.
+> **v2.4 → v2.5 (corrige les pannes terrain du provisionnement)** :
+> 1. **DA par le SYSTÈME DE VARIANTES** (étape 12) : `suggestVariants`/`suggestFonts` + palette preset
+>    **seedés sur le domaine** + **règle anti-clone + check de divergence**. Fini le `composePreset` à
+>    l'aveugle qui produisait des **clones** (ex. ressemblance à meilleure-voiture).
+> 2. **Seed BILINGUE obligatoire** (étape 13) : article seed FR **+ miroir EN + mapping `article-slugs.ts`**
+>    → LangSwitch + hreflang fonctionnent (avant : article placeholder non traduit, pas de sélecteur).
+> 3. **Images À LA FIN, UNE PAR UNE** (étape 15) : après le commit du site, génération **séquentielle**
+>    (anti-saturation MCP). Le site est déjà prêt même si une image échoue.
+> 4. **Scheduled task EN TOUT DERNIER, AUTO sans confirmation** (étape 17) : un run nocturne ne bloque plus.
 
 ## Pré-requis vérifiés au démarrage
-
-1. **`init-spec.md` existe** à la racine. Si absent → ne PAS exécuter, proposer `init-site` classique.
-2. **`niche.config.ts.market` est vide ou placeholder**. Si déjà rempli → demander confirmation.
-3. **MCP nano-mentionbox disponible** (`mcp__nano-mentionbox__generate_image`). Si absent → prévenir : les images structurelles ne pourront pas être générées (= site en placeholders = échec d'init). Demander à brancher le MCP avant de continuer.
+1. **`init-spec.md` existe** à la racine. Sinon → proposer `init-site`.
+2. **`niche.config.ts.market` vide/placeholder**. Si déjà rempli → STOP (site déjà configuré).
+3. **MCP nano-mentionbox disponible** (`mcp__nano-mentionbox__generate_image`). Sinon → prévenir : les images de l'étape 15 ne tourneront pas (le BUILD du site, lui, n'en dépend pas).
 4. **Git status clean** ou changements non liés.
+
+En dehors de ces points, ne pas s'interrompre : la spec fait foi. **Aucune confirmation demandée** (provisionnement autonome).
 
 ---
 
 ## Étape 1 — Parser le init-spec.md
-
-Lire `init-spec.md`. Structure attendue : sections Markdown avec codeblocks YAML.
-
-Sections attendues :
-- `## Identité du site` (YAML)
-- `## Bloc 0 — Marché et langues` (YAML)
-- `## Bloc 1 — Voix éditoriale` (YAML ou bloc 🤖 Mode AUTO)
-- `## Bloc 2 — Mots-clés` (positioning + références aux fichiers `semrush-exports/*.csv` + clusters manuels optionnels)
-- `## Bloc 3 — Calendrier éditorial` (YAML ou bloc 🤖 Mode AUTO)
-- `## Bloc 4 — Concurrents` (manuel ou 🤖 Mode AUTO si absent)
-- `## Bloc 5 — FAQ de base` (toujours 🤖 Mode AUTO — Claude dérive des PAA)
-- `## Bloc 6 — Mentions légales` (YAML)
-- `## Bloc 7 — Auteur` (YAML, optionnel)
-- `## Design` (bloc questionnaire `source: questionnaire` OU `source: zip` — cf. docs/WIZARD-DESIGN-STEP.md)
-
-Si une section critique manque (Bloc 0, 1, 6), arrêter et expliquer.
-
-**Détecter les modes AUTO** : pour chaque bloc, si tu vois "🤖 **Mode AUTO**" en tête, suivre les directives spécifiques du bloc et NE PAS chercher un YAML normal.
-
----
+Sections Markdown + YAML : `## Identité`, `## Bloc 0` (marché+langues), `## Bloc 1` (voix), `## Bloc 2` (mots-clés + `semrush-exports/*.csv`), `## Bloc 3` (calendrier), `## Bloc 4` (concurrents), `## Bloc 5` (FAQ — auto), `## Bloc 6` (mentions), `## Bloc 7` (auteur, opt), `## Design` (archetype/skin/vertical/brandColor/mode). Détecter les « 🤖 Mode AUTO ». Si Bloc 0/1/6 manque → STOP.
 
 ## Étape 2 — Validation sémantique
+`market` valide · `locales[0]===defaultLocale` · `localePrefix as-needed` ⇒ N≥2 · email contact (STOP si absent) · slug auteur kebab-case. Regrouper les warnings.
 
-Avant d'écrire, vérifier :
-
-| Check | Action si échec |
-|---|---|
-| `market` ∈ ['BE', 'FR', 'CA', 'CH', autre ISO valide] | Demander confirmation |
-| `locales[0]` === `defaultLocale` | Forcer alignement |
-| Si `localePrefix === 'as-needed'` → `locales.length >= 2` | Sinon retirer |
-| Mentions légales : email contact présent | Bloquer si absent (RGPD) |
-| Auteur (si présent) : slug en kebab-case | Forcer normalisation |
-| Cohérence market ↔ locales | Demander si suspicieux |
-
-Regrouper tous les warnings en un seul message avant d'écrire.
-
----
-
-## Étape 3 — Analyser les exports Semrush
-
-### 3.1 Détection
-
-```bash
-ls semrush-exports/*.csv 2>/dev/null
-```
-
-Lire chaque CSV (`head -1` pour le header, puis tout le fichier).
-
-Format attendu Semrush : `Keyword, Intent, Volume, Keyword Difficulty, CPC (EUR), SERP Features`.
-
-### 3.2 Agrégation et dédoublonnage
-
-Pour chaque keyword :
-- Normaliser : minuscules, retirer accents, normaliser apostrophes, espaces multiples
-- Dédoublonner : forme normalisée identique → garder volume max
-- Conserver les variants dans `aliases`
-
-Si > 2000 keywords après dédoublonnage : filtrer volume ≥ 10. Documenter la troncature dans `content/mots-cles.md`.
-
-### 3.3 Classification d'intent
-
-Inférer si la colonne Semrush Intent est vide :
-- **informational** : "comment", "pourquoi", "qu'est-ce que", "quel", "guide", "définition"
-- **commercial** : "comparer", "vs", "meilleur", "avis", "test", "top", "classement"
-- **transactional** : "prix", "tarif", "souscrire", "commander", "acheter", "abonnement"
-- **navigational** : marque connue ou nom de produit identifiable
-
-### 3.4 Clustering sémantique
-
-5 à 10 clusters par thème :
-1. Identifier les termes pivots récurrents
-2. Affecter chaque keyword au pivot dominant
-3. Cluster "Divers" pour les orphelins
-4. Fusionner les clusters de < 5 keywords avec leur voisin
-
-Pour chaque cluster :
-- **head term** : keyword volume max + KD ≤ 50
-- **longue traîne** : volume 30-500
-- **quick wins** : KD ≤ 30 ET volume ≥ 20
-- **à éviter** : volume = 0 OU KD > 70
-
-### 3.5 Détermination de l'arborescence du site
-
-⚠️ **Règle absolue** : `niche.config.ts.categories` est TOUJOURS écrit depuis les clusters Semrush, même si un design est présent.
-
-Convertir 5-8 clusters majeurs en categories :
-
-```ts
-categories: [
-  {
-    slug: 'cluster-1-slug',
-    label: 'Nom du cluster',
-    accent: '#XXX',
-    description: 'Phrase courte',
-  },
-],
-```
-
-Slug : kebab-case dérivé du head term, court et SEO-friendly.
-
----
+## Étape 3 — Analyser Semrush (`semrush-exports/*.csv`)
+Agréger/dédoublonner · classer l'intent · clusteriser (5-10) · dériver `niche.config.ts.categories` TOUJOURS depuis les clusters. Par cluster : head term (KD≤50), longue traîne (vol 30-500), quick wins (KD≤30 & vol≥20), à éviter (vol 0 ou KD>70).
 
 ## Étape 4 — Écrire `niche.config.ts`
+Mapping spec → config. Dériver entity/entities/heroPrefix/rotatingWords des clusters. TODO seulement si ambigu.
 
-Mapping spec → niche.config.ts. Dériver `entity`, `entities`, `entityVerb`, `heroPrefix`, `rotatingWords` des clusters Semrush. Marquer TODO uniquement si ambigu.
+## Étape 5 — `content/mots-cles.md`
+Positionnement · méthodo · clusters (head/longue traîne/quick wins/à éviter) · « **requêtes à ÉVITER** » = head nu déjà pris par un asset (classement/comparateur/choisir) — cf. `seo-geo-redaction`.
 
----
+## Étape 6 — `content/calendrier-edito.md` (50 articles)
+En tête : règle SERP-first obligatoire. 50 articles classés par priorité (volume × intent / KD). **Modèle MENTION** (cf. `seo-geo-redaction`) : ~⅔ sujets marques/modèles (dont « meilleurs X pour [persona] ») / ⅓ info. **Anti-cannibalisation** : ne pas inscrire au calendrier le **head nu** réservé au classement/comparateur/choisir.
 
-## Étape 5 — Écrire `content/mots-cles.md`
-
-Sections : Positionnement, Méthodologie, Clusters (avec tableaux head/longue traîne/quick wins/à éviter), Divers, Exports bruts (références aux CSV).
-
----
-
-## Étape 6 — Écrire `content/calendrier-edito.md` (50 articles)
-
-⚠️ **Règle absolue en tête du fichier** :
-
-> ⚠️ RÈGLE ABSOLUE — SERP analysis du mot-clé via WebSearch OBLIGATOIRE avant rédaction.
-> Top 3 Google.[market_tld] → content gap → exploitation dans l'article. Non-skippable.
-
-Calendrier : 50 articles classés par priorité = volume × (intent commercial = 2, transactional = 1.5, informational = 1) / max(KD, 1).
-
-10 articles par cluster majeur, jusqu'à 50 au total. Pour chaque article : head term + vol + KD + intent + format suggéré.
+## Étape 7 — `content/ton-of-voice.md` · Étape 7bis — `content/personas.md` (auto-dérivé, 2-4 personas) · Étape 8 — `content/concurrents.md` · Étape 9 — `content/faq-base.md` (PAA auto) · Étape 10 — `content/pages/mentions-legales.yaml` (+ locales) · Étape 11 — `docs/AUTHOR-[slug].md` (si Bloc 7).
 
 ---
 
-## Étape 7 — Écrire `content/ton-of-voice.md`
+## Étape 12 — DA via le SYSTÈME DE VARIANTES (full-auto, JAMAIS un clone)
 
-À partir du Bloc 1 (mode manuel) OU dérivé du marché/concurrents/clusters Semrush (mode auto).
-Si `voiceMode === 'per-language'` : créer aussi les variantes par locale.
+`ls -la design-incoming/` :
+- **non vide** → `integrate-claude-design`.
+- **vide** → dérouler **`docs/AUTO-DESIGN.md`** du fork (procédure full-auto). Le fork EMBARQUE déjà `lib/variants.ts`, `lib/typography.ts`, `components/layout/PermutationStyle.tsx` :
+  1. **Variante** : `suggestVariants(niche.domain)` + override thématique (depuis `## Design` archetype) → écrire `niche.config.layouts.home` (magazine/comparateur/marche/fil) + `layouts.category` (classic/editorial) + `niche.style.hero` cohérent. (`marche` seulement si classements générés.)
+  2. **Permutations** : `suggestVariants(niche.domain)` → `niche.config.permutations` (`shape`/`border`/`shadow`).
+  3. **Palette** : `## Design` (`brandColor`/`skin`) sinon **preset déterministe** (`lib/da-presets/`, choisi par thématique + **seed domaine**) → écrire `niche.config.palette` PUIS propager dans `app/globals.css :root` (+ `@theme`).
+  4. **Typo** : `suggestFonts(niche.domain, home)` (`lib/typography.ts`) → écrire la paire dans `app/layout.tsx` (next/font, imports statiques).
+  5. **Dépublier les previews** : supprimer `/home-vN`, `/cat-vN`, `/art-v1` (+ `/en/...`).
 
----
-
-## Étape 7bis — Écrire `content/personas.md` (auto-dérivé)
-
-`seo-geo-redaction` exige `content/personas.md` (un « persona dominant » par article). On le **dérive automatiquement**, sans question supplémentaire, depuis ce qu'on a déjà :
-
-- l'**audience** définie au Bloc 1 / `content/ton-of-voice.md`,
-- les **clusters** et intentions de `content/mots-cles.md`,
-- le **marché** (Bloc 0).
-
-Écrire 2 à 4 personas. Pour chacun : situation, niveau d'expertise, vocabulaire, déclencheur d'achat, et « Questions par étape de funnel » (découverte / comparaison / décision) — ces questions alimentent les FAQ in-flow de la rédaction. Ne pas inventer de données démographiques précises non justifiées ; rester sur des archétypes ancrés dans les clusters réels.
-
----
-
-## Étape 8 — Écrire `content/concurrents.md`
-
-À partir du Bloc 4 (mode manuel) OU dérivé via WebSearch sur les head terms (mode auto).
+> ⚠️ **ANTI-CLONE (règle dure).** La DA se **dérive du DOMAINE** (seed). **INTERDIT** d'ouvrir/copier le code,
+> la palette ou les fonts d'un AUTRE site du réseau (`emd-project/*`) — c'est ce qui produisait des clones
+> (ex. ressemblance meilleure-voiture). `composePreset` à l'aveugle sans seed = interdit.
+> **Check de divergence** : la **variante home**, la **palette (accent-1)** ET la **paire de fonts** doivent
+> **différer** d'un site voisin. Si par mégarde tu as regardé un voisin, ta sortie doit s'en écarter
+> (re-roll avec un autre salt sur le seed). Documenter dans DECISIONS.md la combinaison retenue.
+> **PAS d'images ici** (cf. étape 15). **Ne PAS écraser `niche.config.ts.categories`** (clusters Semrush).
 
 ---
 
-## Étape 9 — Écrire `content/faq-base.md`
+## Étape 13 — Arborescence + contenu seed (BILINGUE si `locales ≥ 2`)
 
-**Toujours en mode auto** : simuler les PAA Google.[market_tld] des head terms majeurs, regrouper en 3-5 thèmes, réponse-cadre 2-4 phrases factuelle sans tic IA (cf. `humaniser-fr`).
-
----
-
-## Étape 10 — Écrire `content/pages/mentions-legales.yaml`
-
-À partir du Bloc 6 + variantes locales si N langues.
-
----
-
-## Étape 11 — Écrire `docs/AUTHOR-[slug].md` (si Bloc 7 présent)
-
-À partir du Bloc 7.
+- Catégories browsables (depuis `niche.config.categories`).
+- **1-2 articles seed réels sourcés.** **Si `locales ≥ 2`** : chaque seed est écrit en FR **ET** dans chaque
+  autre langue (miroir strict, `content/blog/[locale]/[categorie]/[slug].mdx`) **+ la paire ajoutée à
+  `lib/i18n/article-slugs.ts`**. Sinon : `/en` vide + **LangSwitch 404** + hreflang manquant = **échec d'init**.
+  Modèle de référence : `content/blog/guides/article-modele.mdx` ↔ `content/blog/en/guides/article-model.mdx`.
+  Si `locales = 1` → un seul fichier, pas d'arbre `/en`.
+- **Vérifier** : le sélecteur de langue fonctionne (mapping présent), hreflang réciproque sur le seed.
 
 ---
 
-## Étape 12 — Design : intégrer le livrable OU composer une DA auto
+## Étape 14 — Commit atomique du SITE (code + contenu, AVANT les images)
 
-Vérifier ce que contient `design-incoming/` :
-
-```bash
-ls -la design-incoming/ 2>/dev/null
-```
-
-### Cas A — `design-incoming/` contient des fichiers (livrable Claude Design)
-
-Déléguer au skill `integrate-claude-design` (mapping pages → `app/`, composants → `components/`, tokens → `niche.config.ts`, conversions techniques, nettoyage du dossier). NE PAS faire `unzip` (déjà extrait).
-
-### Cas B — `design-incoming/` est vide ou absent (AUCUN livrable design)
-
-**NE JAMAIS laisser les placeholders palette/fonts/signature.** Exécuter **`docs/AUTO-DESIGN.md`** :
-lire le bloc `## Design` de init-spec (archétype + mood + brandColor + mode), choisir l'archétype
-(comparateur / magazine / hybride → home + hero + référence), composer la DA via `composePreset()`
-sur `lib/da-presets/`, écrire palette + fonts + `niche.style` + `niche.signature`.
-
-### Images structurelles (les deux cas)
-
-Après la DA, **générer les images structurelles** (hero + fonds par catégorie) via
-`mcp__nano-mentionbox__generate_image` (pattern fire-and-poll → `wait_for_image`) à partir des prompts
-de la bibliothèque (`prompts/` du plugin) + `lib/image-slots.ts`, alignés sur la DA, push WebP via
-`mcp__nano-mentionbox__github_push_images` sous `public/images/`. Cf. `docs/IMAGES-WORKFLOW.md`. Un
-site neuf en placeholders = bug.
-
-**⚠️ Le design NE DOIT PAS écraser `niche.config.ts.categories`** (issu des clusters Semrush).
+UN commit : `niche.config.ts` + `content/*` + DA (`globals.css`/`layout.tsx`) + seed bilingue + mapping i18n + previews dépubliées. **Le site est déjà déployable** (placeholders d'images temporaires en attendant l'étape 15). Conventional Commits anglais.
 
 ---
 
-## Étape 13 — Créer la scheduled task de rédaction quotidienne
+## Étape 15 — Images À LA FIN, UNE PAR UNE (anti-saturation MCP)
 
-Demander confirmation à l'utilisateur AVANT (effet de bord global Cowork).
+APRÈS que le site est bâti **et commité**. Génération **STRICTEMENT SÉQUENTIELLE** (jamais deux `generate_image` en parallèle) :
+pour chaque slot → `generate_image` → `wait_for_image` → compresser WebP → `github_push_images` → **PUIS la suivante**. Petite pause entre deux pour ménager le MCP.
 
-Créer la tâche en suivant le **gabarit canonique `docs/SCHEDULED-TASK-REDACTION.md`** : y remplacer
-les `[placeholders]` depuis `niche.config.ts` + la spec (`[siteName]`, `[repoOwner]/[repoName]`,
-`[market]`, `[authorName]`, `[authorSlug]`, `[locales]`, `[cron]`). Ne PAS réécrire un prompt à la
-main — le gabarit est la source de vérité.
+- **Plafond ≤ ~5 structurelles** : hero home + couverture hub `/blog` + **illustration/fond par catégorie**
+  (ces images de catégorie servent aussi de **réemploi in-content** des articles).
+- **Par article seed : 1 cover GÉNÉRÉ** (`featureImage`, `[slug]-cover.webp`, 16:9) **+ 1 image EXISTANTE
+  réutilisée in-content** (`<ArticleImage>` vers une image de catégorie déjà générée) pour le rythme. Aucune autre génération.
+- Prompts ≤ ~20 mots alignés DA, finir par « no text, no logos, no watermark », jamais de marque réelle.
+- **Échec d'une image → retry une fois (`-v2`)**, sinon **laisser le placeholder + log dans PROGRESS, CONTINUER** (ne bloque jamais : le site est déjà commité à l'étape 14).
+- Pousser les images en commits séparés.
 
-- TaskId : `[repoName]-article-daily`
-- Cron : cadence du Bloc 3 (`0 8 * * *` par défaut)
-
----
-
-## Étape 14 — PROGRESS.md + DECISIONS.md
-
-Sections en tête. Documenter la DA retenue (livrable intégré OU composée via AUTO-DESIGN : archétype, palette, fonts, mode) et les images structurelles générées.
+> Pourquoi à la fin + une par une : si le MCP sature ou si une génération échoue (souvent la nuit, sans humain), **le site est déjà prêt et déployé** — seules les images manquent, rattrapables.
 
 ---
 
-## Étape 15 — Commit atomique
-
-UN commit avec tous les fichiers. Message Conventional Commits anglais.
+## Étape 16 — PROGRESS.md + DECISIONS.md
+Documenter : variante + permutations + palette + typo retenues (et **pourquoi elles divergent** des voisins), seed bilingue, images générées/échouées, previews dépubliées.
 
 ---
 
-## Étape 16 — Récap utilisateur
+## Étape 17 — Scheduled task de rédaction — EN TOUT DERNIER, AUTO (sans confirmation)
 
-```
-✓ Site bootstrappé.
+**DERNIÈRE action**, une fois le site complet (code + images). **La spec vaut CONSENTEMENT → créer la tâche
+AUTOMATIQUEMENT, SANS demander confirmation** (un run nocturne ne doit JAMAIS bloquer ici).
+Gabarit canonique **`docs/SCHEDULED-TASK-REDACTION.md`** : remplacer les `[placeholders]` depuis `niche.config.ts` + la spec.
+- TaskId : `[repoName]-article-daily` · Cron : cadence Bloc 3 (`0 8 * * *` défaut).
+Si la création de tâche échoue (API indispo) → log « tâche à créer » dans PROGRESS, **ne pas bloquer** : le site est déjà livré.
 
-Marché : [market]
-Locales : [...] (miroir strict si >= 2)
-Clusters Semrush analysés : K (N keywords)
-Categories : 6
-Personas : [N] (auto-dérivés)
-Calendrier : 50 articles classés par priorité
-Auteur : [name + slug]
-Design : intégré depuis design-incoming/ OU DA composée via AUTO-DESIGN (archétype + palette + fonts)
-Images structurelles : générées (hero + catégories)
-Scheduled task : [repoName]-article-daily, cron 0 8 * * * (gabarit SCHEDULED-TASK-REDACTION)
-
-Prochaines étapes :
-1. Valider niche.config.ts.categories
-2. pnpm dev → vérifier rendu local
-3. Premier déploiement Vercel
-4. Run now sur la scheduled task
-
-Lien repo : https://github.com/[owner]/[name]
-```
+## Étape 18 — Récap utilisateur
+Marché/locales · clusters/categories · **DA : variante + permutations + palette + typo (divergentes)** · seed bilingue (LangSwitch OK) · images ≤5 + covers seed · scheduled task créée · lien repo.
 
 ---
 
 ## Règles strictes
-
-- **NE JAMAIS exécuter** sans `init-spec.md`.
-- **NE JAMAIS écraser** un `niche.config.ts` rempli sans confirmation.
-- **NE JAMAIS inventer** si spec incomplète → TODO + avertir.
-- **NE JAMAIS laisser la palette/fonts par défaut** quand aucun design n'est fourni → `docs/AUTO-DESIGN.md`.
-- **NE JAMAIS laisser un site neuf en placeholders** → générer les images structurelles via le MCP.
-- **TOUJOURS un commit atomique** · **demander confirmation avant scheduled task**.
-- **TOUJOURS miroir strict** si `locales.length >= 2`.
-- **TOUJOURS dériver categories des clusters Semrush** (jamais du design).
-- **TOUJOURS la scheduled task depuis `docs/SCHEDULED-TASK-REDACTION.md`** (pas de prompt maison).
-
----
+- **NE JAMAIS exécuter** sans `init-spec.md` · **NE JAMAIS écraser** un `niche.config.ts` rempli.
+- **DA = système de variantes, JAMAIS un clone** : `layouts` + `permutations` + `palette` + typo écrits, dérivés du **seed domaine** ; interdiction de copier un site voisin ; check de divergence.
+- **Seed BILINGUE dès N≥2** : FR + miroir + mapping i18n (LangSwitch/hreflang OK). Sinon échec d'init.
+- **Images À LA FIN, une par une**, ≤5 structurelles + 1 cover/seed + 1 réemploi in-content ; échec → placeholder + continuer.
+- **Scheduled task EN DERNIER, AUTO sans confirmation** (provisionnement autonome).
+- **TOUJOURS** : commit atomique du site avant images · categories depuis Semrush · miroir strict si N≥2 · modèle MENTION (pas d'affiliation) · anti-cannibalisation (head nu réservé aux assets).
 
 ## Lien avec les autres skills / docs
-
-- `nouveau-site` : routeur qui appelle ce skill quand `init-spec.md` est présent.
-- `init-site` v2 : alternatif sans init-spec.md (applique aussi AUTO-DESIGN + images si pas de design).
-- `integrate-claude-design` : étape 12 Cas A. **Ne touche pas à `niche.config.ts.categories`**.
-- `docs/AUTO-DESIGN.md` : étape 12 Cas B (compose la DA depuis `lib/da-presets/` + référence).
-- `docs/IMAGES-WORKFLOW.md` : génération des images (structurelles à l'init, cover/mid par la tâche).
-- `docs/SCHEDULED-TASK-REDACTION.md` : gabarit de la tâche quotidienne (étape 13).
-- `seo-geo-redaction` (+ `references/mirror-i18n.md`), `ton-of-voice`, `humaniser-fr` : utilisés à chaque rédaction.
+`nouveau-site` (routeur) · `init-site` (sans spec — même doctrine) · `integrate-claude-design` (étape 12 cas A) ·
+`docs/AUTO-DESIGN.md` + `lib/variants.ts` + `lib/typography.ts` (DA) · `docs/IMAGES-WORKFLOW.md` ·
+`docs/SCHEDULED-TASK-REDACTION.md` · `seo-geo-redaction` + `ton-of-voice` + `humaniser-fr`.
