@@ -1,6 +1,6 @@
 ---
 name: seo-geo-redaction
-version: 1.5.0
+version: 1.5.1
 description: Doctrine canonique de rédaction SEO/GEO des sites EMD — structure d'article optimisée pour le référencement Google ET la citabilité par les LLM (ChatGPT/Gemini/AI Overview), avec priorité aux sujets qui citent/comparent des marques et modèles, déclinés par persona (monétisation par mention, sans affiliation). Source de vérité unique : ≥70% de H2 en question, pattern Answer-Explanation-Example, FAQ, données structurées, maillage interne, sources datées, FR+EN, anti-cannibalisation par frontière head-nu/long-tail. À lire/appliquer pour toute rédaction d'article de blog sur un site EMD (rédaction quotidienne, article seed, correction).
 ---
 
@@ -58,6 +58,7 @@ La page `/classement/X` est l'asset GEO #1 et fait **≥ 1000 mots** : intro + T
 
 ## Structure GEO obligatoire
 - **H1** ≤ 60 caractères, head term en tête (sans année — la marque est ajoutée par le template racine).
+- **Accord en genre (OBLIGATOIRE).** Accorde TOUJOURS adjectifs/déterminants/participes au genre réel de l'entité (`niche.config.entityGender`) : entité féminine → « les **meilleures** néobanques », « **Quelle** néobanque choisir », « la néobanque **idéale** » ; masculine → « les meilleurs opérateurs ». JAMAIS de masculin par défaut sur une entité féminine. Vaut pour H1, titres, metadata, intros, sections de classement et FAQ.
 - **Lead/chapô** 40-60 mots = **réponse directe** dès la première phrase.
 - **TL;DR / résumé IA** : 3-5 bullets chiffrés dans le frontmatter (jamais en dur dans le corps).
 - **≥ 70 % des H2 en QUESTION stricte** (Faut-il / Quel / Comment / Pourquoi / Est-ce que / Quand / Où / « X vs Y »). 30 % factuels (pas de clickbait).
@@ -85,6 +86,7 @@ Miroir FR + EN : slug naturel par langue, FAQ traduite, acronymes belges explici
 - [ ] **Frontière des assets respectée** : ne duplique pas le head nu « les meilleurs X / top X » (= classement) ni « comparer X » (= comparateur) ni « quel X choisir » (= choisir) ; variantes persona/long-tail + « X vs Y » OK ; maille vers l'asset.
 - [ ] Page classement (si c'est l'objet) **≥ 1000 mots**.
 - [ ] H1 ≤ 60 car. ; lead = réponse directe.
+- [ ] **Accord en genre** : adjectifs/déterminants/participes accordés au genre réel de l'entité (`niche.config.entityGender`) ; aucun masculin par défaut sur une entité féminine (H1, titres, metadata, intros, classement, FAQ).
 - [ ] ≥ 70 % H2 en question ; Answer-Explanation-Example par H2.
 - [ ] ≥ 3 signaux d'Expérience ; sources datées .be.
 - [ ] FAQ 6-7 ; TL;DR 3-5 bullets ; tableau comparatif si comparaison de marques/modèles ; 2-4 liens internes valides.
