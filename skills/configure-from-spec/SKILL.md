@@ -1,7 +1,7 @@
 ---
 name: configure-from-spec
-version: 2.6.2
-description: Configure un nouveau site fork-é depuis emd-template À PARTIR D'UN FICHIER SPEC pré-rempli par le wizard nano-mentionbox. Lit `init-spec.md`, analyse les exports Semrush dans `semrush-exports/` pour clusteriser et déterminer l'arborescence (categories), écrit `niche.config.ts` + tous les `content/*` (miroir si N langues), compose une DA UNIQUE via le SYSTÈME DE VARIANTES (suggestVariants/suggestFonts/palette preset seedés sur le domaine — jamais un clone d'un autre site), bâtit l'arborescence + un seed BILINGUE (FR + miroir EN + mapping i18n), commit le site, PUIS génère TOUTES les images À LA FIN une par une (checklist EXHAUSTIVE via lib/image-slots.ts → getAllImageSlots, aucun slot oublié), et crée la scheduled task EN TOUT DERNIER (auto, sans confirmation). À utiliser SEULEMENT quand un init-spec.md fraîchement poussé par le wizard est présent à la racine et que l'utilisateur dit « configure le site depuis init-spec.md », « configure depuis la spec », « init from spec », « lance la configuration », « setup le repo ». Ne JAMAIS utiliser pour un site déjà configuré (niche.config.ts.market défini → init-site pour amender). Ne JAMAIS proposer si init-spec.md n'existe pas — proposer init-site.
+version: 2.7.0
+description: Configure un nouveau site fork-é depuis emd-template À PARTIR D'UN FICHIER SPEC pré-rempli par le wizard nano-mentionbox. Lit `init-spec.md`, analyse les exports Semrush dans `semrush-exports/` pour clusteriser et déterminer l'arborescence (categories), écrit `niche.config.ts` + tous les `content/*` (miroir si N langues), compose une DA UNIQUE via le SYSTÈME DE VARIANTES (suggestVariants/suggestFonts/palette preset seedés sur le domaine — jamais un clone d'un autre site), bâtit l'arborescence + un seed BILINGUE (FR + miroir EN + mapping i18n) + 1 classement seed, commit le site, PUIS génère TOUTES les images À LA FIN une par une (checklist EXHAUSTIVE via lib/image-slots.ts → getAllImageSlots, aucun slot oublié), et crée la scheduled task EN TOUT DERNIER (auto, sans confirmation). À utiliser SEULEMENT quand un init-spec.md fraîchement poussé par le wizard est présent à la racine et que l'utilisateur dit « configure le site depuis init-spec.md », « configure depuis la spec », « init from spec », « lance la configuration », « setup le repo ». Ne JAMAIS utiliser pour un site déjà configuré (niche.config.ts.market défini → init-site pour amender). Ne JAMAIS proposer si init-spec.md n'existe pas — proposer init-site.
 allowed-tools:
   - Read
   - Write
@@ -15,8 +15,18 @@ allowed-tools:
   - mcp__nano-mentionbox__github_push_images
 ---
 
-# configure-from-spec v2.6 — Configurer un site depuis un init-spec.md du wizard
+# configure-from-spec v2.7 — Configurer un site depuis un init-spec.md du wizard
 
+> **v2.6.2 → v2.7.0 (classement seed à l'init)** :
+> Le hub `/classement` du template est désormais **rempli dès l'init** (avant : placeholder « Aucun
+> classement publié »). On écrit **≥1 classement SEED** = le **head term** du cluster principal
+> (« meilleurs SUV », « meilleures néobanques »…), **data-driven (SERP)**, **≥1000 mots** : `intro` +
+> `sections` (H2 **EN QUESTIONS**, answer-first) + `items` notés/100 + `criteria` + `methodology` +
+> `sources` + `faq` 6-7 + `genre`, en **FR + miroir EN**, dans `content/data/classements.json`
+> (+ `.en.json`). Les autres clusters sont complétés par la boucle week-end **`emd-build-pages`**.
+> **NE JAMAIS recréer une archi `/classements` bespoke** (comme certains vieux sites) : on REMPLIT le
+> système EXISTANT du template (`/classement` + `/classement/[produit]`, `lib/classement.ts`).
+>
 > **v2.6.1 → v2.6.2 (accord en genre FR)** :
 > Renseigner **`niche.config.entityGender`** (`'m'` / `'f'`) selon le genre RÉEL de l'entité
 > (« néobanque » → `'f'`, « opérateur » → `'m'`, « assurance » → `'f'`…) — et `dealWordGender`
@@ -66,7 +76,7 @@ Sections Markdown + YAML : `## Identité`, `## Bloc 0` (marché+langues), `## Bl
 `market` valide · `locales[0]===defaultLocale` · `localePrefix as-needed` ⇒ N≥2 · email contact (STOP si absent) · slug auteur kebab-case. Regrouper les warnings.
 
 ## Étape 3 — Analyser Semrush (`semrush-exports/*.csv`)
-Agréger/dédoublonner · classer l'intent · clusteriser (5-10) · dériver `niche.config.ts.categories` TOUJOURS depuis les clusters. Par cluster : head term (KD≤50), longue traîne (vol 30-500), quick wins (KD≤30 & vol≥20), à éviter (vol 0 ou KD>70).
+Agréger/dédoublonner · classer l'intent · clusteriser (5-10) · dériver `niche.config.ts.categories` TOUJOURS depuis les clusters. Par cluster : head term (KD≤50), longue traîne (vol 30-500), quick wins (KD≤30 & vol≥20), à éviter (vol 0 ou KD>70). **Repérer le CLUSTER PRINCIPAL** (volume × intent) → son head term sera le **classement seed** (étape 13bis).
 
 ## Étape 4 — Écrire `niche.config.ts`
 Mapping spec → config. Dériver entity/entities/heroPrefix/rotatingWords des clusters. TODO seulement si ambigu.
@@ -115,11 +125,33 @@ En tête : règle SERP-first obligatoire. 50 articles classés par priorité (vo
 - **Titres FR accordés au genre** (`entityGender`) : « Les **meilleures** néobanques », jamais « meilleurs ».
 - **Vérifier** : le sélecteur de langue fonctionne (mapping présent), hreflang réciproque sur le seed.
 
+## Étape 13bis — Classement SEED (asset GEO #1, dans le système EXISTANT du template)
+
+On **remplit** le système de classement déjà présent dans le fork (`/classement` + `/classement/[produit]`,
+`lib/classement.ts`, `components/classement/ClassementList`) — **JAMAIS recréer une archi `/classements`
+bespoke**. Écrire **1 classement SEED** dans `content/data/classements.json` (+ miroir `classements.en.json`
+si `locales ≥ 2`) :
+
+- **slug + label** = le **head term du cluster principal** (étape 3), p. ex. `meilleurs-suv` / « SUV »,
+  `meilleures-neobanques` / « Néobanques ». C'est l'asset qui **possède le head nu** (anti-cannibalisation :
+  le blog n'écrit pas ce head term, il **maille vers** le classement).
+- **`genre`** du label ('m'/'f') pour l'accord du titre.
+- **`items`** : Top 5-8 réels, **recherche SERP dédiée** (sources datées, prix marché), chacun avec
+  `rank`, `nom`, `score` (noté /100), `badge`/`bestFor`, `verdict`, `pros`/`cons`, `prix`, `url` (lien NEUTRE, jamais affilié).
+- **`intro`** (answer-first) + **`sections`** : 3-5 blocs d'analyse long-form où **`q` est un H2 FORMULÉ EN
+  QUESTION** (≥70% des H2) et `body` la réponse answer-first (1re phrase = réponse). + **`tldr`** (3-5 puces)
+  + **`criteria`** + **`methodology`** + **`sources`** + **`faq`** 6-7. **Cible : ≥ 1000 mots** au total.
+- **FR + miroir EN strict** (même slug, parité — cf. `tests/i18n-parity.test.ts`).
+
+Le hub `/classement` (+ nav/sitemap) se câble **automatiquement** dès qu'une entrée existe (rien à coder).
+Vérifier : `/classement` liste le seed, `/classement/[slug]` rend Top + sections + FAQ + JSON-LD ItemList/FAQPage.
+Les **autres clusters** → laissés à la boucle week-end **`emd-build-pages`** (1 classement/cluster, même gabarit).
+
 ---
 
 ## Étape 14 — Commit atomique du SITE (code + contenu, AVANT les images)
 
-UN commit : `niche.config.ts` + `content/*` + DA (`globals.css`/`layout.tsx`) + seed bilingue + mapping i18n + previews dépubliées. **Le site est déjà déployable** (placeholders d'images temporaires en attendant l'étape 15). Conventional Commits anglais.
+UN commit : `niche.config.ts` + `content/*` (dont `content/data/classements.json` + `.en.json` du seed) + DA (`globals.css`/`layout.tsx`) + seed bilingue + mapping i18n + previews dépubliées. **Le site est déjà déployable** (placeholders d'images temporaires en attendant l'étape 15). Conventional Commits anglais.
 
 ---
 
@@ -166,7 +198,7 @@ par slot**, jamais un simple total.
 ---
 
 ## Étape 16 — PROGRESS.md + DECISIONS.md
-Documenter : variante + permutations + palette + typo retenues (et **pourquoi elles divergent** des voisins), **genre de l'entité (`entityGender`)**, seed bilingue, **images générées/placeholder SLOT PAR SLOT** (depuis `getAllImageSlots()`), previews dépubliées.
+Documenter : variante + permutations + palette + typo retenues (et **pourquoi elles divergent** des voisins), **genre de l'entité (`entityGender`)**, **classement seed (slug + head term)**, seed bilingue, **images générées/placeholder SLOT PAR SLOT** (depuis `getAllImageSlots()`), previews dépubliées.
 
 ---
 
@@ -174,12 +206,12 @@ Documenter : variante + permutations + palette + typo retenues (et **pourquoi el
 
 **DERNIÈRE action**, une fois le site complet (code + images). **La spec vaut CONSENTEMENT → créer la tâche
 AUTOMATIQUEMENT, SANS demander confirmation** (un run nocturne ne doit JAMAIS bloquer ici).
-Gabarit canonique **`docs/SCHEDULED-TASK-REDACTION.md`** : remplacer les `[placeholders]` depuis `niche.config.ts` + la spec (byline = auteur **prénom seul / prénom + initiale**, jamais de nom de famille ni « la rédaction » ; titres **accordés au genre**).
+Gabarit canonique **`docs/SCHEDULED-TASK-REDACTION.md`** : remplacer les `[placeholders]` depuis `niche.config.ts` + la spec (byline = auteur **prénom seul / prénom + initiale**, jamais de nom de famille ni « la rédaction » ; titres **accordés au genre** ; articles **maillent vers le classement** pour le head term).
 - TaskId : `[repoName]-article-daily` · Cron : cadence Bloc 3 (`0 8 * * *` défaut).
 Si la création de tâche échoue (API indispo) → log « tâche à créer » dans PROGRESS, **ne pas bloquer** : le site est déjà livré.
 
 ## Étape 18 — Récap utilisateur
-Marché/locales · clusters/categories · **DA : variante + permutations + palette + typo (divergentes)** · **genre entité (`entityGender`)** · **auteur (prénom seul / prénom + initiale, jamais de nom de famille)** · seed bilingue (LangSwitch OK) · **images SLOT PAR SLOT (générées / placeholder)** depuis `getAllImageSlots()` + covers seed · scheduled task créée · lien repo.
+Marché/locales · clusters/categories · **DA : variante + permutations + palette + typo (divergentes)** · **genre entité (`entityGender`)** · **auteur (prénom seul / prénom + initiale, jamais de nom de famille)** · seed bilingue (LangSwitch OK) · **classement seed (head term, ≥1000 mots, FR+EN)** · **images SLOT PAR SLOT (générées / placeholder)** depuis `getAllImageSlots()` + covers seed · scheduled task créée · lien repo.
 
 ---
 
@@ -188,6 +220,7 @@ Marché/locales · clusters/categories · **DA : variante + permutations + palet
 - **DA = système de variantes, JAMAIS un clone** : `layouts` + `permutations` + `palette` + typo écrits, dérivés du **seed domaine** ; interdiction de copier un site voisin ; check de divergence.
 - **Genre : `entityGender` renseigné au genre RÉEL** ('m'/'f' ; + `dealWordGender` si besoin ; + `genre` par classement dans `classements.json`) — sinon accords FR faux (« meilleurs néobanques »). Le template accorde via `lib/utils/grammar.ts`.
 - **Auteur = PRÉNOM SEUL ou prénom + initiale, JAMAIS de nom de famille inventé** (`name` = prénom [+ initiale], `slug` = kebab du prénom) ; byline de tout le site cohérente.
+- **Classement SEED dès l'init** dans le système EXISTANT du template (`content/data/classements.json` + `.en.json`) : head term du cluster principal, ≥1000 mots (intro + `sections` H2 questions + items notés + critères + méthodo + sources + FAQ), `genre`, FR+EN. **JAMAIS d'archi `/classements` bespoke.** Reste des clusters → boucle week-end `emd-build-pages`.
 - **Seed BILINGUE dès N≥2** : FR + miroir + mapping i18n (LangSwitch/hreflang OK). Sinon échec d'init.
 - **Images À LA FIN, une par une** : worklist = `lib/image-slots.ts` (`getAllImageSlots()`) + 1 cover/seed + 2 réemplois in-content ; **aucun slot oublié** (vérif `github_list_files` en fin) ; échec → placeholder + log précis du slot + continuer. **JAMAIS** de liste d'images en dur.
 - **Scheduled task EN DERNIER, AUTO sans confirmation** (provisionnement autonome).
@@ -195,5 +228,5 @@ Marché/locales · clusters/categories · **DA : variante + permutations + palet
 
 ## Lien avec les autres skills / docs
 `nouveau-site` (routeur) · `init-site` (sans spec — même doctrine) · `integrate-claude-design` (étape 12 cas A) ·
-`docs/AUTO-DESIGN.md` + `lib/variants.ts` + `lib/typography.ts` (DA) · `docs/IMAGES-WORKFLOW.md` + `lib/image-slots.ts` (registre images) · `lib/utils/grammar.ts` (accords FR genre/nombre) ·
-`docs/SCHEDULED-TASK-REDACTION.md` · `seo-geo-redaction` + `ton-of-voice` + `humaniser-fr`.
+`docs/AUTO-DESIGN.md` + `lib/variants.ts` + `lib/typography.ts` (DA) · `docs/IMAGES-WORKFLOW.md` + `lib/image-slots.ts` (registre images) · `lib/utils/grammar.ts` (accords FR genre/nombre) · `lib/classement.ts` + `components/classement/ClassementList` (classements — système template) ·
+`docs/SCHEDULED-TASK-REDACTION.md` · `seo-geo-redaction` + `ton-of-voice` + `humaniser-fr` · boucle `emd-build-pages` (complète les classements).
