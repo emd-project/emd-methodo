@@ -1,6 +1,6 @@
 ---
 name: humaniser-fr
-version: 1.1.1
+version: 1.1.2
 description: Détecte ET prévient les marqueurs de rédaction par IA dans tout texte français. À utiliser dans DEUX cas. (1) Mode production : quand l'utilisateur demande à Claude de produire du contenu en français — « rédige un article », « écris une fiche produit », « crée une page À propos », « rédige la FAQ », « génère le texte de », « fais-moi un comparatif », « produis un brief », « compose un titre SEO », « rédige l'intro », « écris une newsletter ». Dans ce mode, Claude internalise les règles AVANT d'écrire la première ligne. (2) Mode review : quand l'utilisateur fait relire un texte existant — « humanise ce texte », « ça sonne IA », « ça sent ChatGPT », « retire les tics IA », « relis cet article SEO ». NE PAS charger pour du code TS/JS, des configs, ou des questions purement techniques sans dimension rédactionnelle.
 allowed-tools:
   - Read
@@ -29,6 +29,7 @@ Procédure courte :
    - Donner au moins un fait concret (chiffre, date, nom propre, source) par paragraphe — pas du remplissage adjectival.
    - Interdire *véritable* antéposé, les triades systématiques, et les conclusions positives génériques (*l'avenir s'annonce prometteur*).
    - Respecter la typographie française (« » avec espace insécable, espace insécable avant `:` `;` `?` `!`, accents sur majuscules : *À, É, È, Ê, Ô*).
+   - **Accord en genre/nombre.** Respecter le genre réel des noms (entité de la niche : `niche.config.entityGender`). Une faute d'accord (« meilleurs néobanques », « le néobanque ») est un défaut BLOQUANT : relire et corriger participes, adjectifs, déterminants, possessifs avant publication.
 3. **Écrire directement propre.** Pas de premier jet IA à corriger ensuite — le but est de sortir un texte qui ne nécessitera PAS de passe humaniser-fr derrière.
 4. **Audit interne** avant de livrer : appliquer en silence les cinq tests rapides ci-dessous (verbe être, connecteur d'ouverture, opinion, chiffres concrets, *véritable*). Corriger ce qui sonne encore IA.
 5. **Livrer.**
@@ -467,6 +468,7 @@ Applicable quand l'utilisateur te donne un texte existant à humaniser. En mode 
    - Les structures de phrase varient ?
    - Y a-t-il au moins un fait concret par paragraphe ?
    - La typographie française est correcte (« », espaces insécables, accents) ?
+   - **Les accords en genre/nombre sont corrects** (participes, adjectifs, déterminants, possessifs accordés au genre réel des noms, notamment l'entité de la niche) ?
    - Le registre est tenu de bout en bout, pas un patchwork ?
 6. **Présente une première version humanisée.**
 7. **Audit final** : se demander *qu'est-ce qui sonne encore IA dans ce texte ?* Répondre brièvement, en trois à cinq puces.
@@ -544,4 +546,3 @@ En cas de doute, demande à l'utilisateur le registre attendu avant d'appliquer.
 ## Pour aller plus loin
 
 Ce skill s'inspire d'observations terrain sur les contenus français générés par IA, des guides publics francophones (Wikipedia FR — *Identifier l'usage d'une IA générative*, *Projet Observatoire des IA*) et de la communauté open source des skills anti-IA (notamment *alxbd/boileau* et *blader/humanizer*, à consulter en complément). Le texte de ce SKILL.md, ses exemples et son organisation sont propres au template emd-template.
-</content>
