@@ -1,116 +1,111 @@
 # Audit QA — DA · UX · Images · Responsive · A11y
 
-**Date :** 2026-06-19 · **Mode :** lecture seule · **Doctrine :** `skills/emd-audit/SKILL.md` v1.5.0
-**Périmètre :** 8 sites au statut *Live* / *Configuré* de `pipeline/sites.csv`
-**Principe appliqué :** auditer le **rendu réel** (logo inline du `Nav.tsx`, `app/icon`, `app/opengraph-image`, tokens réellement servis), pas le fichier au bon nom.
+**Date :** 2026-06-28 · **Mode :** lecture seule · **Doctrine :** `skills/emd-audit/SKILL.md` v1.5.0
+**Périmètre :** 11 sites au statut *Live* / *Configuré* de `pipeline/sites.csv`
+**Principe appliqué :** auditer le **rendu réel** (logo SVG inline du `Nav.tsx`/`Header.tsx`, `app/icon`, `app/opengraph-image`, tokens réellement servis), pas le fichier au bon nom.
 
-> 🔧 **Révision 2026-06-19 (post-revue propriétaire)** : le verdict « zéro scroll horizontal » de la 1ʳᵉ passe était **faux**. Après re-vérification du code, un **bug de scroll horizontal de la barre de navigation** est confirmé sur `meilleure-voiture.be`, `meilleur-suv.be`, `meilleure-voiture-familiale.be` et `meilleure-voiture-electrique`. Voir §1.bis. Scorecard, détail et actions mis à jour en conséquence.
+> ✅ **Progrès nets depuis la passe du 2026-06-19.** (1) **L'éclair réseau générique a disparu** : `meilleure-voiture.be` et `meilleur-fournisseur-energie-be` rendent désormais des marks sur mesure (voiture / flamme) — la paire footprint n°1 est résolue. (2) `meilleur-suv.be` a **patché son scroll horizontal** (`app/styles/volteo-overrides.css`, commentaire « FIX nav mobile audit ux 2026-06-19 »). (3) `meilleure-voiture-electrique` a **réparé le responsive** (burger ≤960px + garde `overflow-x:clip`), **réaligné son OG/favicon sur le bleu froid** et rendu `<html lang>` dynamique. (4) `meilleure-carte-credit.be` a **réaligné son OG** (papier, plus le néon V1) et rempli son contenu (12 articles). Le réseau est globalement plus propre ; les flags restants sont ciblés.
 
-> ⚠️ **Note méthodo** : `docs/DA-DIRECTIONS.md` est introuvable (ni dans `emd-methodo`, ni dans les repos de sites). La conformité « une des 5 directions » a donc été évaluée par la **cohérence palette+fonts+mode+forme** et le caractère **muté/unique** du skin, pas par correspondance nominale à une direction cataloguée. À recréer pour fiabiliser ce critère.
+> ⚠️ **Note méthodo (inchangée).** `docs/DA-DIRECTIONS.md` reste **introuvable** (dossier `docs/` vide dans `emd-methodo`). La conformité « une des 5 directions » est donc évaluée par la **cohérence palette+fonts+mode+forme** et le caractère **muté/unique** du skin, pas par correspondance nominale. **Action méthodo : (re)créer `docs/DA-DIRECTIONS.md`** pour fiabiliser ce critère.
+
+> ➕ **3 sites entrent au périmètre** depuis le 19/06 : `meilleure-voiture-utilitaire.be` (Live), `meilleure-voiture-7-places.be` (Live) et `meilleure-neobanque.be` (Configuré).
 
 ---
 
 ## 1. Scorecard
 
-Légende : ✅ conforme · ⚠️ à surveiller · ❌ bloquant/flag fort
+Légende : ✅ conforme · ⚠️ à surveiller · ❌ bloquant / flag fort
 
 | Site | Statut | DA / Direction | Logo (mark inline) | Tokens / Palette | OG + Favicon | Images | Responsive | A11y / `lang` |
 |---|---|---|---|---|---|---|---|---|
-| meilleure-voiture.be | Live | ✅ « Auto Naval » muté | ❌ **éclair générique** | ⚠️ `globals.css` accents = défaut template | ⚠️ OG ✅ / **favicon non servi** | ✅ next/image | ❌ **scroll horizontal nav (mobile)** | ✅ `lang` dynamique |
-| meilleur-suv.be | Live | ✅ « Carbone » au rendu / ❌ config désynchro | ✅ hexagone sur mesure | ⚠️ dark-only, `niche.config` = défaut | ✅ OG + icon.svg | ❌ blog ~vide (1 draft) | ❌ **scroll horizontal nav (mobile)** | ⚠️ `lang="fr"` figé (bilingue) |
-| meilleure-voiture-familiale.be | Configuré | ✅ « Tribu » muté | ✅ maison sur mesure | ⚠️ `globals.css` accents = défaut template | ✅ OG + icon.svg | ❌ tous `.mdx` à 0 octet | ❌ **scroll horizontal nav (mobile)** | ⚠️ `lang="fr"` figé (bilingue) |
-| meilleure-voiture-electrique | Live | ✅ bleu muté (build sur-mesure) | ✅ wordmark MVE | ✅ accents réécrits | ❌ **OG + icon = ancienne DA chaude** | ⚠️ pas de cover d'article | ❌ **scroll horizontal nav (768–900px)** | ✅ `lang` dynamique (fr-BE/en-BE) |
-| quel-operateur-choisir.be | Live | ✅ « Signal » muté | ✅ barres-signal sur mesure | ✅ via `overrides.css` | ✅ OG + icon.svg | ✅ featureImage + next/image | ✅ (garde `overflow-x: clip`) | ⚠️ `lang="fr"` figé (bilingue) |
-| meilleur-fournisseur-energie-be | Live | ❌ **skin V1 défaut non muté** | ❌ **éclair générique** | ❌ palette = défaut `#3D5AFE` | ✅ OG / ⚠️ icon = éclair | ⚠️ cartes « related » en placeholder | ✅ (garde `overflow-x: clip`) | ⚠️ i18n incohérent (config FR vs LangSwitch EN) |
-| meilleures-assurances-auto.be | Live | ✅ « Serenity » muté | ✅ bouclier sur mesure | ✅ accents réécrits, triple thème | ✅ OG + icon + apple-icon | ✅ cover + next/image | ✅ | ⚠️ `lang="fr"` figé (mono-locale, OK) |
-| meilleure-carte-credit.be | Live | ✅ « Papier » muté | ✅ monogramme M sur mesure | ✅ accents réécrits | ❌ **OG = défaut template V1 néon** | ⚠️ contenu = `_example` draft | ✅ (garde `overflow-x: clip`) | ⚠️ `lang="fr"` figé (bilingue) |
+| meilleure-voiture.be | Live | ✅ « Auto Naval » muté | ✅ **mark voiture sur mesure** | ⚠️ `globals.css` néon défaut non muté (volteo surcharge) | ✅ OG niche + `icon.svg` | ✅ next/image, uniques | ❌ **scroll horizontal nav (confirmé 3/3)** | ✅ `lang` dynamique |
+| meilleur-suv.be | Live | ✅ « Carbone » dark | ✅ hexagone sur mesure | ✅ muté partout | ✅ OG + `icon.svg` | ⚠️ 3 `.mdx` vides + 1 img in-body générique | ✅ **patché** (`volteo-overrides.css`) | ⚠️ `lang="fr"` figé (fix client) |
+| meilleure-voiture-familiale.be | Live | ✅ « Tribu » (signature vide) | ✅ maison/toit sur mesure | ⚠️ `globals.css` néon + catégories désync | ⚠️ OK / **jpeg orphelin à la racine** | ✅ uniques + coverAlt | ❌ **scroll horizontal nav (probable)** | ✅ `lang` réécrit par script |
+| meilleure-voiture-utilitaire.be | Live | ⚠️ « Graphite copper » (token leak) | ✅ van/fourgon sur mesure | ❌ **`globals` néon réimposé en dark** (≠ niche.config) | ⚠️ `icon.svg` OK / pas `.ico`/`.png` + **jpeg orphelin racine** | ✅ uniques | ⚠️ risque (manque `overflow-x:clip`) | ⚠️ `lang="fr"` figé |
+| meilleure-voiture-7-places.be | Live | ⚠️ « Sable chaleureux » (token leak) | ✅ arche-famille sur mesure | ⚠️ `.news` rendue **verte hors DA** + radius soft/`sharp` incohérent | ⚠️ `icon.svg` OK / pas `.ico`/`.png` | ✅ uniques, next/image | ⚠️ risque (manque `overflow-x:clip`) | ❌ **`lang="fr"` figé sans fix** (sert `/en` en `fr`) |
+| meilleure-voiture-electrique | Live | ✅ bleu froid (build sur-mesure) | ✅ wordmark typo MVE | ✅ mutés à la source | ✅ **OG bleu réaligné** + `icon.svg` | ⚠️ **couvertures non uniques** (1 cover partagée) | ✅ **fix ≤960px + clip** | ✅ `lang` dynamique (fr-BE/en-BE) |
+| quel-operateur-choisir.be | Live | ✅ « Signal » violet | ✅ barres-signal sur mesure | ⚠️ skin indigo non muté (`globals`, masqué par `overrides.css`) | ⚠️ OG OK / **`icon.svg` teintes pastel divergentes** | ⚠️ `#FF3D57` en dur (`RecentArticles.tsx`) | ✅ `clip` + tables wrappées | ⚠️ `lang="fr"` figé (fix client) |
+| meilleur-fournisseur-energie-be | Live | ✅ « Cuivre » (Énerwatt) | ✅ **flamme sur mesure** | ⚠️ `#3D5AFE`/`#CCFF48` dans `globals` (masqué par `overrides.css`) | ✅ **OG dynamique aligné** + `icon.svg` | ✅ 26 covers réelles + alt | ✅ `clip` + tables wrappées | ⚠️ `lang="fr"` figé (div `/en`) |
+| meilleures-assurances-auto.be | Live | ✅ « Sérénité » émeraude | ✅ bouclier + check | ✅ muté | ✅ OG + `icon` + `apple-icon` | ✅ cover + next/image | ✅ | ✅ `lang="fr"` figé (mono-locale, OK) |
+| meilleure-carte-credit.be | Live | ✅ « Éditorial papier » | ✅ monogramme « M » | ✅ muté (hex cohérents/intentionnels) | ✅ **OG papier réaligné** + `icon.svg` + `favicon.ico` | ✅ 12 articles réels | ✅ `clip` + tables | ✅ `lang` dynamique |
+| meilleure-neobanque.be | Configuré | ❌ **skin néon défaut non muté + Space Grotesk (interdit réseau)** | ⚠️ **3 barres génériques** (≈ mark moteur Voltéo) | ❌ palette défaut + `globals @theme` valeurs littérales `#FF3D57…` | ✅ mécanique token-driven | ⚠️ 1 seul vrai article | ✅ patché (`volteo-overrides.css`) | ⚠️ `lang="fr"` figé (bilingue) |
 
 ---
 
-## 1.bis. Responsive — bug de scroll horizontal de la barre de nav (confirmé)
+## 1.bis. Responsive — état du scroll horizontal de la barre de nav
 
-**Symptôme :** scroll horizontal de la page sur mobile (et tablette), barre de nav trop large (logo + menu/CTA qui débordent).
+Rappel du bug (template V1 « auto ») : `.nav-cta` rendu en `display:flex` **inline** dans `Nav.tsx`, jamais masqué ; la seule media query mobile masque `.nav-links` mais **pas** `.nav-cta` ; et **aucun garde** `html,body{overflow-x:clip}`. Trois conditions réunies = scroll horizontal réel de la page sur mobile.
 
-### Template V1 « auto » — `meilleure-voiture.be`, `meilleur-suv.be`, `meilleure-voiture-familiale.be`
-Code de nav **identique** sur ces trois sites (`components/layout/Nav.tsx` + `app/styles/volteo.css`).
-- Dans `Nav.tsx`, le cluster CTA est rendu en **inline style** : `<div className="nav-cta" style={{ display: 'flex', … }}>` (LangSwitcher + bouton pilule « Comparer », ce dernier en `white-space: nowrap`).
-- La seule media query mobile de `volteo.css` est :
-  ```css
-  @media (max-width: 940px) {
-    .nav-links { display: none; }
-    .nav-burger { display: block; }
-  }
-  ```
-  → elle masque **uniquement** `.nav-links`. **`.nav-cta` n'est jamais masqué** ; et même une règle `.nav-cta{display:none}` serait sans effet car le `display:flex` **inline** du composant l'emporte sur la feuille de style.
-- Résultat sur 320–375px : la rangée = `.logo` (mark 32px + nom du site à 22px/800, sans troncature/wrap) **+ LangSwitcher + bouton « Comparer » (nowrap) + burger**, séparés par `gap: 32px`. La somme dépasse la largeur du viewport.
-- **Aucun garde** `html, body { overflow-x: clip }` dans `globals.css`/`volteo.css` de ces sites → le débordement devient un **scroll horizontal réel de la page**.
-- **Correctifs possibles :** (a) retirer le `display:flex` inline de `.nav-cta` et le masquer en CSS sous 940px (le CTA + la langue sont déjà repris dans `.mobile-menu`) ; (b) ajouter `html,body{overflow-x:clip}` comme filet ; (c) réduire le logo et autoriser le wrap/troncature du nom.
+| Site (template V1) | `.nav-cta` masqué <940px ? | garde `overflow-x:clip` ? | Verdict |
+|---|---|---|---|
+| meilleur-suv.be | ✅ oui (`volteo-overrides.css`) | ✅ oui | ✅ **corrigé** |
+| meilleure-voiture.be | ❌ non (flex inline) | ❌ non | ❌ **scroll horizontal confirmé (3/3)** |
+| meilleure-voiture-familiale.be | ❌ non (flex inline) | ❌ non | ❌ **probable** (mêmes conditions) |
+| meilleure-voiture-utilitaire.be | ✅ oui (media query masque `.nav-cta`) | ❌ non | ⚠️ risque résiduel (1/3) |
+| meilleure-voiture-7-places.be | ✅ oui (media query masque `.nav-cta`) | ❌ non | ⚠️ risque résiduel (1/3) |
 
-### Build sur-mesure — `meilleure-voiture-electrique`
-- Le header `.hdr` (`components/layout/Header.tsx`) ne bascule en burger qu'à **≤767px** :
-  ```css
-  @media (max-width: 767px) { .hdr-nav { display: none; } .hdr-right { display: none; } }
-  ```
-- Mais la rangée desktop complète (`.hdr-logo` + 5 liens « Modèles A–Z / Comparateur / Classements / Simulateurs / Blog » + LanguageSwitcher + CTA « Comparer → ») représente **~900px de contenu**, sans `flex-wrap`.
-- Donc dans la bande **768–~900px** (iPad portrait, petits laptops), le menu desktop **déborde** ; et là aussi **aucun** `overflow-x: clip` sur `body` → scroll horizontal. (Le `.hero-halo-da` de 900px est, lui, correctement clippé par `.hero { overflow: hidden }` — ce n'est pas la cause.)
-- **Correctif :** remonter le breakpoint burger (p. ex. `≤1024px` ou `≤900px`) pour que le menu se replie avant de déborder, + filet `overflow-x: clip`.
+**Build sur-mesure `meilleure-voiture-electrique` :** ✅ corrigé — burger remonté à **≤960px** (`app/responsive-fix.css`) + garde `html,body{overflow-x:clip;max-width:100%}`. (Réserve cosmétique : `MobileNav.tsx` ferme le drawer à `min-width:768px`, léger désaccord avec le breakpoint CSS 960px, non bloquant.)
 
-### Pourquoi les autres sites passent
-`quel-operateur-choisir.be`, `meilleur-fournisseur-energie-be` et `meilleure-carte-credit.be` embarquent un **garde `html, body { overflow-x: clip; max-width: 100% }`** (dans `app/overrides.css` / `globals.css`) qui neutralise tout débordement résiduel. C'est précisément ce filet qui **manque** aux 3 sites « auto » V1 et au build électrique.
+**Le fix de référence existe déjà** (suv) : retirer/masquer le `.nav-cta` inline sous 940px + ajouter le garde `overflow-x:clip`. Il suffit de le **propager** à `meilleure-voiture.be` et `meilleure-voiture-familiale.be` (bloquants) et d'ajouter le **filet `overflow-x:clip`** à utilitaire + 7-places.
 
 ---
 
 ## 2. Détail par site (trié par sévérité)
 
-### ❌ meilleur-fournisseur-energie-be — *DA non assumée + logo éclair*
-- **DA générique (bloquant)** : pas de `volteo.css` ni de bloc de surcharge ; `globals.css :root` conserve le **skin V1 « Électrique » par défaut** (`--primary: #3D5AFE`, vars `--elec/--gaz/--green/--water/--mobi` brutes). Palette **non mutée** — exactement le « skin générique/brut » que la doctrine demande de flagger.
-- **Logo = éclair réseau** : `Nav.tsx` rend `d="M13 2 4.5 13.5H11l-1 8.5L19.5 10H13l0-8Z"` — l'éclair par défaut. Repris à l'identique dans `app/icon.svg`.
-- **i18n incohérent** : `niche.config.locales: ['fr']` mais `Nav` rend un `LangSwitch → EN` inconditionnel et un dossier `app/en` existe ; `lang="fr"` figé.
-- **Images** ⚠️ : 20 articles réels avec `featureImage` `.webp` en `next/image` ✅, mais les cartes « related » affichent un `<ImagePlaceholder>` rayé au lieu de la vraie cover.
-- ✅ Responsive : garde `overflow-x: clip`, tables wrappées, reduced-motion — pas de scroll horizontal.
+### ❌ meilleure-neobanque.be (Configuré) — *seul site sans direction DA assumée*
+- **DA non mutée (bloquant)** : `niche.config.ts` porte la palette **néon « premium-dark-fintech » générique** (`#7B6CFF / #2FE6B0 / #5BB0FF / #FF9F6B / #C9A6FF` sur `bgPrimary #0B0F17`) et la fonte **Space Grotesk**, **explicitement interdite** par la signature réseau (cf. `forbidden` de `meilleure-voiture-electrique`). Pire : `app/globals.css @theme` garde encore les **valeurs template littérales** `#FF3D57/#FFD23F/#3DFFC0/#7B61FF` + `bg #0A0A0F`. Skin **brut, non dé-templatisé** = exactement ce que la doctrine demande de flagger.
+- **Logo générique** ⚠️ : `Nav.tsx` rend **3 barres `<rect>`** ascendantes, identiques au `.logo .mark` du moteur Voltéo ; repris dans `app/icon.svg`. Pas un vrai mark sur mesure.
+- **A11y** ⚠️ : `<html lang="fr" data-theme="dark">` **figé** alors que `locales:['fr','en']`.
+- **Images** ⚠️ : un seul vrai article (`comparatifs/meilleures-neobanques-belgique-2026.mdx`, cover OK). L'article référence `/images/blog/category-comparatifs.webp` (seul `public/images/categories/comparatifs.webp` confirmé) → **risque d'image inline cassée à vérifier**. Site neuf, attendu.
+- **Auteur** ⚠️ : `author.name = "Maxime"` (prénom seul) pour le slug `maxime-vanderlinden`.
+- ✅ Responsive patché (`volteo-overrides.css`), OG token-driven, favicon servi.
 
-### ❌ meilleure-voiture.be — *scroll horizontal nav + logo éclair + favicon non servi + split palette*
-- **Responsive (bloquant)** : scroll horizontal sur mobile — `.nav-cta` (LangSwitcher + « Comparer ») en `display:flex` inline jamais masqué + pas de garde `overflow-x`. Cf. §1.bis.
-- **Logo = éclair réseau** : `Nav.tsx` rend l'éclair générique `M13 2 4.5 13.5H11l-1 8.5L19.5 10H13l0-8Z` (fill naval, mais **forme par défaut**). Contredit une DA « Auto Naval » par ailleurs soignée.
-- **Favicon non servi** : `app/` ne contient ni `icon.svg`, ni `icon.png`, ni `favicon.ico` (seulement `opengraph-image.tsx`).
-- **Split-brain palette** ⚠️ : `volteo.css` reçoit la surcharge « Auto Naval » (`--primary #1C3FAA`) ✅, mais `globals.css :root`/`@theme` garde les **accents par défaut** (`#FF3D57` dark / `#C8001F` light) → liens `prose-article`, lettrine, aurora rendent en rouge générique.
-- ✅ Bon : seule occurrence de `lang={locale}` **dynamique** parmi les sites V1 ; palette `niche.config` mutée, author Julien Vanderhaeghe, `signature.components` remplis, next/image.
+### ❌ meilleure-voiture.be — *scroll horizontal nav (confirmé) + split-palette globals*
+- **Responsive (bloquant)** : 3/3 — `.nav-cta` `display:flex` inline + media query qui ne masque que `.nav-links` + absence de garde `overflow-x:clip`. Scroll horizontal mobile **confirmé**.
+- **Split-brain palette** ⚠️ : DA « Auto Naval » dans le 2ᵉ `:root` de `volteo.css` (`--primary:#1C3FAA`), mais `globals.css` garde les néons template `#FF3D57/#FFD23F/#3DFFC0/#7B61FF` (+ light `#C8001F`).
+- ✅ **Progrès** : logo **mark voiture sur mesure** (plus d'éclair) ; OG palette niche ; `icon.svg` ; `lang` dynamique ; 22 visuels next/image.
 
-### ❌ meilleure-carte-credit.be — *OG = template par défaut + lang figé + contenu vide*
-- **OG footprint (bloquant)** : `app/opengraph-image.tsx` = **template V1 par défaut** (fond `#0A0A0F`, néon `#FF3D57 / #7B61FF / #3DFFC0`, watermark `#FFD23F`). Déconnecté de la DA « papier » et **fingerprintable**.
-- **`lang="fr"` figé** sur site bilingue (FR + `/en/`).
-- **Contenu** ⚠️ : seulement `_example(.fr).mdx` `draft`, `featureImage: ""` vide.
-- ✅ Responsive : garde `overflow-x: clip`, tables scrollables. Palette papier mutée, monogramme « M » sur mesure, favicon.ico + icon.svg.
+### ❌ meilleure-voiture-utilitaire.be — *globals néon réimposé en dark*
+- **Tokens (bloquant fonctionnel)** : `html[data-theme="dark"]` (mode du site) **réimpose** les néons template sur `--accent-*` → la palette copper de `niche.config` (`#E0913C`) ne s'applique pas au runtime.
+- **Responsive** ⚠️ : `.nav-cta` masqué <940px mais **pas de garde** `overflow-x:clip`.
+- **A11y** ⚠️ : `<html lang="fr">` figé alors que `/en` existe.
+- **Résidus** : pas de `.ico`/`.png` ; **jpeg orphelin à la racine**.
+- ✅ Logo van sur mesure ; OG palette site ; featureImages uniques, MDX pleins.
 
-### ❌ meilleure-voiture-familiale.be — *scroll horizontal nav + contenu inexistant*
-- **Responsive (bloquant)** : même code nav que `meilleure-voiture.be` → scroll horizontal mobile (`.nav-cta` inline non masqué, pas de garde `overflow-x`). Cf. §1.bis.
-- **Contenu** ❌ : tous les `.mdx` du blog à **0 octet** (blobs vides). Aucun article rédigé.
-- **`globals.css` accents = défaut template** (`#FF3D57`/`#C8001F`) non réécrits (split-brain ; DA visible portée par `volteo.css` muté « Tribu »).
-- **`lang="fr"` figé** (bilingue) ; `signature.components: []` vide.
-- ✅ Bon : palette mutée (sapin-teal `#0E7C66`, ivoire `#F4F1EA`), logo **maison sur mesure** (`M12 3 L21 11 H18 V20 H6 V11 H3 Z`), fonts Fraunces/Mulish, author Audrey Pirard, OG + icon.svg.
+### ❌ meilleure-voiture-7-places.be — *`lang` figé sans fix + `.news` hors DA*
+- **A11y (bloquant)** : `<html lang="fr">` figé bilingue **sans** fix script → `/en/*` servi en `fr`.
+- **Tokens** ⚠️ : `volteo.css` garde des tokens « énergie » → `.news` **verte `#1AA35F`** hors palette ; incohérence radius soft vs `shape:'sharp'`.
+- **Responsive** ⚠️ : `.nav-cta` masqué <940px mais pas de garde `overflow-x:clip`.
+- ✅ Logo arche-famille sur mesure ; globals propre (palette Sable dédupliquée) ; 6 featureImages uniques.
 
-### ❌ meilleur-suv.be — *scroll horizontal nav + config désynchronisée + blog vide*
-- **Responsive (bloquant)** : même code nav → scroll horizontal mobile (`.nav-cta` inline non masqué, pas de garde `overflow-x`). Cf. §1.bis.
-- **`niche.config.ts` désynchronisé** : annonce `mode:'light'`, palette **défaut générique** (`#FF3D57…`), fonts Bricolage/Hanken, `signature.components: []` **vide** — alors que le rendu réel est « Carbone » **dark**, cuivre `#E8A33D`, Space Grotesk/Inter. `niche.config` n'est plus la source de vérité.
-- **`lang="fr"` figé** (bilingue) ; **blog quasi vide** (1 `.mdx` `draft`, sans featured).
-- ✅ Bon : DA rendue mutée (Carbone), logo **hexagone sur mesure** (`M12 2 L21 7 V17 L12 22 L3 17 V7 Z`), `volteo.css` + `globals.css` réécrits cohérents, OG + icon.svg, next/image. Bémol : dark-only contredit `mode:'light'`.
+### ❌ meilleure-voiture-familiale.be — *scroll horizontal nav (probable) + signature vide*
+- **Responsive (probable)** : même `Nav.tsx`/`volteo.css` V1 que voiture.be → conditions du bug réunies.
+- **Tokens** ⚠️ : `globals.css` néon template ; catégories `volteo.css` désync ; `niche.config.signature` **vide**.
+- **Résidus** : **jpeg orphelin à la racine** ; asset stock résiduel.
+- ✅ Logo maison/toit sur mesure ; OG terracotta + `icon.svg` ; featureImages uniques + coverAlt ; `lang` réécrit par script.
 
-### ❌ meilleure-voiture-electrique — *scroll horizontal nav (768–900px) + OG/favicon obsolètes*
-- **Responsive (bloquant)** : header `.hdr` ne se replie en burger qu'à ≤767px alors que la rangée desktop ≈ 900px → débordement 768–~900px, sans garde `overflow-x`. Cf. §1.bis.
-- **Architecture différente** : pas le template V1 (pas de `niche.config.ts`/`volteo.css`/`Nav.tsx`). Build Next.js App Router sur-mesure (`app/[locale]/`, `Header.tsx` + `MobileNav.tsx`).
-- **OG + favicon désalignés** ❌ : `opengraph-image.tsx` (crème `#F8F5EF` + rouille `#C4390E`) et `app/icon.svg` (bronze `#C17E2A`) portent une **ancienne DA chaude** ; le site live est bleu froid `#0F62E8` / `#F1F4F8`.
-- **Images** ⚠️ : pas de cover/featured dans les frontmatters — cartes blog **texte-only** (choix éditorial assumé). next/image sur le hero.
-- ✅ Bon : palette bleue mutée (light + dark), fonts Fraunces/Jost/JetBrains, wordmark MVE (pas d'éclair), `lang` **dynamique** (fr-BE/en-BE). Aucune trace du skin `#3D5AFE`.
+### ⚠️ meilleur-suv.be — *responsive patché ; reste blog vide + lang*
+- **Images** ⚠️ : 3 `.mdx` vides (`draft:true`) ; 1 img in-body générique.
+- **A11y** ⚠️ : `lang="fr"` figé (fix client).
+- ✅ **Responsive corrigé** ; DA Carbone mutée ; logo hexagone ; OG + `icon.svg`.
 
-### ⚠️ quel-operateur-choisir.be — *DA propre, seul flag = lang figé*
-- **`lang="fr"` figé** sur site bilingue fr/en (a11y/SEO mineur).
-- Surcharge palette dans `app/overrides.css` (et non `volteo.css`) — même rôle, valide.
-- ✅ Bon : DA « Signal » mutée (violet `#6D28D9`, ivoire `#F6F4EF`), logo **barres-signal sur mesure**, fonts Bricolage/Hanken, author Maxime Dubois, OG dynamique + icon.svg, `featureImage`+`cover` `.webp` en `next/image`, **`overflow-x: clip`**, tables `min-width:520` scrollables, reduced-motion ×2.
+### ⚠️ quel-operateur-choisir.be — *DA propre, 3 micro-flags*
+- **Favicon** ⚠️ : `icon.svg` teintes **pastel** divergentes des hex du logo/OG.
+- **Tokens** ⚠️ : skin indigo non muté dans `globals`, neutralisé par `overrides.css`.
+- **Images** ⚠️ : `#FF3D57` en dur dans `RecentArticles.tsx`.
+- **A11y** ⚠️ : `lang="fr"` figé (fix client).
+- ✅ Logo barres-signal ; OG aligné ; garde `overflow-x:clip` ; featureImage+cover next/image.
 
-### ✅ meilleures-assurances-auto.be — *référence du réseau*
-- DA « Serenity-Trust » distincte : palette émeraude-petrol mutée (`#0B6E59`, porcelaine `#EEF3F1`), fonts Outfit/IBM Plex, mark **bouclier+checkmark** (`app/icon.svg` + `apple-icon.svg`), section inédite « bonus-malus », author Thomas Renard (ex-courtier FSMA).
-- `globals.css` accents réécrits (zéro défaut), **triple thème** (media + data-theme), OG dynamique, `cover` `.webp` + next/image, responsive/a11y exemplaires.
-- Micro-flag : `lang="fr"` figé — **acceptable** (mono-locale `['fr']`, `LangSwitcher` retourne `null`).
+### ⚠️ meilleur-fournisseur-energie-be — *gros progrès, reste résidus globals + lang*
+- **Tokens** ⚠️ : `#3D5AFE`/`#CCFF48` dans `globals :root @theme`, masqués par `overrides.css` (`--primary:#B45309`).
+- **A11y** ⚠️ : `<html lang="fr">` figé ; `/en` via `<div lang="en" display:contents>` (sous-arbre corrigé, pas la racine SSR).
+- ✅ **Plus d'éclair** : logo **flamme sur mesure** ; OG dynamique ; 26 covers + alt ; garde `overflow-x:clip`.
+
+### ✅ meilleure-carte-credit.be — *redressé depuis le 19/06*
+- ✅ **OG réaligné** (papier, plus le néon V1) ; monogramme « M » ; `icon.svg` + `favicon.ico` ; DA « Éditorial papier » mutée ; garde `overflow-x:clip` ; **`lang` dynamique** ; **12 articles** ; auteur Sophie Laurent.
+
+### ✅ meilleures-assurances-auto.be — *reste la référence du réseau*
+- ✅ DA « Sérénité » émeraude mutée ; mark **bouclier+check** ; OG aligné ; tables wrappées ; responsive/a11y propres ; auteur Thomas Renard (ex-courtier FSMA). `lang="fr"` figé acceptable (mono-locale).
 
 ---
 
@@ -118,27 +113,29 @@ Code de nav **identique** sur ces trois sites (`components/layout/Nav.tsx` + `ap
 
 | # | Paire / motif | Type | Sévérité |
 |---|---|---|---|
-| 1 | **meilleure-voiture.be ↔ meilleur-fournisseur-energie-be** | **Logo éclair inline IDENTIQUE** (`M13 2 4.5 13.5H11l-1 8.5L19.5 10H13l0-8Z`), repris aussi dans l'`icon.svg` de l'énergie | ❌ Fort |
-| 2 | **meilleure-voiture.be ↔ meilleur-suv.be ↔ meilleure-voiture-familiale.be** | **Même `Nav.tsx` + `volteo.css`** → **même bug de scroll horizontal** (`.nav-cta` inline non masqué) ET même structure de barre | ❌ Fort (technique) |
-| 3 | **meilleure-voiture.be ↔ meilleure-voiture-familiale.be** | **Accents `globals.css` par défaut identiques** (`#FF3D57` / `#C8001F`) → même rendu générique dans les corps d'articles | ⚠️ Moyen |
-| 4 | **meilleure-carte-credit.be (OG) + meilleure-voiture.be (globals)** | Réutilisation de la **palette néon du générateur par défaut** (`#FF3D57 / #FFD23F / #3DFFC0 / #7B61FF`) | ❌ Fort |
-| 5 | Fonts **Bricolage Grotesque + Hanken Grotesk** partagées (suv-config, quel-operateur, énergie) | Même couple typo, rendus/palettes différents → footprint faible | ⚠️ Faible |
+| 1 | **`globals.css :root` néon défaut non muté** (masqué par overrides/volteo) — voiture.be, familiale, **utilitaire** (réimposé dark), quel-operateur, énergie, **neobanque** | Dette template récurrente (6 sites) | ❌ Fort |
+| 2 | **Même `Nav.tsx` + `volteo.css` V1** (5 sites auto) → même bug latent ; suv patché, **voiture.be & familiale** vulnérables | ❌ Fort (technique) |
+| 3 | **neobanque** : logo 3 barres = mark moteur Voltéo + palette néon défaut + Space Grotesk | ❌ Fort |
+| 4 | **`<html lang="fr">` figé** sur 7 sites bilingues ; SSR correct seulement sur voiture.be, électrique, carte-credit | ⚠️ Moyen |
+| 5 | Fonts **Bricolage + Hanken** partagées (suv-config, quel-operateur, énergie) | ⚠️ Faible |
+| 6 | **jpeg orphelins racine** (familiale, utilitaire) | ⚠️ Faible (hygiène) |
 
-**Auteurs :** ✅ aucun doublon — chaque site a un auteur unique et incarné (Julien Vanderhaeghe, Maxime Delvaux, Audrey Pirard, Christophe F., Maxime Dubois, Camille Mertens, Thomas Renard, Sophie Laurent).
+**Win réseau :** l'**éclair générique a disparu** — chaque site rend un mark sur mesure distinct, **sauf** `meilleure-neobanque.be` (barres génériques). Paire footprint n°1 du 19/06 **résolue**.
+
+**Auteurs :** uniques et incarnés, **sauf** `meilleure-neobanque.be` (« Maxime », prénom seul).
+
+**Covers :** `meilleure-voiture-electrique` n'a **qu'une cover d'article partagée** (1 seul article illustré) ; `meilleure-neobanque.be` = risque d'image inline cassée (`category-comparatifs.webp`). À générer au stade `emd-fix`.
 
 ---
 
 ## 4. Top des actions prioritaires
 
-1. **❌ RESPONSIVE — corriger le scroll horizontal de la nav (bloquant mobile).**
-   - Template V1 (`meilleure-voiture.be`, `meilleur-suv.be`, `meilleure-voiture-familiale.be`) : retirer le `display:flex` **inline** de `.nav-cta` dans `Nav.tsx` et le masquer en CSS sous 940px (CTA + langue déjà présents dans `.mobile-menu`).
-   - `meilleure-voiture-electrique` : remonter le breakpoint burger (`≤1024`/`≤900px`) pour replier le menu avant qu'il ne déborde.
-   - Filet commun : ajouter `html, body { overflow-x: clip; max-width: 100% }` sur les 4 sites (comme énergie/télécom/banque).
-2. **❌ meilleur-fournisseur-energie-be — assumer une DA.** Muter la palette hors du défaut `#3D5AFE` et remplacer l'éclair générique par un mark énergie sur mesure (`Nav.tsx` + `app/icon.svg`). Seul site **sans direction DA assumée**.
-3. **❌ Éradiquer l'éclair réseau partagé.** Remplacer le logo inline `M13 2 4.5 13.5…` sur **meilleure-voiture.be** et **meilleur-fournisseur-energie-be** (paire footprint n°1).
-4. **❌ Réaligner les OG/favicons sur la DA réelle.** OG de **meilleure-carte-credit.be** (néon V1) et OG + `icon.svg` de **meilleure-voiture-electrique** (rouille obsolète).
-5. **⚠️ Cohérence config & i18n.** Réécrire les accents `globals.css` depuis `niche.config.palette` (voiture.be, familiale) ; resynchroniser `niche.config.ts` de **meilleur-suv.be** avec son rendu (Carbone/dark) ; rendre `<html lang>` dynamique sur les bilingues à `lang="fr"` figé (suv, familiale, quel-operateur, carte-credit) ; servir un favicon via `app/icon.svg` sur **meilleure-voiture.be**. *(Hors-scope mais relevé : blogs vides sur suv, familiale, carte-credit.)*
+1. **❌ RESPONSIVE — propager le fix scroll horizontal.** `meilleure-voiture.be` (confirmé) + `meilleure-voiture-familiale.be` (probable) : appliquer le correctif déjà en place sur `meilleur-suv.be` (masquer `.nav-cta` <940px + garde `overflow-x:clip`). Ajouter le filet `overflow-x:clip` à utilitaire + 7-places.
+2. **❌ meilleure-neobanque.be — dé-templatiser (seul site sans direction DA assumée).** Muter la palette hors du néon défaut, **abandonner Space Grotesk** (interdit), réécrire `globals.css @theme/:root` (valeurs littérales `#FF3D57…`), remplacer les 3 barres génériques par un vrai mark.
+3. **❌ meilleure-voiture-utilitaire.be — réparer les tokens en dark.** `html[data-theme="dark"]` réimpose les néons sur `--accent-*` → réécrire depuis `niche.config.palette`.
+4. **⚠️ A11y `<html lang>` dynamique en SSR.** Prioriser 7-places et utilitaire (aucun fix), puis harmoniser les fix client (suv, familiale, quel-operateur, énergie, neobanque).
+5. **⚠️ Hygiène DA & assets.** Accents `globals.css` depuis `niche.config.palette` (voiture.be, familiale) ; `.news` verte + radius 7-places ; `icon.svg` pastel + `#FF3D57` de quel-operateur ; `.ico`/`.png` utilitaire & 7-places ; jpeg orphelins (familiale, utilitaire) ; **générer les couvertures manquantes** (électrique, neobanque).
 
 ---
 
-*Audit DA/UX/Images/Responsive/A11y généré automatiquement (tâche planifiée `emd-audit-ux`), révisé après revue propriétaire. Lecture seule : aucun repo de site modifié.*
+*Audit DA/UX/Images/Responsive/A11y généré automatiquement (tâche planifiée `emd-audit-ux`). Lecture seule : aucun repo de site modifié — seul ce rapport est écrit dans `emd-methodo`.*
