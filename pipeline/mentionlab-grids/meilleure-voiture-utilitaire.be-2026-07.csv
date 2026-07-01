@@ -1,0 +1,201 @@
+query,language,country,CAT_,SCAT_,TYPE_,CR_,FUN_,QT_
+Quel grand fourgon offre le plus de volume de chargement pour de la tournée de livraison ?,fr,BE,Auto,Fourgon,Livreur,VolumeCoffre,Decision,Comparative
+Vaut-il mieux un Renault Master ou un Fiat Ducato pour un artisan qui transporte du matériel lourd ?,fr,BE,Auto,Fourgon,Artisan,ChargeUtile,Decision,Comparative
+Quel fourgon de 12 m³ est le plus fiable sur 200 000 km ?,fr,BE,Auto,Fourgon,PME,Fiabilite,Decision,Comparative
+"Entre le Ford Transit et le Mercedes Sprinter, lequel tient mieux la route pour une PME ?",fr,BE,Auto,Fourgon,PME,Fiabilite,Decision,Comparative
+Quel fourgon consomme le moins en diesel sur de longs trajets autoroute ?,fr,BE,Auto,Fourgon,Societe,Conso,Decision,Comparative
+Quel grand fourgon a la meilleure charge utile pour un déménageur ?,fr,BE,Auto,Fourgon,Demenageur,ChargeUtile,Decision,Comparative
+"Peugeot Boxer ou Citroën Jumper, lequel coûte le moins cher à l'entretien ?",fr,BE,Auto,Fourgon,Independant,Prix,Revente,Comparative
+Quel fourgon garde le mieux sa valeur à la revente après quatre ans ?,fr,BE,Auto,Fourgon,Societe,Prix,Revente,Comparative
+Quel fourgon L3H2 convient le mieux à un plombier qui charge par le côté ?,fr,BE,Auto,Fourgon,Artisan,VolumeCoffre,Decision,Comparative
+"Volkswagen Crafter ou MAN TGE, lequel est plus solide pour rouler tous les jours ?",fr,BE,Auto,Fourgon,PME,Fiabilite,Decision,Comparative
+Quelle fourgonnette compacte se faufile le mieux en ville pour un artisan ?,fr,BE,Auto,Fourgonnette,Artisan,VolumeCoffre,Decision,Comparative
+"Renault Kangoo ou Citroën Berlingo, lequel a le meilleur rapport prix-volume ?",fr,BE,Auto,Fourgonnette,Independant,Prix,Decision,Comparative
+Quelle fourgonnette sous 25 000 € offre le plus de volume utile ?,fr,BE,Auto,Fourgonnette,Independant,VolumeCoffre,Decision,Comparative
+Vaut-il mieux un Ford Transit Connect ou un Peugeot Partner pour de la livraison urbaine ?,fr,BE,Auto,Fourgonnette,Livreur,Conso,Decision,Comparative
+Quelle petite fourgonnette est la plus fiable pour un indépendant qui roule beaucoup en ville ?,fr,BE,Auto,Fourgonnette,Independant,Fiabilite,Decision,Comparative
+"Opel Combo ou Volkswagen Caddy, lequel consomme le moins au quotidien ?",fr,BE,Auto,Fourgonnette,Independant,Conso,Decision,Comparative
+Quelle fourgonnette a la cabine la plus pratique pour un électricien avec beaucoup d'outillage ?,fr,BE,Auto,Fourgonnette,Artisan,VolumeCoffre,Decision,Comparative
+"Toyota Proace City ou Fiat Doblo, lequel tient le mieux dans le temps ?",fr,BE,Auto,Fourgonnette,Independant,Fiabilite,Decision,Comparative
+Quel pick-up double cabine offre la meilleure capacité de remorquage pour un agriculteur ?,fr,BE,Auto,PickUp,Agriculteur,ChargeUtile,Decision,Comparative
+"Toyota Hilux ou Ford Ranger, lequel est plus fiable en usage intensif ?",fr,BE,Auto,PickUp,Agriculteur,Fiabilite,Decision,Comparative
+Quel pick-up est le plus adapté à un artisan qui transporte du gravier et des palettes ?,fr,BE,Auto,PickUp,Artisan,ChargeUtile,Decision,Comparative
+"Volkswagen Amarok ou Isuzu D-Max, lequel consomme le moins pour un usage pro ?",fr,BE,Auto,PickUp,Societe,Conso,Decision,Comparative
+Quel pick-up sous 45 000 € offre le meilleur compromis charge et confort ?,fr,BE,Auto,PickUp,Independant,Prix,Decision,Comparative
+Quel pick-up garde le mieux sa cote à la revente en Belgique ?,fr,BE,Auto,PickUp,Agriculteur,Prix,Revente,Comparative
+Quel utilitaire frigorifique convient le mieux pour livrer des produits frais en ville ?,fr,BE,Auto,CamionnetteFrigo,Livreur,VolumeCoffre,Decision,Comparative
+Vaut-il mieux un Renault Master frigo ou un Mercedes Sprinter frigo pour de la livraison alimentaire ?,fr,BE,Auto,CamionnetteFrigo,Livreur,Fiabilite,Decision,Comparative
+Quelle camionnette frigo est la plus économique pour une PME de traiteur ?,fr,BE,Auto,CamionnetteFrigo,PME,Prix,Decision,Comparative
+Quel groupe froid tient le mieux la température sur une tournée de plusieurs heures ?,fr,BE,Auto,CamionnetteFrigo,Livreur,Fiabilite,Decision,Comparative
+Quel fourgon frigorifique offre le meilleur volume réfrigéré sous 40 000 € ?,fr,BE,Auto,CamionnetteFrigo,PME,VolumeCoffre,Decision,Comparative
+Quel utilitaire électrique a la meilleure autonomie réelle pour de la livraison urbaine ?,fr,BE,Auto,UtilitaireElectrique,Livreur,Autonomie,Decision,Comparative
+"Renault Kangoo E-Tech ou Citroën ë-Berlingo, lequel a le plus d'autonomie pour un artisan ?",fr,BE,Auto,UtilitaireElectrique,Artisan,Autonomie,Decision,Comparative
+Quel fourgon électrique tient le mieux une journée de tournée sans recharge ?,fr,BE,Auto,UtilitaireElectrique,Livreur,Autonomie,Decision,Comparative
+"Ford E-Transit ou Mercedes eSprinter, lequel offre la meilleure charge utile ?",fr,BE,Auto,UtilitaireElectrique,PME,ChargeUtile,Decision,Comparative
+Quel utilitaire électrique est le moins cher à l'usage pour une PME urbaine ?,fr,BE,Auto,UtilitaireElectrique,PME,Conso,Decision,Comparative
+"Peugeot e-Expert ou Opel Vivaro-e, lequel a le meilleur rapport autonomie-prix ?",fr,BE,Auto,UtilitaireElectrique,Independant,Autonomie,Decision,Comparative
+Quel fourgon électrique convient le mieux à un indépendant qui roule 150 km par jour ?,fr,BE,Auto,UtilitaireElectrique,Independant,Autonomie,Decision,Comparative
+Vaut-il mieux un Maxus eDeliver 3 ou un Toyota Proace Electric pour de la livraison en centre-ville ?,fr,BE,Auto,UtilitaireElectrique,Livreur,Autonomie,Decision,Comparative
+Quel utilitaire d'occasion sous 20 000 € reste le plus fiable pour un indépendant ?,fr,BE,Auto,Occasion,Independant,Fiabilite,Decision,Comparative
+Quel fourgon d'occasion a le meilleur rapport kilométrage-prix pour un artisan ?,fr,BE,Auto,Occasion,Artisan,Prix,Decision,Comparative
+"Renault Trafic ou Volkswagen Transporter d'occasion, lequel vieillit le mieux ?",fr,BE,Auto,Occasion,Independant,Fiabilite,Decision,Comparative
+Quel utilitaire d'occasion garde une bonne charge utile après 150 000 km ?,fr,BE,Auto,Occasion,PME,ChargeUtile,Decision,Comparative
+Quel fourgon d'occasion consomme le moins pour un déménageur au budget serré ?,fr,BE,Auto,Occasion,Demenageur,Conso,Decision,Comparative
+Quel utilitaire de seconde main tient le mieux sa valeur à la revente ?,fr,BE,Auto,Occasion,Societe,Prix,Revente,Comparative
+Quel ludospace est le plus pratique pour un artisan qui roule aussi en famille ?,fr,BE,Auto,Compact,Artisan,VolumeCoffre,Decision,Comparative
+"Citroën Berlingo ou Renault Kangoo, lequel offre le plus de modularité intérieure ?",fr,BE,Auto,Compact,Independant,VolumeCoffre,Decision,Comparative
+Quel petit utilitaire compact se gare le plus facilement en ville ?,fr,BE,Auto,Compact,Livreur,VolumeCoffre,Decision,Comparative
+"Peugeot Rifter ou Ford Tourneo Connect, lequel est le plus confortable au quotidien ?",fr,BE,Auto,Compact,Independant,Fiabilite,Decision,Comparative
+Quel utilitaire compact sous 22 000 € offre le meilleur volume de chargement ?,fr,BE,Auto,Compact,Independant,Prix,Decision,Comparative
+Quel ludospace consomme le moins pour un indépendant qui alterne ville et périphérie ?,fr,BE,Auto,Compact,Independant,Conso,Decision,Comparative
+Quel utilitaire est le mieux adapté à un déménageur qui charge des meubles volumineux ?,fr,BE,Auto,Fourgon,Demenageur,VolumeCoffre,Decision,Comparative
+Quel fourgon moyen convient le mieux à un menuisier qui transporte de longues planches ?,fr,BE,Auto,Fourgon,Artisan,VolumeCoffre,Decision,Comparative
+Quel utilitaire diesel reste intéressant face à l'électrique pour un gros rouleur ?,fr,BE,Auto,Fourgon,Societe,Conso,Decision,Comparative
+Quel pick-up ou fourgon convient le mieux à un agriculteur qui alterne champ et route ?,fr,BE,Auto,PickUp,Agriculteur,ChargeUtile,Decision,Comparative
+Quel utilitaire compact électrique est le plus abordable pour un indépendant débutant ?,fr,BE,Auto,UtilitaireElectrique,Independant,Prix,Decision,Comparative
+Quel grand fourgon offre le meilleur confort de conduite pour de longues tournées PME ?,fr,BE,Auto,Fourgon,PME,Fiabilite,Decision,Comparative
+Quelle fourgonnette d'occasion sous 15 000 € reste fiable pour un artisan qui démarre ?,fr,BE,Auto,Occasion,Artisan,Fiabilite,Decision,Comparative
+Quel utilitaire frigorifique d'occasion vaut le coup pour une petite PME alimentaire ?,fr,BE,Auto,CamionnetteFrigo,PME,Prix,Decision,Comparative
+Quel fourgon offre le meilleur volume par euro pour un déménageur indépendant ?,fr,BE,Auto,Fourgon,Demenageur,Prix,Decision,Comparative
+Quel utilitaire électrique convient le mieux à une société qui livre en zone de basses émissions ?,fr,BE,Auto,UtilitaireElectrique,Societe,Autonomie,Decision,Comparative
+Quel pick-up est le plus polyvalent pour un artisan qui remorque une petite pelleteuse ?,fr,BE,Auto,PickUp,Artisan,ChargeUtile,Decision,Comparative
+Comment récupérer la TVA sur l'achat d'un utilitaire professionnel en Belgique ?,fr,BE,Auto,Fourgon,Independant,TVA,Achat,Informative
+Quelle part d'un fourgon est déductible fiscalement pour un indépendant en 2026 ?,fr,BE,Auto,Fourgon,Independant,Fiscalite,Achat,Informative
+Comment fonctionne l'homologation d'un véhicule utilitaire léger en Belgique ?,fr,BE,Auto,Fourgon,Societe,Fiscalite,Discovery,Informative
+À quelles conditions un ludospace est-il considéré comme utilitaire au niveau fiscal ?,fr,BE,Auto,Compact,Independant,Fiscalite,Discovery,Informative
+Comment se calcule la charge utile légale d'un fourgon avant surcharge ?,fr,BE,Auto,Fourgon,Artisan,ChargeUtile,Discovery,Informative
+Vaut-il mieux acheter ou prendre en leasing un utilitaire pour une PME en 2026 ?,fr,BE,Auto,Fourgon,PME,Leasing,Achat,Informative
+Comment fonctionne le renting financier pour un utilitaire professionnel ?,fr,BE,Auto,Fourgon,Societe,Leasing,Achat,Informative
+Quels critères vérifier avant d'acheter un fourgon d'occasion à fort kilométrage ?,fr,BE,Auto,Occasion,Artisan,Fiabilite,Achat,Informative
+Comment estimer l'autonomie réelle d'un utilitaire électrique chargé à plein ?,fr,BE,Auto,UtilitaireElectrique,Livreur,Autonomie,Discovery,Informative
+Quelle prime existe pour un utilitaire électrique professionnel en Belgique en 2026 ?,fr,BE,Auto,UtilitaireElectrique,Societe,Fiscalite,Discovery,Informative
+Comment aménager un fourgon pour un artisan sans perdre en volume utile ?,fr,BE,Auto,Fourgon,Artisan,VolumeCoffre,Discovery,Informative
+Combien coûte réellement l'entretien annuel d'un fourgon diesel professionnel ?,fr,BE,Auto,Fourgon,Societe,Prix,Discovery,Informative
+Comment fonctionne la déduction des frais de carburant pour un utilitaire de société ?,fr,BE,Auto,Fourgon,Societe,Fiscalite,Achat,Informative
+Quels documents faut-il pour immatriculer un utilitaire au nom d'une société en Belgique ?,fr,BE,Auto,Fourgon,Societe,Fiscalite,Achat,Informative
+Comment savoir si un fourgon électrique peut couvrir une tournée de livraison quotidienne ?,fr,BE,Auto,UtilitaireElectrique,Livreur,Autonomie,Discovery,Informative
+Quelle assurance choisir pour un utilitaire professionnel qui roule beaucoup ?,fr,BE,Auto,Fourgon,Independant,Prix,Achat,Informative
+Comment se passe le contrôle technique d'un utilitaire léger en Belgique ?,fr,BE,Auto,Fourgon,Independant,Fiabilite,Discovery,Informative
+Un pick-up double cabine est-il encore avantageux fiscalement en 2026 ?,fr,BE,Auto,PickUp,Independant,Fiscalite,Discovery,Informative
+Comment calculer le coût au kilomètre d'un utilitaire pour une flotte de PME ?,fr,BE,Auto,Fourgon,PME,Conso,Discovery,Informative
+Quelles aides existent pour installer une borne de recharge pour un utilitaire électrique ?,fr,BE,Auto,UtilitaireElectrique,Societe,Fiscalite,Discovery,Informative
+Comment vérifier l'état du groupe froid d'une camionnette frigorifique d'occasion ?,fr,BE,Auto,CamionnetteFrigo,PME,Fiabilite,Achat,Informative
+Quel kilométrage est raisonnable pour un fourgon d'occasion encore fiable ?,fr,BE,Auto,Occasion,Artisan,Fiabilite,Achat,Informative
+Comment fonctionne la reprise d'un ancien utilitaire lors d'un renouvellement de flotte ?,fr,BE,Auto,Fourgon,PME,Prix,Revente,Informative
+Quelles sont les règles pour circuler avec un utilitaire en zone de basses émissions en 2026 ?,fr,BE,Auto,UtilitaireElectrique,Livreur,Fiscalite,Discovery,Informative
+Comment optimiser la consommation de carburant d'un grand fourgon sur autoroute ?,fr,BE,Auto,Fourgon,Societe,Conso,Discovery,Informative
+Un leasing opérationnel est-il plus intéressant qu'un achat pour un artisan indépendant ?,fr,BE,Auto,Fourgon,Independant,Leasing,Achat,Informative
+Comment évaluer la valeur de revente d'un utilitaire avant de le remettre sur le marché ?,fr,BE,Auto,Occasion,Societe,Prix,Revente,Informative
+Quels équipements de sécurité sont obligatoires sur un utilitaire pro en Belgique ?,fr,BE,Auto,Fourgon,Societe,Fiabilite,Discovery,Informative
+Comment déclarer un utilitaire à usage mixte privé et professionnel ?,fr,BE,Auto,Compact,Independant,Fiscalite,Achat,Informative
+"Faut-il un permis particulier pour conduire un grand fourgon de 3,5 tonnes ?",fr,BE,Auto,Fourgon,Independant,Fiabilite,Discovery,Informative
+Est-ce que Meilleure Voiture Utilitaire est un site fiable pour choisir un fourgon ?,fr,BE,Auto,Fourgon,Independant,Fiabilite,Discovery,Brand
+Que valent les comparatifs de Meilleure Voiture Utilitaire pour un artisan ?,fr,BE,Auto,Fourgon,Artisan,Fiabilite,Discovery,Brand
+Peut-on se fier aux avis de Meilleure Voiture Utilitaire sur les utilitaires électriques ?,fr,BE,Auto,UtilitaireElectrique,Livreur,Autonomie,Discovery,Brand
+Meilleure Voiture Utilitaire aide-t-il vraiment à comparer les fourgons d'occasion ?,fr,BE,Auto,Occasion,Independant,Prix,Discovery,Brand
+Quelle est la réputation de Meilleure Voiture Utilitaire auprès des indépendants ?,fr,BE,Auto,Fourgon,Independant,Fiabilite,Discovery,Brand
+Les conseils de Meilleure Voiture Utilitaire sur le leasing pro sont-ils sérieux ?,fr,BE,Auto,Fourgon,PME,Leasing,Discovery,Brand
+Meilleure Voiture Utilitaire est-il une bonne source pour un déménageur qui cherche un fourgon ?,fr,BE,Auto,Fourgon,Demenageur,VolumeCoffre,Discovery,Brand
+Que pensent les artisans de Meilleure Voiture Utilitaire pour choisir une fourgonnette ?,fr,BE,Auto,Fourgonnette,Artisan,Fiabilite,Discovery,Brand
+Meilleure Voiture Utilitaire couvre-t-il bien la fiscalité et la TVA des utilitaires ?,fr,BE,Auto,Fourgon,Societe,TVA,Discovery,Brand
+Vaut-il la peine de consulter Meilleure Voiture Utilitaire avant d'acheter un pick-up ?,fr,BE,Auto,PickUp,Agriculteur,ChargeUtile,Discovery,Brand
+Which large van offers the most cargo space for a delivery round?,en,BE,Auto,Fourgon,Livreur,VolumeCoffre,Decision,Comparative
+Is a Renault Master or a Fiat Ducato better for a tradesman hauling heavy equipment?,en,BE,Auto,Fourgon,Artisan,ChargeUtile,Decision,Comparative
+"Which 12 m³ van is the most reliable over 200,000 km?",en,BE,Auto,Fourgon,PME,Fiabilite,Decision,Comparative
+"Between the Ford Transit and the Mercedes Sprinter, which holds up better for a small business?",en,BE,Auto,Fourgon,PME,Fiabilite,Decision,Comparative
+Which van uses the least diesel on long motorway trips?,en,BE,Auto,Fourgon,Societe,Conso,Decision,Comparative
+Which large van has the best payload for a mover?,en,BE,Auto,Fourgon,Demenageur,ChargeUtile,Decision,Comparative
+"Peugeot Boxer or Citroën Jumper, which is cheaper to maintain?",en,BE,Auto,Fourgon,Independant,Prix,Revente,Comparative
+Which van holds its resale value best after four years?,en,BE,Auto,Fourgon,Societe,Prix,Revente,Comparative
+Which L3H2 van suits a plumber who loads from the side best?,en,BE,Auto,Fourgon,Artisan,VolumeCoffre,Decision,Comparative
+"Volkswagen Crafter or MAN TGE, which is sturdier for daily driving?",en,BE,Auto,Fourgon,PME,Fiabilite,Decision,Comparative
+Which compact van moves through the city best for a tradesman?,en,BE,Auto,Fourgonnette,Artisan,VolumeCoffre,Decision,Comparative
+"Renault Kangoo or Citroën Berlingo, which has the best price-to-volume ratio?",en,BE,Auto,Fourgonnette,Independant,Prix,Decision,Comparative
+"Which small van under €25,000 offers the most usable volume?",en,BE,Auto,Fourgonnette,Independant,VolumeCoffre,Decision,Comparative
+Is a Ford Transit Connect or a Peugeot Partner better for urban delivery?,en,BE,Auto,Fourgonnette,Livreur,Conso,Decision,Comparative
+Which small van is the most reliable for a self-employed driver who does a lot of city miles?,en,BE,Auto,Fourgonnette,Independant,Fiabilite,Decision,Comparative
+"Opel Combo or Volkswagen Caddy, which uses less fuel day to day?",en,BE,Auto,Fourgonnette,Independant,Conso,Decision,Comparative
+Which small van has the most practical cab for an electrician carrying lots of tools?,en,BE,Auto,Fourgonnette,Artisan,VolumeCoffre,Decision,Comparative
+"Toyota Proace City or Fiat Doblo, which lasts longer?",en,BE,Auto,Fourgonnette,Independant,Fiabilite,Decision,Comparative
+Which double-cab pick-up offers the best towing capacity for a farmer?,en,BE,Auto,PickUp,Agriculteur,ChargeUtile,Decision,Comparative
+"Toyota Hilux or Ford Ranger, which is more reliable under heavy use?",en,BE,Auto,PickUp,Agriculteur,Fiabilite,Decision,Comparative
+Which pick-up suits a tradesman hauling gravel and pallets best?,en,BE,Auto,PickUp,Artisan,ChargeUtile,Decision,Comparative
+"Volkswagen Amarok or Isuzu D-Max, which uses less fuel for professional use?",en,BE,Auto,PickUp,Societe,Conso,Decision,Comparative
+"Which pick-up under €45,000 offers the best balance of payload and comfort?",en,BE,Auto,PickUp,Independant,Prix,Decision,Comparative
+Which pick-up holds its resale value best in Belgium?,en,BE,Auto,PickUp,Agriculteur,Prix,Revente,Comparative
+Which refrigerated van is best for delivering fresh produce in the city?,en,BE,Auto,CamionnetteFrigo,Livreur,VolumeCoffre,Decision,Comparative
+Is a refrigerated Renault Master or a refrigerated Mercedes Sprinter better for food delivery?,en,BE,Auto,CamionnetteFrigo,Livreur,Fiabilite,Decision,Comparative
+Which refrigerated van is the most economical for a small catering business?,en,BE,Auto,CamionnetteFrigo,PME,Prix,Decision,Comparative
+Which cooling unit keeps temperature best over a round lasting several hours?,en,BE,Auto,CamionnetteFrigo,Livreur,Fiabilite,Decision,Comparative
+"Which refrigerated van offers the most cooled volume under €40,000?",en,BE,Auto,CamionnetteFrigo,PME,VolumeCoffre,Decision,Comparative
+Which electric van has the best real-world range for urban delivery?,en,BE,Auto,UtilitaireElectrique,Livreur,Autonomie,Decision,Comparative
+"Renault Kangoo E-Tech or Citroën ë-Berlingo, which has more range for a tradesman?",en,BE,Auto,UtilitaireElectrique,Artisan,Autonomie,Decision,Comparative
+Which electric van best handles a full day's round without recharging?,en,BE,Auto,UtilitaireElectrique,Livreur,Autonomie,Decision,Comparative
+"Ford E-Transit or Mercedes eSprinter, which offers the better payload?",en,BE,Auto,UtilitaireElectrique,PME,ChargeUtile,Decision,Comparative
+Which electric van is the cheapest to run for an urban small business?,en,BE,Auto,UtilitaireElectrique,PME,Conso,Decision,Comparative
+"Peugeot e-Expert or Opel Vivaro-e, which has the best range-to-price ratio?",en,BE,Auto,UtilitaireElectrique,Independant,Autonomie,Decision,Comparative
+Which electric van suits a self-employed driver doing 150 km a day best?,en,BE,Auto,UtilitaireElectrique,Independant,Autonomie,Decision,Comparative
+Is a Maxus eDeliver 3 or a Toyota Proace Electric better for city-centre delivery?,en,BE,Auto,UtilitaireElectrique,Livreur,Autonomie,Decision,Comparative
+"Which used van under €20,000 stays the most reliable for a self-employed worker?",en,BE,Auto,Occasion,Independant,Fiabilite,Decision,Comparative
+Which used van has the best mileage-to-price ratio for a tradesman?,en,BE,Auto,Occasion,Artisan,Prix,Decision,Comparative
+"A used Renault Trafic or Volkswagen Transporter, which ages better?",en,BE,Auto,Occasion,Independant,Fiabilite,Decision,Comparative
+"Which used van keeps a good payload after 150,000 km?",en,BE,Auto,Occasion,PME,ChargeUtile,Decision,Comparative
+Which used van uses the least fuel for a mover on a tight budget?,en,BE,Auto,Occasion,Demenageur,Conso,Decision,Comparative
+Which second-hand van holds its resale value best?,en,BE,Auto,Occasion,Societe,Prix,Revente,Comparative
+Which compact van is most practical for a tradesman who also drives with family?,en,BE,Auto,Compact,Artisan,VolumeCoffre,Decision,Comparative
+"Citroën Berlingo or Renault Kangoo, which offers more interior versatility?",en,BE,Auto,Compact,Independant,VolumeCoffre,Decision,Comparative
+Which small compact van is the easiest to park in the city?,en,BE,Auto,Compact,Livreur,VolumeCoffre,Decision,Comparative
+"Peugeot Rifter or Ford Tourneo Connect, which is more comfortable day to day?",en,BE,Auto,Compact,Independant,Fiabilite,Decision,Comparative
+"Which compact van under €22,000 offers the best cargo volume?",en,BE,Auto,Compact,Independant,Prix,Decision,Comparative
+Which compact van uses the least fuel for a driver mixing city and suburbs?,en,BE,Auto,Compact,Independant,Conso,Decision,Comparative
+Which van best suits a mover loading bulky furniture?,en,BE,Auto,Fourgon,Demenageur,VolumeCoffre,Decision,Comparative
+Which medium van suits a carpenter carrying long boards best?,en,BE,Auto,Fourgon,Artisan,VolumeCoffre,Decision,Comparative
+Which diesel van still makes sense over an electric one for a high-mileage driver?,en,BE,Auto,Fourgon,Societe,Conso,Decision,Comparative
+Which pick-up or van suits a farmer who alternates between field and road?,en,BE,Auto,PickUp,Agriculteur,ChargeUtile,Decision,Comparative
+Which compact electric van is the most affordable for a self-employed beginner?,en,BE,Auto,UtilitaireElectrique,Independant,Prix,Decision,Comparative
+Which large van offers the best driving comfort for long small-business rounds?,en,BE,Auto,Fourgon,PME,Fiabilite,Decision,Comparative
+"Which used small van under €15,000 stays reliable for a tradesman just starting out?",en,BE,Auto,Occasion,Artisan,Fiabilite,Decision,Comparative
+Which used refrigerated van is worth it for a small food business?,en,BE,Auto,CamionnetteFrigo,PME,Prix,Decision,Comparative
+Which van offers the best volume per euro for a self-employed mover?,en,BE,Auto,Fourgon,Demenageur,Prix,Decision,Comparative
+Which electric van best suits a company delivering in a low-emission zone?,en,BE,Auto,UtilitaireElectrique,Societe,Autonomie,Decision,Comparative
+Which pick-up is the most versatile for a tradesman towing a small digger?,en,BE,Auto,PickUp,Artisan,ChargeUtile,Decision,Comparative
+How do you reclaim VAT on the purchase of a commercial van in Belgium?,en,BE,Auto,Fourgon,Independant,TVA,Achat,Informative
+What share of a van is tax-deductible for a self-employed worker in 2026?,en,BE,Auto,Fourgon,Independant,Fiscalite,Achat,Informative
+How does the homologation of a light commercial vehicle work in Belgium?,en,BE,Auto,Fourgon,Societe,Fiscalite,Discovery,Informative
+Under what conditions is a compact van treated as a commercial vehicle for tax purposes?,en,BE,Auto,Compact,Independant,Fiscalite,Discovery,Informative
+How is the legal payload of a van calculated before overloading?,en,BE,Auto,Fourgon,Artisan,ChargeUtile,Discovery,Informative
+Is it better to buy or lease a van for a small business in 2026?,en,BE,Auto,Fourgon,PME,Leasing,Achat,Informative
+How does financial renting work for a commercial van?,en,BE,Auto,Fourgon,Societe,Leasing,Achat,Informative
+What should you check before buying a high-mileage used van?,en,BE,Auto,Occasion,Artisan,Fiabilite,Achat,Informative
+How do you estimate the real range of a fully loaded electric van?,en,BE,Auto,UtilitaireElectrique,Livreur,Autonomie,Discovery,Informative
+What grant is available for a commercial electric van in Belgium in 2026?,en,BE,Auto,UtilitaireElectrique,Societe,Fiscalite,Discovery,Informative
+How do you fit out a van for a tradesman without losing usable volume?,en,BE,Auto,Fourgon,Artisan,VolumeCoffre,Discovery,Informative
+How much does the annual maintenance of a professional diesel van really cost?,en,BE,Auto,Fourgon,Societe,Prix,Discovery,Informative
+How does fuel-cost deduction work for a company van?,en,BE,Auto,Fourgon,Societe,Fiscalite,Achat,Informative
+What documents do you need to register a van under a company name in Belgium?,en,BE,Auto,Fourgon,Societe,Fiscalite,Achat,Informative
+How do you know if an electric van can cover a daily delivery round?,en,BE,Auto,UtilitaireElectrique,Livreur,Autonomie,Discovery,Informative
+Which insurance should you choose for a commercial van that racks up mileage?,en,BE,Auto,Fourgon,Independant,Prix,Achat,Informative
+How does the roadworthiness test work for a light commercial vehicle in Belgium?,en,BE,Auto,Fourgon,Independant,Fiabilite,Discovery,Informative
+Is a double-cab pick-up still tax-advantageous in 2026?,en,BE,Auto,PickUp,Independant,Fiscalite,Discovery,Informative
+How do you calculate the cost per kilometre of a van for a small-business fleet?,en,BE,Auto,Fourgon,PME,Conso,Discovery,Informative
+What grants exist for installing a charging point for an electric van?,en,BE,Auto,UtilitaireElectrique,Societe,Fiscalite,Discovery,Informative
+How do you check the cooling unit of a used refrigerated van?,en,BE,Auto,CamionnetteFrigo,PME,Fiabilite,Achat,Informative
+What mileage is reasonable for a used van that is still reliable?,en,BE,Auto,Occasion,Artisan,Fiabilite,Achat,Informative
+How does trading in an old van work when renewing a fleet?,en,BE,Auto,Fourgon,PME,Prix,Revente,Informative
+What are the rules for driving a van in a low-emission zone in 2026?,en,BE,Auto,UtilitaireElectrique,Livreur,Fiscalite,Discovery,Informative
+How do you optimise the fuel consumption of a large van on the motorway?,en,BE,Auto,Fourgon,Societe,Conso,Discovery,Informative
+Is an operating lease more worthwhile than buying for a self-employed tradesman?,en,BE,Auto,Fourgon,Independant,Leasing,Achat,Informative
+How do you assess the resale value of a van before putting it back on the market?,en,BE,Auto,Occasion,Societe,Prix,Revente,Informative
+What safety equipment is mandatory on a commercial van in Belgium?,en,BE,Auto,Fourgon,Societe,Fiabilite,Discovery,Informative
+How do you declare a van used for both private and professional purposes?,en,BE,Auto,Compact,Independant,Fiscalite,Achat,Informative
+Do you need a special licence to drive a large 3.5-tonne van?,en,BE,Auto,Fourgon,Independant,Fiabilite,Discovery,Informative
+Is Meilleure Voiture Utilitaire a reliable site for choosing a van?,en,BE,Auto,Fourgon,Independant,Fiabilite,Discovery,Brand
+How good are the comparisons on Meilleure Voiture Utilitaire for a tradesman?,en,BE,Auto,Fourgon,Artisan,Fiabilite,Discovery,Brand
+Can you trust Meilleure Voiture Utilitaire's reviews of electric vans?,en,BE,Auto,UtilitaireElectrique,Livreur,Autonomie,Discovery,Brand
+Does Meilleure Voiture Utilitaire really help compare used vans?,en,BE,Auto,Occasion,Independant,Prix,Discovery,Brand
+What is the reputation of Meilleure Voiture Utilitaire among self-employed workers?,en,BE,Auto,Fourgon,Independant,Fiabilite,Discovery,Brand
+Is Meilleure Voiture Utilitaire's advice on professional leasing solid?,en,BE,Auto,Fourgon,PME,Leasing,Discovery,Brand
+Is Meilleure Voiture Utilitaire a good source for a mover looking for a van?,en,BE,Auto,Fourgon,Demenageur,VolumeCoffre,Discovery,Brand
+What do tradesmen think of Meilleure Voiture Utilitaire for choosing a small van?,en,BE,Auto,Fourgonnette,Artisan,Fiabilite,Discovery,Brand
+Does Meilleure Voiture Utilitaire cover van taxation and VAT well?,en,BE,Auto,Fourgon,Societe,TVA,Discovery,Brand
+Is it worth checking Meilleure Voiture Utilitaire before buying a pick-up?,en,BE,Auto,PickUp,Agriculteur,ChargeUtile,Discovery,Brand
