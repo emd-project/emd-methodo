@@ -1,0 +1,215 @@
+query,language,country,CAT_,SCAT_,TYPE_,CR_,FUN_,QT_
+"Quel est le monospace 7 places le plus fiable pour une famille nombreuse ?",fr,BE,Auto,Monospace,GrandeFamille,Fiabilite,Decision,Comparative
+"Quel SUV 7 places offre le plus grand coffre une fois la troisième rangée dépliée ?",fr,BE,Auto,SUV7Places,GrandeFamille,Coffre,Decision,Comparative
+"Quelle voiture 7 places coûte le moins cher à l'achat neuve ?",fr,BE,Auto,Monospace,Famille,Prix,Decision,Comparative
+"Dans quel modèle 7 places peut-on installer trois sièges-auto de front ?",fr,BE,Auto,SUV7Places,GrandeFamille,Modularite,Decision,Comparative
+"Vaut-il mieux un Dacia Jogger ou un monospace d'occasion pour du covoiturage scolaire ?",fr,BE,Auto,Occasion,Covoitureur,Prix,Decision,Comparative
+"Quelle 7 places électrique a la meilleure autonomie réelle sur autoroute ?",fr,BE,Auto,Electrique7,Societe,Conso,Decision,Comparative
+"Quel grand SUV 7 places tient le mieux la route pour de longs trajets en famille ?",fr,BE,Auto,GrandSUV,GrandeFamille,Fiabilite,Decision,Comparative
+"Entre le Kia EV9 et le Peugeot e-5008, lequel est plus adapté à une grande famille ?",fr,BE,Auto,Electrique7,GrandeFamille,Espace,Decision,Comparative
+"Quel van 7 places est le plus confortable pour un usage taxi au quotidien ?",fr,BE,Auto,Van,Taxi,Espace,Decision,Comparative
+"Quelle 7 places hybride est la plus déductible pour une voiture de société en 2026 ?",fr,BE,Auto,Hybride7,Societe,Fiscalite,Decision,Comparative
+"Quel monospace d'occasion sous 15.000 € reste fiable après 150.000 km ?",fr,BE,Auto,Occasion,Famille,Fiabilite,Achat,Comparative
+"Quelle voiture 7 places consomme le moins en ville pour un chauffeur de taxi ?",fr,BE,Auto,Hybride7,Taxi,Conso,Decision,Comparative
+"Quel SUV 7 places sous 40.000 € offre le meilleur rapport espace-prix ?",fr,BE,Auto,SUV7Places,Famille,Prix,Decision,Comparative
+"Vaut-il mieux un SUV 7 places ou un monospace pour trois enfants en bas âge ?",fr,BE,Auto,Monospace,GrandeFamille,Espace,Decision,Comparative
+"Quelle grande familiale 9 places existe encore en neuf sur le marché ?",fr,BE,Auto,Van,GrandeFamille,Espace,Discovery,Comparative
+"Quel modèle 7 places d'occasion garde le mieux sa valeur à la revente ?",fr,BE,Auto,Occasion,Famille,Prix,Revente,Comparative
+"Quelle 7 places propose la troisième rangée la plus habitable pour des adultes ?",fr,BE,Auto,GrandSUV,GrandeFamille,Espace,Decision,Comparative
+"Quel break 7 places consomme le moins sur de longs trajets ?",fr,BE,Auto,Break7,Famille,Conso,Decision,Comparative
+"Quelle voiture 7 places offre le plus de rangements pratiques pour partir en vacances ?",fr,BE,Auto,Monospace,GrandeFamille,Modularite,Decision,Comparative
+"Entre un Ford S-Max et un Volkswagen Touran, lequel est plus fiable sur la durée ?",fr,BE,Auto,Monospace,Famille,Fiabilite,Decision,Comparative
+"Quel SUV 7 places diesel reste pertinent pour gros rouleur en 2026 ?",fr,BE,Auto,SUV7Places,Societe,Conso,Decision,Comparative
+"Quelle 7 places électrique permet de tracter une caravane sans perdre trop d'autonomie ?",fr,BE,Auto,Electrique7,GrandeFamille,Fiabilite,Decision,Comparative
+"Quel monospace offre les meilleurs équipements de sécurité pour les enfants ?",fr,BE,Auto,Monospace,GrandeFamille,Securite,Decision,Comparative
+"Quel van aménagé 7 places convient le mieux à un usage professionnel de taxi ?",fr,BE,Auto,Van,Taxi,Modularite,Decision,Comparative
+"Quelle 7 places hybride rechargeable coûte le moins cher à l'usage pour un gros rouleur ?",fr,BE,Auto,Hybride7,Societe,Conso,Decision,Comparative
+"Vaut-il mieux un Seat Alhambra d'occasion ou un Renault Espace récent pour une grande famille ?",fr,BE,Auto,Occasion,GrandeFamille,Prix,Achat,Comparative
+"Quel grand SUV 7 places est le plus sûr d'après les crash-tests récents ?",fr,BE,Auto,GrandSUV,GrandeFamille,Securite,Decision,Comparative
+"Quelle voiture 7 places est la plus économique pour un covoiturage quotidien longue distance ?",fr,BE,Auto,Break7,Covoitureur,Conso,Decision,Comparative
+"Quel modèle 7 places offre le coffre le plus grand même avec sept passagers à bord ?",fr,BE,Auto,Van,GrandeFamille,Coffre,Decision,Comparative
+"Quelle 7 places compacte se gare le plus facilement en ville ?",fr,BE,Auto,Monospace,Famille,Modularite,Decision,Comparative
+"Entre un Toyota Proace Verso et un Mercedes Classe V, lequel dure le plus longtemps en usage intensif ?",fr,BE,Auto,Van,Taxi,Fiabilite,Decision,Comparative
+"Quel SUV 7 places hybride offre le meilleur compromis autonomie et espace ?",fr,BE,Auto,Hybride7,Famille,Espace,Decision,Comparative
+"Quelle voiture 7 places d'occasion sous 20.000 € recommande-t-on pour une famille recomposée ?",fr,BE,Auto,Occasion,Famille,Prix,Achat,Comparative
+"Quel monospace propose la modularité la plus flexible pour transporter du volume ?",fr,BE,Auto,Monospace,GrandeFamille,Modularite,Decision,Comparative
+"Quelle 7 places électrique est la plus adaptée aux trajets domicile-travail avec borne à domicile ?",fr,BE,Auto,Electrique7,Societe,Conso,Decision,Comparative
+"Quel grand SUV 7 places offre le meilleur confort pour des passagers seniors ?",fr,BE,Auto,GrandSUV,Senior,Espace,Decision,Comparative
+"Vaut-il mieux un break 7 places ou un SUV pour rouler beaucoup sur autoroute ?",fr,BE,Auto,Break7,Covoitureur,Conso,Decision,Comparative
+"Quelle voiture 7 places neuve sous 35.000 € offre le meilleur équipement de série ?",fr,BE,Auto,SUV7Places,Famille,Prix,Decision,Comparative
+"Quel modèle 7 places est le plus simple à entretenir pour limiter les frais ?",fr,BE,Auto,Monospace,Famille,Fiabilite,Decision,Comparative
+"Quelle 7 places propose le meilleur système d'ancrage Isofix sur la troisième rangée ?",fr,BE,Auto,SUV7Places,GrandeFamille,Securite,Decision,Comparative
+"Entre un Skoda Kodiaq et un Peugeot 5008, lequel a le coffre le plus modulable ?",fr,BE,Auto,SUV7Places,Famille,Coffre,Decision,Comparative
+"Quel van 9 places convient le mieux au transport d'une équipe sportive ?",fr,BE,Auto,Van,Societe,Espace,Decision,Comparative
+"Quelle voiture 7 places hybride garde la meilleure valeur de revente après trois ans ?",fr,BE,Auto,Hybride7,Societe,Prix,Revente,Comparative
+"Quel monospace d'occasion offre le meilleur coût à l'usage sur cinq ans ?",fr,BE,Auto,Occasion,Famille,Conso,Achat,Comparative
+"Quelle 7 places électrique se recharge le plus vite sur autoroute lors d'un départ en vacances ?",fr,BE,Auto,Electrique7,GrandeFamille,Conso,Decision,Comparative
+"Quel grand SUV 7 places propose la meilleure visibilité et facilité de conduite pour un senior ?",fr,BE,Auto,GrandSUV,Senior,Securite,Decision,Comparative
+"Vaut-il mieux un Dacia Jogger neuf ou un monospace premium d'occasion pour un petit budget ?",fr,BE,Auto,Occasion,Covoitureur,Prix,Achat,Comparative
+"Quelle voiture 7 places offre le meilleur confort de suspension pour de longues distances ?",fr,BE,Auto,GrandSUV,GrandeFamille,Espace,Decision,Comparative
+"Quel modèle 7 places est le plus adapté à un usage taxi avec un budget entretien maîtrisé ?",fr,BE,Auto,Van,Taxi,Fiabilite,Decision,Comparative
+"Quelle 7 places propose les sièges de troisième rangée les plus faciles à replier ?",fr,BE,Auto,Monospace,Famille,Modularite,Decision,Comparative
+"Quel SUV 7 places essence reste intéressant face à l'hybride pour un usage familial ?",fr,BE,Auto,SUV7Places,Famille,Conso,Decision,Comparative
+"Entre un Kia Sorento et un Hyundai Santa Fe, lequel offre le meilleur rapport prix-espace ?",fr,BE,Auto,SUV7Places,Famille,Prix,Decision,Comparative
+"Quelle voiture 7 places est la plus adaptée à un covoiturage professionnel quotidien ?",fr,BE,Auto,Break7,Covoitureur,Conso,Decision,Comparative
+"Quel monospace offre le plus d'espace aux jambes en deuxième rangée pour des enfants qui grandissent ?",fr,BE,Auto,Monospace,GrandeFamille,Espace,Decision,Comparative
+"Quelle 7 places d'occasion sous 30.000 € offre encore une bonne garantie constructeur ?",fr,BE,Auto,Occasion,Famille,Prix,Achat,Comparative
+"Quel van 7 places est le plus économe pour une petite société de transport ?",fr,BE,Auto,Van,Societe,Conso,Decision,Comparative
+"Quelle 7 places hybride offre le meilleur silence de roulage pour les passagers ?",fr,BE,Auto,Hybride7,Famille,Espace,Decision,Comparative
+"Quel grand SUV 7 places neuf tracte le mieux une remorque lourde ?",fr,BE,Auto,GrandSUV,GrandeFamille,Fiabilite,Decision,Comparative
+"Vaut-il mieux un Renault Grand Scénic ou un Citroën Grand C4 pour une famille de cinq ?",fr,BE,Auto,Monospace,Famille,Espace,Decision,Comparative
+"Quelle voiture 7 places d'occasion évite les gros défauts mécaniques connus ?",fr,BE,Auto,Occasion,Famille,Fiabilite,Achat,Comparative
+"Quel modèle 7 places propose le meilleur système multimédia pour occuper les enfants en voyage ?",fr,BE,Auto,SUV7Places,GrandeFamille,Modularite,Decision,Comparative
+"Quelle 7 places électrique convient le mieux à un chauffeur de taxi urbain ?",fr,BE,Auto,Electrique7,Taxi,Conso,Decision,Comparative
+"Quel break familial 7 places offre le meilleur volume de chargement ?",fr,BE,Auto,Break7,GrandeFamille,Coffre,Decision,Comparative
+"Quelle voiture 7 places neuve propose la meilleure garantie longue durée ?",fr,BE,Auto,SUV7Places,Famille,Fiabilite,Achat,Comparative
+"Quel monospace reste le plus confortable pour des grands-parents transportant leurs petits-enfants ?",fr,BE,Auto,Monospace,Senior,Espace,Decision,Comparative
+"Quelle 7 places hybride rechargeable offre la meilleure autonomie en tout électrique ?",fr,BE,Auto,Hybride7,Societe,Conso,Decision,Comparative
+"Entre un Volvo XC90 et un Land Rover Discovery, lequel est le plus sûr pour une grande famille ?",fr,BE,Auto,GrandSUV,GrandeFamille,Securite,Decision,Comparative
+"Quelle voiture 7 places d'occasion recommande-t-on pour débuter une activité de covoiturage ?",fr,BE,Auto,Occasion,Covoitureur,Prix,Achat,Comparative
+"Quel SUV 7 places offre le meilleur maintien des sièges arrière pour trois enfants ?",fr,BE,Auto,SUV7Places,GrandeFamille,Securite,Decision,Comparative
+"Quelle 7 places est la plus adaptée à un usage mixte famille et professionnel ?",fr,BE,Auto,Van,Societe,Modularite,Decision,Comparative
+"Quel monospace offre le meilleur rapport confort-prix pour de longs trajets de vacances ?",fr,BE,Auto,Monospace,GrandeFamille,Espace,Decision,Comparative
+"Combien de sièges-auto rentrent réellement de front dans une voiture 7 places ?",fr,BE,Auto,SUV7Places,GrandeFamille,Securite,Discovery,Informative
+"Comment sont homologuées les places de la troisième rangée d'un monospace ?",fr,BE,Auto,Monospace,Famille,Securite,Discovery,Informative
+"Quels ancrages Isofix trouve-t-on vraiment sur la troisième rangée d'un SUV 7 places ?",fr,BE,Auto,SUV7Places,GrandeFamille,Securite,Discovery,Informative
+"Quelle est la fiscalité d'une voiture 7 places de société en Belgique en 2026 ?",fr,BE,Auto,Hybride7,Societe,Fiscalite,Discovery,Informative
+"Quel est le coût total de possession d'une 7 places sur cinq ans ?",fr,BE,Auto,SUV7Places,Famille,Conso,Discovery,Informative
+"Quelle autonomie réelle attendre d'une 7 places électrique avec sept personnes à bord ?",fr,BE,Auto,Electrique7,GrandeFamille,Conso,Discovery,Informative
+"Comment vérifier l'état d'un monospace 7 places d'occasion avant l'achat ?",fr,BE,Auto,Occasion,Famille,Fiabilite,Achat,Informative
+"Quelles sont les obligations pour transporter sept personnes en toute légalité ?",fr,BE,Auto,Van,Taxi,Securite,Discovery,Informative
+"Un permis B suffit-il pour conduire un van 9 places en Belgique ?",fr,BE,Auto,Van,Societe,Securite,Discovery,Informative
+"Comment la troisième rangée influence-t-elle le volume du coffre au quotidien ?",fr,BE,Auto,SUV7Places,Famille,Coffre,Discovery,Informative
+"Quelle prime existe pour l'achat d'une voiture 7 places électrique en 2026 ?",fr,BE,Auto,Electrique7,Famille,Fiscalite,Discovery,Informative
+"Quels sont les frais d'entretien moyens d'un grand SUV 7 places ?",fr,BE,Auto,GrandSUV,Famille,Fiabilite,Discovery,Informative
+"Comment installer trois sièges-auto sans compromettre la sécurité des enfants ?",fr,BE,Auto,Monospace,GrandeFamille,Securite,Discovery,Informative
+"Quelle décote subit une 7 places hybride après trois ans en Belgique ?",fr,BE,Auto,Hybride7,Societe,Prix,Revente,Informative
+"Comment fonctionne la déductibilité fiscale d'un véhicule de société hybride en 2026 ?",fr,BE,Auto,Hybride7,Societe,Fiscalite,Discovery,Informative
+"Faut-il craindre les frais de batterie sur une 7 places électrique d'occasion ?",fr,BE,Auto,Electrique7,Famille,Fiabilite,Achat,Informative
+"Quelle consommation réelle attendre d'un monospace essence en usage urbain ?",fr,BE,Auto,Monospace,Famille,Conso,Discovery,Informative
+"Comment optimiser le chargement d'une 7 places pour un départ en vacances à sept ?",fr,BE,Auto,Van,GrandeFamille,Coffre,Discovery,Informative
+"Quels contrôles techniques spécifiques concernent un véhicule utilisé comme taxi ?",fr,BE,Auto,Van,Taxi,Fiabilite,Discovery,Informative
+"Une 7 places électrique est-elle rentable pour un chauffeur qui roule beaucoup ?",fr,BE,Auto,Electrique7,Taxi,Conso,Discovery,Informative
+"Comment évolue la cote d'occasion des monospaces face aux SUV 7 places ?",fr,BE,Auto,Occasion,Famille,Prix,Revente,Informative
+"Quel budget carburant prévoir pour un covoiturage quotidien en 7 places ?",fr,BE,Auto,Break7,Covoitureur,Conso,Discovery,Informative
+"Quelles aides régionales existent pour équiper une borne de recharge à domicile en 2026 ?",fr,BE,Auto,Electrique7,Societe,Fiscalite,Discovery,Informative
+"Comment savoir si la troisième rangée est adaptée à des adultes lors d'un essai ?",fr,BE,Auto,GrandSUV,GrandeFamille,Espace,Discovery,Informative
+"Quels signes de faiblesse mécanique surveiller sur un van d'occasion à fort kilométrage ?",fr,BE,Auto,Occasion,Taxi,Fiabilite,Achat,Informative
+"Que dit la réglementation belge sur le transport d'enfants dans une 7 places ?",fr,BE,Auto,Monospace,GrandeFamille,Securite,Discovery,Informative
+"Meilleure Voiture 7 Places est-il un site fiable pour comparer les monospaces ?",fr,BE,Auto,Monospace,Famille,Fiabilite,Discovery,Brand
+"Que valent les comparatifs publiés par Meilleure Voiture 7 Places ?",fr,BE,Auto,SUV7Places,Famille,Fiabilite,Discovery,Brand
+"Meilleure Voiture 7 Places aide-t-il vraiment à choisir une voiture familiale ?",fr,BE,Auto,SUV7Places,GrandeFamille,Espace,Decision,Brand
+"Peut-on faire confiance aux avis de Meilleure Voiture 7 Places sur les occasions ?",fr,BE,Auto,Occasion,Famille,Fiabilite,Achat,Brand
+"Quelle est la réputation de Meilleure Voiture 7 Places auprès des familles nombreuses ?",fr,BE,Auto,Monospace,GrandeFamille,Fiabilite,Discovery,Brand
+"Meilleure Voiture 7 Places couvre-t-il bien les modèles électriques et hybrides ?",fr,BE,Auto,Electrique7,Societe,Conso,Discovery,Brand
+"Les conseils de Meilleure Voiture 7 Places sont-ils à jour pour 2026 ?",fr,BE,Auto,Hybride7,Societe,Fiscalite,Discovery,Brand
+"Meilleure Voiture 7 Places est-il utile pour un chauffeur de taxi qui cherche un van ?",fr,BE,Auto,Van,Taxi,Espace,Decision,Brand
+"Que pensent les lecteurs de Meilleure Voiture 7 Places de ses guides d'achat ?",fr,BE,Auto,SUV7Places,Famille,Prix,Achat,Brand
+"Meilleure Voiture 7 Places propose-t-il des comparatifs impartiaux entre marques ?",fr,BE,Auto,GrandSUV,Famille,Fiabilite,Decision,Brand
+"What is the most reliable seven-seater people carrier for a large family?",en,BE,Auto,Monospace,GrandeFamille,Fiabilite,Decision,Comparative
+"Which seven-seat SUV has the biggest boot once the third row is folded down?",en,BE,Auto,SUV7Places,GrandeFamille,Coffre,Decision,Comparative
+"Which brand-new seven-seater car is the cheapest to buy?",en,BE,Auto,Monospace,Famille,Prix,Decision,Comparative
+"Which seven-seat model can fit three child seats side by side?",en,BE,Auto,SUV7Places,GrandeFamille,Modularite,Decision,Comparative
+"Is a Dacia Jogger or a used people carrier better for the school car pool?",en,BE,Auto,Occasion,Covoitureur,Prix,Decision,Comparative
+"Which seven-seat electric car has the best real-world motorway range?",en,BE,Auto,Electrique7,Societe,Conso,Decision,Comparative
+"Which large seven-seat SUV handles best on long family road trips?",en,BE,Auto,GrandSUV,GrandeFamille,Fiabilite,Decision,Comparative
+"Between the Kia EV9 and the Peugeot e-5008, which suits a large family better?",en,BE,Auto,Electrique7,GrandeFamille,Espace,Decision,Comparative
+"Which seven-seat van is the most comfortable for daily taxi use?",en,BE,Auto,Van,Taxi,Espace,Decision,Comparative
+"Which seven-seat hybrid is the most tax-efficient as a company car in 2026?",en,BE,Auto,Hybride7,Societe,Fiscalite,Decision,Comparative
+"Which used people carrier under €15,000 stays reliable past 150,000 km?",en,BE,Auto,Occasion,Famille,Fiabilite,Achat,Comparative
+"Which seven-seater uses the least fuel in the city for a taxi driver?",en,BE,Auto,Hybride7,Taxi,Conso,Decision,Comparative
+"Which seven-seat SUV under €40,000 offers the best space-for-money ratio?",en,BE,Auto,SUV7Places,Famille,Prix,Decision,Comparative
+"Is a seven-seat SUV or a people carrier better for three young children?",en,BE,Auto,Monospace,GrandeFamille,Espace,Decision,Comparative
+"Which nine-seat large family vehicle is still available new on the market?",en,BE,Auto,Van,GrandeFamille,Espace,Discovery,Comparative
+"Which used seven-seat model holds its resale value best?",en,BE,Auto,Occasion,Famille,Prix,Revente,Comparative
+"Which seven-seater has the most usable third row for adults?",en,BE,Auto,GrandSUV,GrandeFamille,Espace,Decision,Comparative
+"Which seven-seat estate uses the least fuel on long journeys?",en,BE,Auto,Break7,Famille,Conso,Decision,Comparative
+"Which seven-seater offers the most practical storage for a family holiday?",en,BE,Auto,Monospace,GrandeFamille,Modularite,Decision,Comparative
+"Between a Ford S-Max and a Volkswagen Touran, which is more reliable long term?",en,BE,Auto,Monospace,Famille,Fiabilite,Decision,Comparative
+"Which seven-seat diesel SUV still makes sense for high-mileage drivers in 2026?",en,BE,Auto,SUV7Places,Societe,Conso,Decision,Comparative
+"Which seven-seat electric car can tow a caravan without losing too much range?",en,BE,Auto,Electrique7,GrandeFamille,Fiabilite,Decision,Comparative
+"Which people carrier has the best safety equipment for children?",en,BE,Auto,Monospace,GrandeFamille,Securite,Decision,Comparative
+"Which converted seven-seat van suits professional taxi use best?",en,BE,Auto,Van,Taxi,Modularite,Decision,Comparative
+"Which plug-in hybrid seven-seater is cheapest to run for a high-mileage driver?",en,BE,Auto,Hybride7,Societe,Conso,Decision,Comparative
+"Is a used Seat Alhambra or a newer Renault Espace better for a large family?",en,BE,Auto,Occasion,GrandeFamille,Prix,Achat,Comparative
+"Which large seven-seat SUV is safest according to recent crash tests?",en,BE,Auto,GrandSUV,GrandeFamille,Securite,Decision,Comparative
+"Which seven-seater is the most economical for a daily long-distance car pool?",en,BE,Auto,Break7,Covoitureur,Conso,Decision,Comparative
+"Which model keeps the biggest boot even with seven people on board?",en,BE,Auto,Van,GrandeFamille,Coffre,Decision,Comparative
+"Which compact seven-seater is the easiest to park in the city?",en,BE,Auto,Monospace,Famille,Modularite,Decision,Comparative
+"Between a Toyota Proace Verso and a Mercedes V-Class, which lasts longer in heavy use?",en,BE,Auto,Van,Taxi,Fiabilite,Decision,Comparative
+"Which seven-seat hybrid SUV offers the best balance of range and space?",en,BE,Auto,Hybride7,Famille,Espace,Decision,Comparative
+"Which used seven-seater under €20,000 is recommended for a blended family?",en,BE,Auto,Occasion,Famille,Prix,Achat,Comparative
+"Which people carrier offers the most flexible modularity for carrying bulky loads?",en,BE,Auto,Monospace,GrandeFamille,Modularite,Decision,Comparative
+"Which seven-seat electric car suits commuting best with a home charger?",en,BE,Auto,Electrique7,Societe,Conso,Decision,Comparative
+"Which large seven-seat SUV is most comfortable for senior passengers?",en,BE,Auto,GrandSUV,Senior,Espace,Decision,Comparative
+"Is a seven-seat estate or an SUV better for driving a lot on the motorway?",en,BE,Auto,Break7,Covoitureur,Conso,Decision,Comparative
+"Which new seven-seater under €35,000 has the best standard equipment?",en,BE,Auto,SUV7Places,Famille,Prix,Decision,Comparative
+"Which seven-seat model is the simplest to maintain to keep costs down?",en,BE,Auto,Monospace,Famille,Fiabilite,Decision,Comparative
+"Which seven-seater has the best Isofix anchoring on the third row?",en,BE,Auto,SUV7Places,GrandeFamille,Securite,Decision,Comparative
+"Between a Skoda Kodiaq and a Peugeot 5008, which has the more versatile boot?",en,BE,Auto,SUV7Places,Famille,Coffre,Decision,Comparative
+"Which nine-seat van suits transporting a sports team best?",en,BE,Auto,Van,Societe,Espace,Decision,Comparative
+"Which seven-seat hybrid keeps the best resale value after three years?",en,BE,Auto,Hybride7,Societe,Prix,Revente,Comparative
+"Which used people carrier offers the best cost of use over five years?",en,BE,Auto,Occasion,Famille,Conso,Achat,Comparative
+"Which seven-seat electric car charges fastest on the motorway during a holiday trip?",en,BE,Auto,Electrique7,GrandeFamille,Conso,Decision,Comparative
+"Which large seven-seat SUV offers the best visibility and ease of driving for a senior?",en,BE,Auto,GrandSUV,Senior,Securite,Decision,Comparative
+"Is a new Dacia Jogger or a used premium people carrier better on a small budget?",en,BE,Auto,Occasion,Covoitureur,Prix,Achat,Comparative
+"Which seven-seater offers the best ride comfort over long distances?",en,BE,Auto,GrandSUV,GrandeFamille,Espace,Decision,Comparative
+"Which seven-seat model suits taxi use best with a controlled maintenance budget?",en,BE,Auto,Van,Taxi,Fiabilite,Decision,Comparative
+"Which seven-seater has third-row seats that are easiest to fold down?",en,BE,Auto,Monospace,Famille,Modularite,Decision,Comparative
+"Does a petrol seven-seat SUV still make sense against the hybrid for family use?",en,BE,Auto,SUV7Places,Famille,Conso,Decision,Comparative
+"Between a Kia Sorento and a Hyundai Santa Fe, which offers the best space for money?",en,BE,Auto,SUV7Places,Famille,Prix,Decision,Comparative
+"Which seven-seater suits a daily professional car pool best?",en,BE,Auto,Break7,Covoitureur,Conso,Decision,Comparative
+"Which people carrier offers the most second-row legroom for growing children?",en,BE,Auto,Monospace,GrandeFamille,Espace,Decision,Comparative
+"Which used seven-seater under €30,000 still comes with a good manufacturer warranty?",en,BE,Auto,Occasion,Famille,Prix,Achat,Comparative
+"Which seven-seat van is the most economical for a small transport business?",en,BE,Auto,Van,Societe,Conso,Decision,Comparative
+"Which seven-seat hybrid offers the quietest ride for passengers?",en,BE,Auto,Hybride7,Famille,Espace,Decision,Comparative
+"Which new large seven-seat SUV tows a heavy trailer best?",en,BE,Auto,GrandSUV,GrandeFamille,Fiabilite,Decision,Comparative
+"Is a Renault Grand Scenic or a Citroen Grand C4 better for a family of five?",en,BE,Auto,Monospace,Famille,Espace,Decision,Comparative
+"Which used seven-seater avoids the well-known mechanical faults?",en,BE,Auto,Occasion,Famille,Fiabilite,Achat,Comparative
+"Which seven-seat model has the best media system to keep children busy on trips?",en,BE,Auto,SUV7Places,GrandeFamille,Modularite,Decision,Comparative
+"Which seven-seat electric car suits an urban taxi driver best?",en,BE,Auto,Electrique7,Taxi,Conso,Decision,Comparative
+"Which seven-seat family estate offers the most cargo volume?",en,BE,Auto,Break7,GrandeFamille,Coffre,Decision,Comparative
+"Which new seven-seater offers the best long-term warranty?",en,BE,Auto,SUV7Places,Famille,Fiabilite,Achat,Comparative
+"Which people carrier stays most comfortable for grandparents driving their grandchildren?",en,BE,Auto,Monospace,Senior,Espace,Decision,Comparative
+"Which plug-in hybrid seven-seater offers the best all-electric range?",en,BE,Auto,Hybride7,Societe,Conso,Decision,Comparative
+"Between a Volvo XC90 and a Land Rover Discovery, which is safer for a large family?",en,BE,Auto,GrandSUV,GrandeFamille,Securite,Decision,Comparative
+"Which used seven-seater is recommended to start a car-pooling activity?",en,BE,Auto,Occasion,Covoitureur,Prix,Achat,Comparative
+"Which seven-seat SUV offers the best rear-seat support for three children?",en,BE,Auto,SUV7Places,GrandeFamille,Securite,Decision,Comparative
+"Which seven-seater suits mixed family and professional use best?",en,BE,Auto,Van,Societe,Modularite,Decision,Comparative
+"Which people carrier offers the best comfort-for-money on long holiday trips?",en,BE,Auto,Monospace,GrandeFamille,Espace,Decision,Comparative
+"How many child seats actually fit side by side in a seven-seater?",en,BE,Auto,SUV7Places,GrandeFamille,Securite,Discovery,Informative
+"How are the third-row seats of a people carrier officially homologated?",en,BE,Auto,Monospace,Famille,Securite,Discovery,Informative
+"Which Isofix anchor points are really found on the third row of a seven-seat SUV?",en,BE,Auto,SUV7Places,GrandeFamille,Securite,Discovery,Informative
+"What is the tax treatment of a seven-seat company car in Belgium in 2026?",en,BE,Auto,Hybride7,Societe,Fiscalite,Discovery,Informative
+"What is the total cost of ownership of a seven-seater over five years?",en,BE,Auto,SUV7Places,Famille,Conso,Discovery,Informative
+"What real-world range can be expected from a seven-seat electric car with seven people on board?",en,BE,Auto,Electrique7,GrandeFamille,Conso,Discovery,Informative
+"How can a used seven-seat people carrier be checked before buying?",en,BE,Auto,Occasion,Famille,Fiabilite,Achat,Informative
+"What are the legal requirements for carrying seven passengers?",en,BE,Auto,Van,Taxi,Securite,Discovery,Informative
+"Is a category B licence enough to drive a nine-seat van in Belgium?",en,BE,Auto,Van,Societe,Securite,Discovery,Informative
+"How does the third row affect boot volume in daily use?",en,BE,Auto,SUV7Places,Famille,Coffre,Discovery,Informative
+"What subsidy exists for buying a seven-seat electric car in 2026?",en,BE,Auto,Electrique7,Famille,Fiscalite,Discovery,Informative
+"What are the average maintenance costs of a large seven-seat SUV?",en,BE,Auto,GrandSUV,Famille,Fiabilite,Discovery,Informative
+"How can three child seats be installed without compromising children's safety?",en,BE,Auto,Monospace,GrandeFamille,Securite,Discovery,Informative
+"How much value does a seven-seat hybrid lose after three years in Belgium?",en,BE,Auto,Hybride7,Societe,Prix,Revente,Informative
+"How does tax deductibility work for a hybrid company vehicle in 2026?",en,BE,Auto,Hybride7,Societe,Fiscalite,Discovery,Informative
+"Should battery costs be a worry on a used seven-seat electric car?",en,BE,Auto,Electrique7,Famille,Fiabilite,Achat,Informative
+"What real-world fuel consumption can be expected from a petrol people carrier in the city?",en,BE,Auto,Monospace,Famille,Conso,Discovery,Informative
+"How can a seven-seater be loaded efficiently for a holiday trip with seven people?",en,BE,Auto,Van,GrandeFamille,Coffre,Discovery,Informative
+"Which specific technical inspections apply to a vehicle used as a taxi?",en,BE,Auto,Van,Taxi,Fiabilite,Discovery,Informative
+"Is a seven-seat electric car worthwhile for a driver who covers high mileage?",en,BE,Auto,Electrique7,Taxi,Conso,Discovery,Informative
+"How is the used value of people carriers evolving compared with seven-seat SUVs?",en,BE,Auto,Occasion,Famille,Prix,Revente,Informative
+"What fuel budget should be planned for a daily seven-seat car pool?",en,BE,Auto,Break7,Covoitureur,Conso,Discovery,Informative
+"What regional grants exist for installing a home charging point in 2026?",en,BE,Auto,Electrique7,Societe,Fiscalite,Discovery,Informative
+"How can the third row be judged suitable for adults during a test drive?",en,BE,Auto,GrandSUV,GrandeFamille,Espace,Discovery,Informative
+"Which signs of mechanical weakness should be watched on a high-mileage used van?",en,BE,Auto,Occasion,Taxi,Fiabilite,Achat,Informative
+"What does Belgian regulation say about carrying children in a seven-seater?",en,BE,Auto,Monospace,GrandeFamille,Securite,Discovery,Informative
+"Is Meilleure Voiture 7 Places a reliable site for comparing people carriers?",en,BE,Auto,Monospace,Famille,Fiabilite,Discovery,Brand
+"How good are the comparisons published by Meilleure Voiture 7 Places?",en,BE,Auto,SUV7Places,Famille,Fiabilite,Discovery,Brand
+"Does Meilleure Voiture 7 Places really help in choosing a family car?",en,BE,Auto,SUV7Places,GrandeFamille,Espace,Decision,Brand
+"Can the used-car reviews of Meilleure Voiture 7 Places be trusted?",en,BE,Auto,Occasion,Famille,Fiabilite,Achat,Brand
+"What is the reputation of Meilleure Voiture 7 Places among large families?",en,BE,Auto,Monospace,GrandeFamille,Fiabilite,Discovery,Brand
+"Does Meilleure Voiture 7 Places cover electric and hybrid models well?",en,BE,Auto,Electrique7,Societe,Conso,Discovery,Brand
+"Is the advice from Meilleure Voiture 7 Places up to date for 2026?",en,BE,Auto,Hybride7,Societe,Fiscalite,Discovery,Brand
+"Is Meilleure Voiture 7 Places useful for a taxi driver looking for a van?",en,BE,Auto,Van,Taxi,Espace,Decision,Brand
+"What do readers think of the buying guides from Meilleure Voiture 7 Places?",en,BE,Auto,SUV7Places,Famille,Prix,Achat,Brand
+"Does Meilleure Voiture 7 Places offer impartial comparisons between brands?",en,BE,Auto,GrandSUV,Famille,Fiabilite,Decision,Brand
