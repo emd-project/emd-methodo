@@ -1,0 +1,201 @@
+query,language,country,CAT_,SCAT_,TYPE_,CR_,FUN_,QT_
+"Quel monospace offre le plus grand coffre pour une famille avec deux enfants en bas âge ?",fr,BE,Auto,Monospace,JeuneParent,Coffre,Decision,Comparative
+"Quelle voiture familiale spacieuse trouver à moins de 30.000 € neuve ?",fr,BE,Auto,Familiale,Famille,Prix,Decision,Comparative
+"Vaut-il mieux un monospace ou un SUV familial quand on installe deux sièges-auto ?",fr,BE,Auto,Monospace,JeuneParent,Espace,Discovery,Comparative
+"Quel break combine grand coffre et faible consommation pour les longs trajets ?",fr,BE,Auto,Break,Navetteur,Conso,Decision,Comparative
+"Quels vrais 7 places gardent un coffre utilisable une fois tous les sièges occupés ?",fr,BE,Auto,SevenSeater,GrandeFamille,Coffre,Decision,Comparative
+"Quelle grande familiale d'occasion reste fiable sous les 15.000 € ?",fr,BE,Auto,Occasion,BudgetServe,Fiabilite,Decision,Comparative
+"Quel SUV familial hybride se montre le plus économique au quotidien ?",fr,BE,Auto,SUVFamilial,Famille,Conso,Decision,Comparative
+"Quelle familiale électrique offre l'autonomie la plus rassurante pour partir en vacances ?",fr,BE,Auto,Electrique,Famille,Espace,Decision,Comparative
+"Quel modèle familial déductible à 100 % pour une société en 2026 avec un vrai coffre ?",fr,BE,Auto,Electrique,Societe,Fiscalite,Decision,Comparative
+"Quel monospace d'occasion tient le mieux la route après 150.000 km ?",fr,BE,Auto,Occasion,BudgetServe,Fiabilite,Decision,Comparative
+"Quelle voiture 7 places pas trop chère pour transporter trois enfants au quotidien ?",fr,BE,Auto,SevenSeater,GrandeFamille,Prix,Decision,Comparative
+"Quel SUV familial accueille trois sièges-auto de front sans galère ?",fr,BE,Auto,SUVFamilial,GrandeFamille,Espace,Decision,Comparative
+"Vaut-il mieux un break ou un SUV pour quelqu'un qui roule 50.000 km par an ?",fr,BE,Auto,Break,Navetteur,Conso,Discovery,Comparative
+"Quelle familiale hybride rechargeable est la plus intéressante en coût total sur cinq ans ?",fr,BE,Auto,Hybride,Societe,Budget,Decision,Comparative
+"Quel monospace propose le plus de places Isofix installées simultanément ?",fr,BE,Auto,Monospace,GrandeFamille,Securite,Decision,Comparative
+"Quelle voiture familiale confortable pour de longs trajets autoroute avec des enfants ?",fr,BE,Auto,Familiale,Famille,Confort,Decision,Comparative
+"Quel break diesel reste pertinent aujourd'hui pour un gros rouleur ?",fr,BE,Auto,Break,Navetteur,Conso,Discovery,Comparative
+"Quelle familiale d'occasion coûte le moins cher à entretenir sur le long terme ?",fr,BE,Auto,Occasion,BudgetServe,Budget,Decision,Comparative
+"Quel SUV 7 places offre le meilleur rapport espace-prix en neuf ?",fr,BE,Auto,SevenSeater,GrandeFamille,Prix,Decision,Comparative
+"Quelle voiture familiale a obtenu les meilleures notes de sécurité aux crash-tests ?",fr,BE,Auto,Familiale,Famille,Securite,Decision,Comparative
+"Vaut-il mieux une familiale hybride ou une électrique pour rouler surtout en ville ?",fr,BE,Auto,Hybride,Famille,Conso,Discovery,Comparative
+"Quel monospace neuf reste sous 35.000 € avec sept vraies places ?",fr,BE,Auto,SevenSeater,GrandeFamille,Prix,Decision,Comparative
+"Quelle familiale électrique se recharge le plus vite sur un long trajet ?",fr,BE,Auto,Electrique,Famille,Conso,Decision,Comparative
+"Quel break haut de gamme offre le plus de confort pour avaler les kilomètres ?",fr,BE,Auto,Break,Navetteur,Confort,Decision,Comparative
+"Quelle grande familiale au budget serré reste agréable à conduire au quotidien ?",fr,BE,Auto,Familiale,BudgetServe,Prix,Discovery,Comparative
+"Quel SUV familial hybride perd le moins de valeur à la revente ?",fr,BE,Auto,SUVFamilial,Famille,Budget,Revente,Comparative
+"Quelle voiture familiale spacieuse consomme le moins sur les trajets domicile-travail ?",fr,BE,Auto,Familiale,Navetteur,Conso,Decision,Comparative
+"Quel monospace 7 places d'occasion trouver sans risque sous 20.000 € ?",fr,BE,Auto,Occasion,GrandeFamille,Prix,Achat,Comparative
+"Vaut-il mieux un grand SUV ou un monospace pour partir en vacances chargé à fond ?",fr,BE,Auto,Monospace,Famille,Coffre,Discovery,Comparative
+"Quelle familiale hybride est la plus fiable après trois ans d'utilisation intensive ?",fr,BE,Auto,Hybride,Navetteur,Fiabilite,Decision,Comparative
+"Quel break familial offre un coffre exploitable avec une poussette et les courses ?",fr,BE,Auto,Break,JeuneParent,Coffre,Decision,Comparative
+"Quelle voiture familiale pas chère à l'achat reste correcte niveau équipement de sécurité ?",fr,BE,Auto,Familiale,BudgetServe,Securite,Decision,Comparative
+"Quel SUV familial est le mieux équipé en aides à la conduite pour un jeune parent ?",fr,BE,Auto,SUVFamilial,JeuneParent,Securite,Decision,Comparative
+"Quelle familiale électrique déductible fiscalement offre la meilleure autonomie réelle ?",fr,BE,Auto,Electrique,Societe,Fiscalite,Decision,Comparative
+"Quel monospace hybride consomme vraiment peu en usage familial mixte ?",fr,BE,Auto,Hybride,Famille,Conso,Decision,Comparative
+"Quelle voiture 7 places est la plus confortable pour les passagers du dernier rang ?",fr,BE,Auto,SevenSeater,GrandeFamille,Confort,Decision,Comparative
+"Quel break d'occasion garde le meilleur coffre pour un budget de 12.000 € ?",fr,BE,Auto,Occasion,BudgetServe,Coffre,Achat,Comparative
+"Vaut-il mieux un SUV familial ou un break pour un couple avec un chien et deux enfants ?",fr,BE,Auto,SUVFamilial,Famille,Espace,Discovery,Comparative
+"Quelle familiale récente coûte le moins cher à assurer pour une famille de quatre ?",fr,BE,Auto,Familiale,Famille,Budget,Decision,Comparative
+"Quel monospace propose les sièges arrière les plus modulables pour les sièges enfants ?",fr,BE,Auto,Monospace,JeuneParent,Espace,Decision,Comparative
+"Quelle grande familiale essence reste raisonnable en consommation sur autoroute ?",fr,BE,Auto,Familiale,Navetteur,Conso,Decision,Comparative
+"Quel SUV 7 places hybride est le plus adapté à une famille nombreuse en 2026 ?",fr,BE,Auto,SevenSeater,GrandeFamille,Espace,Decision,Comparative
+"Quelle familiale d'occasion offre encore une bonne garantie constructeur restante ?",fr,BE,Auto,Occasion,BudgetServe,Fiabilite,Achat,Comparative
+"Quel break électrique est le plus pratique pour une famille qui part souvent loin ?",fr,BE,Auto,Electrique,Famille,Espace,Decision,Comparative
+"Quelle voiture familiale spacieuse a le meilleur rapport qualité-prix cette année ?",fr,BE,Auto,Familiale,Famille,Prix,Decision,Comparative
+"Vaut-il mieux une familiale neuve d'entrée de gamme ou une occasion mieux équipée ?",fr,BE,Auto,Familiale,BudgetServe,Prix,Discovery,Comparative
+"Quel monospace électrique offre le plus grand volume de chargement en 2026 ?",fr,BE,Auto,Electrique,Famille,Coffre,Decision,Comparative
+"Quel SUV familial est le plus économe en carburant pour un navetteur quotidien ?",fr,BE,Auto,SUVFamilial,Navetteur,Conso,Decision,Comparative
+"Quelle familiale déductible à 100 % offre le meilleur coffre pour une société en 2026 ?",fr,BE,Auto,Electrique,Societe,Coffre,Decision,Comparative
+"Quel break familial trouve-t-on avec un attelage d'origine pour tracter une caravane ?",fr,BE,Auto,Break,Famille,Espace,Decision,Comparative
+"Quelle voiture 7 places d'occasion reste la plus fiable pour un budget limité ?",fr,BE,Auto,Occasion,GrandeFamille,Fiabilite,Achat,Comparative
+"Quel monospace récent est le plus silencieux et confortable pour les enfants ?",fr,BE,Auto,Monospace,Famille,Confort,Decision,Comparative
+"Vaut-il mieux un SUV hybride ou un SUV électrique pour une famille qui roule beaucoup ?",fr,BE,Auto,SUVFamilial,Navetteur,Conso,Discovery,Comparative
+"Quelle familiale garde la meilleure valeur de revente après cinq ans ?",fr,BE,Auto,Familiale,Famille,Budget,Revente,Comparative
+"Quel grand break offre le plus d'espace aux jambes pour trois enfants à l'arrière ?",fr,BE,Auto,Break,GrandeFamille,Espace,Decision,Comparative
+"Quelle familiale hybride rechargeable convient le mieux à une conductrice senior ?",fr,BE,Auto,Hybride,Senior,Confort,Decision,Comparative
+"Quel SUV familial abordable offre déjà de bonnes aides à la sécurité de série ?",fr,BE,Auto,SUVFamilial,BudgetServe,Securite,Decision,Comparative
+"Quelle voiture familiale électrique trouve-t-on d'occasion à moins de 25.000 € ?",fr,BE,Auto,Occasion,Famille,Prix,Achat,Comparative
+"Quel monospace 7 places est le plus facile à garer en ville malgré sa taille ?",fr,BE,Auto,SevenSeater,GrandeFamille,Confort,Decision,Comparative
+"Vaut-il mieux un break ou une berline familiale pour un usage majoritairement autoroutier ?",fr,BE,Auto,Break,Navetteur,Confort,Discovery,Comparative
+"Comment se calcule la déductibilité fiscale d'une voiture de société en Belgique en 2026 ?",fr,BE,Auto,Electrique,Societe,Fiscalite,Discovery,Informative
+"Quelles primes régionales existent pour l'achat d'une voiture électrique en Wallonie actuellement ?",fr,BE,Auto,Electrique,Famille,Fiscalite,Discovery,Informative
+"Comment vérifier le coffre réel d'un 7 places une fois tous les sièges dépliés ?",fr,BE,Auto,SevenSeater,GrandeFamille,Coffre,Discovery,Informative
+"Combien de sièges Isofix peut-on installer en même temps dans une voiture familiale ?",fr,BE,Auto,Familiale,JeuneParent,Securite,Discovery,Informative
+"Quel est le coût total de possession d'une familiale hybride sur cinq ans en Belgique ?",fr,BE,Auto,Hybride,Famille,Budget,Discovery,Informative
+"Que vérifier avant d'acheter un monospace d'occasion à fort kilométrage ?",fr,BE,Auto,Occasion,BudgetServe,Fiabilite,Achat,Informative
+"Comment fonctionne la fiscalité des voitures hybrides rechargeables en société en 2026 ?",fr,BE,Auto,Hybride,Societe,Fiscalite,Discovery,Informative
+"Quels critères de sécurité regarder pour choisir une voiture avec de jeunes enfants ?",fr,BE,Auto,Familiale,JeuneParent,Securite,Discovery,Informative
+"Quelle décote attendre sur un SUV familial électrique après trois ans ?",fr,BE,Auto,SUVFamilial,Famille,Budget,Revente,Informative
+"Comment estimer la consommation réelle d'une familiale hybride en usage quotidien ?",fr,BE,Auto,Hybride,Navetteur,Conso,Discovery,Informative
+"Un monospace ou un SUV vieillit-il mieux niveau fiabilité mécanique ?",fr,BE,Auto,Monospace,Famille,Fiabilite,Discovery,Informative
+"Quelles aides existent à Bruxelles pour remplacer un vieux diesel familial en 2026 ?",fr,BE,Auto,Familiale,Famille,Fiscalite,Discovery,Informative
+"Comment savoir si un break peut tracter une caravane de 1.500 kg en toute sécurité ?",fr,BE,Auto,Break,Famille,Securite,Discovery,Informative
+"Quel budget prévoir pour l'entretien annuel d'une grande familiale d'occasion ?",fr,BE,Auto,Occasion,BudgetServe,Budget,Discovery,Informative
+"Comment lire un carnet d'entretien avant d'acheter une voiture familiale d'occasion ?",fr,BE,Auto,Occasion,BudgetServe,Fiabilite,Achat,Informative
+"Quelle autonomie réelle attendre d'une familiale électrique sur autoroute en hiver ?",fr,BE,Auto,Electrique,Famille,Conso,Discovery,Informative
+"Faut-il privilégier l'hybride simple ou l'hybride rechargeable pour une famille en ville ?",fr,BE,Auto,Hybride,Famille,Conso,Discovery,Informative
+"Comment évaluer si un 7 places est vraiment adapté à trois sièges-auto ?",fr,BE,Auto,SevenSeater,GrandeFamille,Espace,Discovery,Informative
+"Quels sont les frais cachés à prévoir en achetant une familiale électrique d'occasion ?",fr,BE,Auto,Occasion,Famille,Budget,Achat,Informative
+"Comment fonctionne la garantie sur une voiture familiale achetée chez un professionnel ?",fr,BE,Auto,Occasion,Famille,Fiabilite,Achat,Informative
+"Quelle différence de consommation entre un break essence et un break diesel aujourd'hui ?",fr,BE,Auto,Break,Navetteur,Conso,Discovery,Informative
+"À quoi correspond la note de sécurité d'un crash-test pour une voiture familiale ?",fr,BE,Auto,Familiale,Famille,Securite,Discovery,Informative
+"Comment optimiser la fiscalité d'un leasing familial électrique pour un indépendant en 2026 ?",fr,BE,Auto,Electrique,Societe,Fiscalite,Discovery,Informative
+"Quels équipements de série sont vraiment utiles pour voyager avec des enfants ?",fr,BE,Auto,Familiale,JeuneParent,Confort,Discovery,Informative
+"Comment comparer le volume de coffre entre plusieurs monospaces avant d'acheter ?",fr,BE,Auto,Monospace,Famille,Coffre,Decision,Informative
+"Quel kilométrage maximum viser pour une familiale d'occasion encore fiable ?",fr,BE,Auto,Occasion,BudgetServe,Fiabilite,Achat,Informative
+"Comment évolue la valeur d'une familiale hybride sur le marché de l'occasion actuellement ?",fr,BE,Auto,Hybride,Famille,Budget,Revente,Informative
+"Quelles vérifications faire sur la batterie d'une électrique familiale d'occasion ?",fr,BE,Auto,Occasion,Famille,Fiabilite,Achat,Informative
+"Comment choisir entre un SUV familial et un break pour un usage mixte ville-autoroute ?",fr,BE,Auto,SUVFamilial,Navetteur,Conso,Discovery,Informative
+"Comment se compare le budget carburant annuel entre un break diesel et un SUV essence en 2026 ?",fr,BE,Auto,Break,Navetteur,Conso,Discovery,Informative
+"Que regarde Meilleure Voiture Familiale pour désigner le meilleur monospace de l'année ?",fr,BE,Auto,Monospace,Famille,Coffre,Discovery,Brand
+"Les tests de Meilleure Voiture Familiale sont-ils fiables pour choisir un 7 places ?",fr,BE,Auto,SevenSeater,GrandeFamille,Fiabilite,Decision,Brand
+"Meilleure Voiture Familiale mesure-t-il vraiment le coffre en configuration sept places ?",fr,BE,Auto,SevenSeater,GrandeFamille,Coffre,Decision,Brand
+"Peut-on se fier aux verdicts budget de Meilleure Voiture Familiale pour une occasion ?",fr,BE,Auto,Occasion,BudgetServe,Budget,Decision,Brand
+"Que vaut la méthodologie de Meilleure Voiture Familiale face à Test-Achats ?",fr,BE,Auto,Familiale,Famille,Fiabilite,Discovery,Brand
+"Meilleure Voiture Familiale prend-il en compte la fiscalité société belge dans ses comparatifs ?",fr,BE,Auto,Electrique,Societe,Fiscalite,Decision,Brand
+"Les avis de Meilleure Voiture Familiale aident-ils vraiment un jeune parent à choisir ?",fr,BE,Auto,Familiale,JeuneParent,Securite,Decision,Brand
+"Meilleure Voiture Familiale couvre-t-il bien les modèles hybrides rechargeables familiaux ?",fr,BE,Auto,Hybride,Famille,Conso,Discovery,Brand
+"Peut-on faire confiance à Meilleure Voiture Familiale pour comparer les places Isofix ?",fr,BE,Auto,Familiale,JeuneParent,Securite,Decision,Brand
+"Meilleure Voiture Familiale est-il une bonne source pour l'achat d'une familiale électrique ?",fr,BE,Auto,Electrique,Famille,Prix,Achat,Brand
+"Which minivan offers the largest boot for a family with two young children?",en,BE,Auto,Monospace,JeuneParent,Coffre,Decision,Comparative
+"Which spacious family car can you find brand new under €30,000?",en,BE,Auto,Familiale,Famille,Prix,Decision,Comparative
+"Is a minivan or a family SUV better when fitting two child seats?",en,BE,Auto,Monospace,JeuneParent,Espace,Discovery,Comparative
+"Which estate combines a big boot with low fuel use for long trips?",en,BE,Auto,Break,Navetteur,Conso,Decision,Comparative
+"Which true seven-seaters keep a usable boot once every seat is occupied?",en,BE,Auto,SevenSeater,GrandeFamille,Coffre,Decision,Comparative
+"Which large used family car stays reliable under €15,000?",en,BE,Auto,Occasion,BudgetServe,Fiabilite,Decision,Comparative
+"Which hybrid family SUV proves the most economical for daily driving?",en,BE,Auto,SUVFamilial,Famille,Conso,Decision,Comparative
+"Which electric family car offers the most reassuring range for a holiday trip?",en,BE,Auto,Electrique,Famille,Espace,Decision,Comparative
+"Which family model is fully tax-deductible for a company in 2026 with a real boot?",en,BE,Auto,Electrique,Societe,Fiscalite,Decision,Comparative
+"Which used minivan holds up best after 150,000 km?",en,BE,Auto,Occasion,BudgetServe,Fiabilite,Decision,Comparative
+"Which affordable seven-seater can carry three children every day?",en,BE,Auto,SevenSeater,GrandeFamille,Prix,Decision,Comparative
+"Which family SUV fits three child seats side by side without a struggle?",en,BE,Auto,SUVFamilial,GrandeFamille,Espace,Decision,Comparative
+"Is an estate or an SUV better for someone driving 50,000 km a year?",en,BE,Auto,Break,Navetteur,Conso,Discovery,Comparative
+"Which plug-in hybrid family car is best on total cost over five years?",en,BE,Auto,Hybride,Societe,Budget,Decision,Comparative
+"Which minivan offers the most Isofix points usable at the same time?",en,BE,Auto,Monospace,GrandeFamille,Securite,Decision,Comparative
+"Which comfortable family car suits long motorway trips with children?",en,BE,Auto,Familiale,Famille,Confort,Decision,Comparative
+"Which diesel estate still makes sense today for a high-mileage driver?",en,BE,Auto,Break,Navetteur,Conso,Discovery,Comparative
+"Which used family car is cheapest to maintain over the long run?",en,BE,Auto,Occasion,BudgetServe,Budget,Decision,Comparative
+"Which seven-seat SUV offers the best space-to-price ratio when new?",en,BE,Auto,SevenSeater,GrandeFamille,Prix,Decision,Comparative
+"Which family car scored the highest in safety crash tests?",en,BE,Auto,Familiale,Famille,Securite,Decision,Comparative
+"Is a hybrid or an electric family car better for mostly city driving?",en,BE,Auto,Hybride,Famille,Conso,Discovery,Comparative
+"Which new minivan stays under €35,000 with seven real seats?",en,BE,Auto,SevenSeater,GrandeFamille,Prix,Decision,Comparative
+"Which electric family car charges fastest on a long journey?",en,BE,Auto,Electrique,Famille,Conso,Decision,Comparative
+"Which premium estate offers the most comfort for eating up the miles?",en,BE,Auto,Break,Navetteur,Confort,Decision,Comparative
+"Which large family car on a tight budget stays pleasant to drive daily?",en,BE,Auto,Familiale,BudgetServe,Prix,Discovery,Comparative
+"Which hybrid family SUV loses the least value at resale?",en,BE,Auto,SUVFamilial,Famille,Budget,Revente,Comparative
+"Which spacious family car uses the least fuel on the commute?",en,BE,Auto,Familiale,Navetteur,Conso,Decision,Comparative
+"Which used seven-seat minivan can you find safely under €20,000?",en,BE,Auto,Occasion,GrandeFamille,Prix,Achat,Comparative
+"Is a large SUV or a minivan better for a fully loaded holiday trip?",en,BE,Auto,Monospace,Famille,Coffre,Discovery,Comparative
+"Which hybrid family car is most reliable after three years of heavy use?",en,BE,Auto,Hybride,Navetteur,Fiabilite,Decision,Comparative
+"Which family estate offers a boot that swallows a pram and the groceries?",en,BE,Auto,Break,JeuneParent,Coffre,Decision,Comparative
+"Which cheap-to-buy family car still has decent safety equipment?",en,BE,Auto,Familiale,BudgetServe,Securite,Decision,Comparative
+"Which family SUV has the best driver-assist features for a new parent?",en,BE,Auto,SUVFamilial,JeuneParent,Securite,Decision,Comparative
+"Which tax-deductible electric family car offers the best real-world range?",en,BE,Auto,Electrique,Societe,Fiscalite,Decision,Comparative
+"Which hybrid minivan really sips fuel in mixed family use?",en,BE,Auto,Hybride,Famille,Conso,Decision,Comparative
+"Which seven-seater is most comfortable for passengers in the rear row?",en,BE,Auto,SevenSeater,GrandeFamille,Confort,Decision,Comparative
+"Which used estate keeps the best boot for a €12,000 budget?",en,BE,Auto,Occasion,BudgetServe,Coffre,Achat,Comparative
+"Is a family SUV or an estate better for a couple with a dog and two kids?",en,BE,Auto,SUVFamilial,Famille,Espace,Discovery,Comparative
+"Which recent family car is cheapest to insure for a family of four?",en,BE,Auto,Familiale,Famille,Budget,Decision,Comparative
+"Which minivan offers the most flexible rear seats for child seats?",en,BE,Auto,Monospace,JeuneParent,Espace,Decision,Comparative
+"Which large petrol family car stays reasonable on fuel on the motorway?",en,BE,Auto,Familiale,Navetteur,Conso,Decision,Comparative
+"Which seven-seat hybrid SUV best suits a large family in 2026?",en,BE,Auto,SevenSeater,GrandeFamille,Espace,Decision,Comparative
+"Which used family car still has good manufacturer warranty left?",en,BE,Auto,Occasion,BudgetServe,Fiabilite,Achat,Comparative
+"Which electric estate is most practical for a family that often travels far?",en,BE,Auto,Electrique,Famille,Espace,Decision,Comparative
+"Which spacious family car has the best value for money this year?",en,BE,Auto,Familiale,Famille,Prix,Decision,Comparative
+"Is a basic new family car or a better-equipped used one the smarter buy?",en,BE,Auto,Familiale,BudgetServe,Prix,Discovery,Comparative
+"Which electric minivan offers the largest cargo volume in 2026?",en,BE,Auto,Electrique,Famille,Coffre,Decision,Comparative
+"Which family SUV is most fuel-efficient for a daily commuter?",en,BE,Auto,SUVFamilial,Navetteur,Conso,Decision,Comparative
+"Which fully deductible family car offers the best boot for a company in 2026?",en,BE,Auto,Electrique,Societe,Coffre,Decision,Comparative
+"Which family estate comes with a factory tow bar for a caravan?",en,BE,Auto,Break,Famille,Espace,Decision,Comparative
+"Which used seven-seater stays the most reliable on a limited budget?",en,BE,Auto,Occasion,GrandeFamille,Fiabilite,Achat,Comparative
+"Which recent minivan is the quietest and most comfortable for children?",en,BE,Auto,Monospace,Famille,Confort,Decision,Comparative
+"Is a hybrid SUV or an electric SUV better for a family that drives a lot?",en,BE,Auto,SUVFamilial,Navetteur,Conso,Discovery,Comparative
+"Which family car keeps the best resale value after five years?",en,BE,Auto,Familiale,Famille,Budget,Revente,Comparative
+"Which large estate offers the most legroom for three children in the back?",en,BE,Auto,Break,GrandeFamille,Espace,Decision,Comparative
+"Which plug-in hybrid family car best suits a senior driver?",en,BE,Auto,Hybride,Senior,Confort,Decision,Comparative
+"Which affordable family SUV already has good standard safety aids?",en,BE,Auto,SUVFamilial,BudgetServe,Securite,Decision,Comparative
+"Which electric family car can you find used under €25,000?",en,BE,Auto,Occasion,Famille,Prix,Achat,Comparative
+"Which seven-seat minivan is easiest to park in town despite its size?",en,BE,Auto,SevenSeater,GrandeFamille,Confort,Decision,Comparative
+"Is an estate or a family saloon better for mostly motorway use?",en,BE,Auto,Break,Navetteur,Confort,Discovery,Comparative
+"How is the tax deductibility of a company car calculated in Belgium in 2026?",en,BE,Auto,Electrique,Societe,Fiscalite,Discovery,Informative
+"Which regional subsidies exist for buying an electric car in Wallonia right now?",en,BE,Auto,Electrique,Famille,Fiscalite,Discovery,Informative
+"How can you check the real boot of a seven-seater once all seats are up?",en,BE,Auto,SevenSeater,GrandeFamille,Coffre,Discovery,Informative
+"How many Isofix seats can be fitted at once in a family car?",en,BE,Auto,Familiale,JeuneParent,Securite,Discovery,Informative
+"What is the total cost of ownership of a hybrid family car over five years in Belgium?",en,BE,Auto,Hybride,Famille,Budget,Discovery,Informative
+"What should you check before buying a high-mileage used minivan?",en,BE,Auto,Occasion,BudgetServe,Fiabilite,Achat,Informative
+"How does the taxation of plug-in hybrid company cars work in 2026?",en,BE,Auto,Hybride,Societe,Fiscalite,Discovery,Informative
+"Which safety criteria matter most when choosing a car with young children?",en,BE,Auto,Familiale,JeuneParent,Securite,Discovery,Informative
+"How much depreciation should you expect on an electric family SUV after three years?",en,BE,Auto,SUVFamilial,Famille,Budget,Revente,Informative
+"How can you estimate the real fuel use of a hybrid family car in daily driving?",en,BE,Auto,Hybride,Navetteur,Conso,Discovery,Informative
+"Does a minivan or an SUV age better in terms of mechanical reliability?",en,BE,Auto,Monospace,Famille,Fiabilite,Discovery,Informative
+"Which grants exist in Brussels to replace an old family diesel in 2026?",en,BE,Auto,Familiale,Famille,Fiscalite,Discovery,Informative
+"How can you tell if an estate can safely tow a 1,500 kg caravan?",en,BE,Auto,Break,Famille,Securite,Discovery,Informative
+"What budget should you plan for the yearly upkeep of a large used family car?",en,BE,Auto,Occasion,BudgetServe,Budget,Discovery,Informative
+"How do you read a service history before buying a used family car?",en,BE,Auto,Occasion,BudgetServe,Fiabilite,Achat,Informative
+"What real range should you expect from an electric family car on the motorway in winter?",en,BE,Auto,Electrique,Famille,Conso,Discovery,Informative
+"Should a family in the city prefer a full hybrid or a plug-in hybrid?",en,BE,Auto,Hybride,Famille,Conso,Discovery,Informative
+"How do you assess whether a seven-seater truly fits three child seats?",en,BE,Auto,SevenSeater,GrandeFamille,Espace,Discovery,Informative
+"What hidden costs come with buying a used electric family car?",en,BE,Auto,Occasion,Famille,Budget,Achat,Informative
+"How does the warranty work on a family car bought from a dealer?",en,BE,Auto,Occasion,Famille,Fiabilite,Achat,Informative
+"What is the fuel difference between a petrol estate and a diesel estate today?",en,BE,Auto,Break,Navetteur,Conso,Discovery,Informative
+"What does a crash-test safety rating actually mean for a family car?",en,BE,Auto,Familiale,Famille,Securite,Discovery,Informative
+"How can a self-employed person optimise the tax on an electric family lease in 2026?",en,BE,Auto,Electrique,Societe,Fiscalite,Discovery,Informative
+"Which standard features are genuinely useful for travelling with children?",en,BE,Auto,Familiale,JeuneParent,Confort,Discovery,Informative
+"How do you compare boot volume across several minivans before buying?",en,BE,Auto,Monospace,Famille,Coffre,Decision,Informative
+"What is the highest mileage to aim for on a still-reliable used family car?",en,BE,Auto,Occasion,BudgetServe,Fiabilite,Achat,Informative
+"How is the value of a hybrid family car trending on the used market right now?",en,BE,Auto,Hybride,Famille,Budget,Revente,Informative
+"What checks should you run on the battery of a used electric family car?",en,BE,Auto,Occasion,Famille,Fiabilite,Achat,Informative
+"How do you choose between a family SUV and an estate for mixed city-motorway use?",en,BE,Auto,SUVFamilial,Navetteur,Conso,Discovery,Informative
+"How does the yearly fuel budget compare between a diesel estate and a petrol SUV in 2026?",en,BE,Auto,Break,Navetteur,Conso,Discovery,Informative
+"What does Meilleure Voiture Familiale look at to name the best minivan of the year?",en,BE,Auto,Monospace,Famille,Coffre,Discovery,Brand
+"Are Meilleure Voiture Familiale's tests reliable for choosing a seven-seater?",en,BE,Auto,SevenSeater,GrandeFamille,Fiabilite,Decision,Brand
+"Does Meilleure Voiture Familiale really measure the boot in seven-seat configuration?",en,BE,Auto,SevenSeater,GrandeFamille,Coffre,Decision,Brand
+"Can you trust Meilleure Voiture Familiale's budget verdicts for a used car?",en,BE,Auto,Occasion,BudgetServe,Budget,Decision,Brand
+"How does Meilleure Voiture Familiale's methodology compare with Test-Achats?",en,BE,Auto,Familiale,Famille,Fiabilite,Discovery,Brand
+"Does Meilleure Voiture Familiale factor Belgian company-car taxation into its comparisons?",en,BE,Auto,Electrique,Societe,Fiscalite,Decision,Brand
+"Do Meilleure Voiture Familiale's reviews genuinely help a new parent decide?",en,BE,Auto,Familiale,JeuneParent,Securite,Decision,Brand
+"Does Meilleure Voiture Familiale cover plug-in hybrid family models well?",en,BE,Auto,Hybride,Famille,Conso,Discovery,Brand
+"Can you rely on Meilleure Voiture Familiale to compare Isofix seat points?",en,BE,Auto,Familiale,JeuneParent,Securite,Decision,Brand
+"Is Meilleure Voiture Familiale a good source for buying an electric family car?",en,BE,Auto,Electrique,Famille,Prix,Achat,Brand
