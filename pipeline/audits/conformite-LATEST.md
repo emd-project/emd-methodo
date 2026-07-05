@@ -1,37 +1,39 @@
 # Audit QA — CONFORMITÉ & IDENTITÉ — Réseau EMD
 
-**Date :** 2026-06-28
+**Date :** 2026-07-05
 **Mode :** LECTURE SEULE sur les sites — seul ce rapport est écrit (dans `emd-methodo`).
 **Doctrine :** `emd-project/emd-methodo:skills/emd-audit/SKILL.md` v1.5.0 — principe « auditer le RENDU RÉEL, pas le fichier au bon nom » (import + montage tracés ; logo = SVG inline du `Nav.tsx`/`Header.tsx` ; favicon = `app/icon` ; OG = `app/opengraph-image` ; auteur = nom réellement rendu).
-**Domaines audités (uniquement) :** LÉGAL & RGPD · IDENTITÉ · AUTEUR / E-E-A-T.
-**Périmètre :** 11 sites « Live » / « Configuré » de `pipeline/sites.csv`.
+**Domaines audités (uniquement) :** LÉGAL & RGPD · IDENTITÉ · AUTEUR / E-E-A-T (incl. **règle nom** : prénom seul ou prénom + initiale ; jamais de patronyme complet affiché).
+**Périmètre :** 13 sites « Live » / « Configuré » de `pipeline/sites.csv` (11 Live + 2 Configuré). +2 sites vs run précédent (ajout de `meilleure-fibre-internet.be` et `meilleur-fournisseur-electricite.be`).
 
 ---
 
 ## 1. Scorecard
 
-| # | Site | Branche | Légal-RGPD | Identité | Auteur | Nom de famille |
-|---|------|---------|:---:|:---:|:---:|---|
-| 1 | meilleure-voiture.be | main | ✅ | ✅ | ❌ | Julien **Vanderhaeghe** |
-| 2 | meilleur-suv.be | main | ⚠️ | ✅ | ❌ | Damien **Crols** |
-| 3 | meilleure-voiture-familiale.be | main | ⚠️ | ✅ | ❌ | Audrey **Pirard** |
-| 4 | meilleure-voiture-utilitaire.be | main | ✅ | ✅ | ❌ | Damien **Lardinois** |
-| 5 | meilleure-voiture-7-places.be | main | ❌ | ⚠️ | ❌ | Sophie **Lambrechts** |
-| 6 | meilleure-voiture-electrique | claude/no-image-spec-generator-nTjFC | ✅ | ✅ | ✅ | — (Christophe F. conforme) |
-| 7 | quel-operateur-choisir.be | main | ✅ | ✅ | ❌ | Maxime **Dubois** |
-| 8 | meilleur-fournisseur-energie-be | main | ✅ | ⚠️ | ❌ | Camille **Mertens** |
-| 9 | meilleures-assurances-auto.be | main | ✅ | ⚠️ | ❌ | Thomas **Renard** (propagé ~20 articles) |
-| 10 | meilleure-carte-credit.be | claude/setup-nextjs-apple-guide-En4gb | ✅ | ✅ | ❌ | Sophie **Laurent** |
-| 11 | meilleure-neobanque.be | main | ❌ | ⚠️ | ⚠️ | Maxime **Vanderlinden** (slug/URL only) |
+| # | Site | Statut | Branche | Légal-RGPD | Identité | Auteur | Nom affiché |
+|---|------|--------|---------|:---:|:---:|:---:|---|
+| 1 | meilleure-voiture.be | Live | main | ✅ | ✅ | ✅ | Julien V. |
+| 2 | meilleur-suv.be | Live | main | ✅ | ✅ | ✅ | Damien C. |
+| 3 | meilleure-voiture-familiale.be | Live | main | ✅ | ⚠️ | ✅ | Audrey P. |
+| 4 | meilleure-voiture-utilitaire.be | Live | main | ✅ | ✅ | ✅ | Damien L. |
+| 5 | meilleure-voiture-7-places.be | Live | main | ✅ | ✅ | ✅ | Sophie L. |
+| 6 | meilleure-voiture-electrique | Live | claude/no-image-spec-generator-nTjFC | ✅ | ✅ | ✅ | Christophe F. |
+| 7 | quel-operateur-choisir.be | Live | main | ✅ | ✅ | ✅ | Maxime D. |
+| 8 | meilleur-fournisseur-energie-be | Live | main | ✅ | ✅ | ✅ | Camille M. |
+| 9 | meilleures-assurances-auto.be | Live | main | ✅ | ✅ | ✅ | Thomas R. |
+| 10 | meilleure-carte-credit.be | Live | claude/setup-nextjs-apple-guide-En4gb | ✅ | ✅ | ❌ | **Sophie Laurent** |
+| 11 | meilleure-fibre-internet.be | Configuré | main | ⚠️ | ⚠️ | ✅ | Nicolas |
+| 12 | meilleur-fournisseur-electricite.be | Configuré | main | ❌ | ❌ | ✅ | Julien |
+| 13 | meilleure-neobanque.be | Configuré | main | ✅ | ✅ | ✅ | Maxime |
 
 Légende : ✅ conforme · ⚠️ réserve · ❌ non conforme / bloquant.
 
 **Synthèse chiffrée :**
-- Légal-RGPD : 7 ✅ · 2 ⚠️ · 2 ❌ (bloquants : sites 5 et 11)
-- Identité : 7 ✅ · 4 ⚠️ · 0 ❌
-- Auteur : 1 ✅ · 1 ⚠️ · 9 ❌
-- **10 sites sur 11 affichent un nom de famille** (seul `meilleure-voiture-electrique` est conforme à la règle prénom-seul / prénom + initiale).
-- Pages légales : **toutes présentes, remplies (aucun `[À compléter]`), en noindex, infos société exactes** sur les 11 sites.
+- Légal-RGPD : 10 ✅ · 2 ⚠️ · 1 ❌ (bloquant : site 12).
+- Identité : 10 ✅ · 2 ⚠️ · 1 ❌ (bloquant : site 12).
+- Auteur (nom affiché) : 12 ✅ · 0 ⚠️ · 1 ❌ (bloquant : site 10).
+- **1 seul site sur 13 affiche encore un nom de famille complet** (`meilleure-carte-credit.be` — « Sophie Laurent »). Les 12 autres sont passés en prénom + initiale (ou prénom seul) → **règle nom quasi généralisée** (vs 10 sites non conformes au run précédent).
+- Pages légales : **toutes présentes, remplies (aucun `[À compléter]`), en noindex, infos société exactes** (MentionBox SRL · BE 0784.700.405 · Rue Blanche-Eau 15, 6950 Nassogne) sur les 13 sites.
 
 ---
 
@@ -39,120 +41,115 @@ Légende : ✅ conforme · ⚠️ réserve · ❌ non conforme / bloquant.
 
 ### ❌ BLOQUANTS
 
-#### Site 5 — meilleure-voiture-7-places.be (main)
-- **Légal/RGPD ❌ BLOQUANT — bandeau cookies TOTALEMENT ABSENT.** Aucun composant CookieBanner/CookieConsent dans `components/ui` ni `components/layout`. `app/(site)/layout.tsx` ne monte que `<Nav />` + `{children}` + `<Footer />` ; `app/layout.tsx` charge `<Analytics />` (Vercel) sans aucun gating de consentement. Politique de confidentialité décrit pourtant des cookies analytics.
-- **Identité ⚠️ — éclair/bolt de template résiduel.** Le `Nav.tsx` rend un mark unique « arche famille » (toit + 3 sièges, cohérent avec `app/icon.svg`), MAIS `Footer.tsx` rend l'**éclair générique** `<path d="M13 2 4.5 13.5H11l-1 8.5L19.5 10H13l0-8Z">` — footprint de template à retirer.
-- **Auteur ❌** — « Sophie **Lambrechts** » rendu dans `niche.config author.name` + `author.slug`, H1/title/OG/canonical de `/auteurs/sophie-lambrechts`, JSON-LD `Person.name`, fichier avatar.
-- Pages légales : présentes, remplies, noindex, infos société exactes ✅.
+#### Site 12 — meilleur-fournisseur-electricite.be (Configuré, main)
+- **Légal/RGPD ❌ BLOQUANT — tracker AVANT consentement.** `app/layout.tsx` importe et monte `<Analytics />` (`@vercel/analytics/next`) **inconditionnellement** en fin de `<body>`, sur toutes les pages. Pas de `GatedAnalytics` dans le repo → mesure d'audience sans consentement.
+- **Légal/RGPD ❌ BLOQUANT — bandeau cookies absent sur `/en` + non fonctionnel en FR.** `CookieBanner.tsx` n'est monté que dans `app/(site)/layout.tsx` ; `app/en/layout.tsx` ne monte que `<Nav/>`+`<Footer/>` → aucun bandeau sur tout l'arbre `/en`. Même côté FR, `decide()` écrit `localStorage['cookie-consent']` mais **aucun script ne lit cette clé** (Analytics déjà chargé) → consentement décoratif. Lien « En savoir plus » figé vers `/confidentialite` (FR) même sur pages EN ; texte FR en dur (pas de prop `lang`).
+- **Identité ❌ — logo/favicon = éclair générique.** `components/layout/Nav.tsx` rend un mark « bolt-in-hexagon » (hexagone contenant un **éclair**) ; `app/icon.svg` reprend exactement le même path (`fill="#0B6E80"`). Éclair réseau à remplacer par une marque sur mesure.
+- Pages légales : remplies, noindex, infos société exactes ✅. **Auteur ✅** : « Julien » (prénom seul), slug `julien`, JSON-LD `Person.name` = « Julien », bio E-E-A-T solide. Aucun patronyme.
 
-#### Site 11 — meilleure-neobanque.be (main)
-- **Légal/RGPD ❌ BLOQUANT — bandeau cookies absent sur tout l'arbre `/en`.** `components/ui/CookieConsent.tsx` existe et est monté dans `app/(site)/layout.tsx` (FR), mais `app/en/layout.tsx` ne monte que `<Nav/>` + `<Footer/>` → aucune page `/en/...` n'affiche le bandeau. Aggravant : `app/layout.tsx` charge `<Analytics/>` (Vercel) globalement, donc mesure d'audience sur l'arbre EN sans consentement. De plus, le bandeau est **monolingue FR** (texte en dur, pas de prop `lang`) → ne satisfait pas l'exigence FR+EN même côté FR.
-- **Identité ⚠️ — OG générique au template.** Favicon (`app/icon.svg`, 3 barres ascendantes) ✅ et logo inline unique (3 `<rect>` croissants dans `Nav.tsx`, pas de bolt) ✅, mais `app/opengraph-image.tsx` reste le visuel template (watermark ★, layout standard) sans motif propre à la niche néobanque → risque de ressemblance inter-sites.
-- **Auteur ⚠️ — nom affiché OK, patronyme exposé dans le slug.** `author.name = 'Maxime'` (prénom seul, rendu OK en H1/JSON-LD `Person.name`). MAIS `author.slug = 'maxime-vanderlinden'` + `authorSlug` des articles → patronyme **« Vanderlinden »** rendu dans l'URL publique `/auteurs/maxime-vanderlinden`, le `canonical` et `Person.url`. À corriger (slug → `maxime`).
-- *Mineur :* adresse hébergeur Vercel divergente entre sites (à harmoniser).
-
----
-
-### ⚠️ RÉSERVES (légal non bilingue)
-
-#### Site 2 — meilleur-suv.be (main)
-- **Légal/RGPD ⚠️ — bandeau monté mais non bilingue.** `CookieConsent` importé+rendu dans `app/(site)/layout.tsx`, mais appelé `<CookieConsent />` sans prop `lang` → défaut `'fr'` en dur ; le sous-arbre `/en` garde un bandeau français. Conforme sur le fond (Accepter/Refuser, lien, gating analytics), mais déroge à l'exigence FR+EN.
-- **Identité ✅** — favicon `app/icon.svg` (hexagone cuivre) ; logo inline unique « hexagone banc d'essai » dans `Nav.tsx` (pas de bolt) ; OG `app/opengraph-image.tsx` distinct (fond carbone + chips).
-- **Auteur ❌** — « Damien **Crols** » dans `niche.config author.name`, H1 page auteur, JSON-LD, AuthorCard, et page `/a-propos` (×2). Bio commence par « Damien » (OK).
-- Pages légales : remplies, noindex, infos société exactes ✅.
-
-#### Site 3 — meilleure-voiture-familiale.be (main)
-- **Légal/RGPD ⚠️ — même cas que site 2 :** `<CookieConsent />` rendu sans prop `lang` → bandeau FR sur l'arbre `/en`. Conforme sur le fond, pas réellement FR+EN.
-- **Identité ✅** — favicon `app/icon.svg` (maison terracotta) ; logo inline « maison/toit » unique dans `Nav.tsx` ; OG ivoire clair distinct.
-- **Auteur ❌** — « Audrey **Pirard** » dans `niche.config author.name`, H1 page auteur, JSON-LD, AuthorCard ; articles publiés référencent le slug `audrey-pirard` qui résout vers le patronyme complet à l'affichage.
-- Pages légales : remplies, noindex, infos société exactes ✅.
+#### Site 10 — meilleure-carte-credit.be (Live, claude/setup-nextjs-apple-guide-En4gb)
+- **Auteur ❌ BLOQUANT — RÈGLE NOM violée : patronyme complet « Sophie Laurent » affiché partout (rendu réel).** `niche.config.ts` (`author.name: 'Sophie Laurent'` + bio), `i18n/fr.json` + `i18n/en.json`, H1 page auteur, **JSON-LD `Person.name`**, `<title>`/OG, AuthorCard — FR + EN. **Seul site du réseau à afficher encore un patronyme complet.** Correctif : `author.name` → « Sophie L. ».
+- **Légal/RGPD ✅** — pages légales bilingues complètes, noindex, infos société exactes ; `CookieConsent` monté (`lang={lang}`), aucun analytics chargé (conforme par construction).
+- **Identité ✅** — favicon `app/icon.svg` + `favicon.ico` ; logo inline `BrandMark.tsx` (pas d'éclair) ; OG distinct.
+- *Branche de setup non mergée en main — à corriger avant prod.*
 
 ---
 
-### ✅ / ⚠️ (auteur non conforme, reste OK)
+### ⚠️ RÉSERVES
 
-#### Site 1 — meilleure-voiture.be (main)
-- **Légal/RGPD ✅** — pages remplies + noindex + infos société exactes ; `CookieConsent` monté dans `app/(site)/layout.tsx` **avec locale** (`lang={locale==='en'?'en':'fr'}`), Accepter/Refuser, gating réel (`GatedAnalytics`), FR+EN. Bonne implémentation de référence.
-- **Identité ✅** — favicon `app/icon.svg` ; logo inline unique « silhouette voiture » dans `Nav.tsx` (pas de bolt) ; OG distinct (gradient naval + filigrane voiture).
-- **Auteur ❌** — « Julien **Vanderhaeghe** » dans `niche.config author.name`, H1 `/auteurs/julien-vanderhaeghe`, title/OG, JSON-LD `Person.name`, AuthorCard. Bio body commence par « Julien » (OK).
+#### Site 11 — meilleure-fibre-internet.be (Configuré, main)
+- **Légal/RGPD ⚠️** — pages FR+EN remplies, noindex, infos société exactes ✅ ; `CookieConsent` monté au root, tracker gaté (`GatedAnalytics`) ✅. **Réserve :** bandeau **FR-only** (texte en dur) → affiché en FR sur `/en/*`.
+- **Identité ⚠️** — `app/icon.svg` + Nav = hexagone fibre sur mesure ✅ ; **mais `Footer.tsx` rend l'éclair générique**. OG = template générique partagé (★), **identique à electricite** → empreinte réseau.
+- **Auteur ✅** — « Nicolas » (prénom seul), slug `nicolas`, conforme.
 
-#### Site 4 — meilleure-voiture-utilitaire.be (main)
-- **Légal/RGPD ✅** — pages remplies + noindex + infos société exactes ; `components/ui/CookieBanner.tsx` importé+monté dans `app/(site)/layout.tsx`, FR+EN (locale déduite du chemin), Accepter/Refuser, lien politique, consentement localStorage, pas de tracker pub.
-- **Identité ✅** — favicon `app/icon.svg` (van + chevrons) ; logo inline unique « van/fourgon » cohérent Nav/Footer/favicon (pas de bolt) ; OG sur palette du site.
-- **Auteur ❌** — « Damien **Lardinois** » dans `niche.config author.name` + `author.slug`, page `/auteurs/[slug]` (H1/title/OG/canonical), JSON-LD `Person.name`, avatar, `authorSlug` des articles.
+#### Site 3 — meilleure-voiture-familiale.be (Live, main)
+- **Identité ⚠️** — logo Nav générique « maison/chevron » dupliqué du favicon (pas propre à la niche). Favicon présent ✅.
+- **Légal/RGPD ✅** — pages remplies, noindex, infos société exactes ; `CookieConsent` monté FR+EN, gaté.
+- **Auteur ✅** — « Audrey P. » affiché. *Réserve slug `audrey-pirard`.*
 
-#### Site 7 — quel-operateur-choisir.be (main)
-- **Légal/RGPD ✅** — pages remplies + noindex + infos société exactes (mot pour mot) ; `components/layout/CookieConsent.tsx` monté dans `app/(site)/layout.tsx`, FR+EN, Accepter/Refuser, `GatedAnalytics` (pas de tracker avant consentement).
-- **Identité ✅** — favicon `app/icon.svg` (barres de signal) ; logo inline unique `SignalMark` (4 barres montantes multicolores) dans `Nav.tsx` (pas de bolt) ; OG distinct.
-- **Auteur ❌** — « Maxime **Dubois** » dans `niche.config author.name`, H1 `/auteurs/maxime-dubois`, JSON-LD `Person.name`, title/OG. Pas d'articles réels publiés (que `_example.mdx`).
+#### Site 4 — meilleure-voiture-utilitaire.be (Live, main)
+- **Légal/RGPD ✅ (réserve mineure)** — pages remplies, noindex, infos société exactes ; `CookieBanner` monté FR+EN. **Réserve :** `<Analytics/>` **non gaté** (cookieless, mais incohérent avec 7-places) — à harmoniser.
+- **Identité ✅** — favicon + logo inline « van » sur mesure. **Réserve anti-footprint :** OG **byte-identique (sha `c9b26dd`) à 7-places.be**.
+- **Auteur ✅** — « Damien L. » affiché. *Réserve frontmatter `authorSlug: "damien-lardinois"`.*
 
-#### Site 8 — meilleur-fournisseur-energie-be (main)
-- **Légal/RGPD ✅** — pages remplies + noindex + infos société exactes ; `CookieConsent` monté dans `app/(site)/layout.tsx`, bilingue, Accepter/Refuser, lien `/confidentialite`, analytics gaté.
-- **Identité ⚠️ — logo générique type « flamme/goutte ».** Le SVG inline du `Nav.tsx` est un seul path flamme (`M12 2C12 2 6 8 6 14a6 6 0 0 0 12 0...`) — motif générique « énergie » (cousin du bolt) **strictement identique à `app/icon.svg`** → aucune différenciation logo/favicon. Wordmark « Énerwatt » OK ; OG propre ✅.
-- **Auteur ❌** — « Camille **Mertens** » dans `niche.config author.name`, **dans le texte de la bio** (« Camille Mertens décortique… » → rendu sur la page auteur ET en meta description), H1 page auteur, JSON-LD `Person.name`. Pas d'articles réels.
+---
 
-#### Site 9 — meilleures-assurances-auto.be (main)
-- **Légal/RGPD ✅** — pages remplies + noindex + infos société exactes ; `CookieConsent` monté dans `app/(site)/layout.tsx`, bilingue, Accepter/Refuser, analytics gaté.
-- **Identité ⚠️ — logo sans SVG inline.** Favicon `app/icon.svg` distinctif (bouclier émeraude + coche) + `app/apple-icon.svg` ✅. MAIS le `Nav.tsx` rend un **wordmark texte seul** (`niche.logo`) — pas d'éclair (✅) mais pas de marque graphique inline ; le bouclier de l'icône n'est pas repris en Nav. OG unique ✅.
-- **Auteur ❌ — le plus étendu.** « Thomas **Renard** » dans `niche.config author.name`, H1 + JSON-LD `Person.name` de `/auteurs/thomas-renard`, metadata, **ET frontmatter `author: thomas-renard` de ~20 articles publiés** (vérifié sur `meilleure-assurance-auto-belgique.mdx`, `bonus-malus-assurance-auto-belgique.mdx`) → patronyme rendu sur chaque article.
+### ✅ CONFORMES (réserves mineures possibles)
 
-#### Site 10 — meilleure-carte-credit.be (claude/setup-nextjs-apple-guide-En4gb)
-- **Légal/RGPD ✅** — `mentions-legales` (11,5 Ko) + `confidentialite` (15,4 Ko, RGPD complet avec tableau cookies) remplies, noindex, infos société exactes ; `components/layout/CookieConsent.tsx` monté dans `app/[lang]/layout.tsx` (`lang={lang}`), bilingue, Accepter/Refuser, aucun analytics embarqué (cookie de consentement seul).
-- **Identité ✅** — favicon `app/icon.svg` + `favicon.ico` ; logo inline unique `<BrandMark>` (« M » crème + point rouge sur carré encre) dans `Nav.tsx` (pas de bolt) ; OG distinct (carte de crédit dessinée).
-- **Auteur ❌** — « Sophie **Laurent** » dans `niche.config.ts` (`author.name`, `author.slug`, bio), `i18n/fr.json author.name` (= H1 page auteur + JSON-LD `Person.name` + title), et `authorSlug: "sophie-laurent"` du frontmatter de tous les articles.
+#### Site 1 — meilleure-voiture.be (Live, main)
+- Légal/RGPD ✅ (CookieConsent avec locale + `GatedAnalytics`, référence) · Identité ✅ (logo « voiture » inline, OG distinct) · Auteur ✅ « Julien V. » (*réserve slug `julien-vanderhaeghe`*).
 
-#### Site 6 — meilleure-voiture-electrique (claude/no-image-spec-generator-nTjFC) — ✅ CONFORME
-- **Légal/RGPD ✅** — `mentions-legales`, `confidentialite`, `cookies` (sous `app/[locale]/(site)/`) remplies, noindex, infos société exactes ; `components/ui/CookieConsent.tsx` monté dans `app/[locale]/layout.tsx` (`locale={locale}`), FR+EN, Accepter/Refuser ; **trackers correctement gatés** (Microsoft Clarity chargé seulement si consentement === accepted ; Vercel Analytics cookieless).
-- **Identité ✅** — favicon `app/icon.svg` (monogramme « MV ») ; logo typographique unique « MVE.be » (pas de bolt) ; OG spécifique.
-- **Auteur ✅ — CONFORME RÈGLE NOM.** « Christophe **F.** » = prénom + initiale partout (page auteur, JSON-LD `Person.name`, footer, frontmatter `author: "christophe-f"`). Aucun patronyme complet.
-- *Mineur (hors périmètre) :* footer annonce « FR · NL · EN » alors que NL n'est pas implémenté.
+#### Site 2 — meilleur-suv.be (Live, main)
+- Légal/RGPD ✅ (CookieConsent FR+EN, gaté) · Identité ✅ (hexagone banc d'essai, OG distinct) · Auteur ✅ « Damien C. » (*réserve slug `damien-crols`*).
+
+#### Site 5 — meilleure-voiture-7-places.be (Live, main)
+- **Légal/RGPD ✅ (RÉSOLU)** — bandeau désormais présent, monté FR+EN, gaté (`GatedAnalytics`). · Identité ✅ (arche/sièges ; *réserve OG byte-identique à utilitaire*). · Auteur ✅ « Sophie L. » (pas d'articles réels).
+
+#### Site 6 — meilleure-voiture-electrique (Live, branche)
+- Légal/RGPD ✅ (Clarity + Vercel gatés, politique la plus détaillée) · Identité ✅ (monogramme MV, OG distinct) · **Auteur ✅ « Christophe F. » conforme y compris slug `christophe-f`.**
+
+#### Site 7 — quel-operateur-choisir.be (Live, main)
+- Légal/RGPD ✅ (CookieConsent FR+EN, `GatedAnalytics`) · Identité ✅ (SignalBars, OG propre) · Auteur ✅ « Maxime D. » (*réserve slug `maxime-dubois`*).
+
+#### Site 8 — meilleur-fournisseur-energie-be (Live, main)
+- Légal/RGPD ✅ (CookieConsent bilingue, `GatedAnalytics`) · **Identité ✅ (AMÉLIORÉ : logo « soleil » désormais distinct du favicon)** · Auteur ✅ « Camille M. » (*réserve slug `camille-mertens`*).
+
+#### Site 9 — meilleures-assurances-auto.be (Live, main)
+- Légal/RGPD ✅ (légal FR+EN, `GatedAnalytics`) · **Identité ✅ (AMÉLIORÉ : logo bouclier inline en Nav)** · Auteur ✅ « Thomas R. » (*réserve slug `thomas-renard` + frontmatter articles*).
+
+#### Site 13 — meilleure-neobanque.be (Configuré, main)
+- **Légal/RGPD ✅ (RÉSOLU)** — bandeau désormais bilingue FR+EN, tracker gaté. · Identité ✅ (pièce+flèche, OG différencié). · **Auteur ✅ nom affiché « Maxime »** mais *réserve : slug `maxime-vanderlinden` expose « Vanderlinden » dans URL/canonical/og:url/**JSON-LD `Person.url`** → corriger en `maxime`.*
 
 ---
 
 ## 3. Récapitulatif des points critiques
 
-### Bandeaux cookies / légal
-- **Absents (BLOQUANT) :** site 5 (meilleure-voiture-7-places.be — aucun composant) ; site 11 (meilleure-neobanque.be — absent sur tout l'arbre `/en`).
-- **Montés mais non bilingues (⚠️) :** site 2 (meilleur-suv.be) ; site 3 (meilleure-voiture-familiale.be) ; site 11 (FR-only).
-- **Pages légales :** toutes remplies, en noindex, infos société exactes (MentionBox SRL · BE 0784.700.405 · Rue Blanche-Eau 15, 6950 Nassogne) sur les 11 sites — aucun placeholder, aucun bloquant légal de ce côté.
+### Bandeaux cookies / légal manquants
+- **Bloquant :** site 12 (electricite) — `<Analytics/>` non gaté + bandeau absent sur `/en` et non fonctionnel en FR.
+- **Réserve FR-only :** site 11 (fibre).
+- **Réserve gating incohérent :** site 4 (utilitaire, Analytics non gaté).
+- **Pages légales :** les 13 sites remplies, noindex, infos société exactes. Aucun placeholder.
 
 ### Auteurs génériques
-- Aucun site n'utilise « la rédaction » / auteur vide. Tous ont un auteur nommé, unique au site, avec bio E-E-A-T crédible, page auteur et JSON-LD `Person`.
+- Aucun (« la rédaction »/vide) : les 13 sites ont un auteur nommé + bio E-E-A-T + page auteur + JSON-LD `Person`.
 
-### Auteurs affichant un NOM DE FAMILLE (violation RÈGLE NOM — réserve, à corriger)
-| Site | Patronyme interdit | Où il est rendu |
-|------|--------------------|-----------------|
-| meilleure-voiture.be | **Vanderhaeghe** (Julien) | config `author.name`, page auteur H1/title/OG, JSON-LD `Person.name`, AuthorCard |
-| meilleur-suv.be | **Crols** (Damien) | config `author.name`, page auteur, JSON-LD, AuthorCard, `/a-propos` ×2 |
-| meilleure-voiture-familiale.be | **Pirard** (Audrey) | config `author.name`, page auteur, JSON-LD, AuthorCard ; articles via slug |
-| meilleure-voiture-utilitaire.be | **Lardinois** (Damien) | config `author.name` + `slug`, page auteur, JSON-LD, avatar, `authorSlug` articles |
-| meilleure-voiture-7-places.be | **Lambrechts** (Sophie) | config `author.name` + `slug`, page auteur, JSON-LD, avatar |
-| quel-operateur-choisir.be | **Dubois** (Maxime) | config `author.name`, page auteur H1, JSON-LD, metadata |
-| meilleur-fournisseur-energie-be | **Mertens** (Camille) | config `author.name` + **texte de la bio**, page auteur, JSON-LD, meta description |
-| meilleures-assurances-auto.be | **Renard** (Thomas) | config `author.name`, page auteur, JSON-LD, metadata + **frontmatter ~20 articles** |
-| meilleure-carte-credit.be | **Laurent** (Sophie) | config `author.name` + `slug` + bio, `i18n/fr.json`, JSON-LD, `authorSlug` articles |
-| meilleure-neobanque.be | **Vanderlinden** (Maxime) | nom affiché OK (« Maxime ») mais patronyme dans `author.slug`, URL `/auteurs/maxime-vanderlinden`, `Person.url`/canonical, `authorSlug` articles |
+### Auteurs affichant un NOM DE FAMILLE complet (non conforme règle nom)
+| Site | Patronyme affiché | Où |
+|------|-------------------|-----|
+| **meilleure-carte-credit.be** ❌ | **Laurent** (Sophie) | config `author.name` + bio, `i18n/fr.json`+`en.json`, H1 page auteur, JSON-LD `Person.name`, `<title>`/OG, AuthorCard (FR+EN) |
 
-**Conforme :** meilleure-voiture-electrique (« Christophe F. »).
+**Seul site non conforme au rendu.** 12 autres conformes (prénom + initiale / prénom seul).
 
-**Correctif type (à appliquer par `emd-fix`, hors périmètre lecture seule) :** remplacer `author.name` par prénom seul ou prénom + initiale (ex. « Julien V. ») — se propage au H1, JSON-LD, AuthorCard et bylines puisque tout lit `niche.author.name`. Aligner aussi `author.slug` / `authorSlug` pour ne pas exposer le patronyme dans l'URL et le JSON-LD `url`. Pour le site 8, corriger en plus le texte de la bio ; pour le site 9, les frontmatters d'articles.
+### Patronyme exposé via le SLUG uniquement (nom affiché OK — réserve à lister)
+`julien-vanderhaeghe` (voiture) · `damien-crols` (suv) · `audrey-pirard` (familiale) · `damien-lardinois` (utilitaire, frontmatter) · `maxime-dubois` (quel-operateur) · `camille-mertens` (energie) · `thomas-renard` (assurances-auto, + frontmatter articles) · `maxime-vanderlinden` (neobanque → aussi `Person.url`/canonical/og:url).
+Conformes jusqu'au slug : `christophe-f`, `nicolas`, `julien`.
 
-### Identité — autres réserves
-- Site 5 : éclair/bolt template résiduel dans `Footer.tsx` (footprint réseau) — à retirer.
-- Site 8 : logo Nav = path flamme générique, identique au favicon — marque peu différenciée.
-- Site 9 : pas de marque graphique inline en Nav (wordmark texte seul).
-- Site 11 : OG générique au template (sans motif propre à la niche).
+### Identité — logos éclair / génériques
+- **❌ site 12** (electricite) : logo + favicon = éclair générique.
+- **⚠️ site 11** (fibre) : éclair résiduel au `Footer.tsx`.
+- **⚠️ site 3** (familiale) : logo Nav « maison/chevron » générique.
+- **Anti-footprint OG :** byte-identique utilitaire↔7-places (sha `c9b26dd`) ; template ★ partagé fibre↔electricite.
 
 ---
 
-## 4. Top 5 actions prioritaires
+## 4. Évolution depuis le run précédent (2026-06-28)
 
-1. **[BLOQUANT RGPD] meilleure-voiture-7-places.be** — créer et monter un bandeau cookies (composant inexistant) ; gater `<Analytics/>` derrière le consentement.
-2. **[BLOQUANT RGPD] meilleure-neobanque.be** — monter `CookieConsent` dans `app/en/layout.tsx` (absent sur tout `/en`), rendre le bandeau bilingue (texte FR en dur), gater `<Analytics/>`.
-3. **[RÈGLE NOM] 9 sites avec patronyme complet** — passer chaque `author.name` en prénom (+ initiale) et aligner slugs/`authorSlug` ; priorité aux sites avec articles publiés (meilleures-assurances-auto.be ~20 articles, meilleure-carte-credit.be, meilleure-voiture-familiale.be).
-4. **[RGPD FR+EN] meilleur-suv.be & meilleure-voiture-familiale.be** — transmettre la prop `lang`/locale au `CookieConsent` (actuellement FR en dur sur l'arbre `/en`). Référence : implémentation de meilleure-voiture.be.
-5. **[Identité / anti-footprint] meilleure-voiture-7-places.be** (bolt en footer) & **meilleur-fournisseur-energie-be** (logo flamme = favicon) — remplacer par un mark SVG inline réellement distinctif.
+**Corrigé :** règle nom 10 → 1 site non conforme (tous les patronymes affichés passés en prénom+initiale sauf carte-credit) · 7-places.be bandeau cookies (absent → monté+gaté) · neobanque.be bandeau (/en absent → bilingue+gaté) · energie logo (flamme=favicon → soleil distinct) · assurances-auto logo (wordmark → bouclier inline).
+
+**Nouveau / non résolu :** electricite.be (2 bloquants RGPD + éclair) · fibre.be (réserves : éclair footer, FR-only, OG partagé) · carte-credit.be (« Sophie Laurent » toujours affiché) · footprint OG persistant.
 
 ---
 
-*Audit généré automatiquement (tâche planifiée `emd-audit-conformite`). Source : `pipeline/audits/conformite-2026-06-28.md`. Lecture seule sur les sites ; rendu réel tracé (import + montage).*
+## 5. Top 5 actions prioritaires
+
+1. **[BLOQUANT RGPD] meilleur-fournisseur-electricite.be** — gater `<Analytics/>` (pattern `GatedAnalytics`) + monter le bandeau cookies sur `app/en/layout.tsx` + le rendre fonctionnel/bilingue.
+2. **[BLOQUANT RÈGLE NOM] meilleure-carte-credit.be** — « Sophie Laurent » → « Sophie L. » dans `niche.config.ts`, `i18n/fr.json`+`en.json` (name + bio), aligner le slug.
+3. **[BLOQUANT Identité] meilleur-fournisseur-electricite.be** — remplacer le logo/favicon éclair par un mark SVG sur mesure.
+4. **[RGPD FR+EN] meilleure-fibre-internet.be** — bandeau cookies bilingue (prop `lang`) + retirer l'éclair du `Footer.tsx`.
+5. **[Anti-footprint] OG partagés** — différencier utilitaire↔7-places et fibre↔electricite ; remplacer le logo Nav générique de meilleure-voiture-familiale.be.
+
+*Réserve transverse : 8 sites exposent le patronyme dans le slug `/auteurs/<slug>` (nom affiché conforme). À aligner sur le prénom seul si la doctrine veut zéro patronyme même en URL/JSON-LD.*
+
+---
+
+*Audit auto (tâche `emd-audit-conformite`). Lecture seule ; rendu réel tracé. Choix autonomes : périmètre 13 sites Live/Configuré ; CGU non bloquante ; slug patronymique classé en réserve (le nom affiché prime).*
