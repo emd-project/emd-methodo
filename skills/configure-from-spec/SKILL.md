@@ -1,6 +1,6 @@
 ---
 name: configure-from-spec
-version: 2.7.1
+version: 2.7.2
 description: Configure un nouveau site fork-é depuis emd-template À PARTIR D'UN FICHIER SPEC pré-rempli par le wizard nano-mentionbox. Lit `init-spec.md`, analyse les exports Semrush dans `semrush-exports/` pour clusteriser et déterminer l'arborescence (categories), écrit `niche.config.ts` + tous les `content/*` (miroir si N langues), compose une DA UNIQUE via le SYSTÈME DE VARIANTES (suggestVariants/suggestFonts/palette preset seedés sur le domaine — jamais un clone d'un autre site), bâtit l'arborescence + un seed BILINGUE (FR + miroir EN + mapping i18n) + 1 classement seed, commit le site, PUIS génère TOUTES les images À LA FIN une par une (checklist EXHAUSTIVE via lib/image-slots.ts → getAllImageSlots, aucun slot oublié), et crée la scheduled task EN TOUT DERNIER (auto, sans confirmation). À utiliser SEULEMENT quand un init-spec.md fraîchement poussé par le wizard est présent à la racine et que l'utilisateur dit « configure le site depuis init-spec.md », « configure depuis la spec », « init from spec », « lance la configuration », « setup le repo ». Ne JAMAIS utiliser pour un site déjà configuré (niche.config.ts.market défini → init-site pour amender). Ne JAMAIS proposer si init-spec.md n'existe pas — proposer init-site.
 allowed-tools:
   - Read
@@ -17,6 +17,13 @@ allowed-tools:
 
 # configure-from-spec v2.7 — Configurer un site depuis un init-spec.md du wizard
 
+> **v2.7.1 → v2.7.2 (variété des designs — fin du « toujours comparateur »)** :
+> La **variante home = `suggestVariants(niche.domain).home` (AUTORITAIRE)**, PAS un choix « thématique ».
+> Constat terrain : néobanque ET électricité tous deux en `comparateur` + `hero: split` parce que Claude
+> raisonnait « c'est un site de comparaison » — or **TOUS les sites EMD sont des niches comparatives**,
+> donc ce n'est PAS un critère : ça produit le même design partout (effet reskin). Désormais : écrire
+> EXACTEMENT le tirage seedé + **anti-répétition** vs les 2 derniers sites provisionnés (étape 12.1).
+>
 > **v2.7.0 → v2.7.1 (excerpt classement)** : un classement a DEUX champs texte distincts —
 > **`excerpt`** = résumé **COURT (≤ ~160 caractères)** pour la **carte du hub `/classement`** + la
 > **`<meta description>`** ; **`intro`** = paragraphe **LONG answer-first** du corps de page. Écrire LES
@@ -104,7 +111,16 @@ En tête : règle SERP-first obligatoire. 50 articles classés par priorité (vo
 `ls -la design-incoming/` :
 - **non vide** → `integrate-claude-design`.
 - **vide** → dérouler **`docs/AUTO-DESIGN.md`** du fork (procédure full-auto). Le fork EMBARQUE déjà `lib/variants.ts`, `lib/typography.ts`, `components/layout/PermutationStyle.tsx` :
-  1. **Variante** : `suggestVariants(niche.domain)` + override thématique (depuis `## Design` archetype) → écrire `niche.config.layouts.home` (magazine/comparateur/marche/fil) + `layouts.category` (classic/editorial) + `niche.style.hero` cohérent. (`marche` seulement si classements générés.)
+  1. **Variante home = `suggestVariants(niche.domain).home` — AUTORITAIRE.** Tirage seedé sur le domaine
+     (pool `magazine` | `comparateur` | `fil`). **Écris EXACTEMENT ce que renvoie la fonction** dans
+     `niche.config.layouts.home`. **INTERDIT de choisir `comparateur` (ou `style.hero: 'split'`) « parce que
+     c'est un site de comparaison » : TOUS les sites EMD sont des niches comparatives → ce n'est PAS un
+     critère, ça fabrique le même design partout.** **ANTI-RÉPÉTITION** : la variante doit DIFFÉRER de celle
+     des **2 derniers sites provisionnés** (`github_read_file` sur leur `niche.config.ts` → `layouts.home`).
+     Si `suggestVariants` retombe sur la même, **re-roll** avec un salt : `suggestVariants(niche.domain + '-2')`.
+     `marche` uniquement si **≥2 classements** générés. Écris aussi `layouts.category` = `suggestVariants().category`
+     et `niche.style.hero` **COHÉRENT avec la variante** (magazine→`centered`, comparateur→`split`, fil→`minimal`) —
+     **sans forcer `split` par défaut**. L'archetype `## Design` ne nuance QUE les effets/couleurs, JAMAIS la variante.
   2. **Permutations** : `suggestVariants(niche.domain)` → `niche.config.permutations` (`shape`/`border`/`shadow`).
   3. **Palette** : `## Design` (`brandColor`/`skin`) sinon **preset déterministe** (`lib/da-presets/`, choisi par thématique + **seed domaine**) → écrire `niche.config.palette` PUIS propager dans `app/globals.css :root` (+ `@theme`).
   4. **Typo** : `suggestFonts(niche.domain, home)` (`lib/typography.ts`) → écrire la paire dans `app/layout.tsx` (next/font, imports statiques).
@@ -114,8 +130,8 @@ En tête : règle SERP-first obligatoire. 50 articles classés par priorité (vo
 > la palette ou les fonts d'un AUTRE site du réseau (`emd-project/*`) — c'est ce qui produisait des clones
 > (ex. ressemblance meilleure-voiture). `composePreset` à l'aveugle sans seed = interdit.
 > **Check de divergence** : la **variante home**, la **palette (accent-1)** ET la **paire de fonts** doivent
-> **différer** d'un site voisin. Si par mégarde tu as regardé un voisin, ta sortie doit s'en écarter
-> (re-roll avec un autre salt sur le seed). Documenter dans DECISIONS.md la combinaison retenue.
+> **différer** d'un site voisin. La **variante home** en particulier ne doit PAS répéter les 2 derniers sites
+> (cf. 12.1) — pas de `comparateur` par réflexe. Documenter dans DECISIONS.md la combinaison retenue.
 > **PAS d'images ici** (cf. étape 15). **Ne PAS écraser `niche.config.ts.categories`** (clusters Semrush).
 
 ---
@@ -206,7 +222,7 @@ par slot**, jamais un simple total.
 ---
 
 ## Étape 16 — PROGRESS.md + DECISIONS.md
-Documenter : variante + permutations + palette + typo retenues (et **pourquoi elles divergent** des voisins), **genre de l'entité (`entityGender`)**, **classement seed (slug + head term)**, seed bilingue, **images générées/placeholder SLOT PAR SLOT** (depuis `getAllImageSlots()`), previews dépubliées.
+Documenter : variante + permutations + palette + typo retenues (et **pourquoi elles divergent** des voisins — dont la **variante home ≠ des 2 derniers sites**), **genre de l'entité (`entityGender`)**, **classement seed (slug + head term)**, seed bilingue, **images générées/placeholder SLOT PAR SLOT** (depuis `getAllImageSlots()`), previews dépubliées.
 
 ---
 
@@ -219,13 +235,14 @@ Gabarit canonique **`docs/SCHEDULED-TASK-REDACTION.md`** : remplacer les `[place
 Si la création de tâche échoue (API indispo) → log « tâche à créer » dans PROGRESS, **ne pas bloquer** : le site est déjà livré.
 
 ## Étape 18 — Récap utilisateur
-Marché/locales · clusters/categories · **DA : variante + permutations + palette + typo (divergentes)** · **genre entité (`entityGender`)** · **auteur (prénom seul / prénom + initiale, jamais de nom de famille)** · seed bilingue (LangSwitch OK) · **classement seed (head term, excerpt court + ≥1000 mots, FR+EN)** · **images SLOT PAR SLOT (générées / placeholder)** depuis `getAllImageSlots()` + covers seed · scheduled task créée · lien repo.
+Marché/locales · clusters/categories · **DA : variante home (issue de suggestVariants, ≠ des 2 derniers) + permutations + palette + typo (divergentes)** · **genre entité (`entityGender`)** · **auteur (prénom seul / prénom + initiale, jamais de nom de famille)** · seed bilingue (LangSwitch OK) · **classement seed (head term, excerpt court + ≥1000 mots, FR+EN)** · **images SLOT PAR SLOT (générées / placeholder)** depuis `getAllImageSlots()` + covers seed · scheduled task créée · lien repo.
 
 ---
 
 ## Règles strictes
 - **NE JAMAIS exécuter** sans `init-spec.md` · **NE JAMAIS écraser** un `niche.config.ts` rempli.
 - **DA = système de variantes, JAMAIS un clone** : `layouts` + `permutations` + `palette` + typo écrits, dérivés du **seed domaine** ; interdiction de copier un site voisin ; check de divergence.
+- **Variante home = `suggestVariants(domaine).home` AUTORITAIRE** — jamais `comparateur`/`split` « par défaut parce que c'est un comparateur » ; **anti-répétition** vs les 2 derniers sites (re-roll avec salt si identique) ; `style.hero` cohérent avec la variante.
 - **Genre : `entityGender` renseigné au genre RÉEL** ('m'/'f' ; + `dealWordGender` si besoin ; + `genre` par classement dans `classements.json`) — sinon accords FR faux (« meilleurs néobanques »). Le template accorde via `lib/utils/grammar.ts`.
 - **Auteur = PRÉNOM SEUL ou prénom + initiale, JAMAIS de nom de famille inventé** (`name` = prénom [+ initiale], `slug` = kebab du prénom) ; byline de tout le site cohérente.
 - **Classement SEED dès l'init** dans le système EXISTANT du template (`content/data/classements.json` + `.en.json`) : head term du cluster principal, **`excerpt` court (≤160c) + `intro` long distincts**, ≥1000 mots (sections H2 questions + items notés + critères + méthodo + sources + FAQ), `genre`, FR+EN. **JAMAIS d'archi `/classements` bespoke.** Reste des clusters → boucle week-end `emd-build-pages`.
