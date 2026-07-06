@@ -1,12 +1,17 @@
 ---
 name: emd-audit
-version: 1.5.0
+version: 1.6.0
 description: Audit QA d'un ou de tous les sites EMD — multilingue, contenu (thin content < 800 mots), SEO sémantique + technique, GEO (structure article : ≥70% H2-questions, réponse-first, FAQ, JSON-LD), images, DA/identité (direction de design parmi les 5, logo SVG sur mesure, tokens), favicon/logo/OG, auteur/E-E-A-T, légal + RGPD (mentions noindex, infos société, bandeau cookies), responsive (zéro scroll horizontal), accessibilité, anti-footprint inter-sites. Audite la SOURCE réellement rendue (pas le fichier au bon nom). LECTURE SEULE : ne modifie aucun repo de site, produit un dashboard consolidé dans emd-methodo/pipeline/audits/. À utiliser quand on dit « audite les sites EMD », « audit QA », « vérifie le SEO / la GEO / la DA / le multilingue / le responsive / l'auteur d'un site », « check thin content », ou depuis la tâche planifiée d'audit hebdomadaire.
 ---
 
 # emd-audit — Audit QA des sites EMD
 
-MODE **LECTURE SEULE**. Tu ne modifies AUCUN repo de site. Le seul fichier écrit est le rapport d'audit dans `emd-project/emd-methodo`. Tu ne corriges rien — tu signales. (La correction est le rôle du skill `emd-fix`.)
+MODE **LECTURE SEULE**. Tu ne modifies AUCUN repo de site. Le seul fichier écrit est le rapport d'audit (+ le ledger) dans `emd-project/emd-methodo`. Tu ne corriges rien — tu signales. (La correction est le rôle du skill `emd-fix`.)
+
+> **v1.5 → v1.6 (périmètre restreint — économie & pas de re-scan)** : l'audit ne balaie plus tout le parc
+> chaque semaine. Il n'audite QUE les **nouveaux sites provisionnés ≤ 14 jours** (via `pipeline/provisioned-log.csv`)
+> **ET pas encore audités par ce domaine** (ledger `pipeline/audits/audited-<domaine>.csv`). Un site déjà
+> audité n'est **jamais** re-audité. Cf. section « Périmètre ».
 
 Outils : `github_read_file`, `github_list_files`, `github_list_repos`, `github_write_file` (MCP nano-mentionbox). Fetch des URLs de prod possible pour un check HTTP.
 
@@ -17,8 +22,21 @@ Un asset peut exister en fichier mais ne pas être celui qui s'affiche → **fau
 - **OG** : présence d'un **`app/opengraph-image.(tsx|png)`** (prime sur un OG statique + metadata).
 - **Sélecteur de langue / bandeau cookies** : **importés ET rendus** dans le layout/nav, pas seulement définis en fichier.
 
-## Périmètre
-Par défaut : **tous les sites** de `pipeline/sites.csv` (repo `emd-project/emd-methodo`) au statut « Live » ou « Configuré » (ignore « À faire »). Si l'utilisateur cible un site, n'audite que celui-là.
+## Périmètre — RESTREINT aux nouveaux sites (≤ 14 jours), JAMAIS de re-scan
+**N'audite QUE les sites récemment provisionnés ET pas encore audités par ce domaine.** `<domaine>` = le suffixe
+de la tâche = le même que celui du rapport `<domaine>-LATEST.md` (ex. `content`, `tech`, `ux`, `conformite`, `pages`).
+
+1. **Candidats récents** : lis `pipeline/provisioned-log.csv` (emd-methodo), lignes `domaine,date` (date de provisioning).
+   Candidat = site dont la date est **≤ 14 jours** avant aujourd'hui (calcule via `date`). Un site **absent du log** ou
+   **> 14 jours** est **HORS périmètre** — on ne re-scanne PAS le parc existant (ça coûte des tokens pour rien).
+2. **Exclure les déjà-audités** : lis le ledger `pipeline/audits/audited-<domaine>.csv` (liste de domaines déjà
+   audités par CE domaine d'audit). **Retire** tout candidat déjà présent.
+3. **Périmètre final** = candidats ≤14j NON encore audités par ce domaine. **Aucun → écris « Rien à auditer
+   (aucun nouveau site ≤14j non audité pour <domaine>) » dans le rapport et STOP** (aucun autre travail).
+4. **Après avoir audité un site**, **append** son domaine (+ date) dans `pipeline/audits/audited-<domaine>.csv`
+   → il ne sera **jamais** re-audité par ce domaine.
+
+Exception : si l'utilisateur **cible explicitement un site** (hors tâche planifiée), audite CE site uniquement, en ignorant le filtre ≤14j/ledger.
 Repo = colonne `repo` sous l'org `emd-project`. URL de prod = `https://<repo sans les points>.vercel.app`.
 
 ## Checks par site (statique ; sévérité bloquant / important / mineur)
@@ -43,6 +61,7 @@ Conformité à la doctrine `skills/seo-geo-redaction/SKILL.md`. Pour un échanti
 - **JSON-LD** Article + FAQPage + **Person (auteur)** + Breadcrumb + Speakable.
 - **Année dynamique** (pas d'année en dur dans title/slug/frontmatter).
 - **Sujet** (modèle mention) : majorité de sujets à **marques/modèles × persona** ; flag un site trop informationnel-sans-marque (cf. seo-geo-redaction).
+- **Accord en genre** : titres/labels accordés au genre réel de l'entité (`niche.config.entityGender`) — flag « meilleurs néobanques ».
 
 ### SEO TECHNIQUE
 - `sitemap.xml` (2 locales, avec les articles + hreflang) ; `robots.txt` non bloquant ; `canonical` correct ; **pas de noindex/nofollow accidentel** sur le contenu ; **hreflang FR↔EN réciproque** (+ x-default) ; **OG/Twitter card servis** (vérifier `app/opengraph-image` ou metadata statique réellement câblée) ; **JSON-LD** Article/FAQ/Breadcrumb ; slugs propres ; pas de lien mort.
@@ -54,6 +73,7 @@ Conformité à la doctrine `skills/seo-geo-redaction/SKILL.md`. Pour un échanti
 ### AUTEUR / E-E-A-T — priorité
 - Les articles ont un **auteur identifié** — **flag « la rédaction », auteur générique, ou champ vide**.
 - L'auteur a une **bio E-E-A-T crédible** (expert ou passionné, expérience concrète) et idéalement une **page auteur** + avatar.
+- L'auteur est en **prénom seul / prénom + initiale** (jamais de nom de famille inventé) — flag un nom de famille.
 - Le **JSON-LD Article** référence l'auteur (champ author) ; cohérence frontmatter / page auteur / données structurées.
 - L'auteur est **unique au site** (pas le même nom/bio qu'un autre site — anti-footprint).
 
@@ -72,9 +92,10 @@ Conformité à la doctrine `skills/seo-geo-redaction/SKILL.md`. Pour un échanti
 
 ### DA / DESIGN — IDENTITÉ (priorité)
 - **Direction de design assumée** : le site applique-t-il **une des 5 directions** de `docs/DA-DIRECTIONS.md` (palette + fonts + rayons + mode cohérents entre eux) ? **Flag un site sans direction** : tokens bruts d'un skin, palette non mutée (valeurs par défaut), look « comparateur générique » indifférencié.
+- **Variante home variée** : `niche.config.layouts.home` doit venir de `suggestVariants` (magazine/comparateur/fil/marche) — **flag le `comparateur` systématique** (plusieurs sites voisins tous en `comparateur` = variante non diversifiée).
 - **Logo = vrai mark SVG sur mesure** : inspecte le SVG inline du `Nav.tsx`. **Flag l'éclair réseau par défaut**, un logo générique, ou une **image raster** en guise de logo. Favicon = la marque dans `app/icon.svg`.
 - **Tokens** : aucune couleur hex en dur dans `app/`/`components/` (tokens `globals` uniquement) ; **la DA passe par `niche.config.palette`, JAMAIS par des valeurs écrites dans `volteo.css :root`** (si tu vois des couleurs en dur dans `volteo.css :root`, c'est un bug — flag) ; fonts en variables ; contraste AA ; **mode light/dark cohérent et fixe** (pas de mélange, pas de toggle).
-- Note le **type de home** + la **palette** + la **direction** pour l'anti-footprint. **Cohérence du home avec le NDD** : signale le « comparateur » systématique.
+- Note le **type de home** + la **palette** + la **direction** pour l'anti-footprint.
 
 ### ACCESSIBILITÉ
 - alt présents, ordre des titres cohérent, `prefers-reduced-motion`, attribut `lang` correct par locale.
@@ -85,18 +106,19 @@ Conformité à la doctrine `skills/seo-geo-redaction/SKILL.md`. Pour un échanti
 Continue site par site même en cas d'échec — collecte, n'abandonne pas.
 
 ## Anti-footprint inter-sites
-Signale toute paire trop similaire : même **direction de design** + palette proche, **logo/éclair inline identique**, même type de home + sections, ou **même auteur/bio réutilisés**. Deux sites du réseau doivent avoir une identité distincte.
+Signale toute paire trop similaire : même **direction de design** + palette proche, **logo/éclair inline identique**, **même variante home** répétée, ou **même auteur/bio réutilisés**. Deux sites du réseau doivent avoir une identité distincte.
 
 ## Sortie — dashboard consolidé
-Rapport Markdown :
+Rapport Markdown (uniquement pour les sites DU PÉRIMÈTRE) :
 - **Scorecard** : sites × catégories (Multilingue / Contenu / SEO sém. / GEO / SEO tech. / Identité / Auteur / Images / Légal-RGPD / Responsive / DA / A11y / Santé) en ✅ / ⚠️ / ❌, avec une **colonne « % H2-questions »** chiffrée.
-- **Détail par site** trié par sévérité ; mets en avant : bandeau cookies / pages légales (placeholders) manquants, scroll horizontal, **auteur générique « la rédaction »**, **logo éclair par défaut / non-SVG**, **DA sans direction (skin générique)**, **articles sous 70 % de H2-questions (% mesuré)**, thin content, covers de catégorie non rendues, cannibalisation, JSON-LD manquant.
-- Section **anti-footprint** (directions/palettes/logos/auteurs trop proches).
+- **Détail par site** trié par sévérité ; mets en avant : bandeau cookies / pages légales (placeholders) manquants, scroll horizontal, **auteur générique « la rédaction » ou nom de famille**, **logo éclair par défaut / non-SVG**, **DA sans direction (skin générique) / comparateur systématique**, **articles sous 70 % de H2-questions (% mesuré)**, thin content, covers de catégorie non rendues, cannibalisation, JSON-LD manquant, accords de genre.
+- Section **anti-footprint** (directions/palettes/logos/variantes home/auteurs trop proches).
 - **Top des actions prioritaires** (❌ d'abord — RGPD, responsive, auteur, GEO, identité DA en tête).
 
-Écris dans `emd-project/emd-methodo` → `pipeline/audits/audit-AAAA-MM-JJ.md` (date du jour), et mets à jour `pipeline/audits/LATEST.md` (overwrite=true). C'est ce `LATEST.md` que le skill `emd-fix` consomme.
+Écris dans `emd-project/emd-methodo` → `pipeline/audits/<domaine>-AAAA-MM-JJ.md` (date du jour), et mets à jour `pipeline/audits/<domaine>-LATEST.md` (overwrite=true). C'est ce `<domaine>-LATEST.md` que le skill `emd-fix` consomme. **Puis append les sites audités dans `pipeline/audits/audited-<domaine>.csv`.**
 
 ## Contraintes
-- LECTURE SEULE sur les repos de sites ; tu n'écris QUE le rapport dans `emd-methodo`.
+- **Périmètre RESTREINT** (≤14j, non déjà audité) — jamais de re-scan du parc ; append au ledger après audit.
+- LECTURE SEULE sur les repos de sites ; tu n'écris QUE le rapport + le ledger dans `emd-methodo`.
 - **Audite le rendu réel** (cf. Principe) pour éviter les faux positifs.
 - Efficace : énumère les fichiers, lis frontmatters/configs et corps d'articles (échantillon pour le GEO) plutôt que de tout relire.
