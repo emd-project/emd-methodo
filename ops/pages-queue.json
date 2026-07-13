@@ -1,0 +1,35 @@
+{
+  "chantier": "Suppression Deals + creation pages manquantes (classement, comparer, choisir)",
+  "cree_le": "2026-07-13",
+  "reference_structurelle": "emd-project/meilleure-neobanque.be (seul repo structurellement complet : copier son app/(site)/choisir/page.tsx, ses content/data/*.json comme modele de schema)",
+  "regles": [
+    "TOUJOURS supprimer la page /deals et toute mention 'Deals' (nav, footer, sitemap, liens internes, i18n).",
+    "TOUJOURS creer un page.tsx d'index pour /choisir (il n'existe que choisir/[produit]).",
+    "Creer /classement quand il manque, avec de la VRAIE data issue de recherche web (sources citees, datees).",
+    "Ne JAMAIS laisser de placeholder type 'Modele A/B/C'.",
+    "Mettre a jour app/sitemap.ts pour refleter les routes reelles.",
+    "Commit direct sur la branche par defaut du repo."
+  ],
+  "sites": [
+    { "repo": "emd-project/quelle-assurance-auto.be", "branch": "main", "priorite": "P1", "statut": "pending", "todo": ["supprimer deals", "remplacer comparateurs.json placeholder Modele A/B/C par vraie data assureurs BE", "remplir choisir.json (actuellement {})", "creer index /choisir"] },
+    { "repo": "emd-project/simulateur-assurance-auto.be", "branch": "main", "priorite": "P1", "statut": "pending", "todo": ["supprimer deals", "remplacer comparateurs.json placeholder Modele A/B/C", "remplir choisir.json (actuellement {})", "creer index /choisir"] },
+    { "repo": "emd-project/mon-aspirateur-be", "branch": "claude/analyze-requirements-Ob4Ae", "priorite": "P1", "statut": "pending", "todo": ["supprimer deals", "aligner sitemap sur routes reelles (il pointe sur /outils/*, /guides, /comparatifs inexistants)", "creer index /comparer, /classement, /choisir", "brancher sur content/products (51 YAML reels) au lieu du mock"] },
+    { "repo": "emd-project/meilleure-voiture-utilitaire.be", "branch": "main", "priorite": "P1", "statut": "pending", "todo": ["supprimer deals", "creer /classement + lib/classements.ts + data", "exposer les 20 articles FR dans le sitemap", "hub /blog vide", "creer index /choisir"] },
+    { "repo": "emd-project/meilleur-fournisseur-energie-be", "branch": "main", "priorite": "P2", "statut": "pending", "todo": ["supprimer deals", "creer /classement (39 articles dispo, aucune page money)", "creer index /choisir"] },
+    { "repo": "emd-project/quel-operateur-choisir.be", "branch": "main", "priorite": "P2", "statut": "pending", "todo": ["supprimer deals", "creer /classement (meilleur operateur BE)", "creer index /choisir"] },
+    { "repo": "emd-project/meilleures-assurances-auto.be", "branch": "main", "priorite": "P2", "statut": "pending", "todo": ["supprimer deals", "creer /classement + data", "creer index /choisir", "ajouter /choisir au sitemap"] },
+    { "repo": "emd-project/meilleure-carte-credit.be", "branch": "claude/setup-nextjs-apple-guide-En4gb", "priorite": "P2", "statut": "pending", "todo": ["supprimer deals", "creer /classement + data", "creer index /choisir", "ATTENTION architecture app/[lang]/ et non app/(site)/"] },
+    { "repo": "emd-project/voiture-familiale.be", "branch": "main", "priorite": "P3", "statut": "pending", "todo": ["supprimer deals", "creer index /choisir", "nettoyer pages variantes home-v1..v4 / cat-v* / art-v*"] },
+    { "repo": "emd-project/meilleur-fournisseur-electricite.be", "branch": "main", "priorite": "P3", "statut": "pending", "todo": ["supprimer deals", "creer index /choisir", "verifier /classement dans le sitemap"] },
+    { "repo": "emd-project/meilleur-parti-politique", "branch": "main", "priorite": "P3", "statut": "pending", "todo": ["supprimer deals", "creer index /choisir", "creer hub /partis (actuellement 404, seul [slug] existe)"] },
+    { "repo": "emd-project/meilleure-fibre-internet.be", "branch": "main", "priorite": "P3", "statut": "pending", "todo": ["supprimer deals", "creer index /choisir", "verifier /classement dans le sitemap"] },
+    { "repo": "emd-project/meilleure-neobanque.be", "branch": "main", "priorite": "P3", "statut": "pending", "todo": ["supprimer deals (seul trou : structure sinon complete)"] },
+    { "repo": "emd-project/www.meilleur-chocolat.be", "branch": "main", "priorite": "P4", "statut": "pending", "todo": ["supprimer deals", "creer index /choisir", "ajouter /classement au sitemap (page existe mais non indexee)"] },
+    { "repo": "emd-project/meilleur-suv.be", "branch": "main", "priorite": "P4", "statut": "pending", "todo": ["supprimer deals", "creer index /choisir"] },
+    { "repo": "emd-project/meilleure-voiture.be", "branch": "main", "priorite": "P4", "statut": "pending", "todo": ["supprimer deals", "creer index /choisir", "creer /a-propos"] },
+    { "repo": "emd-project/meilleure-voiture-familiale.be", "branch": "main", "priorite": "P4", "statut": "pending", "todo": ["supprimer deals", "creer index /choisir", "creer /a-propos"] },
+    { "repo": "emd-project/meilleure-voiture-7-places.be", "branch": "main", "priorite": "P4", "statut": "pending", "todo": ["supprimer deals", "creer index /choisir", "creer /a-propos"] },
+    { "repo": "emd-project/meilleure-voiture-electrique", "branch": "claude/no-image-spec-generator-nTjFC", "priorite": "P4", "statut": "pending", "todo": ["supprimer deals si present", "creer /choisir", "ATTENTION architecture app/[locale]/(site)/ + routes comparateur/simulateurs au pluriel"] },
+    { "repo": "emd-project/test-be", "branch": "main", "priorite": "P5", "statut": "pending", "todo": ["supprimer deals uniquement (bac a sable)"] }
+  ]
+}
