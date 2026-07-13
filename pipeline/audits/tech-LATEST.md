@@ -1,116 +1,61 @@
-# Audit QA — TECHNIQUE & i18n — sites EMD
+# Audit TECHNIQUE & i18n — 2026-07-13
 
-**Date :** 2026-06-20 · **Mode :** LECTURE SEULE · **Périmètre :** sites « Live » + « Configuré » de `pipeline/sites.csv` (9 sites)
-**Domaines audités :** SEO TECHNIQUE · MULTILINGUE RÉEL (`references/i18n-multilingue.md`) · SANTÉ.
-**Hors périmètre (autre audit) :** contenu/thin, GEO, DA, auteur, images, légal/RGPD, responsive, a11y.
+Domaine d'audit : **tech** (SEO technique · multilingue réel · santé). Lecture seule.
+Périmètre (emd-audit v1.6) : sites de `provisioned-log.csv` provisionnés ≤ 14 j et non présents dans `audits/audited-tech.csv`.
 
-> Santé HTTP : le fetch d'URL de prod n'est pas disponible dans ce contexte d'exécution → colonne **Santé = « non vérifié »** (fallback prévu par la doctrine). Les verdicts ci-dessous reposent sur l'analyse du **rendu réel du code** (routes, lecteurs, sitemap), pas sur le simple nom de fichier.
-
----
+**Périmètre retenu : 1 site** — `simulateur-assurance-auto.be` (provisionné 2026-07-10, J+3). Ledger `audited-tech.csv` inexistant avant ce run → premier audit tech.
 
 ## Scorecard
 
-| Site | Secteur | Statut | SEO Tech | Multilingue réel | Santé | Verdict |
-|---|---|---|:--:|:--:|:--:|:--:|
-| meilleure-voiture.be | Voiture | Live | ⚠️ | ❌ | n/v | ❌ |
-| meilleur-suv.be | Voiture | Live | ✅ | ✅ | n/v | ⚠️ |
-| meilleure-voiture-electrique | Voiture | Live | ⚠️ | ✅ | n/v | ⚠️ |
-| quel-operateur-choisir.be | Télécom | Live | ✅ | ✅ | n/v | ✅ (réf.) |
-| meilleur-fournisseur-energie-be | Énergie | Live | ⚠️ | ❌ | n/v | ❌ |
-| meilleures-assurances-auto.be | Assurance | Live | ✅ | ✅ | n/v | ✅ |
-| meilleure-carte-credit.be | Banque | Live | ✅ | ✅ | n/v | ✅ (réf.) |
-| meilleure-voiture-familiale.be | Voiture | Configuré | ✅ | ⚠️ | n/v | ⚠️ |
-| meilleure-voiture-utilitaire.be | Voiture | Configuré | ✅ | ⚠️ | n/v | ⚠️ |
+| Site | SEO technique | Multilingue réel | Pseudo-multilingue ? | Santé |
+|---|---|---|---|---|
+| simulateur-assurance-auto.be | ⚠️ | ✅ (2 réserves) | **Non** | ⚠️ |
 
-Légende : ✅ conforme · ⚠️ défaut important · ❌ bloquant · n/v non vérifié.
+Prod auditée : `https://simulateur-assurance-auto-be.vercel.app` (l'URL déduite « repo sans les points » — `simulateur-assurance-autobe.vercel.app` — renvoie 404 : l'alias Vercel réel utilise un tiret).
 
-**Pseudo-multilingues (à corriger en priorité) :** `meilleure-voiture.be` (EN non routé) et `meilleur-fournisseur-energie-be` (scaffold EN creux).
-**NL interdit présent :** `meilleur-suv.be`, `meilleure-voiture-familiale.be`.
+## Détail — simulateur-assurance-auto.be
 
----
+### ❌ / ⚠️ Bloquants & importants
 
-## Détail par site (trié par sévérité)
+1. **⚠️→❌ Toutes les URLs absolues pointent vers un domaine qui ne répond pas.** `canonical`, `hreflang`, `og:url`, `og:image` et le sitemap sont émis sur `https://www.simulateur-assurance-auto.be/…` (fallback `niche.domain`, `NEXT_PUBLIC_SITE_URL` non défini). Or ce host est en **ERR_CONNECTION_REFUSED** (DNS/domaine pas encore branché sur Vercel). Conséquence : canonicals auto-référents cassés, hreflang cassés, OG images 404 pour les crawlers. **Action : brancher le domaine sur le projet Vercel** (ou, en attendant, définir `NEXT_PUBLIC_SITE_URL=https://simulateur-assurance-auto-be.vercel.app`).
+2. **⚠️ `<html lang="fr">` sur les pages EN.** `app/layout.tsx` détient le `<html lang="fr">` ; `app/en/layout.tsx` ne pose `lang="en"` que sur un `<div style="display:contents">`. Vérifié en prod : `document.documentElement.lang === "fr"` sur `/en` et `/en/blog/...`. Non conforme au critère 6 de `references/i18n-multilingue.md` (attribut `lang` correct par locale) + a11y.
+3. **⚠️ Pas de H1 sur la home FR ni sur `/en`.** Probe : `h1: []` sur `/` et `/en`. Les articles ont bien un H1 unique.
+4. **⚠️ Article de démo du template indexable et hors sitemap.** `content/blog/guides/article-modele.mdx` (+ `content/blog/en/guides/article-model.mdx`). La catégorie `guides` **n'est pas dans la liste blanche** `niche.categories` (simulateur, comparatifs, garanties, prix, profils) → l'article est absent de `getAllArticles()`, donc **absent du sitemap et des listings**, mais la route reste servie : `/blog/guides/article-modele` répond **200 en `index, follow`** (titre « Article modèle : structure, sidebar et sommaire », 404 console sur sa cover). Orphelin indexable + contenu de template. **Action : supprimer les deux fichiers `guides/`** (ou noindex).
+5. **⚠️ Mapping FR↔EN incomplet.** `articleSlugFrToEn` ne contient que `simulateur-assurance-auto-belgique → simulate-car-insurance-belgium`. La paire `article-modele ↔ article-model` existe en fichiers mais pas en mapping → pas de hreflang, LangSwitch retombe sur la home. Disparaît si on supprime les fichiers de démo (point 4).
+6. **⚠️ Twitter card non spécifique aux articles.** `twitter:title` / `twitter:description` restent ceux du layout racine (tagline du site) sur les pages article ; seul l'OG est surchargé. Ajouter `twitter` dans `generateMetadata` des routes article FR + EN.
 
-### ❌ meilleure-voiture.be — Voiture · Live — PSEUDO-MULTILINGUE
-Cas le plus grave. Le site déclare `fr,en` mais l'anglais **n'est pas servi**.
-- **MULTILINGUE ❌ :** **aucun arbre `app/en/`** (ni `[locale]`/`[lang]`). Du contenu EN existe pourtant : `content/blog/en/hybrides` et `content/blog/en/suv` → **articles EN orphelins, jamais routés**.
-- **`lib/blog.ts` sans garde de locale :** c'est le **seul** site du cluster Voiture dont `getAllArticles()` lit *tous* les sous-dossiers de `content/blog` comme catégories, **sans `RESERVED_LOCALE_DIRS`/`isFrCategory`**. Aujourd'hui `content/blog/en` ne contient que des sous-dossiers (pas de `.mdx` à plat) donc aucune catégorie « en » ne sort, mais le moindre `.mdx` déposé directement dans `content/blog/en` apparaîtrait en **fausse catégorie FR** (anti-pattern exact de la doctrine).
-- **SEO TECH ⚠️ :** `app/sitemap.ts` est ambitieux (émission par locale, `hreflang` + `x-default`) **mais** il génère des entrées `/en/blog/...` via `localePath` pour les articles EN détectés — or **ces URLs `/en` n'existent pas** → le sitemap publie des **cibles `hreflang` en 404**. `robots.ts` OK (allow `/`, disallow `/api/`, sitemap déclaré). `app/opengraph-image.tsx` présent ✅.
-- **LangSwitch :** non fonctionnel par construction (pas de routes EN cibles).
-- **Santé :** non vérifié — risque élevé de `/en/*` → 404.
+### ✅ Conforme
 
-### ❌ meilleur-fournisseur-energie-be — Énergie · Live — MULTILINGUE CREUX
-Scaffold de routes EN présent, **sans moteur ni contenu** derrière.
-- **MULTILINGUE ❌ :** `app/en/` complet (blog, guides, compare, simulator, legal-notice…) **mais `lib/blog.ts` est la version nue du template : aucun lecteur `…En()`** et **aucune source de contenu EN** (pas de `content/blog/en`, ni `blog-en`, ni `articles-en`). `app/en/blog/page.tsx` n'a donc **rien de spécifiquement EN à lire** → blog EN vide ou recopie du FR. **Parité EN nulle.**
-- `content/blog` est **vide** (`.gitkeep`) ; les ~20 articles FR vivent en `content/articles/*.mdx` (standalone, URLs racine). `content/translations/{en,fr}.json` = i18n d'UI seulement, pas d'articles.
-- `lib/blog.ts` lit aussi tous les sous-dossiers de `content/blog` sans garde de locale (risque latent, neutralisé tant que `content/blog` reste vide).
-- **SEO TECH ⚠️ :** OG ✅, robots ✅ ; mais hreflang EN incohérent puisqu'il n'y a pas d'articles EN réels à apparier.
-- **Santé :** non vérifié.
+**SEO technique**
+- `app/sitemap.ts` dynamique : FR + EN, home/blog/catégories/articles, hreflang réciproque + `x-default` sur les paires réelles, pages noindex exclues, catégories bornées à la liste blanche. `/sitemap.xml` sert bien du XML (200).
+- `app/robots.ts` : `allow: /`, disallow `/api/` + `/admin`, pointe le sitemap. Non bloquant.
+- Pas de `noindex/nofollow` accidentel : les articles FR et EN sortent en `index, follow`.
+- **hreflang réciproque vérifié en prod** : article FR → `fr` + `en` + `x-default` ; article EN → `en` + `fr` + `x-default` (x-default sur le FR). Réciprocité et auto-référence OK (aux URLs près, cf. point 1).
+- **OG réellement câblé** : `app/opengraph-image.tsx` (edge, `ImageResponse`, palette du site) + OG par article dans `generateMetadata`. `twitter:card=summary_large_image` présent.
+- **JSON-LD** servi sur les articles FR et EN : `BreadcrumbList` + `Article` (author `Person` + `speakable`) + `FAQPage`.
+- Slugs propres et naturels par langue. Aucun lien mort sur les pages sondées (les `ERR_ABORTED` sont des prefetch RSC annulés, sans impact).
 
-### ⚠️ meilleure-voiture-familiale.be — Voiture · Configuré
-Structure i18n **correcte**, deux réserves.
-- **MULTILINGUE ✅ (structure) :** `lib/blog.ts` exclut les dossiers de locale des catégories (`LOCALE_BLOG_DIRS = {en, nl}`), expose les lecteurs miroir `getAllEnArticles()/getEnArticleRaw()/enArticleExists()`, et l'arbre EN existe sous `app/(en)/en/` (blog, comparer, mentions-legales, confidentialite…). Le **route group `(en)`** est transparent → les URLs sont bien `/en/...` (valide, mais pattern non standard vs la référence `app/en/`).
-- **⚠️ NL interdit :** `content/blog/nl` présent. Exclu des catégories (donc pas de fausse catégorie), mais **« jamais de NL »** : contenu à supprimer.
-- **⚠️ Build-safety :** l'arbre `app/(en)/en` doit compiler intégralement (une erreur casse tout le déploiement, FR inclus). Non vérifiable sans build.
-- **SEO TECH ✅ :** `app/opengraph-image.tsx`, `sitemap.ts`, `robots.ts`, `icon.svg` présents.
+**Multilingue réel (critères `references/i18n-multilingue.md`)**
+1. Arbre `app/en/` séparé et complet, disjoint des routes FR. ✅
+2. Lecteurs miroir `…En()` dans `lib/blog.ts`. ✅
+3. **Dossiers de locale jamais lus comme catégories** (`RESERVED_LOCALE_DIRS` + liste blanche `niche.categories`). ✅ → **pas de pseudo-multilingue**.
+4. Mapping FR↔EN dans `lib/i18n/article-slugs.ts` (fallback home, jamais de 404). ✅ (incomplet, cf. point 5)
+5. `LangSwitch` importé ET rendu dans `Nav.tsx` (desktop + menu mobile). ✅
+6. hreflang réciproque + x-default ✅ — attribut `lang` ⚠️ (point 2).
+7. **Parité de contenu** : 1 article réel FR ↔ 1 article réel EN. Aucun orphelin. ✅
+8. **Aucun NL** (`locales: ['fr','en']`). ✅
 
-### ⚠️ meilleure-voiture-utilitaire.be — Voiture · Configuré
-Le « bon élève » structurel… mais **vide**.
-- **MULTILINGUE ✅ (structure exemplaire) :** `lib/blog.ts` implémente `isFrCategory()` (liste blanche dérivée de `niche.categories` + filet `{en,nl,de}`) **et** les lecteurs miroir `getAllArticlesEn()/getArticleRawEn()/articleExistsEn()`. Arbre `app/en/` présent.
-- **⚠️ Contenu vide :** `content/blog` ne contient que `.gitkeep` → **0 article FR, 0 article EN**. Parité « vide », sitemap sans articles. Site coquille : à provisionner FR+EN avant passage Live.
-- **SEO TECH ✅ :** OG, sitemap, robots, icon présents.
+**Santé**
+- `/` → 200 · `/en` → 200 · article FR → 200 · article EN → 200 (CLS 0, load ~0,5 s).
+- ⚠️ `https://www.simulateur-assurance-auto.be` → **connexion refusée** (domaine non branché).
 
-### ⚠️ meilleur-suv.be — Voiture · Live
-Vrai multilingue, un reliquat à nettoyer.
-- **MULTILINGUE ✅ :** `app/en/` présent ; `lib/blog.ts` locale-aware avec `RESERVED_LOCALE_DIRS` (locales non-défaut + `nl`) excluant les dossiers de locale des catégories ; miroir EN via `content/blog/en/[categorie]`.
-- **⚠️ NL interdit :** `content/blog/nl` présent (exclu des catégories mais à supprimer — « jamais de NL »).
-- **SEO TECH ✅ :** `app/opengraph-image.tsx`, sitemap, robots, icon présents.
+## Top 5 des actions prioritaires
 
-### ⚠️ meilleure-voiture-electrique — Voiture · Live
-Multilingue réel, OG à confirmer.
-- **MULTILINGUE ✅ :** routing `app/[locale]/` + contenu en miroir `content/articles` (FR) / `content/articles-en` (EN). Conforme à la référence i18n.
-- **⚠️ SEO TECH :** **pas de `app/opengraph-image.tsx` à la racine `app/`** (pattern `[locale]`) → OG/Twitter image **à vérifier** (peut être câblée sous `app/[locale]` ou via metadata statique — non confirmé). `sitemap.ts`, `robots.ts`, `icon.svg` présents.
+1. **Brancher le domaine `simulateur-assurance-auto.be` sur Vercel** (ou fixer `NEXT_PUBLIC_SITE_URL`) — sinon canonicals + hreflang + OG pointent vers un host mort.
+2. **Poser `lang="en"` sur le `<html>` des routes `/en`.**
+3. **Supprimer `content/blog/guides/article-modele.mdx` et `content/blog/en/guides/article-model.mdx`.**
+4. **Ajouter un H1 unique sur la home FR et sur `/en`.**
+5. **Surcharger la Twitter card par article** dans les deux routes article.
 
-### ✅ meilleures-assurances-auto.be — Assurance · Live
-- **MULTILINGUE ✅ :** `app/en/` complet (blog, simulateur, comparer, auteurs, legal…) + miroir EN `content/blog-en`. `content/blog` FR propre (aucun dossier `en`/`nl` parasite).
-- **SEO TECH ✅ :** `app/opengraph-image.tsx`, `apple-icon.svg`, `icon.svg`, `sitemap.ts`, `robots.ts` présents.
-
-### ✅ quel-operateur-choisir.be — Télécom · Live — RÉFÉRENCE i18n
-- **MULTILINGUE ✅ :** référence canonique. `app/en/`, lecteurs `getAllArticlesEn()`, `content/blog/en` en miroir, mapping `lib/i18n/article-slugs.ts`.
-- **SEO TECH ✅ exemplaire :** `sitemap.ts` émet FR **et** EN avec `alternates.languages` réciproques `{fr, en, x-default}` sur chaque page, catégories et articles. `app/opengraph-image.tsx`, `icon.svg`, `robots.ts` présents.
-
-### ✅ meilleure-carte-credit.be — Banque · Live — RÉFÉRENCE
-- **MULTILINGUE ✅ :** routing `app/[lang]/` + contenu séparé `content/fr` / `content/en`. Conforme.
-- **SEO TECH ✅ :** `app/opengraph-image.tsx`, `favicon.ico` + `icon.svg`, `sitemap.ts`, `robots.ts` présents.
-
----
-
-## Synthèse i18n — patterns observés
-
-| Pattern de routing EN | Sites | Statut |
-|---|---|---|
-| `app/en/` (segment littéral) | operateur, suv, energie, assurances, familiale*, utilitaire | standard |
-| `app/[locale]` / `app/[lang]` (segment dynamique) | electrique, carte-credit | valide |
-| `app/(en)/en` (route group + segment) | familiale | valide mais non standard |
-| **Aucun arbre EN** | **meilleure-voiture.be** | **❌ cassé** |
-
-`*` familiale utilise en réalité `app/(en)/en`.
-
-**Garde « dossier de locale ≠ catégorie » dans `lib/blog.ts` :** présente sur suv, familiale, utilitaire ; **absente** sur **voiture.be** et **energie** (versions nues du template) → risque de fausses catégories.
-
----
-
-## Top actions prioritaires
-
-1. **❌ meilleure-voiture.be — créer l'arbre `app/en/`** (ou retirer `en` de la config tant qu'il n'existe pas). Aujourd'hui le sitemap publie des `hreflang` `/en/*` pointant vers des **404**, et les articles `content/blog/en/{hybrides,suv}` sont orphelins. **Bloquant.**
-2. **❌ meilleur-fournisseur-energie-be — rendre l'EN réel ou retirer le scaffold.** Ajouter les lecteurs `…En()` dans `lib/blog.ts` **et** une source de contenu EN (`content/blog-en` ou équivalent) ; sinon `app/en/*` reste une coquille sans parité. **Bloquant fonctionnel.**
-3. **⚠️ Porter la garde de locale dans `lib/blog.ts`** de **voiture.be** et **energie** (`RESERVED_LOCALE_DIRS`/`isFrCategory`, comme suv/utilitaire) pour bannir définitivement le risque de fausse catégorie `en`/`nl`.
-4. **⚠️ Supprimer `content/blog/nl`** de **meilleur-suv.be** et **meilleure-voiture-familiale.be** (« jamais de NL »).
-5. **⚠️ Provisionner le contenu** de **meilleure-voiture-utilitaire.be** (FR+EN, `content/blog` vide) et **confirmer l'OG** de **meilleure-voiture-electrique** (`app/opengraph-image` absent à la racine) avant de fiabiliser leur statut Live/Configuré.
-
----
-
-## Limites de cet audit
-- **Santé HTTP non vérifiée** (fetch de prod indisponible dans ce contexte) — à relancer là où le fetch est possible, en priorité `/en` de meilleure-voiture.be et energie.
-- Canonical, JSON-LD détaillé, `LangSwitch` monté dans la Nav et liens morts non inspectés fichier par fichier sur les 9 sites — déduits du rendu structurel (routes, sitemap, lecteurs). À compléter en passe ciblée si besoin.
-- Vérité de build (`app/en` compile) non testable en lecture seule — risque noté pour familiale.
+## Anti-footprint (tech)
+Rien à signaler : le site reprend fidèlement le pattern i18n de référence (`quel-operateur-choisir.be`) — comportement attendu, pas un footprint.
