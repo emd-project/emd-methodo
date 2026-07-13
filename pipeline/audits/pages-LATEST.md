@@ -1,120 +1,105 @@
-# Audit — PAGES CLÉS VIDES (sites EMD)
+# Audit — Pages clés vides / shell — 2026-07-13
 
-**Date :** 2026-07-04
-**Référence :** `references/pages-cles.md` (emd-project/emd-methodo)
-**Mode :** LECTURE SEULE (aucune écriture sur les sites)
-**Périmètre :** sites « Live » + « Configuré » de `pipeline/sites.csv` → **13 sites** (10 Live + 3 Configuré)
+**Périmètre** : nouveaux sites `pipeline/provisioned-log.csv` provisionnés ≤ 14 jours et non encore audités (ledger `pipeline/audits/audited-pages.csv` — inexistant avant ce run, donc les 2 sites étaient candidats).
+**Mode** : LECTURE SEULE sur les sites (aucun commit sur les repos audités).
+**Référence** : `references/pages-cles.md`.
 
-> Une page clé livrée doit être **remplie** : comparateur ≥ 5 items, quiz ≥ 3 questions menant à des recos, tableaux non vides, **classement ≥ 5 items + sections ≥ 1000 mots**. Un shell vide = à construire, jamais laissé tel quel.
-
-**Méthode de ce run :** audit complet des **2 nouveaux sites** entrés en périmètre (`meilleure-fibre-internet.be`, `meilleur-fournisseur-electricite.be`, tous deux « Configuré »). Pour les 11 sites déjà audités le 2026-06-27, re-vérification ciblée des trous précédemment signalés ; le reste des constats structurels (deals/simulateur inline, classements absents, TS hardcodé) est reporté depuis le run précédent — ces éléments ne changent pas en une semaine sans refonte.
-
----
-
-## ⚠️ Constat transversal d'architecture (inchangé)
-
-La méthodo attend des composants **data-driven** consommant `content/data/*.json` (`comparateurs.json`, `classements.json`, `choisir.json`) + quiz via `niche.config.ts` / `quiz.yaml`. **La réalité diverge fortement selon les sites** :
-
-- **Sites « JSON » (conformes méthodo)** : `meilleur-suv.be`, `meilleure-voiture-utilitaire.be`, `meilleure-voiture-7-places.be`, `meilleure-neobanque.be`, **`meilleure-fibre-internet.be` (nouveau)**, **`meilleur-fournisseur-electricite.be` (nouveau)**. Ici remplir = éditer un JSON → **safe**.
-- **Sites « TS hardcodé »** (`content/data/` absent, données dans `lib/*.ts`) : `meilleure-voiture.be`, `meilleure-voiture-familiale.be`, `quel-operateur-choisir.be`, `meilleur-fournisseur-energie.be`, `meilleures-assurances-auto.be`, `meilleure-carte-credit.be`. Remplir = **éditer du TypeScript** → « à coder ».
-- **Site architecture custom** : `meilleure-voiture-electrique.be` (pas de `niche.config.ts`, données par voiture dans `data/cars/*.json`).
-- **`/deals` et `/simulateur`** : sur quasi tous les sites, données en **arrays inline dans `page.tsx`** (`DEALS = []`, `CYCLES = []`) → **non data-driven → à coder**.
-- **Quiz** : sur plusieurs sites la **logique de reco (`recommend()` dans `QuizEngine.tsx`) est un placeholder hardcodé** → reco **à coder**.
-- **Classements (GEO asset #1)** : **absent** sur plusieurs sites ; présent mais **hardcodé en TS** sur voiture / suv / familiale / electrique.
+| Site | Provisionné | Comparateur | Quiz | Tableaux/offres | Classements | Simulateur |
+|---|---|---|---|---|---|---|
+| simulateur-assurance-auto.be | 2026-07-10 | ✅ rempli | ❌ shell | ✅ rempli | 🟡 1 seul cluster | ✅ rempli |
+| quel-fournisseur-energie.be | 2026-07-13 | ❌ shell | ❌ shell | ❌ vide | 🟡 1 seul cluster | ❌ vide + **à coder** |
 
 ---
 
-## Détail par site
+## 1. simulateur-assurance-auto.be (provisionné 2026-07-10)
 
-### 12. meilleure-fibre-internet.be — Télécom / Fibre (Configuré) · **NOUVEAU en périmètre**
-`emd-project/meilleure-fibre-internet.be` @ `main` · **`content/data/` EXISTE** (site conforme méthodo, data-driven)
+### ✅ Pages clés REMPLIES
 
-| Page clé | Statut | Détail | Source données | Data-driven |
-|---|---|---|---|---|
-| Comparateur | **EMPTY (placeholder seed)** | 1 slug `exemple` × 3 « Modèle A/B/C » démo ; **aucun opérateur réel** | `content/data/comparateurs.json` (+`.en`) | **Oui** |
-| Classements | **FILLED** | 1 slug `meilleure-fibre-internet` × **6 items réels** (Proximus, Digi, Telenet, Orange, VOO, Mobile Vikings), long-form, FAQ 7, sources datées juin 2026 | `content/data/classements.json` (+`.en`) | **Oui** |
-| /choisir | **EMPTY** | `choisir.json = {}` | `content/data/choisir.json` | Câblé mais vide |
-| Quiz | **SHELL** | `quiz.yaml` placeholder générique (« Catégorie A/B/C », budget, usage) | `content/pages/quiz.yaml` | Questions non pertinentes |
-| Tableaux prix `/deals` | **EMPTY** | `deals.yaml` = titres/disclaimer, **aucune offre listée** ; ⚠️ contient un `affiliate_disclaimer` (« liens affiliés ») **contraire à la méthodo « aucune affiliation »** — à retirer | `content/pages/deals.yaml` | — |
+- **Comparateur** — `content/data/comparateurs.json` + `comparateurs.en.json`. Deux comparateurs : `assurance-auto` (**7 items** : ING, AXA, Yuzzu, Belfius Direct, Ethias, Allianz, KBC Brussels) et `omnium` (**6 items** : Yuzzu, Belfius Direct, ING, Baloise, Ethias, AG Insurance). Specs sourcées et datées (relevé 13/07/2026), `sourceUrl` neutres. Parité FR/EN OK. **Data-driven : OUI.**
+- **Tableaux de prix / offres** — portés par le comparateur ci-dessus + les `table` de `content/data/choisir.json` (fourchettes de prime par âge du véhicule, primes RC+omnium par assureur). Sourcés et datés. **Data-driven : OUI.**
+- **/choisir (éditorial)** — `content/data/choisir.json` rempli : 2 produits (`assurance-auto`, `omnium`), avec tldr, sections, tables, tips, liens internes et FAQ. **Data-driven : OUI.**
+- **Simulateur** — `components/simulateur/SimulateurPrime.tsx` + `lib/simulateur.ts`. Formulaire complet (âge, permis, bonus-malus, km, région, usage, valeur/âge/puissance véhicule, couverture, franchise, options) et calcul calibré sur des tarifs BE réels (base RC 400 €/an, part omnium calibrée sur les relevés janvier 2026). Rend un montant, une fourchette et le détail des facteurs. **Configuré : OUI.**
 
-**Vides :** comparateur (placeholder seed), /choisir, quiz, /deals.
-**À coder :** rien de bloquant — tout est data-driven. `/deals` en YAML. **Signalement conformité :** retirer le `affiliate_disclaimer` du `deals.yaml` (viole la règle « aucun lien affilié »).
-**Sûr / data-fill JSON :** remplir `comparateurs.json` (5-12 offres fibre réelles ≥ 5), `choisir.json`, corriger `quiz.yaml`.
+### ❌ Page clé VIDE / SHELL
 
-### 13. meilleur-fournisseur-electricite.be — Énergie / Fournisseur (Configuré) · **NOUVEAU en périmètre**
-`emd-project/meilleur-fournisseur-electricite.be` @ `main` · **`content/data/` EXISTE** (site conforme méthodo, data-driven)
+- **Quiz** — `content/pages/quiz.yaml` est **le placeholder du template, intact** : questions « Quelle catégorie vous intéresse ? » → *Catégorie A / B / C*, « Quel est votre budget ? », « Votre usage principal ? ». Aucun rapport avec la niche assurance auto, alors que `niche.config.ts` déclare pourtant les bons critères (`quiz.criteria` : âge du conducteur, valeur du véhicule, kilométrage, budget, niveau de couverture).
+  - **Format de données attendu** : `content/pages/quiz.yaml` → clé `steps: [{ id, question, options: [{ label, value, emoji? }] }]`, lu par `getPageContent('quiz')` (`lib/cms-pages.ts`) et passé en prop `steps` à `<QuizEngine />`.
+  - **Composant data-driven : PARTIELLEMENT.** Les **questions** sont data-driven (YAML → prop `steps`) ✅. Mais la **recommandation** ne l'est pas ❌ — voir « À coder » ci-dessous.
 
-| Page clé | Statut | Détail | Source données | Data-driven |
-|---|---|---|---|---|
-| Comparateur | **EMPTY (placeholder seed)** | 1 slug `exemple` × 3 « Modèle A/B/C » démo ; **aucun fournisseur réel** | `content/data/comparateurs.json` (+`.en`) | **Oui** |
-| Classements | **FILLED** | 1 slug `meilleurs-fournisseurs-electricite` × **7 items réels** (Mega, Bolt, Luminus, Eneco, Engie, OCTA+, Ecopower), long-form, FAQ 7, sources CREG/VREG/CWaPE datées juin 2026 | `content/data/classements.json` (+`.en`) | **Oui** |
-| /choisir | **EMPTY** | `choisir.json = {}` | `content/data/choisir.json` | Câblé mais vide |
-| Quiz | **SHELL** | `quiz.yaml` placeholder générique (« Catégorie A/B/C ») | `content/pages/quiz.yaml` | Questions non pertinentes |
-| Tableaux prix `/deals` | **EMPTY** | `deals.yaml` placeholder, aucune offre | `content/pages/deals.yaml` | — |
+### 🟡 Incomplet (pas vide, mais sous-couvert)
 
-**Vides :** comparateur (placeholder seed), /choisir, quiz, /deals.
-**À coder :** rien de bloquant — data-driven. `/deals` en YAML.
-**Sûr / data-fill JSON :** remplir `comparateurs.json` (fournisseurs élec réels ≥ 5), `choisir.json`, adapter `quiz.yaml` (routage vers fournisseurs). Prix classement datés juin 2026 → candidats refresh mensuel comme énergie.
+- **Classements** — `content/data/classements.json` (+ `.en.json`) contient **1 seul classement** : `meilleures-assurances-auto` (6 items, 5 sections H2-questions, 6 FAQ, `excerpt` + `intro` présents, parité FR/EN stricte). C'est le **classement seed d'init**. Les autres clusters du site (comparatifs assureurs, garanties/formules, prix & primes, profils conducteurs) **n'ont pas de classement**. Rien n'est « vide » au sens shell — le hub `/classement` affiche bien 1 entrée — mais il reste des clusters à couvrir (cap 2-3 classements/run/site). **Data-driven : OUI.**
 
 ---
 
-## Sites déjà audités (delta re-vérifié depuis 2026-06-27)
+## 2. quel-fournisseur-energie.be (provisionné 2026-07-13)
 
-### ✅ Corrigés depuis le dernier run
-- **meilleure-neobanque.be** — comparateur **passé de 4 à 5 items/slug** (neobanques : N26, Revolut, bunq, Wise, **Aion** ; comptes-pro : Revolut, Qonto, bunq, Wise, **N26**). **Seuil ≥ 5 atteint → n'est plus sous-seuil.** `content/data/comparateurs.json`, data-driven. Restent « à coder » : deals/simulateur inline, reco quiz.
-- **meilleure-voiture-7-places.be** — `/choisir` **passé de `{}` à rempli** (4 slugs riches : voiture-7-places, suv-7-places, electrique, pas-cher, sections + FAQ). `content/data/choisir.json`, data-driven. Restent vides : quiz (reco placeholder), `/deals`.
+### ❌ Pages clés VIDES / SHELL
 
-### ⏳ Inchangés (reportés du 2026-06-27)
-- **meilleure-voiture-utilitaire.be** — **classements toujours ABSENTS** (`content/data/` = seulement choisir + comparateurs, pas de `classements.json`). `/deals` & simulateur vides ; reco quiz placeholder.
-- **meilleure-voiture.be** — TS hardcodé ; `/deals`, `/simulateur`, quiz embarqué `/choisir` vides ; comparateurs `hybrides`/`occasions` manquants ; éditorial `citadines` absent.
-- **meilleur-suv.be** — quiz reco placeholder ; `/deals` vide ; classements en TS (à refactorer vers `classements.json`).
-- **meilleure-voiture-familiale.be** — comparateur `{}`, /choisir `{}`, quiz + simulateur + deals vides (TS hardcodé).
-- **meilleure-voiture-electrique.be** — archi custom ; quiz & /choisir **absents** ; classements inline TS (à refactorer). Comparateur/simulateur/primes remplis.
-- **quel-operateur-choisir.be** — /choisir `{}`, `/deals` vide, classements **absents** ; simulateur à confirmer (TS hardcodé).
-- **meilleur-fournisseur-energie.be** — `/deals` & `/simulateur` vides, classements **absents** (TS hardcodé). Prix datés juin 2026.
-- **meilleures-assurances-auto.be** — /choisir `{}`, `/deals` vide, classements **absents** (TS hardcodé). Simulateur fonctionnel.
-- **meilleure-carte-credit.be** — `/deals` vide, classements **absents** (TS hardcodé). Comparateur/quiz/choisir/simulateur remplis.
+- **Comparateur** — `content/data/comparateurs.json` + `comparateurs.en.json` sont **le placeholder du template** : une seule entrée `exemple` (« Comparatif exemple », description « à remplacer à l'init par les vrais modèles de la niche ») avec **3 items fictifs** (*Modèle A / B / C*, notes « 4,5/5 », garanties « 2 ans », « En stock »). **3 items < 5 requis, et aucun n'est réel.** Aucun fournisseur d'énergie belge n'y figure — alors que le classement du site en documente 7.
+  - **Format attendu** : `content/data/comparateurs.json` → `{ "<slug>": { id, label, description, specsLabels: {clé: libellé}, modeles: [{ nom, prix (number), nouveaute?, sourceUrl?, specs: {clé: valeur} }] } }`, consommé par `lib/comparateur.ts`. Miroir EN dans `comparateurs.en.json`.
+  - **Critères déjà déclarés** dans `niche.config.ts` (`comparator.criteria`) : prix du kWh élec/gaz, redevance annuelle, type de contrat (fixe/variable/dynamique), énergie 100 % verte, service client (Trustpilot), facilité de résiliation.
+  - **Composant data-driven : OUI** → remplissage sans risque de build.
 
-> Détail complet des 9 sites ci-dessus : voir `pipeline/audits/pages-2026-06-27.md`. Les constats structurels (deals/simulateur inline, classements absents, TS hardcodé) sont stables tant qu'aucune refonte n'a lieu.
+- **Tableaux de prix / offres** — vides, car portés par le comparateur ci-dessus (placeholder) et par `/choisir` (vide). **Data-driven : OUI.**
+
+- **/choisir (éditorial)** — `content/data/choisir.json` = **`{}`** (fichier de 3 octets, littéralement vide). Toutes les pages `/choisir/[produit]` sont donc sans contenu.
+  - **Format attendu** : `{ "<slug>": { tldr: [...], sections: [{ id, title, intro, paragraphs, table?, tip?, internalLink? }], faq: [{q,a}] } }`, consommé par `lib/choisir-content.ts`.
+  - **Composant data-driven : OUI.**
+
+- **Quiz** — `content/pages/quiz.yaml` **identique au placeholder du template** (même contenu octet-pour-octet que sur simulateur-assurance-auto.be, sha `f2485a0`) : *Catégorie A / B / C*, budget, usage. Aucun rapport avec l'énergie, alors que `niche.config.ts` déclare les bons critères (`quiz.criteria` : gaz/élec/les deux, consommation annuelle, tarif fixe ou variable, importance du vert, service vs prix).
+  - **Format attendu** : `content/pages/quiz.yaml` → `steps: [{ id, question, options: [{label, value}] }]`.
+  - **Composant data-driven : PARTIELLEMENT** (questions oui, recommandation non — voir « À coder »).
+
+- **Simulateur** — **VIDE ET NON DATA-DRIVEN**. `app/(site)/simulateur/page.tsx` contient un tableau **codé en dur, inline et vide** :
+  ```ts
+  const CYCLES: CyclePrix[] = []
+  ```
+  La page rend donc l'état vide : « *Aucune donnée de cycle de prix pour le moment. Revenez bientôt !* ». Il n'existe **aucun fichier de données** pour l'alimenter, et **`components/simulateur/` n'existe pas** sur ce repo.
+  - Aggravant : le template générique affiché est un simulateur de **« cycles de prix »** (prix de lancement / prix actuel / prochaine annonce / « bon moment pour acheter »), **sémantiquement hors-sujet** pour la niche — `niche.config.ts` déclare pourtant `simulator.title = "Simulateur de facture énergie"` et `description = "Estimez votre facture annuelle gaz + électricité selon votre consommation et votre région"`.
+  - **Composant data-driven : NON** → **à coder** (voir ci-dessous).
+
+### 🟡 Incomplet (pas vide)
+
+- **Classements** — `content/data/classements.json` (+ `.en.json`) contient **1 classement rempli** : `fournisseurs-energie` (7 items réels : Mega, Bolt, Eneco, Engie, Luminus, TotalEnergies, OCTA+ ; 5 sections H2-questions, 7 FAQ, méthodologie chiffrée, sources CREG/CWaPE, `excerpt` + `intro`, parité FR/EN stricte). C'est le seed. Les autres clusters (gaz, électricité, contrats & tarifs, changer de fournisseur) n'ont pas encore de classement. **Data-driven : OUI.**
 
 ---
 
-## Synthèse
+## 3. Synthèse
 
-### Sites avec pages clés vides / shell : **13 / 13**
-Les 2 nouveaux sites (`fibre`, `electricite`) sont des **seeds « Configuré »** typiques : seul le **classement seed** est rempli (bon, ≥ 5 items, long-form) ; comparateur (placeholder démo), /choisir, quiz et /deals restent vides. Les 11 autres conservent des trous, avec 2 corrections cette semaine (neobanque, 7-places).
+### Sites audités avec pages clés vides
 
-### Récap des trous par type de page
+| Site | Pages vides / shell |
+|---|---|
+| **simulateur-assurance-auto.be** | Quiz (placeholder template) |
+| **quel-fournisseur-energie.be** | Comparateur (placeholder « Modèle A/B/C », 3 items), /choisir (`{}`), Quiz (placeholder template), Simulateur (vide) |
 
-**Comparateur vide / placeholder / sous-seuil :**
-- `meilleure-fibre-internet.be` → **placeholder démo** (« Modèle A/B/C », 0 opérateur réel)
-- `meilleur-fournisseur-electricite.be` → **placeholder démo** (0 fournisseur réel)
-- `meilleure-voiture-familiale.be` → **vide** (`COMPARATEURS = {}`)
-- `meilleure-voiture.be` → 2 catégories manquantes (`hybrides`, `occasions`)
-- ~~`meilleure-neobanque.be`~~ → **corrigé** (5 items/slug)
+### À remplir — composants DATA-DRIVEN, build sûr
 
-**Quiz shell (reco / questions placeholder) :** `meilleure-fibre-internet.be`, `meilleur-fournisseur-electricite.be` (questions démo), `meilleur-suv.be`, `meilleure-voiture-familiale.be`, `meilleure-voiture-utilitaire.be`, `meilleure-voiture-7-places.be`, `meilleure-voiture.be` (quiz embarqué /choisir).
+Ces éléments se corrigent en **écrivant des fichiers de données**, sans toucher au code des composants :
 
-**/choisir éditorial vide :** `meilleure-fibre-internet.be`, `meilleur-fournisseur-electricite.be`, `meilleure-voiture-familiale.be`, `quel-operateur-choisir.be`, `meilleures-assurances-auto.be`, `meilleure-voiture.be` (citadines). ~~`meilleure-voiture-7-places.be`~~ → **corrigé**.
+| Site | Fichier | Contenu à produire |
+|---|---|---|
+| quel-fournisseur-energie.be | `content/data/comparateurs.json` + `.en.json` | 5-12 fournisseurs BE réels (Mega, Bolt, Eneco, Engie, Luminus, TotalEnergies, OCTA+, Ecopower…) sur les 6 critères déjà déclarés. Les données existent déjà dans `classements.json` du même site → recyclables. |
+| quel-fournisseur-energie.be | `content/data/choisir.json` | ≥ 1 produit (ex. `fournisseurs-energie`, `gaz`, `electricite`) : tldr, sections, tables, faq. |
+| quel-fournisseur-energie.be | `content/pages/quiz.yaml` | 3-6 questions réelles (gaz/élec/les deux, consommation, fixe/variable, vert, service vs prix). |
+| simulateur-assurance-auto.be | `content/pages/quiz.yaml` | 3-6 questions réelles (âge conducteur, valeur véhicule, km/an, budget, niveau de couverture). |
+| les 2 sites | `content/data/classements.json` + `.en.json` | Compléter les clusters restants (cap 2-3/run/site, ≥1000 mots chacun). |
 
-**Tableaux de prix `/deals` vides :** `meilleure-fibre-internet.be`, `meilleur-fournisseur-electricite.be`, `meilleure-voiture.be`, `meilleur-suv.be`, `meilleure-voiture-familiale.be`, `meilleure-voiture-utilitaire.be`, `meilleure-voiture-7-places.be`, `quel-operateur-choisir.be`, `meilleur-fournisseur-energie.be`, `meilleures-assurances-auto.be`, `meilleure-carte-credit.be` (**11 sites**).
+### ⚠️ À CODER — composants NON data-driven (à traiter à part, hors boucle de remplissage)
 
-**Simulateur vide / shell :** `meilleure-voiture.be`, `meilleure-voiture-familiale.be`, `meilleure-voiture-utilitaire.be`, `meilleur-fournisseur-energie.be` ; `quel-operateur-choisir.be` (à vérifier). (fibre/electricite : pas de route simulateur.)
+Ces deux points **ne peuvent pas être réglés en écrivant de la donnée** — ils exigent une modification de composant, donc un **build risqué** (cf. `references/garde-fous.md`). Ils sont **signalés, pas bricolés**.
 
-**Classements ABSENTS (GEO asset #1 manquant) :** `meilleure-voiture-utilitaire.be`, `quel-operateur-choisir.be`, `meilleur-fournisseur-energie.be`, `meilleures-assurances-auto.be`, `meilleure-carte-credit.be` (**5 sites**). Les 2 nouveaux sites ont, eux, leur classement seed **déjà rempli**.
+1. **Recommandation du quiz — `components/quiz/QuizEngine.tsx` (les 2 sites).**
+   La fonction `recommend(answers, locale)` est **codée en dur** et ignore les réponses : elle retourne systématiquement un placeholder — `produit: 'Produit recommandé'`, `modele: 'Modèle placeholder'`, `prix: 'À définir'`, `pourquoi: "Ce produit correspond à vos critères. Le contenu sera personnalisé selon votre niche à l'init."`.
+   **Conséquence : même après avoir rempli `quiz.yaml` avec de vraies questions, le quiz affichera « Modèle placeholder / À définir » en résultat.** Remplir le YAML est donc nécessaire mais **pas suffisant**.
+   *Correctif requis* : rendre le mapping réponses → recommandation data-driven (ex. bloc `recommendations` dans `quiz.yaml`, ou `quiz.criteria` + mapping dans `niche.config.ts` comme le prévoit `references/pages-cles.md` §2), puis brancher `recommend()` dessus. **À faire une fois dans le template** — le bug est hérité, il touchera tous les nouveaux sites.
 
-### Pages « À CODER » (composant NON data-driven — à traiter à part, ne pas bricoler)
+2. **Simulateur — `app/(site)/simulateur/page.tsx` (quel-fournisseur-energie.be).**
+   `const CYCLES: CyclePrix[] = []` est un tableau **inline dans la page**, sans source de données externe, et le modèle « cycles de prix » ne correspond pas à la niche énergie.
+   *Correctif requis* : soit externaliser les données vers `content/data/` et adapter le composant à la niche (facture annuelle gaz + élec, comme le prévoit `niche.config.simulator`), soit **masquer la page** (`simulator.enabled = false`) en attendant — un shell « Aucune donnée » ne doit pas rester en prod.
+   *Référence de ce qu'il faut viser* : simulateur-assurance-auto.be a le bon pattern (`lib/simulateur.ts` + `components/simulateur/SimulateurPrime.tsx`, calcul calibré, page = Server Component + îlot client).
 
-1. **`/deals` et `/simulateur` inline** (arrays dans `page.tsx`) sur les sites « TS/voiture » : voiture, suv, familiale, utilitaire, 7-places, opérateur, énergie, assurances-auto, carte-crédit, neobanque. Remplir = éditer du code. (Sur `fibre`/`electricite`, `/deals` est en **YAML data → safe**.)
-2. **Moteur de reco quiz** (`QuizEngine.recommend()` placeholder) : suv, familiale, utilitaire, 7-places, voiture (embarqué).
-3. **Classements à construire from scratch** (route + lib + data) : utilitaire, opérateur, énergie, assurances-auto, carte-crédit.
-4. **Classements en TS hardcodé** (hors méthodo `classements.json`) : voiture, suv, familiale (`lib/classements.ts`), electrique (inline page) → à refactorer vers data-driven.
-5. **Sites « tout TS »** (comparateur/choisir dans `lib/*.ts`) : voiture, familiale, opérateur, énergie, assurances-auto, carte-crédit → tout remplissage = « à coder ».
+### Note de run
 
-### Signalements conformité (hors « vide »)
-- **`meilleure-fibre-internet.be`** : `deals.yaml` contient un `affiliate_disclaimer` évoquant des liens affiliés → **contraire à la règle méthodo « aucune affiliation »**. À retirer.
-
-### Priorités suggérées (lecture seule — aucune action prise ce run)
-- **Sûr / data-fill JSON (nouveaux sites)** : `meilleure-fibre-internet.be` & `meilleur-fournisseur-electricite.be` → remplir `comparateurs.json` (≥ 5 offres réelles), `choisir.json`, corriger `quiz.yaml`. Classements déjà OK.
-- **Sûr / data-fill JSON (existants)** : combler quiz-data et compléments sur suv / utilitaire / 7-places / neobanque.
-- **À coder (à planifier hors boucle de fill)** : tous les `/deals` & `/simulateur` inline, les moteurs de reco quiz placeholder, et les **5 classements absents**.
+Le ledger `pipeline/audits/audited-pages.csv` n'existait pas avant ce run : il a été créé et les 2 domaines y sont désormais inscrits. Aux prochains runs, ces sites ne seront plus re-scannés.
