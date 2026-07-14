@@ -1,7 +1,7 @@
 ---
 name: configure-from-spec
-version: 2.7.3
-description: Configure un nouveau site fork-é depuis emd-template À PARTIR D'UN FICHIER SPEC pré-rempli par le wizard nano-mentionbox. Lit `init-spec.md`, analyse les exports Semrush dans `semrush-exports/` pour clusteriser et déterminer l'arborescence (categories), écrit `niche.config.ts` + tous les `content/*` (miroir si N langues), compose une DA UNIQUE via le SYSTÈME DE VARIANTES (famille de home déduite du SECTEUR + suggestVariants/suggestFonts/palette seedés sur le domaine — jamais un clone d'un autre site), bâtit l'arborescence + un seed BILINGUE (FR + miroir EN + mapping i18n) + 1 classement seed, commit le site, PUIS génère TOUTES les images À LA FIN une par une (checklist EXHAUSTIVE via lib/image-slots.ts → getAllImageSlots, aucun slot oublié), et crée la scheduled task EN TOUT DERNIER (auto, sans confirmation). À utiliser SEULEMENT quand un init-spec.md fraîchement poussé par le wizard est présent à la racine et que l'utilisateur dit « configure le site depuis init-spec.md », « configure depuis la spec », « init from spec », « lance la configuration », « setup le repo ». Ne JAMAIS utiliser pour un site déjà configuré (niche.config.ts.market défini → init-site pour amender). Ne JAMAIS proposer si init-spec.md n'existe pas — proposer init-site.
+version: 2.8.0
+description: Configure un nouveau site fork-é depuis emd-template À PARTIR D'UN FICHIER SPEC pré-rempli par le wizard nano-mentionbox. Lit `init-spec.md`, analyse les exports Semrush dans `semrush-exports/` pour clusteriser et déterminer l'arborescence (categories), écrit `niche.config.ts` + tous les `content/*` (miroir si N langues), compose une DA UNIQUE via le SYSTÈME DE VARIANTES (famille de home déduite du SECTEUR — `beaute` / `comparateur` / `editorial` — + suggestVariants/suggestFonts/palette seedés sur le domaine — jamais un clone d'un autre site), bâtit l'arborescence + un seed BILINGUE (FR + miroir EN + mapping i18n) + 1 classement seed, **dérive les pages clés du classement seed (comparateur, /choisir, quiz) → ZÉRO PLACEHOLDER à la livraison**, commit le site, PUIS génère TOUTES les images À LA FIN une par une (checklist EXHAUSTIVE via lib/image-slots.ts → getAllImageSlots, aucun slot oublié), et crée la scheduled task EN TOUT DERNIER (auto, sans confirmation). À utiliser SEULEMENT quand un init-spec.md fraîchement poussé par le wizard est présent à la racine et que l'utilisateur dit « configure le site depuis init-spec.md », « configure depuis la spec », « init from spec », « lance la configuration », « setup le repo ». Ne JAMAIS utiliser pour un site déjà configuré (niche.config.ts.market défini → init-site pour amender). Ne JAMAIS proposer si init-spec.md n'existe pas — proposer init-site.
 allowed-tools:
   - Read
   - Write
@@ -15,8 +15,21 @@ allowed-tools:
   - mcp__nano-mentionbox__github_push_images
 ---
 
-# configure-from-spec v2.7 — Configurer un site depuis un init-spec.md du wizard
+# configure-from-spec v2.8 — Configurer un site depuis un init-spec.md du wizard
 
+> **v2.7.3 → v2.8.0 (TROIS familles de home + ZÉRO PLACEHOLDER)** :
+> · **Nouvelle famille `beaute` (variante `presse`)** — Beauty · Mode quitte la famille `editorial` pour sa
+>   propre famille. `presse` n'est pas une home de plus : c'est une **identité éditoriale COMPLÈTE**
+>   (masthead sérif centré, nav catégories sticky, une + sections par catégorie, colonne « à ne pas
+>   manquer », **vues blog / catégorie / article dédiées**). Dès que `layouts.home = 'presse'`, écrire AUSSI
+>   `layouts.category = 'presse'` et `layouts.article = 'presse'`. C'est la **SEULE** variante de la famille :
+>   **la variété inter-sites vient de la PALETTE + de la TYPO (seedées sur le domaine), PAS du layout.**
+>   `homeFamily(secteur)` renvoie désormais `'beaute' | 'comparateur' | 'editorial'`.
+> · **Nouvelle étape 13ter — ZÉRO PLACEHOLDER** : le classement seed (13bis) a déjà fait la recherche SERP,
+>   donc **comparateur + `/choisir` + quiz s'en DÉRIVENT** (remploi, pas travail neuf), les gabarits sont
+>   supprimés, **`deals` est désactivé** (le composant est structurellement affilié → jamais de fausse promo),
+>   et **`npm run check:placeholders` doit passer**. Un site ne sort JAMAIS de l'init avec une coquille vide.
+>
 > **v2.7.2 → v2.7.3 (le SECTEUR décide de la famille, le seed tranche DANS la famille)** :
 > Correction du raisonnement de la v2.7.2. Le design n'est ni un choix « thématique » libre (qui faisait
 > retomber sur `comparateur` partout), ni un tirage totalement aveugle (qui collait un comparateur sur un
@@ -25,6 +38,7 @@ allowed-tools:
 >   souscrire** (prix, conditions) → famille **`comparateur`** : pool **⅔ `marche` / ⅓ `comparateur`**.
 > · **Voiture · Beauty · Retailer & Tech · Hospitality · Agence · autres** → thématique **éditoriale**, on
 >   vient **lire / se documenter** → famille **`editorial`** : pool **⅔ `magazine` / ⅓ `fil`**.
+>   *(Beauty · Mode en est sortie en v2.8.0 → famille `beaute`.)*
 > Appeler **`suggestVariants(niche.domain, homeFamily(secteur))`** (`lib/variants.ts`). Le **seed (domaine)
 > tranche DANS la famille** → deux sites du même secteur ne tombent pas forcément sur le même design.
 > `marche` est **éligible d'office** (le classement seed lui fournit ses données).
@@ -111,26 +125,38 @@ En tête : règle SERP-first obligatoire. 50 articles classés par priorité (vo
 
   **1. VARIANTE HOME — le SECTEUR décide de la famille, le SEED tranche dans la famille.**
 
-  a. **Famille** = `homeFamily(secteur)` (`lib/variants.ts`), depuis le secteur de la niche (étape 1) :
+  a. **Famille** = `homeFamily(secteur)` (`lib/variants.ts`), depuis le secteur de la niche (étape 1).
+     Il existe **TROIS** familles — `homeFamily(secteur)` renvoie `'beaute' | 'comparateur' | 'editorial'` :
      - **Assurance · Banque · Énergie · Télécom · Crédit · Casino & Paris** → famille **`comparateur`**
        (l'internaute vient **comparer une offre à souscrire** : prix, conditions) → pool **⅔ `marche` / ⅓ `comparateur`**.
-     - **Voiture · Beauty · Retailer & Tech · Hospitality · Agence · autres** → famille **`editorial`**
+     - **Beauty · Mode** (cosmétique, maquillage, parfum, soin, cheveux, fashion) → famille **`beaute`**
+       → variante **`presse`**. Ce n'est pas une simple home : c'est une **IDENTITÉ ÉDITORIALE COMPLÈTE** —
+       masthead sérif centré + nav catégories sticky, une + sections par catégorie, colonne
+       « à ne pas manquer », et des **vues blog / catégorie / article dédiées**. Dès que
+       `layouts.home = 'presse'`, écrire **AUSSI** `layouts.category = 'presse'` **et**
+       `layouts.article = 'presse'` (le layout bascule tout seul via `isPresse()`).
+       C'est la **SEULE** variante de cette famille : **la variété inter-sites y vient de la PALETTE + de la
+       TYPO (seedées sur le domaine), PAS du layout.** Deux sites beauté partagent la structure mais ont une
+       DA différente → **soigner particulièrement la typo** (paire **sérif display + grotesk de lecture**) et
+       les **5 accents de catégorie** distincts.
+     - **Voiture · Retailer & Tech · Hospitality · Agence · autres** → famille **`editorial`**
        (thématique où l'on vient **lire / se documenter**) → pool **⅔ `magazine` / ⅓ `fil`**.
-  b. **`suggestVariants(niche.domain, famille).home` est AUTORITAIRE** : écris **EXACTEMENT** ce tirage dans
-     `niche.config.layouts.home`. Le seed (domaine) fait diverger deux sites du même secteur.
+  b. **`suggestVariants(niche.domain, homeFamily(secteur)).home` est AUTORITAIRE** : écris **EXACTEMENT** ce
+     tirage dans `niche.config.layouts.home`. Le seed (domaine) fait diverger deux sites du même secteur.
   c. **INTERDIT** : plaquer un `comparateur`/`marche` (ou `style.hero: 'split'`) sur une thématique
-     **éditoriale** (voiture, beauté…) ; plaquer un `magazine` sur une **offre à souscrire** (assurance,
-     banque, énergie, télécom). Et ne JAMAIS choisir `comparateur` « parce que tous nos sites sont des
-     comparateurs » — c'est faux : **le secteur décide**.
+     **éditoriale ou beauté** (voiture, beauté, mode…) ; plaquer un `magazine` sur une **offre à souscrire**
+     (assurance, banque, énergie, télécom). Et ne JAMAIS choisir `comparateur` « parce que tous nos sites
+     sont des comparateurs » — c'est faux : **le secteur décide**.
   d. **ANTI-RÉPÉTITION** : si le tirage donne la même variante que les **2 derniers sites de la MÊME
      famille** (`github_read_file` sur leur `niche.config.ts` → `layouts.home`), **re-roll** :
-     `suggestVariants(niche.domain + '-2', famille)`.
+     `suggestVariants(niche.domain + '-2', famille)`. *(Sans objet pour `beaute`, famille mono-variante :
+     c'est la palette + la typo qui divergent.)*
   e. **`style.hero` COHÉRENT** avec la variante : magazine→`centered`, marche→`centered`,
-     comparateur→`split`, fil→`minimal`. **Jamais `split` par défaut.**
+     **presse→`centered`**, comparateur→`split`, fil→`minimal`. **Jamais `split` par défaut.**
   f. `marche` est **éligible d'office** : le classement seed (étape 13bis) alimente son tableau du marché
      et le spotlight du n°1. L'archetype `## Design` ne nuance QUE les effets/couleurs, **jamais la variante**.
 
-  2. **Permutations** : `suggestVariants(niche.domain, famille)` → `niche.config.permutations` (`shape`/`border`/`shadow`) + `layouts.category`.
+  2. **Permutations** : `suggestVariants(niche.domain, famille)` → `niche.config.permutations` (`shape`/`border`/`shadow`) + `layouts.category` (⚠️ sauf `presse`, où `category` et `article` sont forcés à `'presse'`).
   3. **Palette** : `## Design` (`brandColor`/`skin`) sinon **preset déterministe** (`lib/da-presets/`, par thématique + **seed domaine**) → écrire `niche.config.palette` PUIS propager dans `app/globals.css :root` (+ `@theme`).
   4. **Typo** : `suggestFonts(niche.domain, home)` (`lib/typography.ts`) → écrire la paire dans `app/layout.tsx` (next/font, imports statiques).
   5. **Dépublier les previews** : supprimer `/home-vN`, `/cat-vN`, `/art-v1` (+ `/en/...`).
@@ -138,8 +164,10 @@ En tête : règle SERP-first obligatoire. 50 articles classés par priorité (vo
 > ⚠️ **ANTI-CLONE (règle dure).** La DA se **dérive du DOMAINE** (seed) et du **SECTEUR** (famille).
 > **INTERDIT** d'ouvrir/copier le code, la palette ou les fonts d'un AUTRE site du réseau (`emd-project/*`).
 > **Check de divergence** : la **variante home**, la **palette (accent-1)** ET la **paire de fonts** doivent
-> **différer** d'un site voisin de la même famille (cf. 12.1.d). Documenter la combinaison dans DECISIONS.md.
-> **PAS d'images ici** (cf. étape 15). **Ne PAS écraser `niche.config.ts.categories`** (clusters Semrush).
+> **différer** d'un site voisin de la même famille (cf. 12.1.d). En famille `beaute`, la variante est
+> commune : ce sont la **palette** et la **typo** qui DOIVENT diverger. Documenter la combinaison dans
+> DECISIONS.md. **PAS d'images ici** (cf. étape 15). **Ne PAS écraser `niche.config.ts.categories`**
+> (clusters Semrush).
 
 ---
 
@@ -176,11 +204,38 @@ Le hub `/classement` (+ nav/sitemap) se câble **automatiquement**. **Si la home
 alimente aussi le **tableau du marché** + le **spotlight du n°1** de la home.
 Les **autres clusters** → boucle week-end **`emd-build-pages`**.
 
+## Étape 13ter — ZÉRO PLACEHOLDER : dériver les pages clés DU CLASSEMENT SEED
+
+> Le classement seed (13bis) a **déjà fait la recherche SERP** : items réels, prix, scores, pros/cons,
+> critères, sources. Les autres pages clés s'en **DÉRIVENT** — c'est du **remploi, pas du travail neuf**.
+> Un site ne sort **JAMAIS** de l'init avec une coquille vide.
+
+- **Comparateur** → `content/data/comparateurs.json` : 1 famille = le **cluster principal** ;
+  `modeles` = **les items du classement** (`nom`, `prix` en **number**, `specs`, `sourceUrl`
+  **NEUTRE ou absent — jamais affilié**) ; `specsLabels` = **les `criteria` du classement**.
+  **≥ 5 items, jamais vide.**
+- **`/choisir`** → `content/data/choisir.json` : `tldr` + `sections` + `faq` **repris du classement**.
+- **Quiz** → renseigner `niche.quiz.question` + `quiz.criteria` : **3-6 questions** à choix multiples bâties
+  sur `comparator.criteria`, chaque combinaison menant à un **item RÉEL du classement** (+ 1-2 alternatives,
+  justification factuelle). **Si un quiz honnête et utile est impossible → `quiz.enabled = false`.**
+  Mieux vaut **pas de quiz** qu'un `/quiz` vide qui renvoie 404 alors que le sitemap l'annonce.
+- **Deals → `niche.deals = { enabled: false }`** : le composant `DealsGrid` est **structurellement affilié**
+  (`amazonUrl`, `AffiliateLink`, prix barré, « −X% »), or le modèle EMD est **MENTION, sans aucune
+  affiliation**. Le remplir imposerait d'**inventer des promos** → **on ne le fait JAMAIS**. On **SUPPRIME
+  les routes `app/(site)/deals/` et `app/en/deals/`** du fork et on retire `'deals'` de `homeSections`.
+  (Le lien disparaît de la nav tout seul : `dealsEnabled()`.)
+- **Supprimer les gabarits** une fois le seed écrit : `content/**/_example.*` et
+  `content/blog/**/article-modele.mdx` (+ miroir EN).
+- **Aucune chaîne de gabarit ne survit** : « Modèle A/B/C », « Catégorie A/B/C », « À définir », « TBD »,
+  « Lorem ipsum », « sera personnalisé », « contenu de démonstration ».
+- **Vérification de sortie** : **`npm run check:placeholders` doit passer**. S'il signale quelque chose →
+  **corriger la DONNÉE**. Ne jamais masquer, ne jamais désarmer le garde-fou.
+
 ---
 
 ## Étape 14 — Commit atomique du SITE (code + contenu, AVANT les images)
 
-UN commit : `niche.config.ts` + `content/*` (dont `content/data/classements.json` + `.en.json` du seed) + DA (`globals.css`/`layout.tsx`) + seed bilingue + mapping i18n + previews dépubliées. **Le site est déjà déployable** (placeholders d'images temporaires). Conventional Commits anglais.
+UN commit : `niche.config.ts` + `content/*` (dont `content/data/classements.json` + `.en.json` du seed, `comparateurs.json`, `choisir.json`) + DA (`globals.css`/`layout.tsx`) + seed bilingue + mapping i18n + previews dépubliées + routes `deals` supprimées. **Le site est déjà déployable** (placeholders d'images temporaires). Conventional Commits anglais.
 
 ---
 
@@ -211,7 +266,7 @@ PROGRESS → pause → suivante.
 ---
 
 ## Étape 16 — PROGRESS.md + DECISIONS.md
-Documenter : **famille de home (secteur) + variante tirée** (et pourquoi elle diverge des voisins de la même famille), permutations + palette + typo, **`entityGender`**, **classement seed**, seed bilingue, **images SLOT PAR SLOT**, previews dépubliées.
+Documenter : **famille de home (secteur) + variante tirée** (et pourquoi elle diverge des voisins de la même famille — en `beaute`, la divergence porte sur palette + typo), permutations + palette + typo, **`entityGender`**, **classement seed**, **pages dérivées du seed (comparateur / choisir / quiz) + deals désactivé**, seed bilingue, **images SLOT PAR SLOT**, previews dépubliées.
 
 ---
 
@@ -224,14 +279,16 @@ prénom + initiale** ; titres **accordés au genre** ; articles **maillent vers 
 Échec de création → log dans PROGRESS, **ne pas bloquer**.
 
 ## Étape 18 — Récap utilisateur
-Marché/locales · clusters/categories · **DA : famille (secteur) + variante home + permutations + palette + typo (divergentes)** · **genre entité** · **auteur (prénom seul / + initiale)** · seed bilingue (LangSwitch OK) · **classement seed (head term, excerpt court + ≥1000 mots, FR+EN)** · **images SLOT PAR SLOT** · scheduled task créée · lien repo.
+Marché/locales · clusters/categories · **DA : famille (secteur) + variante home + permutations + palette + typo (divergentes)** · **genre entité** · **auteur (prénom seul / + initiale)** · seed bilingue (LangSwitch OK) · **classement seed (head term, excerpt court + ≥1000 mots, FR+EN)** · **pages dérivées : comparateur + /choisir + quiz, deals désactivé, `check:placeholders` OK** · **images SLOT PAR SLOT** · scheduled task créée · lien repo.
 
 ---
 
 ## Règles strictes
 - **NE JAMAIS exécuter** sans `init-spec.md` · **NE JAMAIS écraser** un `niche.config.ts` rempli.
 - **DA = système de variantes, JAMAIS un clone** : `layouts` + `permutations` + `palette` + typo dérivés du **seed domaine** ; interdiction de copier un site voisin ; check de divergence.
-- **Home : le SECTEUR décide de la FAMILLE, le SEED tranche dedans.** Assurance/Banque/Énergie/Télécom/Crédit/Casino → famille `comparateur` (⅔ `marche`, ⅓ `comparateur`). Voiture/Beauty/Retail/Hospitality/autres → famille `editorial` (⅔ `magazine`, ⅓ `fil`). `suggestVariants(domaine, famille).home` **AUTORITAIRE** + **anti-répétition** vs les 2 derniers de la même famille. **Jamais un comparateur sur une thématique éditoriale, jamais un magazine sur une offre à souscrire.** `style.hero` cohérent.
+- **Home : le SECTEUR décide de la FAMILLE** — Beauty/Mode → `beaute` (`presse`, identité complète : `category` + `article` = `'presse'`) ; Assurance/Banque/Énergie/Télécom/Crédit/Casino → `comparateur` (⅔ `marche`, ⅓ `comparateur`) ; Voiture/Retail/Hospitality/autres → `editorial` (⅔ `magazine`, ⅓ `fil`). `suggestVariants(domaine, homeFamily(secteur))` **AUTORITAIRE** + anti-répétition. **Jamais un comparateur sur une thématique éditoriale ou beauté.**
+- **Home : le SECTEUR décide de la FAMILLE, le SEED tranche dedans.** Assurance/Banque/Énergie/Télécom/Crédit/Casino → famille `comparateur` (⅔ `marche`, ⅓ `comparateur`). Voiture/Retail/Hospitality/autres → famille `editorial` (⅔ `magazine`, ⅓ `fil`). `suggestVariants(domaine, famille).home` **AUTORITAIRE** + **anti-répétition** vs les 2 derniers de la même famille. **Jamais un comparateur sur une thématique éditoriale, jamais un magazine sur une offre à souscrire.** `style.hero` cohérent (magazine/marche/**presse** → `centered`, comparateur → `split`, fil → `minimal`).
+- **ZÉRO PLACEHOLDER à la livraison** : comparateur + `/choisir` + quiz **dérivés du classement seed**, gabarits supprimés, **deals désactivé** (jamais de fausse promo), `check:placeholders` passe.
 - **Genre : `entityGender` au genre RÉEL** ('m'/'f' ; + `dealWordGender` ; + `genre` par classement) — sinon accords FR faux (« meilleurs néobanques »). Le template accorde via `lib/utils/grammar.ts`.
 - **Auteur = PRÉNOM SEUL ou prénom + initiale, JAMAIS de nom de famille inventé.**
 - **Classement SEED dès l'init** dans le système EXISTANT du template : head term du cluster principal, **`excerpt` court + `intro` long distincts**, ≥1000 mots (sections H2 questions + items notés + critères + méthodo + sources + FAQ), `genre`, FR+EN. **JAMAIS d'archi `/classements` bespoke.**
@@ -242,5 +299,5 @@ Marché/locales · clusters/categories · **DA : famille (secteur) + variante ho
 
 ## Lien avec les autres skills / docs
 `nouveau-site` (routeur) · `init-site` (sans spec — même doctrine) · `integrate-claude-design` (étape 12 cas A) ·
-`docs/AUTO-DESIGN.md` + `lib/variants.ts` (familles + variantes) + `lib/typography.ts` · `docs/IMAGES-WORKFLOW.md` + `lib/image-slots.ts` · `lib/utils/grammar.ts` (accords FR) · `lib/classement.ts` + `ClassementList` ·
+`docs/AUTO-DESIGN.md` + `lib/variants.ts` (familles `beaute`/`comparateur`/`editorial` + variantes) + `lib/typography.ts` · `docs/IMAGES-WORKFLOW.md` + `lib/image-slots.ts` · `lib/utils/grammar.ts` (accords FR) · `lib/classement.ts` + `ClassementList` ·
 `docs/SCHEDULED-TASK-REDACTION.md` · `seo-geo-redaction` + `ton-of-voice` + `humaniser-fr` · boucle `emd-build-pages`.
