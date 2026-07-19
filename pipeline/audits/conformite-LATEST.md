@@ -1,97 +1,98 @@
-# Audit CONFORMITÉ & IDENTITÉ — 2026-07-13
+# Audit CONFORMITÉ & IDENTITÉ — 2026-07-19
 
-Périmètre restreint (emd-audit v1.6) : sites de `pipeline/provisioned-log.csv` provisionnés ≤ 14 j
-et non encore audités par le domaine `conformite`.
+**Domaine d'audit :** conformité & identité (Légal/RGPD · Identité · Auteur/E-E-A-T)
+**Mode :** LECTURE SEULE sur les sites — rendu réel audité (SVG inline, montage layout, sources servies).
+**Périmètre (restreint ≤14j, non déjà audité par ce domaine) :**
 
-- Candidats ≤14j : **simulateur-assurance-auto.be** (provisionné le 2026-07-10)
-- Ledger `audited-conformite.csv` : inexistant avant ce run → aucun exclu
-- **Périmètre final : 1 site**
+| Site | Provisionné | Statut périmètre |
+|---|---|---|
+| quel-fournisseur-energie.be | 2026-07-13 | ✅ audité (nouveau) |
+| meilleur-abonnement-5g.be | 2026-07-17 | ✅ audité (nouveau) |
+| simulateur-assurance-auto.be | 2026-07-10 | ⏭️ exclu — déjà au ledger (2026-07-13) |
 
-Mode LECTURE SEULE. Audit du **rendu réel** (layouts, SVG inline du Nav, montage des composants).
-
-## Scorecard
-
-| Site | Légal & RGPD | Identité | Auteur / E-E-A-T |
-|---|---|---|---|
-| simulateur-assurance-auto.be | ❌ | ✅ | ✅ |
-
-Bloquants : **2** · Importants : **2** · Mineurs : **2**
+Aucun re-scan du parc. 2 sites dans le périmètre.
 
 ---
 
-## simulateur-assurance-auto.be
+## Scorecard
 
-### ❌ LÉGAL & RGPD
+| Site | Légal & RGPD | Identité | Auteur / E-E-A-T | Nom de famille auteur |
+|---|:---:|:---:|:---:|:---:|
+| quel-fournisseur-energie.be | ✅ | ✅ | ✅ | Aucun (Camille) |
+| meilleur-abonnement-5g.be | ⚠️ | ✅ | ✅ | Aucun (Bastien) |
 
-**❌ BLOQUANT — Aucun bandeau cookies sur tout l'arbre EN.**
-`app/(site)/layout.tsx` monte bien `<CookieBanner />`, mais `app/en/layout.tsx` ne rend que `Nav` +
-`Footer` : toutes les routes `/en/*` (home EN, blog EN, comparer, simulateur…) sont servies **sans
-bandeau de consentement**. Fix : ajouter `<CookieBanner />` dans `app/en/layout.tsx`.
+Légende : ✅ conforme · ⚠️ écart important · ❌ bloquant.
 
-**❌ BLOQUANT — CookieBanner mono-langue (FR uniquement).**
-`components/ui/CookieBanner.tsx` a tous ses textes en dur en français (« Nous utilisons une mesure
-d'audience anonyme… », « Accepter », « Refuser », `aria-label="Gestion des cookies"`) et pointe vers
-`/confidentialite` (route FR). Aucun passage par `tl(locale, …)` / `localePath`. Doctrine : bandeau
-**FR + EN**. Fix : passer les libellés en i18n + lien vers `/en/privacy` en locale EN.
+---
 
-**⚠️ IMPORTANT — Pas de page CGU.**
-Le site expose `/mentions-legales` + `/confidentialite` (et miroirs `/en/legal-notice` + `/en/privacy`),
-mais **aucune page CGU / conditions d'utilisation** (doctrine : mentions, confidentialité, CGU).
+## Détail par site
 
-**⚠️ IMPORTANT — `/en/privacy` : siège social manquant.**
-Le bloc « Data controller » ne reprend que société + n° d'entreprise + email ; l'adresse
-« Rue Blanche-Eau 15, 6950 Nassogne » (présente côté FR sur `/confidentialite`) a été omise.
-Parité légale FR/EN à rétablir.
+### quel-fournisseur-energie.be — ✅ conforme (1 point mineur)
 
-**⚠️ MINEUR — Analytics chargé avant consentement.**
-`<Analytics />` (`@vercel/analytics`) est monté inconditionnellement dans `app/layout.tsx`, donc actif
-avant tout choix de l'utilisateur et **non désactivé en cas de refus**. Vercel Analytics est cookieless
-et anonyme (donc pas un tracker au sens strict), mais le refus exprimé dans le bandeau n'a aujourd'hui
-aucun effet technique. Recommandé : conditionner le montage au consentement (ou documenter clairement
-le caractère « strictement nécessaire »).
+**Légal & RGPD — ✅**
+- Mentions légales : remplies, aucun placeholder `[À compléter]`, `robots: { index:false, follow:false }` (noindex) ✓.
+- Confidentialité : remplie, noindex ✓.
+- Infos société exactes : MentionBox SRL · SRL de droit belge · BE 0784.700.405 · Rue Blanche-Eau 15, 6950 Nassogne, Belgique ✓.
+- Bandeau cookies : `CookieBanner` **réellement monté** dans `app/layout.tsx` (racine) ✓ ; léger/discret ✓ ; **Accepter / Refuser** de poids équivalent ✓ ; lien vers la politique ✓ ; **aucun tracker avant consentement** (`<Analytics />` monté uniquement si `choice === 'granted'`) ✓ ; **strings FR + EN présents** dans le composant ✓.
+- ⚠️ *mineur* : le bandeau est monté sans prop `locale` → il **retombe sur `defaultLocale` (FR)** même sur les pages `/en`. Le composant sait rendre l'EN, mais il n'est pas câblé à la locale. À corriger pour un vrai bilingue du bandeau.
+- *mineur* : pas de page CGU distincte (uniquement mentions-légales + confidentialité).
 
-**✅ CONFORME**
-- Pages légales **remplies** : aucun placeholder `[À compléter]` sur les 4 pages.
-- **noindex** correct : `robots: { index: false, follow: false }` sur `/mentions-legales`,
-  `/confidentialite`, `/en/legal-notice`, `/en/privacy`.
-- **Infos société exactes** : MentionBox SRL · société à responsabilité limitée (SRL) de droit belge ·
-  BE 0784.700.405 · Rue Blanche-Eau 15, 6950 Nassogne, Belgique · emd@mentionbox.be.
-- Bandeau (côté FR) : léger/discret, **Accepter / Refuser**, lien vers la politique, choix mémorisé
-  (`localStorage: cookie-consent`), aucun tracker publicitaire.
-- Hreflang réciproque + x-default sur les pages légales EN.
+**Identité — ✅**
+- Favicon réellement servi : `app/icon.svg` (lettre « Q » serif brique-prune sur crème) ✓.
+- Logo réellement rendu **unique** : `BrandMark` **SVG inline** dans `Nav.tsx` (anneau de bascule + flamme), tinté `var(--accent-1)`. **Pas l'éclair réseau générique** ✓. Même mark repris dans le `Footer.tsx`.
+- OG unique via `app/opengraph-image.tsx`, couleurs = `niche.palette` du site (crème/brique) ✓.
 
-### ✅ IDENTITÉ
+**Auteur / E-E-A-T — ✅**
+- Auteur identifié : **Camille** — pas de « la rédaction », pas de champ vide ✓.
+- Règle NOM : **prénom seul, aucun nom de famille** — conforme en `niche.config.author.name`, page `/auteurs/camille`, JSON-LD `Person.name` ✓.
+- Bio E-E-A-T crédible (analyste marché énergie BE, ~10 ans, méthode CREG/CWaPE/VREG/Brugel) ✓.
+- Page auteur `/auteurs/[slug]` présente + **JSON-LD `Person`** (name, jobTitle, description, worksFor) ✓.
+- Auteur unique au site (≠ Bastien) ✓.
+- Articles publiés : aucun encore (`_example.mdx` vide) → rien à flagger côté frontmatter.
 
-- **Favicon réellement servi** : `app/icon.svg` présent. ✅
-- **OG unique** : `app/opengraph-image.tsx` (edge, 1200×630) génère l'image depuis
-  `niche.palette` + `niche.tagline` + `niche.domain` → contenu propre au site, pas d'OG partagé. ✅
-- **Logo réellement rendu unique** : le SVG **inline dans `Nav.tsx`** est un mark **bouclier + coche**
-  (`fill: currentColor` → `var(--accent-1)`), pas l'éclair réseau générique. ✅
-- **⚠️ MINEUR — anti-footprint** : `meilleures-assurances-auto.be` rend dans son `Nav.tsx` un mark
-  **également bouclier + coche** (version stroke au lieu de fill). Concept de marque identique entre
-  deux sites voisins du réseau assurance → différencier l'un des deux marks.
+---
 
-### ✅ AUTEUR / E-E-A-T
+### meilleur-abonnement-5g.be — ⚠️ (bandeau cookies non bilingue)
 
-- Auteur identifié : **Damien** — pas de « la rédaction », pas de champ vide. ✅
-- **RÈGLE NOM respectée : aucun nom de famille**, prénom seul, partout —
-  `niche.config.author.name` = `Damien` · slug `damien` · page `/auteurs/damien` ·
-  JSON-LD `Person` (page auteur) et `Article.author` (`@type: Person`, name = `niche.author.name`) ·
-  frontmatter FR et EN (`authorSlug: "damien"`). ✅
-- Bio E-E-A-T crédible et spécifique (ex-gestionnaire de sinistres devenu analyste indépendant,
-  marché belge, AG/Ethias/KBC/Belfius/P&V/Corona Direct) + titre d'expertise. ✅
-- Page auteur présente (FR `/auteurs/[slug]` + arbre `app/en/auteurs`), JSON-LD `Person` avec
-  `jobTitle`, `url`, `worksFor`. Cohérence frontmatter ↔ page auteur ↔ données structurées. ✅
-- Unicité inter-sites : nom/bio propres au site sur le périmètre observé (pas de re-scan du parc).
+**Légal & RGPD — ⚠️**
+- Mentions légales : remplies, aucun placeholder, noindex ✓.
+- Confidentialité : remplie, noindex ✓ ; **excellente** (décrit le comportement réel du consentement, adresse APD/GBA) ✓.
+- Infos société exactes : MentionBox SRL · BE 0784.700.405 · Rue Blanche-Eau 15, 6950 Nassogne ✓.
+- Bandeau cookies : monté via `ConsentGate` dans `app/layout.tsx` racine ✓ ; léger ✓ ; **Accepter / Refuser** de poids visuel équivalent ✓ ; lien politique ✓ ; **aucun tracker avant consentement** (`<Analytics />` seulement si `consent === 'granted'`) ✓.
+- ⚠️ **IMPORTANT** : le composant `CookieBanner.tsx` a un **texte codé en dur en FRANÇAIS uniquement** — aucune variante EN (« On mesure l'audience… », boutons « Refuser » / « Accepter »). Sur les pages `/en`, le visiteur voit un bandeau **français**. La doctrine exige un bandeau **FR + EN**. Pages légales EN présentes (`app/en/legal-notice`, `app/en/privacy`), mais **le bandeau, lui, n'est pas traduit**.
+
+**Identité — ✅**
+- Favicon réellement servi : `app/icon.svg` (mark « signal » = 3 arcs de diffusion + base pleine, turquoise) ✓.
+- Logo réellement rendu **unique** : `BrandMark` **SVG inline** dans `Nav.tsx`, **identique au favicon**, tinté `var(--accent-1)`. **Pas l'éclair générique** ✓. **Distinct** du mark de quel-fournisseur-energie.be ✓.
+- OG unique via `app/opengraph-image.tsx`, couleurs = `niche.palette` (graphite froid + turquoise), tagline propre au site ✓.
+
+**Auteur / E-E-A-T — ✅**
+- Auteur identifié : **Bastien** — pas de « la rédaction » ✓.
+- Règle NOM : **prénom seul, aucun nom de famille** — conforme en `niche.config.author.name`, page `/auteurs/bastien`, JSON-LD `Person.name` ✓.
+- Bio E-E-A-T crédible (7 ans déploiement réseaux mobiles Wallonie/Bruxelles, méthode IBPT) ✓.
+- Page auteur + **JSON-LD `Person`** ✓.
+- Auteur unique au site (≠ Camille) ✓.
+- Aucun article publié (`_example.mdx` vide) → rien à flagger côté frontmatter.
+
+---
+
+## Anti-footprint (dans le périmètre)
+
+- **Logos** : marks bien distincts (flamme+anneau vs signal 3-arcs), chacun SVG inline unique et repris en favicon. ✅ Pas d'empreinte.
+- **Auteurs** : Camille (énergie) vs Bastien (télécom) — noms, titres et bios totalement distincts. ✅
+- **Palettes / DA** : crème éditorial (light) vs graphite-turquoise (dark) — divergence nette. ✅
+- ⚠️ *mineur (à surveiller)* : les deux `opengraph-image.tsx` partagent **exactement la même composition** (barre d'accent en dégradé + eyebrow `DOMAIN · année` + tagline + **watermark étoile ★ opacity 0.05** en bas-droite). Seules la palette et la tagline changent. Ce n'est pas une image identique, mais la **mise en page OG est répétée** sur le réseau — motif reconnaissable inter-sites. À diversifier côté template si d'autres sites la reprennent.
 
 ---
 
 ## Top actions prioritaires
 
-1. **❌ Monter `<CookieBanner />` dans `app/en/layout.tsx`** — actuellement zéro consentement sur `/en/*`.
-2. **❌ Internationaliser le CookieBanner** (libellés FR/EN via `tl(locale, …)` + lien `/en/privacy`).
-3. **⚠️ Créer la page CGU** (FR + miroir EN, en noindex).
-4. **⚠️ Ajouter le siège social** (Rue Blanche-Eau 15, 6950 Nassogne) dans `/en/privacy`.
-5. **⚠️ Différencier le logo** : le mark bouclier + coche double celui de `meilleures-assurances-auto.be`.
+1. **[IMPORTANT — RGPD] meilleur-abonnement-5g.be** : rendre le **bandeau cookies bilingue** (FR + EN). Le `CookieBanner.tsx` est FR codé en dur ; ajouter la détection de locale + les strings EN (comme le fait le composant de quel-fournisseur-energie.be).
+2. **[MINEUR — RGPD] quel-fournisseur-energie.be** : câbler la **locale au bandeau** monté en layout racine (aujourd'hui figé sur FR même sur `/en`, bien que les strings EN existent).
+3. **[MINEUR — footprint] les deux sites** : diversifier la **composition de l'OG** (watermark ★ + eyebrow `DOMAIN · année` identiques) pour éviter une empreinte visuelle réseau.
+4. **[MINEUR — légal] quel-fournisseur-energie.be** : envisager une page **CGU** distincte (aujourd'hui mentions-légales + confidentialité seulement).
+5. **[SUIVI] les deux sites** : aucun article publié — au premier contenu, re-vérifier `author` en frontmatter (prénom seul) et le `JSON-LD Person` par article.
 
-Bonus (mineur) : conditionner `<Analytics />` au consentement pour rendre le « Refuser » effectif.
+---
+
+*Sites conformes sur l'essentiel identité + auteur + légal. Seul écart important : le bandeau cookies non bilingue de meilleur-abonnement-5g.be.*
