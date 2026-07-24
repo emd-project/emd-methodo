@@ -1,7 +1,7 @@
 ---
 name: integrate-claude-design
-version: 1.1.1
-description: Intègre les outputs livrés par Claude Design (JSX, HTML, snippets Tailwind, mockups, descriptions de sections) dans la structure du template emd-template. Mappe les pages vers app/, les composants vers components/, les tokens vers niche.config.ts, applique les conversions techniques (variables CSS, next/image, RSC vs 'use client'), et réutilise les composants MDX existants. À utiliser quand l'utilisateur dit « intègre ce qui est dans design-incoming », « merge les designs », « applique les outputs Claude Design », « intègre les écrans livrés », ou quand le dossier design-incoming/ à la racine du repo contient des fichiers à traiter.
+version: 1.2.0
+description: Intègre les outputs livrés par Claude Design (JSX, HTML, snippets Tailwind, mockups, descriptions de sections) dans la structure du template emd-template. Mappe les pages vers app/, les composants vers components/, les tokens vers niche.config.ts, applique les conversions techniques (variables CSS, next/image, RSC vs 'use client'), réutilise les composants MDX existants, ET propage la DA à TOUTES les pages du site (home, hub blog, sous-hub catégorie, article, comparateur, produit, quiz). À utiliser quand l'utilisateur dit « intègre ce qui est dans design-incoming », « merge les designs », « applique les outputs Claude Design », « intègre les écrans livrés », ou quand le dossier design-incoming/ à la racine du repo contient des fichiers à traiter.
 allowed-tools:
   - Read
   - Write
@@ -21,10 +21,11 @@ Quand le dossier `design-incoming/` contient des fichiers livrés par Claude Des
 2. Mapper chaque output sur la structure du template (pages → `app/`, composants → `components/`, tokens → `niche.config.ts`, contenus → `content/`).
 3. Appliquer les conversions techniques obligatoires (variables CSS, `next/image`, RSC par défaut, syntaxe Tailwind v4).
 4. Réutiliser les composants MDX et UI déjà présents plutôt que les ressaisir.
-5. Respecter le filtre qualité de `CLAUDE.md`.
-6. Nettoyer le dossier `design-incoming/` une fois l'intégration committée.
+5. **Propager la DA à TOUTES les pages, pas seulement la home** (cf. Étape 6 — garde-fou).
+6. Respecter le filtre qualité de `CLAUDE.md`.
+7. Nettoyer le dossier `design-incoming/` une fois l'intégration committée.
 
-Ne jamais proposer un questionnaire d'init ou une génération de boilerplate à partir de rien. L'init est géré par le skill `nouveau-site` (qui route vers `init-site` ou `configure-from-spec`). Ce skill-ci gère UNIQUEMENT l'intégration de `design-incoming/`. Le workflow est linéaire : outputs livrés → mapping → conversions → nettoyage.
+Ne jamais proposer un questionnaire d'init ou une génération de boilerplate à partir de rien. L'init est géré par le skill `nouveau-site` (qui route vers `init-site` ou `configure-from-spec`). Ce skill-ci gère UNIQUEMENT l'intégration de `design-incoming/`. Le workflow est linéaire : outputs livrés → mapping → conversions → **cohérence toutes pages** → nettoyage.
 
 ---
 
@@ -175,7 +176,38 @@ Si Claude Design a livré des tokens (palette, fonts, nom du site, tagline, voca
 
 ---
 
-## Étape 6 — Filtre qualité (hérité de CLAUDE.md)
+## Étape 6 — ⚠️ GARDE-FOU : cohérence DA sur TOUTES les pages
+
+**Le piège n°1 : une home magnifique, mais le hub blog, les catégories et les articles restent en design par défaut.** Inacceptable. Un design ne livre presque jamais TOUS les écrans — tu dois **étendre** la DA livrée aux pages manquantes en réutilisant ses composants, tokens, traitements (cartes, hero, typo, animations, espacements).
+
+Passer en revue **chaque type de page** et s'assurer qu'il partage la DA :
+
+| Route | Type | À vérifier |
+|---|---|---|
+| `/` | Home | DA livrée appliquée |
+| `/blog` | **Hub** | header, grille d'articles, filtres, footer = même DA |
+| `/blog/[categorie]` | **Sous-hub** (catégorie) | en-tête de catégorie, liste, pagination = même DA |
+| `/blog/[categorie]/[slug]` | **Article** | typo de corps, titres, cartes MDX, cover/mid, AuthorCard, FAQ = même DA |
+| `/comparer` · `/comparer/[produit]` | Comparateur + produit | tableaux, CompareBar, CTA = même DA |
+| `/choisir/[produit]` | Guide d'achat | étapes, critères = même DA |
+| `/quiz` · `/simulateur` | Outils | formulaires, résultats = même DA |
+| `/classement/[cat]` | Classement | liste rankée, verdicts, FAQ = même DA |
+| `/auteurs/[slug]` | Auteur | carte, bio = même DA |
+| `/mentions-legales` · `/confidentialite` | Légal | au moins typo + header/footer cohérents |
+
+Règle : la DA passe par les **tokens** (`niche.config.ts` + variables CSS) ET par le **traitement des composants partagés** (Nav, Footer, Card, Hero, sections, composants MDX). Si une page utilise des classes/couleurs en dur ou un vieux composant non re-stylé, elle décroche → corriger.
+
+**Vérification obligatoire** (ne pas se fier au code seul) :
+
+```bash
+pnpm dev   # puis ouvrir chaque route ci-dessus
+```
+
+Rendre chaque type de page et **comparer visuellement** à la home. Idéalement, capturer un screenshot par type. Une page qui ne ressemble pas au reste du site = **bug d'intégration**, on ne livre pas.
+
+---
+
+## Étape 7 — Filtre qualité (hérité de CLAUDE.md)
 
 Avant de marquer l'intégration terminée, vérifier :
 
@@ -187,6 +219,7 @@ Avant de marquer l'intégration terminée, vérifier :
 - [ ] Aucune référence à `fonts.googleapis.com`
 - [ ] `'use client'` uniquement sur composants interactifs
 - [ ] Liens sortants neutres (aucun tag d'affiliation ni composant `AffiliateLink` — pas d'affiliation sur ces sites)
+- [ ] **DA cohérente sur TOUTES les routes** (home, hub /blog, sous-hub catégorie, article, comparateur, produit, quiz, classement) — vérifié page par page (Étape 6). Aucune page en design par défaut.
 - [ ] `prefers-reduced-motion` respecté si animations
 - [ ] Composants nouveaux < 150 lignes (sinon à splitter)
 
@@ -194,13 +227,13 @@ Si un point n'est pas respecté : corriger avant de proposer le commit.
 
 ---
 
-## Étape 7 — Nettoyage et commit
+## Étape 8 — Nettoyage et commit
 
 Une fois l'intégration validée :
 
 1. Supprimer le contenu de `design-incoming/` (sauf le `READ-FIRST.md`, qui est la doc du dossier).
 2. Mettre à jour `PROGRESS.md` avec ce qui a été intégré.
-3. Documenter dans `DECISIONS.md` les choix non triviaux (par exemple : « Claude Design proposait un Hero avec animation fade-in, on l'a remplacé par un slide horizontal pour respecter `signature.oneRule` »).
+3. Documenter dans `DECISIONS.md` les choix non triviaux, et **quelles pages ont dû être restylées** au-delà du livrable (par exemple : « Claude Design proposait un Hero avec animation fade-in, on l'a remplacé par un slide horizontal pour respecter `signature.oneRule` »).
 4. Proposer un commit avec un message clair en Conventional Commits :
    ```
    feat(home): integrate Claude Design home v2
@@ -216,12 +249,14 @@ Si tu fais le commit toi-même (Claude Code en mode tooling) : jamais directemen
 
 ## Ce qu'il NE faut PAS faire
 
+- **Ne pas styler uniquement la home** en laissant `/blog`, les catégories et les articles en design par défaut. La DA couvre TOUT le site (Étape 6).
 - **Ne pas** lancer d'interview d'init ni de questionnaire ici. L'init passe par le skill `nouveau-site` (qui route vers `init-site` ou `configure-from-spec`). Ce skill gère UNIQUEMENT l'intégration de `design-incoming/`.
 - **Ne pas** recopier du JSX tel quel sans le passer par le filtre qualité.
 - **Ne pas** inventer une couleur, une font, un nom de site ou un slogan si Claude Design ne les a pas fournis. Demander à l'utilisateur ou laisser un `TODO` explicite dans `niche.config.ts`.
 - **Ne pas** toucher à `packages/cms/`, `lib/`, `middleware.ts`, ni aux composants génériques (`Hero`, `Nav`, `Footer`, `CategorySection`) sans raison explicite et documentée dans `DECISIONS.md`.
 - **Ne pas** dupliquer un composant qui existe déjà sous un autre nom. Enrichir l'existant.
 - **Ne pas** committer avec `design-incoming/` non vide — le dossier doit être purgé sauf le `READ-FIRST.md`.
+- **Ne pas** introduire d'affiliation (tag, wrapper, disclaimer) — modèle mention uniquement (cf. 3.6).
 
 ---
 
@@ -237,9 +272,8 @@ Pour chaque intégration, livrer à l'utilisateur :
 
 1. **Récapitulatif des fichiers livrés** (nom + type d'output + destination dans le repo).
 2. **Liste des conversions appliquées** (couleurs → vars CSS, `<img>` → `next/image`, etc.).
-3. **Décisions non triviales** si l'output Claude Design était ambigu ou en conflit avec l'existant.
-4. **Résultat du filtre qualité** (les checks passés, les checks failés).
-5. **Proposition de commit** (message + branche).
-6. **Nettoyage** (confirmation que `design-incoming/` est vide).
-</content>
-</invoke>
+3. **Pages restylées au-delà du livrable** (hub, sous-hub, article, outils…) pour la cohérence DA.
+4. **Décisions non triviales** si l'output Claude Design était ambigu ou en conflit avec l'existant.
+5. **Résultat du filtre qualité** (les checks passés, les checks failés — dont la vérif toutes-pages de l'Étape 6).
+6. **Proposition de commit** (message + branche).
+7. **Nettoyage** (confirmation que `design-incoming/` est vide).
