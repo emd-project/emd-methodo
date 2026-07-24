@@ -1,7 +1,7 @@
 ---
 name: seo-geo-redaction
-version: 1.5.1
-description: Doctrine canonique de rédaction SEO/GEO des sites EMD — structure d'article optimisée pour le référencement Google ET la citabilité par les LLM (ChatGPT/Gemini/AI Overview), avec priorité aux sujets qui citent/comparent des marques et modèles, déclinés par persona (monétisation par mention, sans affiliation). Source de vérité unique : ≥70% de H2 en question, pattern Answer-Explanation-Example, FAQ, données structurées, maillage interne, sources datées, FR+EN, anti-cannibalisation par frontière head-nu/long-tail. À lire/appliquer pour toute rédaction d'article de blog sur un site EMD (rédaction quotidienne, article seed, correction).
+version: 1.6.0
+description: Doctrine canonique de rédaction SEO/GEO des sites EMD — structure d'article optimisée pour le référencement Google ET la citabilité par les LLM (ChatGPT/Gemini/AI Overview), avec priorité aux sujets qui citent/comparent des marques et modèles, déclinés par persona (monétisation par mention, sans affiliation). Source de vérité unique : ≥70% de H2 en question, pattern Answer-Explanation-Example, FAQ, données structurées par type de page, workflow images (MCP nano-mentionbox), infrastructure GEO (llms.txt, robots.txt), maillage interne, sources datées, FR+EN, anti-cannibalisation par frontière head-nu/long-tail, monitoring de citabilité. À lire/appliquer pour toute rédaction d'article de blog sur un site EMD (rédaction quotidienne, article seed, correction).
 ---
 
 # seo-geo-redaction — Doctrine GEO canonique EMD
@@ -54,7 +54,7 @@ La page `/classement/X` est l'asset GEO #1 et fait **≥ 1000 mots** : intro + T
 3. **SERP analysis (obligatoire)** : WebSearch sur le head term → top 3 Google.be (titre, chapô, longueur, H2, FAQ, tableau). Différenciateur documenté. Pas de SERP = run échoué.
 4. **Brief + outline** avant rédaction.
 5. **Rédaction** selon la structure GEO ci-dessous, via `humaniser-fr`.
-6. **Images, i18n, publication** selon les workflows du site.
+6. **Images** selon le workflow ci-dessous (« Stratégie d'images »), **i18n et publication** selon les workflows du site.
 
 ## Structure GEO obligatoire
 - **H1** ≤ 60 caractères, head term en tête (sans année — la marque est ajoutée par le template racine).
@@ -73,11 +73,39 @@ La page `/classement/X` est l'asset GEO #1 et fait **≥ 1000 mots** : intro + T
 - **Sources d'autorité datées**, priorité .be / institutionnel (.gov.be, FSMA, BNB, IBPT, Statbel, Assuralia, Test-Achats, SPF…). Ne jamais inventer ce que disent les concurrents.
 - **Année dynamique** (`currentYear()` / `[[date]]`) — jamais d'année en dur dans titre/slug/frontmatter.
 
-## Données structurées (JSON-LD)
-Article + FAQPage + BreadcrumbList + **Person (auteur)** + Speakable. Classement : ItemList + FAQPage + BreadcrumbList. `author` = l'auteur/persona du site (jamais « la rédaction »).
+## Stratégie d'images (workflow MCP nano-mentionbox)
+Génération via le MCP **nano-mentionbox** (`generate_image` / `wait_for_image` / `github_push_images`). Dimensions et noms alignés sur `docs/IMAGES-WORKFLOW.md` + `lib/image-slots.ts` du site.
+
+- **Cover (obligatoire, LA SEULE image générée)** : `[slug]-cover.webp`, 1280×720 (16:9), WebP. Prompt dérivé du H1 + voix + DA du site. Alt factuel ≤ 125 caractères, écrit à la main (jamais généré), dans toutes les locales.
+- **2 images in-content RÉUTILISÉES** (aucune génération) : `<ArticleImage>` pointant vers `/images/categories/[cat].webp` et `/images/blog/category-[cat].webp`, placées ~1/3 et ~2/3 de l'article, alt traduits.
+- **Workflow fire-and-poll** :
+  1. Prompt ≤ 20 mots, finissant par « no text, no logos, no watermark » ; **jamais de marque réelle dans le prompt**.
+  2. `generate_image` (16:9) → `wait_for_image`.
+  3. Échec → UN retry en `[slug]-cover-v2` ; second échec → skip + log « Bloqué » (ne jamais bloquer la publication sur une image).
+  4. Conversion WebP → `github_push_images` sous `public/blog/[categorie]/[slug]/`.
+  5. Référencer dans le frontmatter/MDX (`next/image`) avec l'alt manuel (FR + locales).
+
+## Données structurées (JSON-LD) — par type de page
+| Page | Schemas obligatoires |
+|---|---|
+| Article | Article + Person (auteur) + BreadcrumbList + FAQPage |
+| Classement | BreadcrumbList + ItemList + FAQPage |
+| Comparatif | BreadcrumbList + ItemList |
+| Page auteur | Person |
+| Guide / pilier | Article (+ HowTo si étapes) |
+
+Champs obligatoires d'un Article : `headline`, `datePublished`, `dateModified`, `author` (Person + `sameAs`), `publisher`, `description`, `inLanguage` (BCP 47 : `fr-BE`, `en-BE`). **Speakable** sur le TL;DR / key takeaways (ex. `.article-tldr`, `.article-key-takeaway`). `author` = l'auteur/persona du site (jamais « la rédaction »).
+
+## Infrastructure GEO (site)
+- **`public/llms.txt`** : index à destination des crawlers LLM (présent et à jour — le template le génère ; ne pas le supprimer).
+- **`robots.txt`** : ne bloque AUCUN crawler IA — `GPTBot`, `ClaudeBot`/`anthropic-ai`, `PerplexityBot`, `CCBot`, `Google-Extended` doivent pouvoir crawler. Bloquer un crawler IA = renoncer aux citations (contraire au modèle mention).
 
 ## Multilingue (FR + EN par défaut)
-Miroir FR + EN : slug naturel par langue, FAQ traduite, acronymes belges explicités, **alt FR + EN**, **mapping i18n** mis à jour (FR↔EN) pour le sélecteur (zéro-404) + hreflang.
+Miroir FR + EN : slug naturel par langue, FAQ traduite, acronymes belges explicités, **alt FR + EN**, **mapping i18n** mis à jour (FR↔EN) pour le sélecteur (zéro-404) + hreflang. Doctrine complète : `references/i18n-multilingue.md` (emd-methodo).
+
+## Monitoring de citabilité (mensuel) & refresh
+- **Monitoring** : chaque mois, tester ~5 head terms publiés sur Perplexity / ChatGPT Search / Google AI Overview / Claude Search. Logger le résultat (cité / non cité / concurrent cité). Une chute de citation = ré-audit GEO de l'article concerné. La **boucle MentionLab** (`emd-geo-loop`) complète ce monitoring et alimente `content/priorites-geo.md` en briefs mesurés.
+- **Refresh d'articles** : tout refresh majeur met à jour `dateModified`, les données datées, et re-vérifie sources et concurrents SERP.
 
 ## Checklist finale
 - [ ] **`references/garde-fous.md` respecté** : commit seulement si contenu non-vide, aucun écrasement de contenu existant.
@@ -90,5 +118,6 @@ Miroir FR + EN : slug naturel par langue, FAQ traduite, acronymes belges explici
 - [ ] ≥ 70 % H2 en question ; Answer-Explanation-Example par H2.
 - [ ] ≥ 3 signaux d'Expérience ; sources datées .be.
 - [ ] FAQ 6-7 ; TL;DR 3-5 bullets ; tableau comparatif si comparaison de marques/modèles ; 2-4 liens internes valides.
-- [ ] JSON-LD Article + FAQ + Breadcrumb + Person + Speakable ; année dynamique.
+- [ ] **Images** : 1 cover générée (workflow fire-and-poll, une seule génération) + 2 in-content réutilisées ; alt manuel dans toutes les locales.
+- [ ] JSON-LD conforme au tableau par type de page (+ Speakable) ; année dynamique ; `llms.txt` et `robots.txt` intacts (aucun crawler IA bloqué).
 - [ ] FR + EN + mapping i18n ; passé par `humaniser-fr` ; signé par l'auteur.
