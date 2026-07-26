@@ -1,7 +1,7 @@
 ---
 name: configure-from-spec
-version: 2.8.0
-description: Configure un nouveau site fork-é depuis emd-template À PARTIR D'UN FICHIER SPEC pré-rempli par le wizard nano-mentionbox. Lit `init-spec.md`, analyse les exports Semrush dans `semrush-exports/` pour clusteriser et déterminer l'arborescence (categories), écrit `niche.config.ts` + tous les `content/*` (miroir si N langues), compose une DA UNIQUE via le SYSTÈME DE VARIANTES (famille de home déduite du SECTEUR — `beaute` / `comparateur` / `editorial` — + suggestVariants/suggestFonts/palette seedés sur le domaine — jamais un clone d'un autre site), bâtit l'arborescence + un seed BILINGUE (FR + miroir EN + mapping i18n) + 1 classement seed, **dérive les pages clés du classement seed (comparateur, /choisir, quiz) → ZÉRO PLACEHOLDER à la livraison**, commit le site, PUIS génère TOUTES les images À LA FIN une par une (checklist EXHAUSTIVE via lib/image-slots.ts → getAllImageSlots, aucun slot oublié), et crée la scheduled task EN TOUT DERNIER (auto, sans confirmation). À utiliser SEULEMENT quand un init-spec.md fraîchement poussé par le wizard est présent à la racine et que l'utilisateur dit « configure le site depuis init-spec.md », « configure depuis la spec », « init from spec », « lance la configuration », « setup le repo ». Ne JAMAIS utiliser pour un site déjà configuré (niche.config.ts.market défini → init-site pour amender). Ne JAMAIS proposer si init-spec.md n'existe pas — proposer init-site.
+version: 2.9.0
+description: Configure un nouveau site fork-é depuis emd-template À PARTIR D'UN FICHIER SPEC pré-rempli par le wizard nano-mentionbox. Lit `init-spec.md`, analyse les exports Semrush dans `semrush-exports/` pour clusteriser et déterminer l'arborescence (categories), écrit `niche.config.ts` + tous les `content/*` (miroir si N langues), compose une DA UNIQUE via le SYSTÈME DE VARIANTES (famille de home déduite du SECTEUR — `beaute` / `comparateur` / `editorial` — + suggestVariants/suggestFonts + palette OBLIGATOIREMENT tirée de `lib/da-presets` (161 palettes curatées, jamais d'hex inventés) seedées sur le domaine — jamais un clone d'un autre site), **valide le CONTRASTE par calcul WCAG (design fiable sans review visuelle)**, bâtit l'arborescence + un seed BILINGUE (FR + miroir EN + mapping i18n) + 1 classement seed, **dérive les pages clés du classement seed (comparateur, /choisir, quiz) → ZÉRO PLACEHOLDER à la livraison**, commit le site, PUIS génère TOUTES les images À LA FIN une par une (checklist EXHAUSTIVE via lib/image-slots.ts → getAllImageSlots, aucun slot oublié), et crée la scheduled task EN TOUT DERNIER (auto, sans confirmation). À utiliser SEULEMENT quand un init-spec.md fraîchement poussé par le wizard est présent à la racine et que l'utilisateur dit « configure le site depuis init-spec.md », « configure depuis la spec », « init from spec », « lance la configuration », « setup le repo ». Ne JAMAIS utiliser pour un site déjà configuré (niche.config.ts.market défini → init-site pour amender). Ne JAMAIS proposer si init-spec.md n'existe pas — proposer init-site.
 allowed-tools:
   - Read
   - Write
@@ -15,8 +15,19 @@ allowed-tools:
   - mcp__nano-mentionbox__github_push_images
 ---
 
-# configure-from-spec v2.8 — Configurer un site depuis un init-spec.md du wizard
+# configure-from-spec v2.9 — Configurer un site depuis un init-spec.md du wizard
 
+> **v2.8.0 → v2.9.0 (DESIGN FIABLE À L'AVEUGLE)** : le provisionnement tourne SANS review visuelle
+> (personne ne regarde le rendu avant publication — le contrôle humain passe après coup). Deux verrous
+> rendent le design fiable sans yeux :
+> · **Palette : OBLIGATOIREMENT un preset de `lib/da-presets/palettes.json`** (161 palettes curatées et
+>   harmonisées) sélectionné par thématique (`niche-rules`) + seed domaine. **INTERDIT d'inventer des hex.**
+>   Si le wizard (`## Design`) fournit un `brandColor`, il remplace UNIQUEMENT l'accent-1 du preset le plus
+>   proche — jamais une palette complète improvisée.
+> · **Étape 12.6 — CONTRÔLE DE CONTRASTE CALCULÉ (WCAG)** : les ratios se calculent depuis les hex
+>   (aucun œil requis). Script node dans le sandbox, paires clés en clair ET sombre, seuils AA. Un ratio
+>   sous le seuil = on ajuste la lightness du token AVANT commit. C'est LE check design d'un agent aveugle.
+>
 > **v2.7.3 → v2.8.0 (TROIS familles de home + ZÉRO PLACEHOLDER)** :
 > · **Nouvelle famille `beaute` (variante `presse`)** — Beauty · Mode quitte la famille `editorial` pour sa
 >   propre famille. `presse` n'est pas une home de plus : c'est une **identité éditoriale COMPLÈTE**
@@ -119,6 +130,11 @@ En tête : règle SERP-first obligatoire. 50 articles classés par priorité (vo
 
 ## Étape 12 — DA via le SYSTÈME DE VARIANTES (full-auto, JAMAIS un clone)
 
+> **Contexte : cette étape tourne SANS review visuelle.** Personne ne regarde le rendu avant publication.
+> Donc AUCUNE décision de design « au feeling » : chaque choix vient d'une **bibliothèque curatée**
+> (`lib/da-presets/`) ou d'un **tirage seedé** (`lib/variants.ts` / `lib/typography.ts`), et le contraste
+> est **vérifié par calcul** (12.6). Les ingrédients ne peuvent pas rater ; l'agent n'improvise rien.
+
 `ls -la design-incoming/` :
 - **non vide** → `integrate-claude-design`.
 - **vide** → dérouler **`docs/AUTO-DESIGN.md`** du fork. Le fork EMBARQUE déjà `lib/variants.ts`, `lib/typography.ts`, `components/layout/PermutationStyle.tsx` :
@@ -157,9 +173,37 @@ En tête : règle SERP-first obligatoire. 50 articles classés par priorité (vo
      et le spotlight du n°1. L'archetype `## Design` ne nuance QUE les effets/couleurs, **jamais la variante**.
 
   2. **Permutations** : `suggestVariants(niche.domain, famille)` → `niche.config.permutations` (`shape`/`border`/`shadow`) + `layouts.category` (⚠️ sauf `presse`, où `category` et `article` sont forcés à `'presse'`).
-  3. **Palette** : `## Design` (`brandColor`/`skin`) sinon **preset déterministe** (`lib/da-presets/`, par thématique + **seed domaine**) → écrire `niche.config.palette` PUIS propager dans `app/globals.css :root` (+ `@theme`).
-  4. **Typo** : `suggestFonts(niche.domain, home)` (`lib/typography.ts`) → écrire la paire dans `app/layout.tsx` (next/font, imports statiques).
+
+  3. **Palette — OBLIGATOIREMENT un preset de `lib/da-presets/` (JAMAIS d'hex inventés).**
+     a. Filtrer `lib/da-presets/palettes.json` (161 palettes curatées : harmonie + rôles des tokens déjà
+        validés) par la thématique via `lib/da-presets/niche-rules` ; **choisir dans les candidates par
+        seed domaine** (déterministe, reproductible). **Anti-répétition** : pas la palette (accent-1) d'un
+        des 2 derniers sites (toutes familles confondues) — sinon candidate suivante.
+     b. Si `## Design` fournit un `brandColor` : partir du preset candidat **le plus proche** et remplacer
+        **UNIQUEMENT accent-1** par le brandColor. Le reste du preset (fonds, surfaces, texte, accents
+        secondaires) reste celui de la bibliothèque.
+     c. **INTERDIT d'improviser des hex** (fonds, surfaces, texte, borders…) : un agent sans yeux qui
+        invente des couleurs produit les sites cassés qu'on a connus. La bibliothèque EST le goût.
+     d. Écrire `niche.config.palette` PUIS propager dans `app/globals.css :root` (+ `@theme`) — **les 5
+        blocs, tokens only** (cf. AUTO-DESIGN).
+
+  4. **Typo** : `suggestFonts(niche.domain, home)` (`lib/typography.ts`) → écrire la paire dans `app/layout.tsx`
+     (next/font, imports statiques). En cas de doute sur une paire, `lib/da-presets/font-pairings.json`
+     (16 duos validés) sert de bibliothèque de secours — même règle : on pioche, on n'invente pas.
+
   5. **Dépublier les previews** : supprimer `/home-vN`, `/cat-vN`, `/art-v1` (+ `/en/...`).
+
+  **6. CONTRÔLE DE CONTRASTE — CALCULÉ, PAS REGARDÉ (obligatoire avant commit).**
+     Le contraste WCAG se calcule depuis les hex — c'est LE check design faisable sans review visuelle.
+     Script node inline (sandbox) sur les tokens finaux de `globals.css`, **en clair ET en sombre** :
+     - `--foreground` / `--background` : ratio **≥ 4.5** (texte courant) ;
+     - `--muted-foreground` (ou équivalent) / `--background` et `/ --card` : **≥ 4.5** ;
+     - texte posé sur `--accent-1` (boutons/badges) / accent-1 : **≥ 4.5** ;
+     - titres/gros UI sur leurs fonds : **≥ 3**.
+     Formule : luminance relative WCAG (`L = 0.2126R + 0.7152G + 0.0722B`, canaux linéarisés),
+     `ratio = (L1+0.05)/(L2+0.05)`. **Un ratio sous le seuil → ajuster la LIGHTNESS du token fautif**
+     (pas la teinte), recalculer, et consigner l'ajustement dans DECISIONS.md. Un preset de la bibliothèque
+     passe normalement du premier coup — un échec ici signale presque toujours un hex improvisé (→ 12.3.c).
 
 > ⚠️ **ANTI-CLONE (règle dure).** La DA se **dérive du DOMAINE** (seed) et du **SECTEUR** (famille).
 > **INTERDIT** d'ouvrir/copier le code, la palette ou les fonts d'un AUTRE site du réseau (`emd-project/*`).
@@ -266,7 +310,7 @@ PROGRESS → pause → suivante.
 ---
 
 ## Étape 16 — PROGRESS.md + DECISIONS.md
-Documenter : **famille de home (secteur) + variante tirée** (et pourquoi elle diverge des voisins de la même famille — en `beaute`, la divergence porte sur palette + typo), permutations + palette + typo, **`entityGender`**, **classement seed**, **pages dérivées du seed (comparateur / choisir / quiz) + deals désactivé**, seed bilingue, **images SLOT PAR SLOT**, previews dépubliées.
+Documenter : **famille de home (secteur) + variante tirée** (et pourquoi elle diverge des voisins de la même famille — en `beaute`, la divergence porte sur palette + typo), permutations + **palette (nom/id du PRESET da-presets retenu + brandColor éventuel)** + typo, **ratios de contraste calculés (12.6) + ajustements éventuels**, **`entityGender`**, **classement seed**, **pages dérivées du seed (comparateur / choisir / quiz) + deals désactivé**, seed bilingue, **images SLOT PAR SLOT**, previews dépubliées.
 
 ---
 
@@ -279,13 +323,17 @@ prénom + initiale** ; titres **accordés au genre** ; articles **maillent vers 
 Échec de création → log dans PROGRESS, **ne pas bloquer**.
 
 ## Étape 18 — Récap utilisateur
-Marché/locales · clusters/categories · **DA : famille (secteur) + variante home + permutations + palette + typo (divergentes)** · **genre entité** · **auteur (prénom seul / + initiale)** · seed bilingue (LangSwitch OK) · **classement seed (head term, excerpt court + ≥1000 mots, FR+EN)** · **pages dérivées : comparateur + /choisir + quiz, deals désactivé, `check:placeholders` OK** · **images SLOT PAR SLOT** · scheduled task créée · lien repo.
+Marché/locales · clusters/categories · **DA : famille (secteur) + variante home + permutations + palette (PRESET retenu) + typo (divergentes) + contraste WCAG vérifié par calcul** · **genre entité** · **auteur (prénom seul / + initiale)** · seed bilingue (LangSwitch OK) · **classement seed (head term, excerpt court + ≥1000 mots, FR+EN)** · **pages dérivées : comparateur + /choisir + quiz, deals désactivé, `check:placeholders` OK** · **images SLOT PAR SLOT** · scheduled task créée · lien repo.
 
 ---
 
 ## Règles strictes
 - **NE JAMAIS exécuter** sans `init-spec.md` · **NE JAMAIS écraser** un `niche.config.ts` rempli.
 - **DA = système de variantes, JAMAIS un clone** : `layouts` + `permutations` + `palette` + typo dérivés du **seed domaine** ; interdiction de copier un site voisin ; check de divergence.
+- **DESIGN À L'AVEUGLE (pas de review visuelle)** : palette **OBLIGATOIREMENT un preset `lib/da-presets`**
+  (brandColor du wizard = remplace accent-1 du preset le plus proche, rien d'autre) ; **JAMAIS d'hex
+  improvisés** ; **contraste WCAG CALCULÉ (12.6) avant commit** en clair + sombre (texte ≥ 4.5, gros
+  titres ≥ 3) — ratio insuffisant → ajuster la lightness du token, jamais ignorer.
 - **Home : le SECTEUR décide de la FAMILLE, le SEED tranche dedans.** Beauty/Mode → `beaute` (`presse`, identité complète : `category` + `article` = `'presse'`) ; Assurance/Banque/Énergie/Télécom/Crédit/Casino → `comparateur` (⅔ `marche`, ⅓ `comparateur`) ; Voiture/Retail/Hospitality/autres → `editorial` (⅔ `magazine`, ⅓ `fil`). `suggestVariants(domaine, homeFamily(secteur))` **AUTORITAIRE** + **anti-répétition** vs les 2 derniers de la même famille. **Jamais un comparateur sur une thématique éditoriale ou beauté, jamais un magazine sur une offre à souscrire.** `style.hero` cohérent (magazine/marche/**presse** → `centered`, comparateur → `split`, fil → `minimal`).
 - **ZÉRO PLACEHOLDER à la livraison** : comparateur + `/choisir` + quiz **dérivés du classement seed**, gabarits supprimés, **deals désactivé** (jamais de fausse promo), `check:placeholders` passe.
 - **Genre : `entityGender` au genre RÉEL** ('m'/'f' ; + `dealWordGender` ; + `genre` par classement) — sinon accords FR faux (« meilleurs néobanques »). Le template accorde via `lib/utils/grammar.ts`.
@@ -298,5 +346,5 @@ Marché/locales · clusters/categories · **DA : famille (secteur) + variante ho
 
 ## Lien avec les autres skills / docs
 `nouveau-site` (routeur) · `init-site` (sans spec — même doctrine) · `integrate-claude-design` (étape 12 cas A) ·
-`docs/AUTO-DESIGN.md` + `lib/variants.ts` (familles `beaute`/`comparateur`/`editorial` + variantes) + `lib/typography.ts` · `docs/IMAGES-WORKFLOW.md` + `lib/image-slots.ts` · `lib/utils/grammar.ts` (accords FR) · `lib/classement.ts` + `ClassementList` ·
+`docs/AUTO-DESIGN.md` + `lib/variants.ts` (familles `beaute`/`comparateur`/`editorial` + variantes) + `lib/typography.ts` · **`lib/da-presets/` (palettes.json 161 + font-pairings.json 16 + niche-rules — LA bibliothèque de la DA)** · `docs/IMAGES-WORKFLOW.md` + `lib/image-slots.ts` · `lib/utils/grammar.ts` (accords FR) · `lib/classement.ts` + `ClassementList` ·
 `docs/SCHEDULED-TASK-REDACTION.md` · `seo-geo-redaction` + `ton-of-voice` + `humaniser-fr` · boucle `emd-build-pages`.
