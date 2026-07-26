@@ -1,7 +1,7 @@
 ---
 name: seo-geo-redaction
-version: 1.6.0
-description: Doctrine canonique de rédaction SEO/GEO des sites EMD — structure d'article optimisée pour le référencement Google ET la citabilité par les LLM (ChatGPT/Gemini/AI Overview), avec priorité aux sujets qui citent/comparent des marques et modèles, déclinés par persona (monétisation par mention, sans affiliation). Source de vérité unique : ≥70% de H2 en question, pattern Answer-Explanation-Example, FAQ, données structurées par type de page, workflow images (MCP nano-mentionbox), infrastructure GEO (llms.txt, robots.txt), maillage interne, sources datées, FR+EN, anti-cannibalisation par frontière head-nu/long-tail, monitoring de citabilité. À lire/appliquer pour toute rédaction d'article de blog sur un site EMD (rédaction quotidienne, article seed, correction).
+version: 1.7.0
+description: Doctrine canonique de rédaction SEO/GEO des sites EMD — structure d'article optimisée pour le référencement Google ET la citabilité par les LLM (ChatGPT/Gemini/AI Overview), avec priorité aux sujets qui citent/comparent des marques et modèles, déclinés par persona (monétisation par mention, sans affiliation), et choix du sujet éclairé par le VOLUME RÉEL (MCP Cuik / Keyword Planner, repli gracieux). Source de vérité unique : ≥70% de H2 en question, pattern Answer-Explanation-Example, FAQ, données structurées par type de page, workflow images (MCP nano-mentionbox), infrastructure GEO (llms.txt, robots.txt), maillage interne, sources datées, FR+EN, anti-cannibalisation par frontière head-nu/long-tail, monitoring de citabilité. À lire/appliquer pour toute rédaction d'article de blog sur un site EMD (rédaction quotidienne, article seed, correction).
 ---
 
 # seo-geo-redaction — Doctrine GEO canonique EMD
@@ -50,11 +50,16 @@ La page `/classement/X` est l'asset GEO #1 et fait **≥ 1000 mots** : intro + T
 
 ## Workflow
 1. **Briefs GEO mesurés EN PRIORITÉ** : si `content/priorites-geo.md` existe dans le repo et contient des briefs **non cochés**, en traiter UN en priorité avant tout autre content gap. Ce fichier est alimenté par la **boucle MentionLab mensuelle** (`emd-geo-loop`) : chaque brief = un **segment où le site est faiblement cité par les LLM** (gap mesuré, donc plus rentable qu'un sujet choisi à l'aveugle). Respecte quand même le ratio ⅔ marques-modèles × persona / ⅓ info sur l'ensemble. **Après publication, coche le brief** (`- [x]`) dans `content/priorites-geo.md` (write idempotent, ne supprime rien d'autre). Aucun brief non coché → workflow normal ci-dessous.
-2. **Content gap (sinon)** : lister les articles publiés, choisir une catégorie sous-couverte + une intention non couverte par les concurrents .be — **en appliquant le ratio ⅔ marques-modèles (× persona) / ⅓ info** ; varier le persona. UN seul sujet. Respecter la **frontière des assets** (ne pas reprendre un head nu déjà pris).
-3. **SERP analysis (obligatoire)** : WebSearch sur le head term → top 3 Google.be (titre, chapô, longueur, H2, FAQ, tableau). Différenciateur documenté. Pas de SERP = run échoué.
-4. **Brief + outline** avant rédaction.
-5. **Rédaction** selon la structure GEO ci-dessous, via `humaniser-fr`.
-6. **Images** selon le workflow ci-dessous (« Stratégie d'images »), **i18n et publication** selon les workflows du site.
+2. **Content gap (sinon)** : lister les articles publiés, choisir une catégorie sous-couverte + une intention non couverte par les concurrents .be — **en appliquant le ratio ⅔ marques-modèles (× persona) / ⅓ info** ; varier le persona. Formuler **3-5 head terms candidats**. Respecter la **frontière des assets** (ne pas reprendre un head nu déjà pris).
+3. **Volume réel — MCP Cuik (si disponible ; repli gracieux sinon)** : appeler **`mcp__cuik__get_keyword_ideas`** avec `keyword_texts` = les 3-5 head terms candidats, **`location_ids: ["2056"]` (Belgique — ⚠️ le défaut 2250 = France, toujours passer 2056)**, `language_id: "1002"` (français). Retour : volume mensuel moyen, concurrence, CPC + suggestions voisines.
+   - **Choisir le candidat au meilleur rapport volume × faisabilité** (un volume 10× supérieur à angle égal l'emporte ; un volume nul = signal d'alerte, reformuler ou changer de candidat). Les suggestions voisines peuvent révéler une formulation plus cherchée du même sujet — l'adopter si elle respecte la frontière des assets.
+   - **Logger dans le brief** : head term retenu + volume + concurrence (+ les candidats écartés et leurs volumes).
+   - **REPLI GRACIEUX (règle dure)** : outil indisponible, non approuvé, en erreur ou hors crédits → **continuer SANS volume, au jugement** (comme avant). **Un run ne doit JAMAIS échouer ni rester bloqué à cause de Cuik** — c'est un éclairage, pas un prérequis. ~1 crédit/appel : UN seul appel par run (grouper les candidats dans `keyword_texts`), jamais de boucle d'appels.
+   - Ce que Cuik ne donne PAS : les PAA (People Also Ask) — ils viennent de la SERP analysis (étape 4) et nourrissent la FAQ.
+4. **SERP analysis (obligatoire, non remplacée par le volume)** : WebSearch sur le head term retenu → top 3 Google.be (titre, chapô, longueur, H2, FAQ, tableau) + **PAA visibles → candidates FAQ**. Différenciateur documenté. Pas de SERP = run échoué.
+5. **Brief + outline** avant rédaction.
+6. **Rédaction** selon la structure GEO ci-dessous, via `humaniser-fr`.
+7. **Images** selon le workflow ci-dessous (« Stratégie d'images »), **i18n et publication** selon les workflows du site.
 
 ## Structure GEO obligatoire
 - **H1** ≤ 60 caractères, head term en tête (sans année — la marque est ajoutée par le template racine).
@@ -111,6 +116,7 @@ Miroir FR + EN : slug naturel par langue, FAQ traduite, acronymes belges explici
 - [ ] **`references/garde-fous.md` respecté** : commit seulement si contenu non-vide, aucun écrasement de contenu existant.
 - [ ] **Brief `priorites-geo.md` non coché traité en priorité s'il en existe** (puis coché après publication).
 - [ ] Sujet conforme : **⅔ marques-modèles (≥ 2 cités), idéalement décliné PERSONA** / ⅓ info utile ; **pas un how-to sans marque** au-delà du ⅓ ; persona varié. Marques + persona tagués. **Aucun élément affilié.**
+- [ ] **Volume vérifié si Cuik disponible** (`get_keyword_ideas`, BE `2056`, FR `1002`, UN appel groupé) : head term + volume loggés dans le brief ; repli au jugement si indisponible — jamais de run bloqué par Cuik.
 - [ ] **Frontière des assets respectée** : ne duplique pas le head nu « les meilleurs X / top X » (= classement) ni « comparer X » (= comparateur) ni « quel X choisir » (= choisir) ; variantes persona/long-tail + « X vs Y » OK ; maille vers l'asset.
 - [ ] Page classement (si c'est l'objet) **≥ 1000 mots**.
 - [ ] H1 ≤ 60 car. ; lead = réponse directe.
