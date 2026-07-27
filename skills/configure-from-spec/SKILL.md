@@ -1,7 +1,7 @@
 ---
 name: configure-from-spec
-version: 2.9.0
-description: Configure un nouveau site fork-é depuis emd-template À PARTIR D'UN FICHIER SPEC pré-rempli par le wizard nano-mentionbox. Lit `init-spec.md`, analyse les exports Semrush dans `semrush-exports/` pour clusteriser et déterminer l'arborescence (categories), écrit `niche.config.ts` + tous les `content/*` (miroir si N langues), compose une DA UNIQUE via le SYSTÈME DE VARIANTES (famille de home déduite du SECTEUR — `beaute` / `comparateur` / `editorial` — + suggestVariants/suggestFonts + palette OBLIGATOIREMENT tirée de `lib/da-presets` (161 palettes curatées, jamais d'hex inventés) seedées sur le domaine — jamais un clone d'un autre site), **valide le CONTRASTE par calcul WCAG (design fiable sans review visuelle)**, bâtit l'arborescence + un seed BILINGUE (FR + miroir EN + mapping i18n) + 1 classement seed, **dérive les pages clés du classement seed (comparateur, /choisir, quiz) → ZÉRO PLACEHOLDER à la livraison**, commit le site, PUIS génère TOUTES les images À LA FIN une par une (checklist EXHAUSTIVE via lib/image-slots.ts → getAllImageSlots, aucun slot oublié), et crée la scheduled task EN TOUT DERNIER (auto, sans confirmation). À utiliser SEULEMENT quand un init-spec.md fraîchement poussé par le wizard est présent à la racine et que l'utilisateur dit « configure le site depuis init-spec.md », « configure depuis la spec », « init from spec », « lance la configuration », « setup le repo ». Ne JAMAIS utiliser pour un site déjà configuré (niche.config.ts.market défini → init-site pour amender). Ne JAMAIS proposer si init-spec.md n'existe pas — proposer init-site.
+version: 3.0.0
+description: Configure un nouveau site fork-é depuis emd-template À PARTIR D'UN FICHIER SPEC pré-rempli par le wizard nano-mentionbox. Lit `init-spec.md`, analyse les exports Semrush dans `semrush-exports/` pour clusteriser et déterminer l'arborescence (categories), écrit `niche.config.ts` + tous les `content/*` (miroir si N langues), compose une DA UNIQUE (famille via classifyNiche + tirage seedé suggestVariants/suggestFonts + palette tirée d'une bibliothèque curatée puis MUTÉE — jamais un clone d'un autre site), valide le CONTRASTE par calcul WCAG (design fiable sans review visuelle), bâtit l'arborescence + un seed BILINGUE + 1 classement seed, dérive les pages clés du classement seed (comparateur, /choisir, quiz FR+EN) → ZÉRO PLACEHOLDER, éteint proprement deals et simulateur, commit, déploie, PUIS journalise (sites.csv + provisioned-log) et crée la tâche de rédaction, et SEULEMENT ENSUITE génère les images une par une (registre getAllImageSlots). À utiliser SEULEMENT quand un init-spec.md fraîchement poussé par le wizard est présent à la racine et que l'utilisateur dit « configure le site depuis init-spec.md », « configure depuis la spec », « init from spec », « lance la configuration », « setup le repo ». Ne JAMAIS utiliser pour un site déjà configuré (niche.config.ts.market défini → init-site pour amender). Ne JAMAIS proposer si init-spec.md n'existe pas — proposer init-site.
 allowed-tools:
   - Read
   - Write
@@ -15,336 +15,255 @@ allowed-tools:
   - mcp__nano-mentionbox__github_push_images
 ---
 
-# configure-from-spec v2.9 — Configurer un site depuis un init-spec.md du wizard
+# configure-from-spec v3.0 — Configurer un site depuis un init-spec.md
 
-> **v2.8.0 → v2.9.0 (DESIGN FIABLE À L'AVEUGLE)** : le provisionnement tourne SANS review visuelle
-> (personne ne regarde le rendu avant publication — le contrôle humain passe après coup). Deux verrous
-> rendent le design fiable sans yeux :
-> · **Palette : OBLIGATOIREMENT un preset de `lib/da-presets/palettes.json`** (161 palettes curatées et
->   harmonisées) sélectionné par thématique (`niche-rules`) + seed domaine. **INTERDIT d'inventer des hex.**
->   Si le wizard (`## Design`) fournit un `brandColor`, il remplace UNIQUEMENT l'accent-1 du preset le plus
->   proche — jamais une palette complète improvisée.
-> · **Étape 12.6 — CONTRÔLE DE CONTRASTE CALCULÉ (WCAG)** : les ratios se calculent depuis les hex
->   (aucun œil requis). Script node dans le sandbox, paires clés en clair ET sombre, seuils AA. Un ratio
->   sous le seuil = on ajuste la lightness du token AVANT commit. C'est LE check design d'un agent aveugle.
+> **Deux principes qui gouvernent tout le reste :**
 >
-> **v2.7.3 → v2.8.0 (TROIS familles de home + ZÉRO PLACEHOLDER)** :
-> · **Nouvelle famille `beaute` (variante `presse`)** — Beauty · Mode quitte la famille `editorial` pour sa
->   propre famille. `presse` n'est pas une home de plus : c'est une **identité éditoriale COMPLÈTE**
->   (masthead sérif centré, nav catégories sticky, une + sections par catégorie, colonne « à ne pas
->   manquer », **vues blog / catégorie / article dédiées**). Dès que `layouts.home = 'presse'`, écrire AUSSI
->   `layouts.category = 'presse'` et `layouts.article = 'presse'`. C'est la **SEULE** variante de la famille :
->   **la variété inter-sites vient de la PALETTE + de la TYPO (seedées sur le domaine), PAS du layout.**
->   `homeFamily(secteur)` renvoie désormais `'beaute' | 'comparateur' | 'editorial'`.
-> · **Nouvelle étape 13ter — ZÉRO PLACEHOLDER** : le classement seed (13bis) a déjà fait la recherche SERP,
->   donc **comparateur + `/choisir` + quiz s'en DÉRIVENT** (remploi, pas travail neuf), les gabarits sont
->   supprimés, **`deals` est désactivé** (le composant est structurellement affilié → jamais de fausse promo),
->   et **`npm run check:placeholders` doit passer**. Un site ne sort JAMAIS de l'init avec une coquille vide.
+> **1. Tu travailles EN AVEUGLE.** Personne ne regarde le rendu avant publication. Donc aucune
+> décision de design « au feeling » : chaque choix vient d'une **bibliothèque curatée** ou d'un
+> **tirage seedé**, et tout ce qui est vérifiable l'est **par calcul ou par grep**
+> (`references/design-ux-regles.md`).
 >
-> **v2.7.2 → v2.7.3 (le SECTEUR décide de la famille, le seed tranche DANS la famille)** :
-> Correction du raisonnement de la v2.7.2. Le design n'est ni un choix « thématique » libre (qui faisait
-> retomber sur `comparateur` partout), ni un tirage totalement aveugle (qui collait un comparateur sur un
-> site *voiture*). Le bon critère est **l'INTENTION de l'internaute dans le secteur** :
-> · **Assurance · Banque · Énergie · Télécom · Crédit · Casino & Paris** → on vient **comparer une offre à
->   souscrire** (prix, conditions) → famille **`comparateur`** : pool **⅔ `marche` / ⅓ `comparateur`**.
-> · **Voiture · Beauty · Retailer & Tech · Hospitality · Agence · autres** → thématique **éditoriale**, on
->   vient **lire / se documenter** → famille **`editorial`** : pool **⅔ `magazine` / ⅓ `fil`**.
->   *(Beauty · Mode en est sortie en v2.8.0 → famille `beaute`.)*
-> Appeler **`suggestVariants(niche.domain, homeFamily(secteur))`** (`lib/variants.ts`). Le **seed (domaine)
-> tranche DANS la famille** → deux sites du même secteur ne tombent pas forcément sur le même design.
-> `marche` est **éligible d'office** (le classement seed lui fournit ses données).
-> **INTERDIT** : un `comparateur`/`marche` plaqué sur une thématique éditoriale (voiture, beauté…), ou un
-> `magazine` plaqué sur une offre à souscrire (assurance, banque, énergie).
->
-> **v2.7.1 → v2.7.2 (variété des designs)** : la variante home est **écrite depuis `suggestVariants`**,
-> jamais « choisie » librement — sinon tous les sites finissent en `comparateur`. (Raffiné par la v2.7.3.)
->
-> **v2.7.0 → v2.7.1 (excerpt classement)** : un classement a DEUX champs texte distincts —
-> **`excerpt`** = résumé **COURT (≤ ~160 caractères)** pour la **carte du hub `/classement`** + la
-> **`<meta description>`** ; **`intro`** = paragraphe **LONG answer-first** du corps de page. Écrire LES
-> DEUX (sinon le rendu tronque `intro`, mais un excerpt rédigé est meilleur). Évite l'excerpt-pavé.
->
-> **v2.6.2 → v2.7.0 (classement seed à l'init)** :
-> Le hub `/classement` du template est désormais **rempli dès l'init** (avant : placeholder « Aucun
-> classement publié »). On écrit **≥1 classement SEED** = le **head term** du cluster principal,
-> **data-driven (SERP)**, **≥1000 mots** : `excerpt` + `intro` + `sections` (H2 **EN QUESTIONS**,
-> answer-first) + `items` notés/100 + `criteria` + `methodology` + `sources` + `faq` 6-7 + `genre`, en
-> **FR + miroir EN**, dans `content/data/classements.json` (+ `.en.json`). Les autres clusters sont
-> complétés par la boucle week-end **`emd-build-pages`**. **NE JAMAIS recréer une archi `/classements`
-> bespoke** : on REMPLIT le système EXISTANT du template (`lib/classement.ts`).
->
-> **v2.6.1 → v2.6.2 (accord en genre FR)** :
-> Renseigner **`niche.config.entityGender`** (`'m'` / `'f'`) selon le genre RÉEL de l'entité
-> (« néobanque » → `'f'`, « opérateur » → `'m'`…) — et `dealWordGender` si `dealWord` diffère. Pour CHAQUE
-> classement, écrire son **`genre`**. Le template accorde alors « meilleur·e·s », « Quel/Quelle », « le/la »,
-> « tous/toutes », participes (via `lib/utils/grammar.ts`). **NE JAMAIS laisser le défaut masculin** si
-> l'entité est féminine (sinon « meilleurs néobanques » = faute).
->
-> **v2.6 → v2.6.1 (auteur sans nom de famille)** :
-> `niche.config.author.name` = **prénom seul** (« Jean ») **OU prénom + initiale** (« Jean M. »),
-> **JAMAIS de nom de famille inventé** ; `slug` = kebab du prénom. Même si le Bloc 7 fournit un nom complet,
-> ne garder QUE le prénom (+ initiale). S'applique à la byline de TOUT le site.
->
-> **v2.5 → v2.6 (images : AUCUN slot oublié)** :
-> L'**étape 15** pilote la génération sur **`lib/image-slots.ts` → `getAllImageSlots()`** (source UNIQUE et
-> EXHAUSTIVE) **+** 1 cover par seed. Fini le plafond « ≤5 » en dur qui faisait sauter des catégories.
-> Toujours **une image à la fois, à la toute fin**, avec **vérif finale `github_list_files`**.
->
-> **v2.4 → v2.5 (pannes terrain du provisionnement)** : DA par le système de variantes (anti-clone) ·
-> seed BILINGUE obligatoire · images à la fin une par une · scheduled task en tout dernier (auto).
+> **2. L'ordre des étapes protège le site.** La comptabilité (CSV + journal) et la tâche de
+> rédaction passent **AVANT** les images. Les images sont la partie la plus longue du run ; quand
+> il s'épuise dedans, tout ce qui suit saute. Deux sites l'ont appris à leurs dépens
+> (`quelle-assurance-auto.be` jamais journalisé, `comparer-banque.be` muet pendant des semaines).
 
 ## Pré-requis vérifiés au démarrage
 1. **`init-spec.md` existe** à la racine. Sinon → proposer `init-site`.
 2. **`niche.config.ts.market` vide/placeholder**. Si déjà rempli → STOP (site déjà configuré).
-3. **MCP nano-mentionbox disponible** (`mcp__nano-mentionbox__generate_image`). Sinon → prévenir : les images de l'étape 15 ne tourneront pas (le BUILD du site, lui, n'en dépend pas).
+3. **MCP nano-mentionbox disponible**. Sinon → prévenir : les images de l'étape 9 ne tourneront pas
+   (le BUILD, lui, n'en dépend pas).
 4. **Git status clean** ou changements non liés.
 
-En dehors de ces points, ne pas s'interrompre : la spec fait foi. **Aucune confirmation demandée** (provisionnement autonome).
+En dehors de ces points, ne pas s'interrompre : la spec fait foi. **Aucune confirmation demandée.**
 
 ---
 
 ## Étape 1 — Parser le init-spec.md
-Sections Markdown + YAML : `## Identité`, `## Bloc 0` (marché+langues), `## Bloc 1` (voix), `## Bloc 2` (mots-clés + `semrush-exports/*.csv`), `## Bloc 3` (calendrier), `## Bloc 4` (concurrents), `## Bloc 5` (FAQ — auto), `## Bloc 6` (mentions), `## Bloc 7` (auteur, opt), `## Design` (archetype/skin/vertical/brandColor/mode). Détecter les « 🤖 Mode AUTO ». Si Bloc 0/1/6 manque → STOP.
-**Retenir le SECTEUR** (catégorie de la niche : Assurance, Banque, Énergie, Télécom, Voiture, Beauty…) — il pilote la **famille de home** (étape 12.1).
+Sections : `## Identité`, `## Bloc 0` (marché+langues), `## Bloc 1` (voix), `## Bloc 2` (mots-clés +
+`semrush-exports/*.csv`), `## Bloc 3` (calendrier), `## Bloc 4` (concurrents), `## Bloc 5` (FAQ),
+`## Bloc 6` (mentions), `## Bloc 7` (auteur, opt), `## Design` (archetype/skin/vertical/brandColor/mode).
+Si Bloc 0/1/6 manque → STOP. **Retenir le SECTEUR** (colonne CATÉGORIE de `sites.csv`) : il pilote la famille.
 
 ## Étape 2 — Validation sémantique
-`market` valide · `locales[0]===defaultLocale` · `localePrefix as-needed` ⇒ N≥2 · email contact (STOP si absent) · slug auteur kebab-case. Regrouper les warnings.
+`market` valide · `locales[0]===defaultLocale` · `localePrefix as-needed` ⇒ N≥2 · email contact (STOP si
+absent) · slug auteur kebab-case. Regrouper les warnings.
 
 ## Étape 3 — Analyser Semrush (`semrush-exports/*.csv`)
-Agréger/dédoublonner · classer l'intent · clusteriser (5-10) · dériver `niche.config.ts.categories` TOUJOURS depuis les clusters. Par cluster : head term (KD≤50), longue traîne (vol 30-500), quick wins (KD≤30 & vol≥20), à éviter (vol 0 ou KD>70). **Repérer le CLUSTER PRINCIPAL** (volume × intent) → son head term sera le **classement seed** (étape 13bis).
+Agréger/dédoublonner · classer l'intent · clusteriser (5-10) · dériver `niche.config.categories` TOUJOURS
+depuis les clusters. Par cluster : head term (KD≤50), longue traîne (vol 30-500), quick wins (KD≤30 &
+vol≥20), à éviter (vol 0 ou KD>70). **Repérer le CLUSTER PRINCIPAL** → son head term sera le classement
+seed (étape 5bis).
 
 ## Étape 4 — Écrire `niche.config.ts`
-Mapping spec → config. Dériver entity/entities/heroPrefix/rotatingWords des clusters. TODO seulement si ambigu.
-**Genre (`entityGender`)** : déterminer le genre RÉEL de l'entité et l'écrire (`'m'`/`'f'`) — pilote TOUS les accords FR du template (« néobanque » → `'f'`, « assurance » → `'f'`, « opérateur » → `'m'`). Si `dealWord` est d'un autre genre, renseigner `dealWordGender`. **JAMAIS** laisser le défaut masculin pour une entité féminine. Accorder aussi `heroPrefix`/`heroSuffix`/`rotatingWords` au genre.
-**Auteur (`niche.config.author`)** : `name` = **PRÉNOM SEUL** (« Jean ») **OU prénom + initiale** (« Jean M. ») — **JAMAIS de nom de famille inventé** ; `slug` = kebab du prénom. Même si le Bloc 7 donne un nom complet, ne conserver que le prénom (+ initiale). La `bio` peut détailler l'expertise sans jamais révéler de nom de famille.
+Mapping spec → config. Dériver entity/entities/heroPrefix/rotatingWords des clusters.
+- **Genre (`entityGender`)** : genre RÉEL de l'entité (`'m'`/`'f'`) — pilote TOUS les accords FR
+  (« néobanque » → `'f'`). `dealWordGender` si `dealWord` diffère. **JAMAIS le défaut masculin pour une
+  entité féminine.** Accorder heroPrefix/heroSuffix/rotatingWords.
+- **Auteur** : `name` = **PRÉNOM SEUL** (« Jean ») ou **prénom + initiale** (« Jean M. ») — **JAMAIS de
+  nom de famille inventé** ; `slug` = kebab du prénom. Même si le Bloc 7 donne un nom complet, ne garder
+  que le prénom. La `bio` détaille l'expertise sans jamais révéler de nom de famille.
 
-## Étape 5 — `content/mots-cles.md`
-Positionnement · méthodo · clusters (head/longue traîne/quick wins/à éviter) · « **requêtes à ÉVITER** » = head nu déjà pris par un asset (classement/comparateur/choisir) — cf. `seo-geo-redaction`.
-
-## Étape 6 — `content/calendrier-edito.md` (50 articles)
-En tête : règle SERP-first obligatoire. 50 articles classés par priorité (volume × intent / KD). **Modèle MENTION** : ~⅔ sujets marques/modèles / ⅓ info. **Anti-cannibalisation** : ne pas inscrire le **head nu** réservé au classement/comparateur/choisir.
-
-## Étape 7 — `content/ton-of-voice.md` · Étape 7bis — `content/personas.md` (2-4 personas) · Étape 8 — `content/concurrents.md` · Étape 9 — `content/faq-base.md` · Étape 10 — `content/pages/mentions-legales.yaml` (+ locales) · Étape 11 — `docs/AUTHOR-[slug].md` (si Bloc 7 — **prénom seul / prénom + initiale**).
-
----
-
-## Étape 12 — DA via le SYSTÈME DE VARIANTES (full-auto, JAMAIS un clone)
-
-> **Contexte : cette étape tourne SANS review visuelle.** Personne ne regarde le rendu avant publication.
-> Donc AUCUNE décision de design « au feeling » : chaque choix vient d'une **bibliothèque curatée**
-> (`lib/da-presets/`) ou d'un **tirage seedé** (`lib/variants.ts` / `lib/typography.ts`), et le contraste
-> est **vérifié par calcul** (12.6). Les ingrédients ne peuvent pas rater ; l'agent n'improvise rien.
-
-`ls -la design-incoming/` :
-- **non vide** → `integrate-claude-design`.
-- **vide** → dérouler **`docs/AUTO-DESIGN.md`** du fork. Le fork EMBARQUE déjà `lib/variants.ts`, `lib/typography.ts`, `components/layout/PermutationStyle.tsx` :
-
-  **1. VARIANTE HOME — le SECTEUR décide de la famille, le SEED tranche dans la famille.**
-
-  a. **Famille** = `homeFamily(secteur)` (`lib/variants.ts`), depuis le secteur de la niche (étape 1).
-     Il existe **TROIS** familles — `homeFamily(secteur)` renvoie `'beaute' | 'comparateur' | 'editorial'` :
-     - **Assurance · Banque · Énergie · Télécom · Crédit · Casino & Paris** → famille **`comparateur`**
-       (l'internaute vient **comparer une offre à souscrire** : prix, conditions) → pool **⅔ `marche` / ⅓ `comparateur`**.
-     - **Beauty · Mode** (cosmétique, maquillage, parfum, soin, cheveux, fashion) → famille **`beaute`**
-       → variante **`presse`**. Ce n'est pas une simple home : c'est une **IDENTITÉ ÉDITORIALE COMPLÈTE** —
-       masthead sérif centré + nav catégories sticky, une + sections par catégorie, colonne
-       « à ne pas manquer », et des **vues blog / catégorie / article dédiées**. Dès que
-       `layouts.home = 'presse'`, écrire **AUSSI** `layouts.category = 'presse'` **et**
-       `layouts.article = 'presse'` (le layout bascule tout seul via `isPresse()`).
-       C'est la **SEULE** variante de cette famille : **la variété inter-sites y vient de la PALETTE + de la
-       TYPO (seedées sur le domaine), PAS du layout.** Deux sites beauté partagent la structure mais ont une
-       DA différente → **soigner particulièrement la typo** (paire **sérif display + grotesk de lecture**) et
-       les **5 accents de catégorie** distincts.
-     - **Voiture · Retailer & Tech · Hospitality · Agence · autres** → famille **`editorial`**
-       (thématique où l'on vient **lire / se documenter**) → pool **⅔ `magazine` / ⅓ `fil`**.
-  b. **`suggestVariants(niche.domain, homeFamily(secteur)).home` est AUTORITAIRE** : écris **EXACTEMENT** ce
-     tirage dans `niche.config.layouts.home`. Le seed (domaine) fait diverger deux sites du même secteur.
-  c. **INTERDIT** : plaquer un `comparateur`/`marche` (ou `style.hero: 'split'`) sur une thématique
-     **éditoriale ou beauté** (voiture, beauté, mode…) ; plaquer un `magazine` sur une **offre à souscrire**
-     (assurance, banque, énergie, télécom). Et ne JAMAIS choisir `comparateur` « parce que tous nos sites
-     sont des comparateurs » — c'est faux : **le secteur décide**.
-  d. **ANTI-RÉPÉTITION** : si le tirage donne la même variante que les **2 derniers sites de la MÊME
-     famille** (`github_read_file` sur leur `niche.config.ts` → `layouts.home`), **re-roll** :
-     `suggestVariants(niche.domain + '-2', famille)`. *(Sans objet pour `beaute`, famille mono-variante :
-     c'est la palette + la typo qui divergent.)*
-  e. **`style.hero` COHÉRENT** avec la variante : magazine→`centered`, marche→`centered`,
-     **presse→`centered`**, comparateur→`split`, fil→`minimal`. **Jamais `split` par défaut.**
-  f. `marche` est **éligible d'office** : le classement seed (étape 13bis) alimente son tableau du marché
-     et le spotlight du n°1. L'archetype `## Design` ne nuance QUE les effets/couleurs, **jamais la variante**.
-
-  2. **Permutations** : `suggestVariants(niche.domain, famille)` → `niche.config.permutations` (`shape`/`border`/`shadow`) + `layouts.category` (⚠️ sauf `presse`, où `category` et `article` sont forcés à `'presse'`).
-
-  3. **Palette — OBLIGATOIREMENT un preset de `lib/da-presets/` (JAMAIS d'hex inventés).**
-     a. Filtrer `lib/da-presets/palettes.json` (161 palettes curatées : harmonie + rôles des tokens déjà
-        validés) par la thématique via `lib/da-presets/niche-rules` ; **choisir dans les candidates par
-        seed domaine** (déterministe, reproductible). **Anti-répétition** : pas la palette (accent-1) d'un
-        des 2 derniers sites (toutes familles confondues) — sinon candidate suivante.
-     b. Si `## Design` fournit un `brandColor` : partir du preset candidat **le plus proche** et remplacer
-        **UNIQUEMENT accent-1** par le brandColor. Le reste du preset (fonds, surfaces, texte, accents
-        secondaires) reste celui de la bibliothèque.
-     c. **INTERDIT d'improviser des hex** (fonds, surfaces, texte, borders…) : un agent sans yeux qui
-        invente des couleurs produit les sites cassés qu'on a connus. La bibliothèque EST le goût.
-     d. Écrire `niche.config.palette` PUIS propager dans `app/globals.css :root` (+ `@theme`) — **les 5
-        blocs, tokens only** (cf. AUTO-DESIGN).
-
-  4. **Typo** : `suggestFonts(niche.domain, home)` (`lib/typography.ts`) → écrire la paire dans `app/layout.tsx`
-     (next/font, imports statiques). En cas de doute sur une paire, `lib/da-presets/font-pairings.json`
-     (16 duos validés) sert de bibliothèque de secours — même règle : on pioche, on n'invente pas.
-
-  5. **Dépublier les previews** : supprimer `/home-vN`, `/cat-vN`, `/art-v1` (+ `/en/...`).
-
-  **6. CONTRÔLE DE CONTRASTE — CALCULÉ, PAS REGARDÉ (obligatoire avant commit).**
-     Le contraste WCAG se calcule depuis les hex — c'est LE check design faisable sans review visuelle.
-     Script node inline (sandbox) sur les tokens finaux de `globals.css`, **en clair ET en sombre** :
-     - `--foreground` / `--background` : ratio **≥ 4.5** (texte courant) ;
-     - `--muted-foreground` (ou équivalent) / `--background` et `/ --card` : **≥ 4.5** ;
-     - texte posé sur `--accent-1` (boutons/badges) / accent-1 : **≥ 4.5** ;
-     - titres/gros UI sur leurs fonds : **≥ 3**.
-     Formule : luminance relative WCAG (`L = 0.2126R + 0.7152G + 0.0722B`, canaux linéarisés),
-     `ratio = (L1+0.05)/(L2+0.05)`. **Un ratio sous le seuil → ajuster la LIGHTNESS du token fautif**
-     (pas la teinte), recalculer, et consigner l'ajustement dans DECISIONS.md. Un preset de la bibliothèque
-     passe normalement du premier coup — un échec ici signale presque toujours un hex improvisé (→ 12.3.c).
-
-> ⚠️ **ANTI-CLONE (règle dure).** La DA se **dérive du DOMAINE** (seed) et du **SECTEUR** (famille).
-> **INTERDIT** d'ouvrir/copier le code, la palette ou les fonts d'un AUTRE site du réseau (`emd-project/*`).
-> **Check de divergence** : la **variante home**, la **palette (accent-1)** ET la **paire de fonts** doivent
-> **différer** d'un site voisin de la même famille (cf. 12.1.d). En famille `beaute`, la variante est
-> commune : ce sont la **palette** et la **typo** qui DOIVENT diverger. Documenter la combinaison dans
-> DECISIONS.md. **PAS d'images ici** (cf. étape 15). **Ne PAS écraser `niche.config.ts.categories`**
-> (clusters Semrush).
+## Étape 5 — Contenus
+`content/mots-cles.md` (clusters + « requêtes à ÉVITER » = head nu réservé aux assets) ·
+`content/calendrier-edito.md` (50 articles, SERP-first, ⅔ marques / ⅓ info, anti-cannibalisation) ·
+`content/ton-of-voice.md` · `content/personas.md` (2-4) · `content/concurrents.md` · `content/faq-base.md` ·
+`content/pages/mentions-legales.yaml` (+ locales) · `docs/AUTHOR-[slug].md` si Bloc 7.
 
 ---
 
-## Étape 13 — Arborescence + contenu seed (BILINGUE si `locales ≥ 2`)
+## Étape 6 — DA : famille → squelette → palette → typo
 
-- Catégories browsables (depuis `niche.config.categories`).
-- **1-2 articles seed réels sourcés.** **Si `locales ≥ 2`** : chaque seed est écrit en FR **ET** dans chaque
-  autre langue (miroir strict, `content/blog/[locale]/[categorie]/[slug].mdx`) **+ la paire ajoutée à
-  `lib/i18n/article-slugs.ts`**. Sinon : `/en` vide + **LangSwitch 404** + hreflang manquant = **échec d'init**.
-  Si `locales = 1` → un seul fichier, pas d'arbre `/en`.
-- **Titres FR accordés au genre** (`entityGender`) : « Les **meilleures** néobanques », jamais « meilleurs ».
-- **Vérifier** : le sélecteur de langue fonctionne (mapping présent), hreflang réciproque sur le seed.
+`ls -la design-incoming/` : **non vide** → `integrate-claude-design`. **Vide** → dérouler ci-dessous
+(doctrine détaillée : `docs/AUTO-DESIGN.md` du fork, qui fait foi sur le code).
 
-## Étape 13bis — Classement SEED (asset GEO #1, dans le système EXISTANT du template)
+### 6.1 Famille — `classifyNiche`, jamais à la main
+```ts
+const { family, confidence, conflict } = classifyNiche({ domain, siteName, sector })
+```
+- **service souscriptible** (assurance, banque, énergie, télécom, crédit, casino, VPN) → `comparateur`
+  → pool **⅔ `marche` / ⅓ `comparateur`**
+- **beauté & mode** → `beaute` → **`presse`** : identité éditoriale COMPLÈTE. Dès `layouts.home='presse'`,
+  écrire AUSSI `layouts.category='presse'` et `layouts.article='presse'`. Variante unique de la famille :
+  **la divergence y vient de la palette et de la typo.**
+- **produit physique** (voiture, aspirateur, TV), hospitality, tech, **et défaut prudent** → `editorial`
+  → pool **⅔ `magazine` / ⅓ `fil`**
 
-On **remplit** le système déjà présent dans le fork (`/classement` + `/classement/[produit]`,
-`lib/classement.ts`, `components/classement/ClassementList`) — **JAMAIS recréer une archi `/classements`
-bespoke**. Écrire **1 classement SEED** dans `content/data/classements.json` (+ miroir `classements.en.json`
-si `locales ≥ 2`) :
+⛔ Ne JAMAIS classer sur « la requête est-elle comparative ? » : presque tous les domaines du réseau le
+sont. Le signal est l'**entité** (`citadine`), pas le modificateur (`meilleure`). Signaler `conflict` ou
+`confidence: 'low'`.
 
-- **slug + label** = le **head term du cluster principal** (étape 3). C'est l'asset qui **possède le head nu**
-  (anti-cannibalisation : le blog n'écrit pas ce head term, il **maille vers** le classement).
-- **`genre`** du label ('m'/'f') pour l'accord du titre.
-- **`items`** : Top 5-8 réels, **recherche SERP dédiée** (sources datées, prix marché), chacun avec
-  `rank`, `nom`, `score` (/100), `badge`/`bestFor`, `verdict`, `pros`/`cons`, `prix`, `url` (lien NEUTRE, jamais affilié).
-- **`excerpt`** (résumé COURT ≤ ~160c — **carte du hub** + **`<meta description>`**) **+ `intro`**
-  (paragraphe LONG answer-first, corps de page) — **écrire LES DEUX, ne pas mettre le pavé `intro` en excerpt**.
-- **`sections`** : 3-5 blocs long-form où **`q` est un H2 FORMULÉ EN QUESTION** (≥70% des H2) et `body` la
-  réponse answer-first. + **`tldr`** (3-5 puces) + **`criteria`** + **`methodology`** + **`sources`** +
-  **`faq`** 6-7. **Cible : ≥ 1000 mots**.
-- **FR + miroir EN strict** (même slug, parité — `tests/i18n-parity.test.ts`).
+### 6.2 Squelette — tirage seedé + ANTI-COLLISION INTER-SITES
+```ts
+const v = suggestVariants(niche.domain, family, { home: [...homesDesTroisDerniersSitesDeLaFamille] })
+```
+**Avant de tirer**, lis `pipeline/provisioned-log.csv`, prends les **3 derniers sites** et lis leur
+`niche.config.ts` → `layouts.home`. Passe-les en `exclude.home`. Si `v.homeCollision === true`, le pool de
+la famille est épuisé : **signale-le dans le rapport** (c'est le signal qu'il faut une variante de plus).
+Écrire `layouts` (home/category/article), `permutations` (shape/border/shadow), **`style.effects` et
+`style.cards`** (tirés eux aussi), et `style.hero` cohérent : magazine/marche/presse → `centered`,
+comparateur → `split`, fil → `minimal`. **Jamais `split` par défaut.**
 
-Le hub `/classement` (+ nav/sitemap) se câble **automatiquement**. **Si la home est `marche`**, ce classement
-alimente aussi le **tableau du marché** + le **spotlight du n°1** de la home.
-Les **autres clusters** → boucle week-end **`emd-build-pages`**.
+> ⚠️ `style.effects` et `style.cards` ne sont pas encore consommés par le rendu (comme
+> `niche.config.fonts`). On les écrit pour la traçabilité du tirage ; ne pas prétendre dans le rapport
+> qu'ils changent le design.
 
-## Étape 13ter — ZÉRO PLACEHOLDER : dériver les pages clés DU CLASSEMENT SEED
+### 6.3 Palette — TOUJOURS une bibliothèque curatée, JAMAIS d'hex inventés
+**Ordre de préférence :**
+1. **Une des 5 directions de `docs/DA-DIRECTIONS.md`**, choisie selon la niche et l'intent, **PUIS MUTÉE** :
+   teinte de marque **±12-45°**, accent secondaire ré-accordé. C'est le **défaut**.
+2. **`lib/da-presets/palettes.json`** (161 palettes) si aucune direction ne colle vraiment à la niche
+   (verticale très typée : finance, santé, SaaS). Muter également.
+3. Un `brandColor` fourni par la spec remplace **UNIQUEMENT `accent-1`** ; le reste vient de la source
+   choisie.
 
-> Le classement seed (13bis) a **déjà fait la recherche SERP** : items réels, prix, scores, pros/cons,
-> critères, sources. Les autres pages clés s'en **DÉRIVENT** — c'est du **remploi, pas du travail neuf**.
-> Un site ne sort **JAMAIS** de l'init avec une coquille vide.
+**INTERDIT d'improviser des hex** (fonds, surfaces, texte, bordures) : un agent sans yeux qui invente des
+couleurs produit les sites cassés qu'on a connus.
 
-- **Comparateur** → `content/data/comparateurs.json` : 1 famille = le **cluster principal** ;
-  `modeles` = **les items du classement** (`nom`, `prix` en **number**, `specs`, `sourceUrl`
-  **NEUTRE ou absent — jamais affilié**) ; `specsLabels` = **les `criteria` du classement**.
-  **≥ 5 items, jamais vide.**
-- **`/choisir`** → `content/data/choisir.json` : `tldr` + `sections` + `faq` **repris du classement**.
-- **Quiz** → renseigner `niche.quiz.question` + `quiz.criteria` : **3-6 questions** à choix multiples bâties
-  sur `comparator.criteria`, chaque combinaison menant à un **item RÉEL du classement** (+ 1-2 alternatives,
-  justification factuelle). **Si un quiz honnête et utile est impossible → `quiz.enabled = false`.**
-  Mieux vaut **pas de quiz** qu'un `/quiz` vide qui renvoie 404 alors que le sitemap l'annonce.
-- **Deals → `niche.deals = { enabled: false }`** : le composant `DealsGrid` est **structurellement affilié**
-  (`amazonUrl`, `AffiliateLink`, prix barré, « −X% »), or le modèle EMD est **MENTION, sans aucune
-  affiliation**. Le remplir imposerait d'**inventer des promos** → **on ne le fait JAMAIS**. On **SUPPRIME
-  les routes `app/(site)/deals/` et `app/en/deals/`** du fork et on retire `'deals'` de `homeSections`.
-  (Le lien disparaît de la nav tout seul : `dealsEnabled()`.)
-- **Supprimer les gabarits** une fois le seed écrit : `content/**/_example.*` et
-  `content/blog/**/article-modele.mdx` (+ miroir EN).
-- **Aucune chaîne de gabarit ne survit** : « Modèle A/B/C », « Catégorie A/B/C », « À définir », « TBD »,
-  « Lorem ipsum », « sera personnalisé », « contenu de démonstration ».
-- **Vérification de sortie** : **`npm run check:placeholders` doit passer**. S'il signale quelque chose →
-  **corriger la DONNÉE**. Ne jamais masquer, ne jamais désarmer le garde-fou.
+**ANTI-CLONE — vérifier les 3 derniers sites** (mêmes fichiers que 6.2) : `accent-1` doit diverger en
+**teinte** (≥ 25°) **et** le couple `bgPrimary`/`bgSurface` ne doit pas être identique à celui d'un
+voisin de la même famille. *(Piège constaté : deux presets différents peuvent partager exactement le même
+stack de fonds `#F8FAFC`/`#FFFFFF` — deux sites paraissent alors jumeaux malgré des accents différents.)*
 
----
+**Propagation** : écrire `niche.config.palette`, puis propager dans **TOUS les blocs** de
+`app/globals.css` — `@theme`, `:root`, `@media (prefers-color-scheme: light)`, `html[data-theme="light"]`,
+`html[data-theme="dark"]`. N'en oublier aucun : ne réécrire que `:root` laisse **tous les sites
+identiques en mode clair**. **NE JAMAIS écrire de valeur dans `app/styles/volteo.css :root`** (couche
+d'alias). Mode **light OU dark FIXE** — supprimer le toggle localStorage et poser `data-theme` sur `<html>`.
 
-## Étape 14 — Commit atomique du SITE (code + contenu, AVANT les images)
+### 6.4 Typo — `suggestFonts` → **`app/layout.tsx`**
+`suggestFonts(niche.domain, v.home)` (la paire par défaut du template est exclue du tirage : un site en
+typo template est indistinguable d'un fork non configuré). Écrire la paire dans **`app/layout.tsx`** via
+`next/font/google` (imports **statiques**). ⚠️ **`niche.config.fonts` n'est lu par AUCUN code** : l'écrire
+seul ne change RIEN au rendu. Le renseigner en plus, pour la trace.
 
-UN commit : `niche.config.ts` + `content/*` (dont `content/data/classements.json` + `.en.json` du seed, `comparateurs.json`, `choisir.json`) + DA (`globals.css`/`layout.tsx`) + seed bilingue + mapping i18n + previews dépubliées + routes `deals` supprimées. **Le site est déjà déployable** (placeholders d'images temporaires). Conventional Commits anglais.
+### 6.5 Contraste — CALCULÉ, pas regardé (avant le commit de DA)
+Ratios WCAG depuis les hex finaux (`L = 0,2126R + 0,7152G + 0,0722B` sur canaux linéarisés ;
+`ratio = (L1+0,05)/(L2+0,05)`), **en clair ET en sombre** : `--foreground`/`--background` ·
+`--muted-foreground`/`--background` et `/--card` · texte des boutons-badges sur `--accent-1` · bordures
+d'input et anneau de focus. **≥ 4,5 texte (< 24px, ou < 18,5px si gras), ≥ 3 gros titres / bordures /
+focus. Aucun arrondi : 4,49 échoue.** Sous le seuil → ajuster la **lightness** du token (pas la teinte),
+recalculer, consigner dans DECISIONS.md.
 
----
+### 6.6 Garde-fous chiffrés + anti-pattern IA
+Détail dans `references/design-ux-regles.md`. Minimum : corps ≥ 16px et `line-height` **1,5-1,65** ·
+titres ≥ 32px en **1,1-1,25** · **≤ 10 tailles de police**, **≤ 3 familles** · prose **60-75ch** ·
+espacements sur l'échelle 4/8 avec `padding` de carte **<** `gap` de la grille · cibles **≥ 44px** en
+mobile · jamais `outline-none` sans `focus-visible:` · animations sous `prefers-reduced-motion` (100-600ms) ·
+images avec dimensions/`aspect-ratio`.
+**Proscrits** : dégradé indigo→violet→rose · badge-pill au-dessus du H1 + hero centré + 3 cartes
+identiques · ombre unique partout · emoji-icône · `text-align: justify` · capitales > 3 mots · preuve
+sociale fabriquée. **Grep-toi avant de committer.**
 
-## Étape 15 — Images À LA FIN, UNE PAR UNE, AUCUN SLOT OUBLIÉ
-
-APRÈS que le site est bâti **et commité** (étape 14). La **checklist = `lib/image-slots.ts` →
-`getAllImageSlots()`** : source **UNIQUE et EXHAUSTIVE** (dérivée de `niche.config.categories`/`author`),
-donc **aucune catégorie ni slot ne peut être oublié**. **NE JAMAIS** coder une liste « ≤ N » en dur.
-
-**Worklist** = `getAllImageSlots()` **+** 1 cover par article seed. Génération **STRICTEMENT SÉQUENTIELLE** :
-`generate_image` → `wait_for_image` → WebP → `github_push_images` au **chemin EXACT du slot** → cocher dans
-PROGRESS → pause → suivante.
-
-**Couverture attendue :**
-1. **Home** : `home-hero-background` + `home-hero-visual`.
-2. **Catégories — les DEUX slots PAR catégorie** : `home-category-[slug]` **ET** `blog-category-background-[slug]`, pour CHAQUE catégorie.
-3. **Auteur** : `author-[slug]` (1:1).
-4. **Article(s) seed** : **1 cover GÉNÉRÉ** (`featureImage` + `featureImageAlt`) **+ 2 `<ArticleImage>` RÉUTILISÉES** (aucune génération).
-5. **OG + bandeaux outils** : seulement **si la page existe**, sinon TODO week-end.
-
-**Anti-oubli — vérif finale OBLIGATOIRE** : re-parcourir `getAllImageSlots()` et **vérifier via
-`github_list_files`** que chaque fichier visible (1-4) existe. Manquant → **retry `-v2`** ; sinon placeholder
-+ **slot précis dans PROGRESS**. Le récap liste « générées / placeholder » **slot par slot**.
-
-- Prompts ≤ ~20 mots alignés DA, finir par « no text, no logos, no watermark », jamais de marque réelle.
-- Images en commits séparés.
+### 6.7 Dépublier les previews
+Supprimer `/home-vN`, `/cat-vN`, `/art-vN` (+ `/en/...`).
 
 ---
 
-## Étape 16 — PROGRESS.md + DECISIONS.md
-Documenter : **famille de home (secteur) + variante tirée** (et pourquoi elle diverge des voisins de la même famille — en `beaute`, la divergence porte sur palette + typo), permutations + **palette (nom/id du PRESET da-presets retenu + brandColor éventuel)** + typo, **ratios de contraste calculés (12.6) + ajustements éventuels**, **`entityGender`**, **classement seed**, **pages dérivées du seed (comparateur / choisir / quiz) + deals désactivé**, seed bilingue, **images SLOT PAR SLOT**, previews dépubliées.
+## Étape 7 — Arborescence + seed BILINGUE
+- Catégories browsables depuis `niche.config.categories`.
+- **1-2 articles seed réels sourcés.** Si `locales ≥ 2` : chaque seed en FR **ET** en miroir strict
+  (`content/blog/[locale]/[categorie]/[slug].mdx`) **+ paire ajoutée à `lib/i18n/article-slugs.ts`**.
+  Sinon `/en` vide + LangSwitch 404 = **échec d'init**. Si `locales = 1` → pas d'arbre `/en`.
+- **Titres FR accordés au genre** : « Les **meilleures** néobanques ».
+
+## Étape 7bis — CLASSEMENT SEED (asset GEO #1)
+On **remplit** le système existant (`lib/classement.ts`, `/classement/[produit]`) — **JAMAIS une archi
+`/classements` bespoke**. Dans `content/data/classements.json` (+ `.en.json`) :
+- **slug + label** = head term du cluster principal (l'asset **possède le head nu**) · **`genre`** du label
+- **`items`** : Top 5-8 réels, **recherche SERP dédiée** — `rank`, `nom`, `score`/100, `badge`/`bestFor`,
+  `verdict`, `pros`/`cons`, `prix`, `url` (**lien NEUTRE, jamais affilié**)
+- **`excerpt`** (COURT ≤ 160c → carte du hub + `<meta description>`) **+ `intro`** (LONG answer-first)
+  — écrire LES DEUX
+- **`tldr`** 3-5 puces (**affichées dans le hero, colonne droite**) · **`sections`** 3-5 blocs dont
+  **`q` est un H2 EN QUESTION** · `criteria` · `methodology` · `sources` · `faq` 6-7
+- **Cible ≥ 1000 mots** · **FR + miroir EN strict**
+
+## Étape 7ter — ZÉRO PLACEHOLDER (tout dérive du classement seed)
+La recherche SERP est **déjà faite** : c'est du **remploi**, pas du travail neuf.
+- **Comparateur** → `content/data/comparateurs.json` : `modeles` = les items du classement (`prix` en
+  **number**, `sourceUrl` neutre ou absent) ; `specsLabels` = les `criteria`. **≥ 5 items.** Faire
+  coïncider les slugs comparateur avec les slugs de catégorie quand c'est pertinent (sinon le `ToolCTA`
+  des articles retombe sur `/comparer`).
+- **`/choisir`** → `content/data/choisir.json` : `tldr` + `sections` + `faq` repris du classement,
+  **une entrée par slug comparateur**.
+- **Quiz** → `content/pages/quiz.yaml` **ET `content/pages/quiz.en.yaml`** (sinon `/en/quiz` = 404
+  permanent référencé par le footer EN) + `niche.quiz` : **3-6 questions** menant à un **item RÉEL**.
+  **Quiz impossible honnêtement → `quiz.enabled = false`** et aucun lien vers `/quiz`.
+- **Deals → `enabled: false`** + **supprimer** `app/(site)/deals/` et `app/en/deals/`, retirer `'deals'`
+  de `homeSections`. Le composant est structurellement affilié ; le modèle est **MENTION**. Jamais de
+  fausse promo.
+- **Simulateur → `simulator.enabled = false`** + **supprimer** `app/(site)/simulateur/` et
+  `app/en/simulateur/`. « Cycles de prix » n'a de sens que pour un bien vendu par générations ; ailleurs
+  c'est une coquille vide annoncée au sitemap.
+- **Supprimer les gabarits** : `content/**/_example.*`, `content/blog/**/article-modele.mdx` (+ EN).
+- **Aucune chaîne de gabarit ne survit** : « Modèle A/B/C », « À définir », « TBD », « Lorem ipsum ».
+- **`npm run check:placeholders` doit passer.** S'il signale quelque chose → **corriger la donnée**.
+
+## Étape 8 — Identité, légal, cookies, responsive, commit
+- **Favicon = MONOGRAMME** (`app/icon.svg`) : rond `palette.accent1` + initiale de la thématique,
+  couleur de lettre calculée (cf. `references/logo-pipeline.md` §1). **Jamais un mark dessiné en favicon.**
+- **Logo header** = mark SVG vectorisé inline dans `Nav.tsx`, tinté `var(--accent-1)`, + wordmark texte.
+- **Légal** rempli, noindex, MentionBox SRL · BE 0784.700.405 · Rue Blanche-Eau 15, 6950 Nassogne.
+- **Cookies RGPD** : bandeau monté dans le layout, Accepter/Refuser, aucun tracker avant consentement.
+- **Responsive** : 0 scroll horizontal, lisible à **320px**, marges mobiles ≥ 16px.
+- **Commit atomique** (code + contenu), build vert, puis **deploy Vercel**.
 
 ---
 
-## Étape 17 — Scheduled task de rédaction — EN TOUT DERNIER, AUTO (sans confirmation)
+## Étape 9 — COMPTABILITÉ — AVANT LES IMAGES, NON NÉGOCIABLE
+Deux écritures, deux minutes :
+1. `pipeline/sites.csv` : la ligne du domaine passe à **« Configuré »** (+ URL Vercel).
+2. **append `pipeline/provisioned-log.csv`** : `<domaine.be>,<AAAA-MM-JJ>` (créer avec l'en-tête
+   `domaine,date` si absent). **C'est ce journal que lisent le spawner de tâches et les audits : un site
+   absent du journal est un site invisible, qui ne publiera jamais.**
+Si une écriture échoue, **réessayer** avant de continuer.
 
-**DERNIÈRE action**, une fois le site complet. **La spec vaut CONSENTEMENT → créer la tâche AUTOMATIQUEMENT,
-SANS demander confirmation.** Gabarit **`docs/SCHEDULED-TASK-REDACTION.md`** (byline = auteur **prénom seul /
-prénom + initiale** ; titres **accordés au genre** ; articles **maillent vers le classement**).
-- TaskId : `[repoName]-article-daily` · Cron : cadence Bloc 3 (`0 8 * * *` défaut).
-Échec de création → log dans PROGRESS, **ne pas bloquer**.
+## Étape 10 — TÂCHE DE RÉDACTION — avant les images aussi
+Gabarit `docs/SCHEDULED-TASK-REDACTION.md`. Byline = auteur (prénom seul), titres accordés au genre,
+articles **maillant vers le classement seed**. TaskId `[repoName]-article-daily`, **horaire de NUIT
+19h00-05h59** dans un créneau libre. Créée AUTO, sans confirmation. Échec → log, ne pas bloquer.
 
-## Étape 18 — Récap utilisateur
-Marché/locales · clusters/categories · **DA : famille (secteur) + variante home + permutations + palette (PRESET retenu) + typo (divergentes) + contraste WCAG vérifié par calcul** · **genre entité** · **auteur (prénom seul / + initiale)** · seed bilingue (LangSwitch OK) · **classement seed (head term, excerpt court + ≥1000 mots, FR+EN)** · **pages dérivées : comparateur + /choisir + quiz, deals désactivé, `check:placeholders` OK** · **images SLOT PAR SLOT** · scheduled task créée · lien repo.
+## Étape 11 — IMAGES, EN DERNIER, UNE PAR UNE
+Checklist = **`lib/image-slots.ts` → `getAllImageSlots()`** (registre EXHAUSTIF) **+ 1 cover par seed
++ 2 `<ArticleImage>` réutilisées**. **JAMAIS de liste « ≤ N » en dur.** Couverture : hero ×2 · **les DEUX
+slots PAR catégorie** · `author-[slug]` · 1 cover par seed. **Séquentiel strict** : generate → wait →
+WebP → push au chemin exact → suivante. Commits séparés. **Vérif finale `github_list_files`** ; manquant →
+retry `-v2`, sinon placeholder + ligne « images à rattraper » dans PROGRESS.md, **sans bloquer**.
+Si le run s'épuise ici : le site est déjà journalisé, publié, et il rédige.
+
+## Étape 12 — PROGRESS.md + DECISIONS.md + rapport
+**Réécrire le PROGRESS.md du site** (ne pas laisser celui du template — erreur constatée sur
+`comparer-banque.be`). Documenter : famille + variante (+ `homeCollision` le cas échéant), permutations,
+**source de palette (direction mutée ou preset) + mutations chiffrées**, typo réelle, **ratios de
+contraste calculés**, `entityGender`, classement seed, pages dérivées, deals/simulateur éteints, seed
+bilingue, images slot par slot, previews dépubliées.
+Rapport final : NDD · catégorie · famille + variante · genre · DA (palette + typo + contrastes) ·
+favicon monogramme · auteur · seed · classement · pages clés · check-placeholders · cookies · responsive ·
+multilingue · **CSV + journal écrits** · horaire de rédaction · images · URL Vercel · sites restants.
 
 ---
 
-## Règles strictes
+## Règles strictes (récapitulatif)
 - **NE JAMAIS exécuter** sans `init-spec.md` · **NE JAMAIS écraser** un `niche.config.ts` rempli.
-- **DA = système de variantes, JAMAIS un clone** : `layouts` + `permutations` + `palette` + typo dérivés du **seed domaine** ; interdiction de copier un site voisin ; check de divergence.
-- **DESIGN À L'AVEUGLE (pas de review visuelle)** : palette **OBLIGATOIREMENT un preset `lib/da-presets`**
-  (brandColor du wizard = remplace accent-1 du preset le plus proche, rien d'autre) ; **JAMAIS d'hex
-  improvisés** ; **contraste WCAG CALCULÉ (12.6) avant commit** en clair + sombre (texte ≥ 4.5, gros
-  titres ≥ 3) — ratio insuffisant → ajuster la lightness du token, jamais ignorer.
-- **Home : le SECTEUR décide de la FAMILLE, le SEED tranche dedans.** Beauty/Mode → `beaute` (`presse`, identité complète : `category` + `article` = `'presse'`) ; Assurance/Banque/Énergie/Télécom/Crédit/Casino → `comparateur` (⅔ `marche`, ⅓ `comparateur`) ; Voiture/Retail/Hospitality/autres → `editorial` (⅔ `magazine`, ⅓ `fil`). `suggestVariants(domaine, homeFamily(secteur))` **AUTORITAIRE** + **anti-répétition** vs les 2 derniers de la même famille. **Jamais un comparateur sur une thématique éditoriale ou beauté, jamais un magazine sur une offre à souscrire.** `style.hero` cohérent (magazine/marche/**presse** → `centered`, comparateur → `split`, fil → `minimal`).
-- **ZÉRO PLACEHOLDER à la livraison** : comparateur + `/choisir` + quiz **dérivés du classement seed**, gabarits supprimés, **deals désactivé** (jamais de fausse promo), `check:placeholders` passe.
-- **Genre : `entityGender` au genre RÉEL** ('m'/'f' ; + `dealWordGender` ; + `genre` par classement) — sinon accords FR faux (« meilleurs néobanques »). Le template accorde via `lib/utils/grammar.ts`.
-- **Auteur = PRÉNOM SEUL ou prénom + initiale, JAMAIS de nom de famille inventé.**
-- **Classement SEED dès l'init** dans le système EXISTANT du template : head term du cluster principal, **`excerpt` court + `intro` long distincts**, ≥1000 mots (sections H2 questions + items notés + critères + méthodo + sources + FAQ), `genre`, FR+EN. **JAMAIS d'archi `/classements` bespoke.**
-- **Seed BILINGUE dès N≥2** : FR + miroir + mapping i18n. Sinon échec d'init.
-- **Images À LA FIN, une par une** : worklist = `getAllImageSlots()` + 1 cover/seed + 2 réemplois ; **aucun slot oublié** (vérif `github_list_files`) ; échec → placeholder + log + continuer.
-- **Scheduled task EN DERNIER, AUTO sans confirmation.**
-- **TOUJOURS** : commit atomique avant images · categories depuis Semrush · miroir strict si N≥2 · modèle MENTION (pas d'affiliation) · anti-cannibalisation (head nu réservé aux assets).
+- **ORDRE : comptabilité (9) et tâche de rédaction (10) AVANT les images (11).** Jamais l'inverse.
+- **DA : famille par `classifyNiche`, squelette par `suggestVariants` (avec exclusion des 3 derniers
+  sites de la famille), palette d'une bibliothèque curatée PUIS MUTÉE (jamais d'hex inventés), typo dans
+  `layout.tsx`, contraste CALCULÉ, palette propagée dans les 5 blocs.** Vérifier la divergence sur
+  `accent-1` (teinte) ET sur le couple de fonds.
+- **ZÉRO PLACEHOLDER** : classement seed + comparateur + `/choisir` + quiz **FR ET EN** ; gabarits
+  supprimés ; deals + simulateur éteints et routes supprimées ; `check:placeholders` passe.
+- **Genre réel** (`entityGender`) · **auteur prénom seul** · **favicon monogramme**.
+- **Seed BILINGUE** dès N≥2 (miroir + mapping) sinon échec d'init.
+- **Modèle MENTION** : aucune affiliation, liens sortants neutres uniquement.
+- **Anti-cannibalisation** : le head nu appartient aux assets, le blog maille vers eux.
 
-## Lien avec les autres skills / docs
-`nouveau-site` (routeur) · `init-site` (sans spec — même doctrine) · `integrate-claude-design` (étape 12 cas A) ·
-`docs/AUTO-DESIGN.md` + `lib/variants.ts` (familles `beaute`/`comparateur`/`editorial` + variantes) + `lib/typography.ts` · **`lib/da-presets/` (palettes.json 161 + font-pairings.json 16 + niche-rules — LA bibliothèque de la DA)** · `docs/IMAGES-WORKFLOW.md` + `lib/image-slots.ts` · `lib/utils/grammar.ts` (accords FR) · `lib/classement.ts` + `ClassementList` ·
-`docs/SCHEDULED-TASK-REDACTION.md` · `seo-geo-redaction` + `ton-of-voice` + `humaniser-fr` · boucle `emd-build-pages`.
+## Liens
+`nouveau-site` (routeur) · `init-site` (sans spec) · `integrate-claude-design` ·
+`references/design-ux-regles.md` (règles chiffrées) · `references/pages-cles.md` (inventaire des routes) ·
+`references/logo-pipeline.md` (favicon monogramme + logo) · `references/garde-fous.md` ·
+`docs/AUTO-DESIGN.md` + `lib/niche-classify.ts` + `lib/variants.ts` + `lib/typography.ts` +
+`lib/da-presets/` + `docs/DA-DIRECTIONS.md` · `lib/image-slots.ts` · `lib/utils/grammar.ts` ·
+`lib/classement.ts` · `docs/SCHEDULED-TASK-REDACTION.md` · `seo-geo-redaction` · `ton-of-voice` ·
+`humaniser-fr` · boucle `emd-build-pages`.
