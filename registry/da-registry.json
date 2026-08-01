@@ -5,7 +5,7 @@
   "thresholds": {
     "accentHueMinDelta": 25,
     "excludeWindow": 8,
-    "note": "accent1Hue doit diverger d'au moins 25 degres de CHACUN des `excludeWindow` derniers sites. Les polices display et body doivent etre absentes de la meme fenetre. Le couple bgPrimary/bgSurface ne doit pas etre identique a un voisin de la fenetre."
+    "note": "accent1Hue doit diverger d'au moins 25 degres de CHACUN des `excludeWindow` derniers sites. Les polices display et body doivent etre absentes de la meme fenetre. Le couple bgPrimary/bgSurface ne doit pas etre identique a un voisin de la fenetre. `derniers` = les DERNIERES entrees du tableau `sites` (ordre d'enregistrement / de backfill), pas les premieres."
   },
   "parcStateAtBackfill": {
     "sites": 19,
@@ -97,13 +97,18 @@
       "flags": ["display === body", "couple de fonds partage avec comparer-banque.be", "signature quasi identique a meilleur-abonnement-5g.be"]
     },
     {
-      "domain": "meilleure-voiture-de-luxe.be", "repo": "meilleure-voiture-de-luxe.be", "registeredAt": "2026-07-31",
-      "fonts": { "display": "Zilla Slab", "body": "Public Sans", "mono": "Spline Sans Mono" },
-      "accent1": "#9E1B32", "accent1Hue": 349.5, "accent2": "#003399",
-      "bgPrimary": "#ECEFE9", "bgSurface": null, "mode": null,
-      "layoutHome": "marge-de-montant", "permutations": null,
-      "signature": "escalier-de-tranche",
-      "flags": ["seul site sorti du moteur V2", "absent de provisioned-log.csv", "aucune tache de redaction"]
+      "domain": "meilleure-voiture-de-luxe.be", "repo": "meilleure-voiture-de-luxe.be", "registeredAt": "2026-08-01",
+      "note": "Entree du run annule (Zilla Slab x Public Sans, #9E1B32, layoutHome marge-de-montant, signature escalier-de-tranche) MISE A JOUR SUR PLACE par la DA reellement ecrite en phase 2. Aucun doublon cree.",
+      "authorName": "Renaud D.",
+      "fonts": { "display": "Oswald", "body": "Lato", "mono": "JetBrains Mono" },
+      "accent1": "#34701A", "accent1Hue": 101.9, "accent2": "#AA4223",
+      "bgPrimary": "#ECEDE3", "bgSurface": "#FAFAF3", "mode": "light",
+      "layoutHome": "magazine", "permutations": { "shape": "sharp", "border": "bold", "shadow": "standard" },
+      "signature": "le coût de détention sur trois ans imprimé sous chaque modèle, entretien, taxes régionales et décote compris — le prix catalogue ne figure nulle part seul",
+      "partiPris": "listing de parc automobile — papier comptable a bandes vertes, encre carbone d'ordre de reparation, tampon d'atelier",
+      "paletteSource": "lib/da-presets/palettes.json — preset Agriculture/Farm Tech, teinte mutee -40,5 degres (142,4 -> 101,9)",
+      "effects": ["chiffres-du-releve", "bande-de-listing", "marge-carbone", "reglure", "tampon"],
+      "flags": ["accent1 a 59,5 degres du voisin le plus proche du parc (meilleur-operateur-mobile.be, 42,4) — plancher 25", "premier vert franc du parc : la bande 60,8-142,3 etait vide"]
     },
 
     {
