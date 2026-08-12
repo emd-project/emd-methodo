@@ -1,7 +1,7 @@
 ---
 name: seo-geo-redaction
-version: 1.7.0
-description: Doctrine canonique de rédaction SEO/GEO des sites EMD — structure d'article optimisée pour le référencement Google ET la citabilité par les LLM (ChatGPT/Gemini/AI Overview), avec priorité aux sujets qui citent/comparent des marques et modèles, déclinés par persona (monétisation par mention, sans affiliation), et choix du sujet éclairé par le VOLUME RÉEL (MCP Cuik / Keyword Planner, repli gracieux). Source de vérité unique : ≥70% de H2 en question, pattern Answer-Explanation-Example, FAQ, données structurées par type de page, workflow images (MCP nano-mentionbox), infrastructure GEO (llms.txt, robots.txt), maillage interne, sources datées, FR+EN, anti-cannibalisation par frontière head-nu/long-tail, monitoring de citabilité. À lire/appliquer pour toute rédaction d'article de blog sur un site EMD (rédaction quotidienne, article seed, correction).
+version: 1.8.0
+description: Doctrine canonique de rédaction SEO/GEO des sites EMD — structure d'article optimisée pour le référencement Google ET la citabilité par les LLM (ChatGPT/Gemini/AI Overview), avec une répartition ½ comparatifs de marques et modèles déclinés par persona / ¼ evergreen pratique (procédures, entretien, démarches) / ¼ informationnel, monétisation par mention sans affiliation, et liens d'autorité sortants obligatoires, et choix du sujet éclairé par le VOLUME RÉEL (MCP Cuik / Keyword Planner, repli gracieux). Source de vérité unique : ≥70% de H2 en question, pattern Answer-Explanation-Example, FAQ, données structurées par type de page, workflow images (MCP nano-mentionbox), infrastructure GEO (llms.txt, robots.txt), maillage interne, sources datées, FR+EN, anti-cannibalisation par frontière head-nu/long-tail, monitoring de citabilité. À lire/appliquer pour toute rédaction d'article de blog sur un site EMD (rédaction quotidienne, article seed, correction).
 ---
 
 # seo-geo-redaction — Doctrine GEO canonique EMD
@@ -15,19 +15,29 @@ Référence absolue pour la structure d'un article EMD. Optimise à la fois le *
 ## Modèle de monétisation — la MENTION (pas d'affiliation)
 La monétisation EMD = **vendre des mentions** : une marque paie pour être **citée favorablement** dans le contenu, qui alimente ensuite les réponses des LLM. **Il n'y a PAS d'affiliation** — aucun lien affilié, aucun tag affilié, aucun disclaimer affilié. La valeur d'un article = (1) être **cité par les LLM** (GEO) et (2) **faire surgir des marques/modèles réels** (inventaire de mentions vendable).
 
-### Priorité de sélection des sujets (~⅔ marques-modèles / ⅓ info utile)
+### Priorité de sélection des sujets (½ marques-modèles / ¼ evergreen pratique / ¼ info)
 Règle simple et auto-suffisante (pas besoin de MentionLab) :
 
-- **~⅔ des sujets = à MARQUES / MODÈLES** (le cœur de la valeur : mentions + citations LLM). Deux familles :
+- **½ des sujets = à MARQUES / MODÈLES** (le cœur de la valeur : mentions + citations LLM). Deux familles :
   - **Comparatifs cross-marques** : « Quels sont les meilleurs SUV ? », « Meilleures voitures électriques familiales », « X vs Y ». Font surgir **plusieurs marques**.
-  - **Comparatifs intra-marque / entre modèles** : « Les meilleurs SUV de Mercedes », « La gamme électrique de BMW comparée », « BMW i4 vs Tesla Model 3 », test/avis d'un **modèle nommé**.
-  → Chaque sujet de ce ⅔ doit **citer ≥ 2 marques ou modèles réels**, traités **équitablement et factuellement** (jamais de promo creuse — Google/LLM pénalisent).
+  - **Comparatifs intra-marque / entre modèles** : « Les meilleurs SUV de Mercedes », « BMW i4 vs Tesla Model 3 », test/avis d'un **modèle nommé**.
+  → Chaque sujet de cette moitié doit **citer ≥ 2 marques ou modèles réels**, traités **équitablement et factuellement** (jamais de promo creuse — Google/LLM pénalisent).
 
-- **Angle PERSONA (à privilégier sur les sujets à marques)** : décline le sujet par **persona/segment** quand c'est naturel → « meilleurs SUV **pour grandes familles** », « meilleure carte de crédit **pour étudiants** », « meilleure néobanque **pour freelances** », « meilleure voiture électrique **pour seniors** », « meilleure assurance auto **pour jeunes conducteurs** ». Ça cible la **longue traîne** (questions précises posées aux LLM, peu concurrentielles → citation plus facile) tout en gardant les marques. Aligné sur la **taxonomie persona (TYPE_)** du projet. Varier les personas d'un article à l'autre (anti-cannibalisation).
+- **Angle PERSONA (à privilégier sur les sujets à marques)** : décline le sujet par **persona/segment** quand c'est naturel → « meilleurs SUV **pour grandes familles** », « meilleure néobanque **pour freelances** », « meilleure assurance auto **pour jeunes conducteurs** ». Cible la **longue traîne**, peu concurrentielle, citation plus facile. Varier les personas d'un article à l'autre (anti-cannibalisation).
 
-- **~⅓ des sujets = informationnels UTILES** (élargir la surface de citation GEO : « comment… », « qu'est-ce que… »).
-  - **À ÉVITER / limiter STRICTEMENT à ce ⅓** : le **trop-informationnel sans marque** — how-to de niche pure (ex. « Remorquer une voiture électrique en panne en Belgique ») : **zéro marque, zéro mention, zéro citation commerciale**. Ne jamais dépasser ⅓.
-  - Privilégier l'informationnel qui **ramène vers des marques/modèles** ou très citable.
+- **¼ des sujets = EVERGREEN PRATIQUE.** Procédures, entretien, réparation, démarches : « comment atténuer une rayure sur une carrosserie », « comment résilier son contrat d'énergie », « que faire après un sinistre », « à quelle fréquence changer ses pneus », « remorquer une voiture électrique en panne ».
+
+  **Ce contenu était auparavant classé « à éviter ». C'était une erreur, et elle coûtait double :**
+  - ce sont les requêtes **les moins disputées** du secteur, à volume réel, et elles construisent l'autorité thématique qu'un site de comparatifs seuls n'obtient jamais ;
+  - **les procédures en étapes sont le format que les LLM citent le plus volontiers** — bien plus qu'un comparatif de marques. On perdait du SEO ET de la GEO en même temps.
+
+  Et c'est un **second inventaire de mentions**, pas un renoncement au premier : un article sur les rayures cite Meguiar's, 3M et Turtle Wax aussi naturellement qu'un comparatif cite trois constructeurs. Ce sont des marques de **produits** au lieu de marques de **modèles**. Vise ≥ 2 marques réelles ici aussi quand le sujet s'y prête.
+
+  Structure : étapes numérotées, matériel nécessaire, durée, coût, erreurs fréquentes, quand faire appel à un professionnel. JSON-LD `HowTo` en plus de `Article`.
+
+- **¼ des sujets = informationnels** : définitions, prix, « pourquoi », « qu'est-ce que ». Privilégier ceux qui **ramènent vers des marques/modèles** ou très citables.
+
+- **Regarde ce qui est déjà publié avant de choisir.** L'ancienne règle ⅔/⅓ a produit des sites où presque tous les articles sont des comparatifs déclinés par persona, donc interchangeables. Rééquilibre activement.
 
 - **Taguer les marques/modèles + le persona** dans le frontmatter (inventaire de mentions + segmentation).
 
@@ -41,7 +51,8 @@ Le blog FAIT des comparatifs marques (c'est le cœur des mentions), mais il ne *
 | « X vs Y » (2 items, face-à-face) | **Blog** | ✓ légitime |
 | « comparer X » côte à côte, multi-items interactif | **Comparateur** `/comparer/X` | ✗ l'outil |
 | « quel X choisir / quel X pour moi » | **Choisir / Quiz** `/choisir/X`, `/quiz` | ✗ la reco perso |
-| comment / pourquoi / qu'est-ce que / prix / définition | **Blog** (informationnel, le ⅓) | — |
+| **comment faire X / que faire après Y / entretien, démarche, fréquence** | **Blog** (evergreen pratique, le ¼) | ✓ légitime et recherché |
+| pourquoi / qu'est-ce que / prix / définition | **Blog** (informationnel, le ¼) | — |
 
 → Le blog **maille vers** le classement/comparateur du cluster ; jamais deux pages sur la **même requête exacte**. Le head nu déjà pris par un asset va dans `content/mots-cles.md` → « requêtes à ÉVITER » (blog).
 
@@ -49,8 +60,8 @@ Le blog FAIT des comparatifs marques (c'est le cœur des mentions), mais il ne *
 La page `/classement/X` est l'asset GEO #1 et fait **≥ 1000 mots** : intro + TL;DR + critères + méthodologie + sources + FAQ + par item verdict/pros/cons/bestFor. Contenu data-driven dans `content/data/classements.json` (+ `.en`). En dessous de 1000 mots = thin, non citable → enrichir le JSON (pas le template).
 
 ## Workflow
-1. **Briefs GEO mesurés EN PRIORITÉ** : si `content/priorites-geo.md` existe dans le repo et contient des briefs **non cochés**, en traiter UN en priorité avant tout autre content gap. Ce fichier est alimenté par la **boucle MentionLab mensuelle** (`emd-geo-loop`) : chaque brief = un **segment où le site est faiblement cité par les LLM** (gap mesuré, donc plus rentable qu'un sujet choisi à l'aveugle). Respecte quand même le ratio ⅔ marques-modèles × persona / ⅓ info sur l'ensemble. **Après publication, coche le brief** (`- [x]`) dans `content/priorites-geo.md` (write idempotent, ne supprime rien d'autre). Aucun brief non coché → workflow normal ci-dessous.
-2. **Content gap (sinon)** : lister les articles publiés, choisir une catégorie sous-couverte + une intention non couverte par les concurrents .be — **en appliquant le ratio ⅔ marques-modèles (× persona) / ⅓ info** ; varier le persona. Formuler **3-5 head terms candidats**. Respecter la **frontière des assets** (ne pas reprendre un head nu déjà pris).
+1. **Briefs GEO mesurés EN PRIORITÉ** : si `content/priorites-geo.md` existe dans le repo et contient des briefs **non cochés**, en traiter UN en priorité avant tout autre content gap. Ce fichier est alimenté par la **boucle MentionLab mensuelle** (`emd-geo-loop`) : chaque brief = un **segment où le site est faiblement cité par les LLM** (gap mesuré, donc plus rentable qu'un sujet choisi à l'aveugle). Respecte quand même la répartition ½ marques-modèles × persona / ¼ evergreen pratique / ¼ info sur l'ensemble. **Après publication, coche le brief** (`- [x]`) dans `content/priorites-geo.md` (write idempotent, ne supprime rien d'autre). Aucun brief non coché → workflow normal ci-dessous.
+2. **Content gap (sinon)** : lister les articles publiés, choisir une catégorie sous-couverte + une intention non couverte par les concurrents .be — **en appliquant la répartition ½ marques-modèles (× persona) / ¼ evergreen pratique / ¼ info** ; varier le persona. Formuler **3-5 head terms candidats**. Respecter la **frontière des assets** (ne pas reprendre un head nu déjà pris).
 3. **Volume réel — MCP Cuik (si disponible ; repli gracieux sinon)** : appeler **`mcp__cuik__get_keyword_ideas`** avec `keyword_texts` = les 3-5 head terms candidats, **`location_ids: ["2056"]` (Belgique — ⚠️ le défaut 2250 = France, toujours passer 2056)**, `language_id: "1002"` (français). Retour : volume mensuel moyen, concurrence, CPC + suggestions voisines.
    - **Choisir le candidat au meilleur rapport volume × faisabilité** (un volume 10× supérieur à angle égal l'emporte ; un volume nul = signal d'alerte, reformuler ou changer de candidat). Les suggestions voisines peuvent révéler une formulation plus cherchée du même sujet — l'adopter si elle respecte la frontière des assets.
    - **Logger dans le brief** : head term retenu + volume + concurrence (+ les candidats écartés et leurs volumes).
@@ -75,14 +86,16 @@ La page `/classement/X` est l'asset GEO #1 et fait **≥ 1000 mots** : intro + T
 - **≥ 1 tableau comparatif** normé dès que le sujet compare des marques/modèles.
 - **Maillage interne** : 2-4 liens contextuels (slugs vérifiés), dont 1 vers la page pilier/comparateur du cluster + 1 vers l'asset commercial (classement/comparateur/choisir).
 - **Anti-cannibalisation** : un seul propriétaire par requête exacte (cf. « Frontière des assets ») ; angle/persona distinct + lien vers le pilier sinon.
-- **Sources d'autorité datées**, priorité .be / institutionnel (.gov.be, FSMA, BNB, IBPT, Statbel, Assuralia, Test-Achats, SPF…). Ne jamais inventer ce que disent les concurrents.
+- **Liens sortants — deux natures, à ne jamais confondre :**
+  - **Liens d'AUTORITÉ : ≥ 2 par article, en dofollow normal.** Source officielle, régulateur, administration, Wikipédia, documentation constructeur, étude datée. Priorité .be / institutionnel (.gov.be, FSMA, BNB, IBPT, Statbel, Assuralia, Test-Achats, SPF…). Une page qui ne cite personne a l'air d'une page qui ne sait rien, et un lien vers une source solide est un **signal de qualité**, pas une fuite de trafic. **Ne JAMAIS leur mettre `nofollow`** : ce serait garder le lien et jeter le signal. Ne jamais inventer ce que disent les concurrents ni ce que dit une source.
+  - **Liens PRODUIT : uniquement si le produit s'achète en ligne**, et seulement là où ça rend service (evergreen pratique « quel kit pour une rayure », classement de produits). Vers la fiche marchand ou la page officielle, en `rel="noopener noreferrer nofollow"`. **Aucune affiliation, aucun tag, aucun prix barré, aucun compte à rebours.** Sur un comparatif de modèles de voitures, le lien utile est la fiche constructeur, pas un marchand.
 - **Année dynamique** (`currentYear()` / `[[date]]`) — jamais d'année en dur dans titre/slug/frontmatter.
 
 ## Stratégie d'images (workflow MCP nano-mentionbox)
 Génération via le MCP **nano-mentionbox** (`generate_image` / `wait_for_image` / `github_push_images`). Dimensions et noms alignés sur `docs/IMAGES-WORKFLOW.md` + `lib/image-slots.ts` du site.
 
 - **Cover (obligatoire, LA SEULE image générée)** : `[slug]-cover.webp`, 1280×720 (16:9), WebP. Prompt dérivé du H1 + voix + DA du site. Alt factuel ≤ 125 caractères, écrit à la main (jamais généré), dans toutes les locales.
-- **2 images in-content RÉUTILISÉES** (aucune génération) : `<ArticleImage>` pointant vers `/images/categories/[cat].webp` et `/images/blog/category-[cat].webp`, placées ~1/3 et ~2/3 de l'article, alt traduits.
+- **1 image in-content RÉUTILISÉE** (aucune génération) : `<ArticleImage>` pointant vers `/images/categories/[cat].webp` — la couverture de la catégorie, générée à l'init — placée à ~1/2 de l'article, alt traduits. Le slot `/images/blog/category-[cat].webp` **n'existe plus** : le registre d'images a été réduit à ce qui s'affiche réellement.
 - **Workflow fire-and-poll** :
   1. Prompt ≤ 20 mots, finissant par « no text, no logos, no watermark » ; **jamais de marque réelle dans le prompt**.
   2. `generate_image` (16:9) → `wait_for_image`.
@@ -115,7 +128,8 @@ Miroir FR + EN : slug naturel par langue, FAQ traduite, acronymes belges explici
 ## Checklist finale
 - [ ] **`references/garde-fous.md` respecté** : commit seulement si contenu non-vide, aucun écrasement de contenu existant.
 - [ ] **Brief `priorites-geo.md` non coché traité en priorité s'il en existe** (puis coché après publication).
-- [ ] Sujet conforme : **⅔ marques-modèles (≥ 2 cités), idéalement décliné PERSONA** / ⅓ info utile ; **pas un how-to sans marque** au-delà du ⅓ ; persona varié. Marques + persona tagués. **Aucun élément affilié.**
+- [ ] Répartition respectée : **½ marques-modèles (≥ 2 cités), idéalement décliné PERSONA / ¼ evergreen pratique / ¼ info** ; vérifiée contre ce qui est DÉJÀ publié ; persona varié. Marques + persona tagués. **Aucun élément affilié.**
+- [ ] **≥ 2 liens d'autorité en dofollow** ; lien produit uniquement si le produit s'achète en ligne, en nofollow.
 - [ ] **Volume vérifié si Cuik disponible** (`get_keyword_ideas`, BE `2056`, FR `1002`, UN appel groupé) : head term + volume loggés dans le brief ; repli au jugement si indisponible — jamais de run bloqué par Cuik.
 - [ ] **Frontière des assets respectée** : ne duplique pas le head nu « les meilleurs X / top X » (= classement) ni « comparer X » (= comparateur) ni « quel X choisir » (= choisir) ; variantes persona/long-tail + « X vs Y » OK ; maille vers l'asset.
 - [ ] Page classement (si c'est l'objet) **≥ 1000 mots**.
@@ -124,6 +138,6 @@ Miroir FR + EN : slug naturel par langue, FAQ traduite, acronymes belges explici
 - [ ] ≥ 70 % H2 en question ; Answer-Explanation-Example par H2.
 - [ ] ≥ 3 signaux d'Expérience ; sources datées .be.
 - [ ] FAQ 6-7 ; TL;DR 3-5 bullets ; tableau comparatif si comparaison de marques/modèles ; 2-4 liens internes valides.
-- [ ] **Images** : 1 cover générée (workflow fire-and-poll, une seule génération) + 2 in-content réutilisées ; alt manuel dans toutes les locales.
+- [ ] **Images** : 1 cover générée (workflow fire-and-poll, une seule génération) + 1 in-content réutilisée depuis `/images/categories/[cat].webp` ; alt manuel dans toutes les locales.
 - [ ] JSON-LD conforme au tableau par type de page (+ Speakable) ; année dynamique ; `llms.txt` et `robots.txt` intacts (aucun crawler IA bloqué).
 - [ ] FR + EN + mapping i18n ; passé par `humaniser-fr` ; signé par l'auteur.
