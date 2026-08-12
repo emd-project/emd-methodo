@@ -44,6 +44,16 @@
     { "domain": "www.meilleures-assurances-auto.be", "authorName": "Thomas R.", "nameFormat": "prenom-initiale", "signature": "emeraude-petrol + cuivre ; barres de garantie" },
     { "domain": "meilleure-voiture-7-places.be", "authorName": "Sophie L.", "nameFormat": "prenom-initiale", "signature": "fiche famille tabulaire — sieges-auto de front, coffre en service" },
     { "domain": "www.meilleure-voiture-utilitaire.be", "authorName": "Damien L.", "nameFormat": "prenom-initiale", "signature": "specs tabulaires facon fiche technique", "flags": ["prenom partage avec 2 sites", "signature quasi identique a meilleur-suv.be"] },
-    { "domain": "meilleure-banque.be", "repo": "meilleure-banque.be", "registeredAt": "2026-08-12", "authorName": "Etienne D.", "nameFormat": "prenom-initiale", "signature": "chaque banque est jugee sur ce qu'elle coute quand on sort du parcours 100 % en ligne : tenue de compte, retrait hors reseau, virement papier, et le nombre d'agences encore ouvertes dans la commune", "note": "Prenom Etienne : unique dans le parc (verifie contre les 19 entrees existantes). Signature volontairement eloignee de comparer-banque.be (« le cout annuel reel affiche a cote de chaque banque ») et de meilleure-neobanque.be (« la clarte tarifaire d'abord ») : l'angle est le cout HORS parcours en ligne, pas le cout annuel global." }
+    { "domain": "meilleure-banque.be", "repo": "meilleure-banque.be", "registeredAt": "2026-08-12", "authorName": "Etienne D.", "nameFormat": "prenom-initiale", "signature": "chaque banque est jugee sur ce qu'elle coute quand on sort du parcours 100 % en ligne : tenue de compte, retrait hors reseau, virement papier, et le nombre d'agences encore ouvertes dans la commune", "note": "Prenom Etienne : unique dans le parc (verifie contre les 19 entrees existantes). Signature volontairement eloignee de comparer-banque.be (« le cout annuel reel affiche a cote de chaque banque ») et de meilleure-neobanque.be (« la clarte tarifaire d'abord ») : l'angle est le cout HORS parcours en ligne, pas le cout annuel global." },
+    {
+      "domain": "comparer-abonnement-tv.be",
+      "repo": "comparer-abonnement-tv.be",
+      "registeredAt": "2026-08-12",
+      "authorName": "Vincent H.",
+      "nameFormat": "prenom-initiale",
+      "signature": "le prix de la deuxième année imprimé à côté du prix promo, et le nombre de chaînes réellement reçues à l'adresse plutôt que le nombre annoncé sur la brochure",
+      "register": "je / vous — factuel, un peu remonte, pro-consommateur ; phrases courtes, le montant avant l'adjectif",
+      "note": "Prenom Vincent : unique dans le parc (verifie contre les 21 entrees existantes). Signature volontairement eloignee des trois autres voix telecom du parc : meilleur-abonnement-5g.be et meilleur-operateur-mobile.be portent le « reseau hote a cote du prix », meilleure-fibre-internet.be « le debit reel d'abord ». L'angle est ici TEMPOREL (annee 1 vs annee 2) et GEOGRAPHIQUE (couverture a l'adresse), pas technique. Jaccard sur mots pleins contre la plus proche (5g) : 3 mots communs sur 21 — environ 14 %, plancher 60 %."
+    }
   ]
 }
