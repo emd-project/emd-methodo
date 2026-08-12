@@ -208,6 +208,19 @@
       "layoutHome": null, "permutations": null,
       "signature": "specs tabulaires facon fiche technique — charge utile, volume, longueur",
       "flags": ["niche.config.layouts absent du TYPE lui-meme", "accent1 a 4,7 degres de meilleur-suv.be", "signature quasi identique a meilleur-suv.be"]
+    },
+    {
+      "domain": "meilleure-banque.be", "repo": "meilleure-banque.be", "registeredAt": "2026-08-12",
+      "authorName": "Etienne D.",
+      "fonts": { "display": "Newsreader", "body": "Karla", "mono": "Space Mono" },
+      "accent1": "#6E2A66", "accent1Hue": 307.1, "accent2": "#B8863B",
+      "bgPrimary": "#F3F0F6", "bgSurface": "#FCFBFD", "mode": "light",
+      "layoutHome": "marche", "permutations": { "shape": "sharp", "border": "bold", "shadow": "flat" },
+      "signature": "chaque banque est jugee sur ce qu'elle coute quand on sort du parcours 100 % en ligne : tenue de compte, retrait hors reseau, virement papier, et le nombre d'agences encore ouvertes dans la commune",
+      "partiPris": "carnet a souches d'agence bancaire — papier cheque filigrane, encre violette de tampon guichet, laiton de la plaque de facade",
+      "paletteSource": "docs/DA-DIRECTIONS.md — direction fiduciaire, teinte mutee vers la bande violette vide du parc (aucun site entre 244,5 et 349,5 degres)",
+      "effects": ["perforation", "talon-de-souche", "filigrane-fiduciaire", "chiffres-de-souche", "tampon-violet"],
+      "flags": ["accent1 a 62,6 degres du voisin le plus proche de la fenetre des 8 derniers (meilleur-parti-politique.be, 244,5) et a 42,4 degres du plus proche du parc entier (bande rouge 349,5) — plancher 25", "premier violet-magenta du parc : la bande 244,5-349,5 etait entierement vide", "Newsreader, Karla et Space Mono absents de tout le parc"]
     }
   ]
 }
