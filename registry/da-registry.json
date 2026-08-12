@@ -221,6 +221,25 @@
       "paletteSource": "docs/DA-DIRECTIONS.md — direction fiduciaire, teinte mutee vers la bande violette vide du parc (aucun site entre 244,5 et 349,5 degres)",
       "effects": ["perforation", "talon-de-souche", "filigrane-fiduciaire", "chiffres-de-souche", "tampon-violet"],
       "flags": ["accent1 a 62,6 degres du voisin le plus proche de la fenetre des 8 derniers (meilleur-parti-politique.be, 244,5) et a 42,4 degres du plus proche du parc entier (bande rouge 349,5) — plancher 25", "premier violet-magenta du parc : la bande 244,5-349,5 etait entierement vide", "Newsreader, Karla et Space Mono absents de tout le parc"]
+    },
+    {
+      "domain": "comparer-abonnement-tv.be", "repo": "comparer-abonnement-tv.be", "registeredAt": "2026-08-12",
+      "authorName": "Vincent H.",
+      "fonts": { "display": "Roboto Condensed", "body": "Work Sans", "mono": "Roboto Mono" },
+      "accent1": "#7229A3", "accent1Hue": 275.9, "accent2": "#A8501B",
+      "bgPrimary": "#EFEBE0", "bgSurface": "#F9F7F1", "mode": "light",
+      "layoutHome": "marche", "permutations": { "shape": "sharp", "border": "standard", "shadow": "flat" },
+      "signature": "le prix de la deuxième année imprimé à côté du prix promo, et le nombre de chaînes réellement reçues à l'adresse plutôt que le nombre annoncé sur la brochure",
+      "partiPris": "grille de programmes de tele-magazine annotee au stylo bille — papier journal chaud, colonnes horaires, filets fins et encre bleu-violet",
+      "paletteSource": "docs/DA-DIRECTIONS.md — direction papier imprime / encre, teinte portee a 275,9 degres (encre de stylo bille bleu-violet), dans le creux laisse entre parti-politique (244,5) et banque (307,1)",
+      "effects": ["filets-horaires", "encre-bille", "papier-journal", "rature", "chiffres-horaires"],
+      "flags": [
+        "accent1 a 31,2 degres de meilleure-banque.be (307,1) et 31,4 de meilleur-parti-politique.be (244,5) — plancher 25, les deux voisins les plus proches de la fenetre",
+        "layoutHome `marche` partage avec meilleure-banque.be : collision de squelette attendue (meme famille de secteur), divergence portee par la peau",
+        "Roboto Condensed, Work Sans et Roboto Mono absents de tout le parc",
+        "couple de fonds #EFEBE0 / #F9F7F1 inedit — les 13 couples existants sont soit #FFFFFF en surface, soit un blanc casse plus froid",
+        "3e site clair consecutif : a surveiller, la bande sombre du parc se depeuple"
+      ]
     }
   ]
 }
