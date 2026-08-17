@@ -71,12 +71,33 @@
       "flags": ["paire Archivo x Inter partagee avec 2 autres sites", "bgPrimary === bgSurface"]
     },
     {
-      "domain": "meilleure-citadine.be", "repo": "meilleure-citadine.be", "registeredAt": "2026-07-23",
-      "fonts": { "display": "Fraunces", "body": "Inter", "mono": null },
-      "accent1": "#4CC9F0", "accent1Hue": 194.3, "accent2": "#F9C74F",
-      "bgPrimary": "#0C0E12", "bgSurface": "#14171D", "mode": "dark",
-      "layoutHome": "fil", "permutations": { "shape": "rounded", "border": "hairline", "shadow": "flat" },
-      "signature": "choisir une citadine en Belgique sans se faire avoir : donnees reelles, prix locaux, zero survente"
+      "domain": "meilleure-citadine.be", "repo": "meilleure-citadine.be", "registeredAt": "2026-07-23", "revisedAt": "2026-08-17",
+      "authorName": "Lea",
+      "fonts": { "display": "Bitter", "body": "Asap", "mono": "Azeret Mono" },
+      "accent1": "#4AD063", "accent1Hue": 131.2, "accent2": "#E0A93F",
+      "bgPrimary": "#0E1210", "bgSurface": "#161B17", "mode": "dark",
+      "layoutHome": "magazine", "permutations": { "shape": "sharp", "border": "standard", "shadow": "flat" },
+      "signature": "choisir une citadine en Belgique sans se faire avoir : donnees reelles, prix locaux, zero survente",
+      "partiPris": "carte de riverain et horodateur — papier communal vert, encre de tampon, laiton d'horodateur et asphalte mouille",
+      "paletteSource": "mutation de l'ancienne palette du site (#4CC9F0, 194,3 deg) portee dans le creux vide 101,9-161,4 ; accent2 laiton re-accorde a 39,5 deg",
+      "effects": ["filigrane-communal", "encre-de-tampon", "chiffres-d-horodateur", "perforation-de-ticket", "soulignement-au-marqueur"],
+      "previousDA": {
+        "revisedOn": "2026-08-17",
+        "reason": "mise en conformite avec la doctrine emd-provision en vigueur : deux squelettes seulement (marche / magazine), la niche voiture n'est pas un service souscriptible donc `magazine` ; et l'accent etait a 1,4 deg de meilleure-fibre-internet.be dans la bande vert-teal-cyan (7 sites), sous le plancher de 25 deg",
+        "fonts": { "display": "Fraunces", "body": "Inter", "mono": null },
+        "accent1": "#4CC9F0", "accent1Hue": 194.3, "accent2": "#F9C74F",
+        "bgPrimary": "#0C0E12", "bgSurface": "#14171D",
+        "layoutHome": "fil", "permutations": { "shape": "rounded", "border": "hairline", "shadow": "flat" }
+      },
+      "flags": [
+        "accent1 a 29,3 deg de meilleure-voiture-de-luxe.be (101,9) et 30,2 deg de meilleure-neobanque.be (161,4) — les deux voisins les plus proches du parc entier, plancher 25",
+        "2e vert franc du parc : le creux 101,9-161,4 etait vide",
+        "Bitter, Asap et Azeret Mono absents de tout le parc",
+        "couple de fonds #0E1210 / #161B17 inedit : seul noir-vert du parc, les 4 autres sites sombres sont en bleu-noir",
+        "reste sombre alors que meilleure-voiture.be (meme secteur) est clair — les deux sites auto ne doivent pas se confondre",
+        "layoutHome `magazine` partage avec quel-fournisseur-energie.be, meilleur-chocolat.be, meilleure-voiture-de-luxe.be et meilleure-voiture-7-places.be : collision de squelette assumee par la doctrine, divergence portee par la peau",
+        "borders passes en filets pleins (#2A322B / #5E6A60) et permutations.border laisse a `standard` pour que PermutationStyle n'ecrase pas les ratios"
+      ]
     },
     {
       "domain": "comparer-banque.be", "repo": "comparer-banque.be", "registeredAt": "2026-07-27",
@@ -108,7 +129,7 @@
       "partiPris": "listing de parc automobile — papier comptable a bandes vertes, encre carbone d'ordre de reparation, tampon d'atelier",
       "paletteSource": "lib/da-presets/palettes.json — preset Agriculture/Farm Tech, teinte mutee -40,5 degres (142,4 -> 101,9)",
       "effects": ["chiffres-du-releve", "bande-de-listing", "marge-carbone", "reglure", "tampon"],
-      "flags": ["accent1 a 59,5 degres du voisin le plus proche du parc (meilleur-operateur-mobile.be, 42,4) — plancher 25", "premier vert franc du parc : la bande 60,8-142,3 etait vide"]
+      "flags": ["accent1 a 59,5 degres du voisin le plus proche du parc (meilleur-operateur-mobile.be, 42,4) — plancher 25", "premier vert franc du parc : la bande 60,8-142,3 etait vide", "depuis le 2026-08-17, voisin le plus proche = meilleure-citadine.be (131,2) a 29,3 degres"]
     },
 
     {
@@ -135,7 +156,7 @@
       "bgPrimary": "#EDF2F7", "bgSurface": "#FFFFFF", "mode": "light",
       "layoutHome": "comparateur", "permutations": { "shape": "soft", "border": "standard", "shadow": "flat" },
       "signature": "le debit reel d'abord",
-      "flags": ["accent1 a 1,4 degre de meilleure-citadine.be et 3,7 de meilleur-fournisseur-electricite.be"]
+      "flags": ["accent1 a 3,7 degres de meilleur-fournisseur-electricite.be", "la collision a 1,4 degre avec meilleure-citadine.be est LEVEE depuis le 2026-08-17 (citadine mutee a 131,2)"]
     },
     {
       "domain": "www.meilleur-suv.be", "repo": "meilleur-suv.be", "registeredAt": null, "backfilledAt": "2026-08-01",
@@ -153,7 +174,7 @@
       "bgPrimary": "#F2F4F8", "bgSurface": "#FFFFFF", "mode": "light",
       "layoutHome": null, "permutations": null,
       "signature": "bande categories sombre + mosaique hero decalee",
-      "flags": ["niche.config.layouts absent"]
+      "flags": ["niche.config.layouts absent — le resolver retombe sur magazine, c'est bien la home rendue"]
     },
     {
       "domain": "www.meilleure-voiture-familiale.be", "repo": "meilleure-voiture-familiale.be", "registeredAt": null, "backfilledAt": "2026-08-01",
@@ -162,7 +183,7 @@
       "bgPrimary": "#F4F1EA", "bgSurface": "#FBF9F4", "mode": "light",
       "layoutHome": null, "permutations": null,
       "signature": "le coffre reel en litres, sieges-auto installes",
-      "flags": ["niche.config.layouts absent", "accent1 a 0,7 degre de meilleures-assurances-auto.be"]
+      "flags": ["niche.config.layouts absent", "accent1 a 0,7 degre de meilleures-assurances-auto.be", "seul porteur de Fraunces depuis que meilleure-citadine.be en est sortie (2026-08-17)"]
     },
     {
       "domain": "meilleur-chocolat.be", "repo": "www.meilleur-chocolat.be", "registeredAt": null, "backfilledAt": "2026-08-01",
