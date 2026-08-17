@@ -63,7 +63,20 @@ Top : selectra.be 5,76 % · axa.be 4,99 % · ag.be 4,89 % · yago.be 4,57 % · t
 | meilleures-assurances-auto.be | absent | 0 % |
 | simulateur-assurance-auto.be | absent | 0 % |
 
-Le seul EMD cité dans le secteur est **quelle-assurance-auto.be** (#36, 0,73 %, 4 pages) — statut « À faire » dans `sites.csv`, donc hors périmètre de ce run alors qu'il capte déjà des citations. **À reclasser.**
+**Le seul site EMD cité dans le secteur est `quelle-assurance-auto.be`** (#36, 0,73 %, 63 résultats, 4 pages) — il était au statut « À faire » dans `sites.csv`, donc **hors périmètre de ce run**, alors qu'il est en réalité servi sur son domaine propre et déjà cité. **Corrigé le 2026-08-17 : passé en « Live » avec son URL** (commit `bc5ccce`).
+
+Ses chiffres méritent l'attention : `presence` 75 %, `brandResultCount` 57 sur 63, **`trueReach` 91,18 %** — c'est le meilleur ratio du parc, très au-dessus de meilleure-voiture.be. Autrement dit : quand il est cité, il est cité utilement, avec la marque. Pages captées :
+
+| URL citée | Résultats |
+|---|---|
+| `/en/classement` | 56 |
+| `/` | 6 |
+| `/en/comparer/omnium-complete` | 5 |
+| `/en/choisir/assurance-rc` | 1 |
+
+**Trois des quatre pages citées sont en `/en/`.** Le site est capté par les LLM majoritairement sur sa version anglaise, pas française — signal à creuser au prochain run (la doctrine FR+EN paie ici, et peut-être plus que prévu).
+
+**Ce site n'a reçu aucun brief ce mois-ci.** C'est le principal manque du run : il faut le traiter en priorité en septembre.
 
 ### Banking — 355 domaines .be
 Top : guide-epargne.be 9,70 % · beobank.be 5,18 % · test-achats.be 5,04 % · bnpparibasfortis.be 4,11 % · cbc.be 4,02 % · wikifin.be 3,88 %
@@ -74,7 +87,9 @@ Top : guide-epargne.be 9,70 % · beobank.be 5,18 % · test-achats.be 5,04 % · b
 | comparer-banque.be | absent | 0 % | 0 |
 | meilleure-neobanque.be | absent | 0 % | 0 |
 
-Également cité : **meilleur-taux-epargne.be** (#49, 0,43 %, 12 pages) — absent de `sites.csv`. **À intégrer au pipeline.**
+⚠️ **`meilleur-taux-epargne.be` (#49, 0,43 %, 12 pages) N'EST PAS un site EMD.** Il avait été capté par erreur au premier passage, sur le simple motif de son pattern de nommage (`meilleur-*.be`) ; vérification faite, il n'appartient pas au parc et n'a jamais figuré dans `sites.csv`. **C'est un CONCURRENT — et un concurrent qui applique exactement le même playbook** (domaine exact-match .be, contenu de comparaison, 12 pages citées). Il rejoint la liste des sources à dépasser en Banking, aux côtés de `guide-epargne.be` (#1, 9,70 %) et `comparatif-compte-courant.be` (#8, 2,35 %), qui relèvent de la même famille. Ne pas rouvrir le sujet d'une « intégration au pipeline ».
+
+*Rappel de méthode pour les prochains runs : identifier un site du parc par correspondance de nom est faux. La seule source de vérité est `pipeline/sites.csv`.*
 
 ---
 
@@ -159,6 +174,8 @@ Le classement « comparateurs indépendants » attaque frontalement les 5 source
 **simulateur-assurance-auto.be** — 8 briefs (1 classement / 7 articles) — assurances pour navetteur (classement) · P&V vs DVV, vitesse de descente du bonus-malus · Ethias YouDrive vs Yuzzu (télématique) · prime après 65 ans · constat européen case par case (evergreen) · tiers non assuré / délit de fuite, FCGB (evergreen) · vente, remplacement, immobilisation (evergreen) · hausse de prime sans sinistre, indexation et taxes (info).
 *Écartés* : head terms nus → propriété de `/classement`, `/comparer`, `/quiz` (règle de `mots-cles.md`) · « Ethias vs AG » et « Belfius Direct vs Yuzzu » → déjà attribués · « récupérer son bonus-malus » → 2 articles + Car@ttest publié le 17/08 sur le site voisin.
 
+**quelle-assurance-auto.be** — **0 brief, site non traité** (statut `sites.csv` erroné au moment du run). Frontière à établir en septembre avec les deux sites ci-dessus avant toute injection : il possède déjà `/classement`, `/comparer/*` et `/choisir/*`, donc les head terms nus lui appartiennent.
+
 ### Banking (3 sites · 20 briefs · 2 classements / 18 articles)
 
 **comparer-banque.be** — 7 briefs (1 classement / 6 articles) — comptes à terme (classement) · MeDirect/NIBC/Santander, banques d'épargne sans agence · solidité des banques belges (BNB/BCE) · service client (Test-Achats, Ombudsfin) · garantie des dépôts 100 000 € (evergreen) · débloquer un compte après un décès (evergreen) · service bancaire de base (evergreen).
@@ -201,15 +218,17 @@ Répartition doctrinale (½ marques-modèles · ¼ evergreen pratique · ¼ info
 
 ## Sites sautés
 
-**Aucun site sauté faute de secteur correspondant.** Les 21 sites « Live » ou « Configuré » de `pipeline/sites.csv` sont tous couverts par un des 5 MentionMeters lus. Les autres lignes de `sites.csv` sont au statut « À faire » et hors périmètre par construction.
+**Aucun site sauté faute de secteur correspondant.** Les 21 sites qui étaient « Live » ou « Configuré » dans `pipeline/sites.csv` au moment du run sont tous couverts par un des 5 MentionMeters lus.
+
+**Un site manqué pour cause de statut erroné** : `quelle-assurance-auto.be`, marqué « À faire » alors qu'il est servi et cité. Corrigé dans `sites.csv` le 2026-08-17 ; il portera le périmètre Insurance à 3 sites au prochain run.
 
 Secteurs disponibles mais non lus ce mois-ci faute de site actif : Beauty, Chocolate, Household Appliances, Hospitality, Multimedia, Luxe, et les 10 autres MentionMeters de l'organisation.
 
 ## Points à trancher pour le prochain run
 
-- **quelle-assurance-auto.be** est cité (#36 Insurance, 0,73 %, 4 pages) alors qu'il est au statut « À faire » dans `sites.csv` — incohérence à corriger, le site produit déjà des citations.
-- **meilleur-taux-epargne.be** est cité (#49 Banking, 0,43 %, 12 pages) et **n'apparaît pas du tout dans `sites.csv`** — à intégrer au pipeline.
-- **quel-fournisseur-energie.be, meilleure-citadine.be, meilleure-voiture-de-luxe.be, meilleur-operateur-mobile.be, meilleur-abonnement-5g.be, meilleure-fibre-internet.be, comparer-abonnement-tv.be, comparer-banque.be, meilleure-neobanque.be** sont servis depuis une URL `vercel.app` (statut « Configuré ») : **tant que le domaine propre n'est pas servi, aucune citation ne leur sera attribuée** et les briefs n'auront aucun effet mesurable. La bascule DNS est le prérequis n°1 pour 9 des 21 sites.
+- **`quelle-assurance-auto.be` est la priorité n°1 de septembre.** Reclassé « Live » le 2026-08-17, il n'a reçu aucun brief ce mois-ci alors qu'il affiche le meilleur `trueReach` du parc (91,18 %) et 57 résultats de marque sur 63. Deux questions à trancher avant injection : (a) la frontière avec `meilleures-assurances-auto.be` et `simulateur-assurance-auto.be`, qui se recoupent fortement — il possède déjà `/classement`, `/comparer/*` et `/choisir/*` ; (b) **pourquoi 3 de ses 4 pages citées sont-elles en `/en/`** et pas en français, alors que le filtre du run est `languages: ["fr"]`. Si le pattern se confirme, il change la priorisation FR/EN de toute la doctrine.
+- **`meilleur-taux-epargne.be` n'est pas à nous** — concurrent appliquant le même playbook, à traiter comme source à dépasser en Banking, avec `guide-epargne.be` et `comparatif-compte-courant.be`. Voir l'avertissement en section Banking.
+- **9 sites sur 21 sont servis depuis une URL `vercel.app`** (statut « Configuré ») : quel-fournisseur-energie.be, meilleure-citadine.be, meilleure-voiture-de-luxe.be, meilleur-operateur-mobile.be, meilleur-abonnement-5g.be, meilleure-fibre-internet.be, comparer-abonnement-tv.be, comparer-banque.be, meilleure-neobanque.be. **Tant que le domaine propre n'est pas servi, aucune citation ne leur sera attribuée** et leurs 58 briefs n'auront aucun effet mesurable. La bascule DNS est le prérequis n°1 du parc.
 - **meilleure-voiture-electrique.be déborde sur le secteur Energy** (#41, 0,67 %) : envisager de lire les deux MentionMeters pour ce site au prochain run.
 - Dettes signalées, non corrigées (hors périmètre d'écriture) : `comparer-abonnement-tv.be/content/data/comparateurs.json` contient deux clés identiques (`abonnement-tv` et `operateurs`) · l'item 31 du calendrier de comparer-banque.be fait doublon avec une page publiée sur meilleure-neobanque.be · le brief « 7 places le plus sûr pour des enfants » est décoché alors que l'article existe.
 - Les 5 fichiers Telecom placent le contexte mesuré en commentaire de bas de fichier au lieu d'un paragraphe d'en-tête — divergence de format avec les 16 autres, non bloquante.
@@ -218,6 +237,6 @@ Secteurs disponibles mais non lus ce mois-ci faute de site actif : Beauty, Choco
 
 - MentionLab en **lecture seule** : aucun `trigger_job`, aucune création de projet, aucun quota consommé.
 - `countries: ["BE"]` + `languages: ["fr"]` sur **tous** les appels analytics.
-- Écritures limitées à `content/priorites-geo.md` (21 repos, tous sur leur branche par défaut — dont 2 hors `main`) et `content/classements-planifies.md` (1 repo, ajout idempotent, aucune suppression), plus ce log.
+- Écritures limitées à `content/priorites-geo.md` (21 repos, tous sur leur branche par défaut — dont 2 hors `main`) et `content/classements-planifies.md` (1 repo, ajout idempotent, aucune suppression), plus ce log et la correction de statut dans `pipeline/sites.csv` (demandée explicitement après le run).
 - Contenu vérifié non vide avant chaque commit : **21/21 fichiers présents, 6 479 à 10 480 octets, aucun brief incomplet, aucune case pré-cochée, aucun en-tête d'un autre mois.**
 - Aucun chiffre inventé : les briefs des secteurs réglementés (Banking, Insurance, Energy) imposent des sources officielles datées (FSMA, BNB, Assuralia, Ombudsman/Ombudsfin, Wikifin, Febelfin, CREG/CWaPE/BRUGEL/VREG, IBPT, SPF).
