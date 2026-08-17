@@ -244,7 +244,9 @@
       "flags": ["accent1 a 62,6 degres du voisin le plus proche de la fenetre des 8 derniers (meilleur-parti-politique.be, 244,5) et a 42,4 degres du plus proche du parc entier (bande rouge 349,5) — plancher 25", "premier violet-magenta du parc : la bande 244,5-349,5 etait entierement vide", "Newsreader, Karla et Space Mono absents de tout le parc"]
     },
     {
-      "domain": "comparer-abonnement-tv.be", "repo": "comparer-abonnement-tv.be", "registeredAt": "2026-08-12",
+      "domain": "comparer-abonnement-tv.be",
+      "repo": "comparer-abonnement-tv.be",
+      "registeredAt": "2026-08-12",
       "authorName": "Vincent H.",
       "fonts": { "display": "Roboto Condensed", "body": "Work Sans", "mono": "Roboto Mono" },
       "accent1": "#7229A3", "accent1Hue": 275.9, "accent2": "#A8501B",
@@ -260,6 +262,56 @@
         "Roboto Condensed, Work Sans et Roboto Mono absents de tout le parc",
         "couple de fonds #EFEBE0 / #F9F7F1 inedit — les 13 couples existants sont soit #FFFFFF en surface, soit un blanc casse plus froid",
         "3e site clair consecutif : a surveiller, la bande sombre du parc se depeuple"
+      ]
+    },
+    {
+      "domain": "comparer-carte-credit.be",
+      "repo": "comparer-carte-credit.be",
+      "registeredAt": "2026-08-17",
+      "authorName": "Delphine V.",
+      "fonts": { "display": "Jost", "body": "Commissioner", "mono": "Courier Prime" },
+      "accent1": "#A4C520", "accent1Hue": 72.0, "accent2": "#B04A3D",
+      "accent1Light": "#5E7114",
+      "bgPrimary": "#14140D", "bgSurface": "#1C1D13", "mode": "dark",
+      "bgPrimaryLight": "#F2F1E6", "bgSurfaceLight": "#FBFAF2",
+      "layoutHome": "marche", "permutations": { "shape": "sharp", "border": "hairline", "shadow": "deep" },
+      "signature": "chaque carte porte les trois chiffres qu'on ne lit jamais avant de signer : la cotisation annuelle, le TAEG applique au solde reporte, et le cout d'un retrait de 100 euros au distributeur",
+      "partiPris": "ticket de terminal de paiement — papier thermique pali, encre matricielle olive qui s'efface, filets de decoupe et relief embosse d'une carte lu en biais",
+      "paletteSource": "docs/DA-DIRECTIONS.md — direction papier imprime / encre, teinte portee a 72,0 degres (encre matricielle olive sur papier thermique vieilli), dans le creux 42,4-101,9 du parc",
+      "effects": ["bande-thermique", "encre-matricielle", "dentelure-de-decoupe", "relief-embosse", "impression-palie"],
+      "contrast": {
+        "dark": {
+          "textPrimary/bgPrimary": 15.93,
+          "textPrimary/bgSurface": 14.44,
+          "textSecondary/bgPrimary": 8.07,
+          "textSecondary/bgSurface": 7.32,
+          "textMuted/bgPrimary": 4.63,
+          "accent1/bgPrimary": 9.46,
+          "accent1/bgSurface": 8.57,
+          "textOnAccent1(#14140D)": 9.46,
+          "border+focus(#757961)/bgSurface": 3.77
+        },
+        "light": {
+          "textPrimary/bgPrimary": 15.29,
+          "textPrimary/bgSurface": 16.59,
+          "textSecondary/bgPrimary": 7.19,
+          "textSecondary/bgSurface": 7.80,
+          "accent1Light/bgPrimary": 4.80,
+          "accent1Light/bgSurface": 5.21,
+          "textOnAccent1Light(#FFFFFF)": 5.46,
+          "border(#86846E)/bgPrimary": 3.36,
+          "border(#86846E)/bgSurface": 3.65
+        }
+      },
+      "flags": [
+        "accent1 a 29,6 degres de meilleur-operateur-mobile.be (42,4) et 29,9 de meilleure-voiture-de-luxe.be (101,9) — ce sont les deux voisins les plus proches du PARC ENTIER, pas seulement de la fenetre ; plancher 25",
+        "ecart minimal a la fenetre des 8 derniers : 31,9 degres (meilleure-voiture-utilitaire.be, 31,1) — tous les autres au-dela de 38",
+        "premier olive-chartreuse du parc : le creux 42,4-101,9 etait vide",
+        "Jost, Commissioner et Courier Prime absents de tout le parc",
+        "couple de fonds #14140D / #1C1D13 inedit : seul noir-kaki chaud du parc ; les 5 autres sites sombres sont en bleu-noir (4) ou noir-vert froid (1)",
+        "REPASSE EN SOMBRE apres trois sites clairs consecutifs (meilleure-banque.be, comparer-abonnement-tv.be, meilleure-voiture-de-luxe.be) — le registre signalait que la bande sombre se depeuplait",
+        "layoutHome `marche` partage avec meilleure-banque.be et comparer-abonnement-tv.be : collision de squelette assumee par la doctrine (service souscriptible), divergence portee par la peau — mode inverse, teinte a 31+ degres, trois polices inedites",
+        "permutations sharp/hairline/deep : combinaison absente du parc (meilleure-banque.be = sharp/bold/flat, quelle-assurance-auto.be = sharp/hairline/flat)"
       ]
     }
   ]
