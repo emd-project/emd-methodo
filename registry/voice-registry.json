@@ -54,6 +54,17 @@
       "signature": "le prix de la deuxième année imprimé à côté du prix promo, et le nombre de chaînes réellement reçues à l'adresse plutôt que le nombre annoncé sur la brochure",
       "register": "je / vous — factuel, un peu remonte, pro-consommateur ; phrases courtes, le montant avant l'adjectif",
       "note": "Prenom Vincent : unique dans le parc (verifie contre les 21 entrees existantes). Signature volontairement eloignee des trois autres voix telecom du parc : meilleur-abonnement-5g.be et meilleur-operateur-mobile.be portent le « reseau hote a cote du prix », meilleure-fibre-internet.be « le debit reel d'abord ». L'angle est ici TEMPOREL (annee 1 vs annee 2) et GEOGRAPHIQUE (couverture a l'adresse), pas technique. Jaccard sur mots pleins contre la plus proche (5g) : 3 mots communs sur 21 — environ 14 %, plancher 60 %."
+    },
+    {
+      "domain": "comparer-carte-credit.be",
+      "repo": "comparer-carte-credit.be",
+      "registeredAt": "2026-08-17",
+      "authorName": "Delphine V.",
+      "nameFormat": "prenom-initiale",
+      "signature": "chaque carte porte les trois chiffres qu'on ne lit jamais avant de signer : la cotisation annuelle, le TAEG applique au solde reporte, et le cout d'un retrait de 100 euros au distributeur — les assurances et les points viennent apres, jamais avant",
+      "register": "je / vous — factuel, un peu sec, pro-consommateur, sans indulgence pour les brochures ; phrases courtes, le montant en euros avant l'adjectif, jamais un chiffre sans son unite ni sa date de releve",
+      "readerState": "arrive avec un releve sous les yeux et une ligne qu'il ne s'explique pas — cotisation doublee au renouvellement, retrait a l'etranger facture 12,40 EUR, interets sur un solde qu'il croyait rembourse",
+      "note": "Prenom Delphine : unique dans le parc (verifie contre les 22 entrees existantes ; ecartes Damien x3, Camille x2, Julien x2, Gregory, Lea, Marion, Nadia, Bastien, Renaud, Maxime, Nicolas, Margaux, Thomas, Sophie, Audrey, Etienne, Vincent). Bio ancree sur un metier anterieur verifiable : sept ans au service litiges et retrofacturation d'un emetteur belge a Liege (2015-2022) — angle back-office, jamais guichet, ce qui la distingue des trois autres voix bancaires du parc. Signature : les trois voix bancaires voisines jugent un ETABLISSEMENT sur un cout global (comparer-banque.be « le cout annuel reel », meilleure-neobanque.be « la clarte tarifaire d'abord », meilleure-banque.be « le cout hors parcours 100 % en ligne ») ; celle-ci juge un PRODUIT sur trois chiffres nommes. Jaccard sur mots pleins contre la plus proche (meilleure-banque.be) : 3 mots communs (« chaque », « cout », « retrait ») sur une union de 39, soit environ 8 % — plancher 60 %."
     }
   ]
 }
