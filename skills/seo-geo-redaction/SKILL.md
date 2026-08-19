@@ -1,7 +1,7 @@
 ---
 name: seo-geo-redaction
-version: 1.11.0
-description: Doctrine canonique de rédaction SEO/GEO des sites EMD — structure d'article optimisée pour le référencement Google ET la citabilité par les LLM (ChatGPT/Gemini/AI Overview), avec rotation par PILIERS lus dans content/piliers.md, minage de longue traîne Cuik en double appel BE+FR, angle propre par site (recouvrement autorisé, doublon de traitement interdit), trois piliers transversaux obligatoires (lexique, questions pures, matériel), donnée propriétaire belge par article, répartition ½ comparatifs de marques et modèles déclinés par persona / ¼ evergreen pratique / ¼ informationnel, monétisation par mention sans affiliation, et liens d'autorité sortants obligatoires. Source de vérité unique : CINQ FORMES d'article en rotation (enquête, guide pratique, face-à-face, réponse rapide, décryptage) posées au-dessus d'un PLANCHER GEO présent dans TOUT article — au moins un tableau, au moins une liste à puces, une FAQ ; ce qui varie d'une forme à l'autre, c'est leur TAILLE et leur NATURE, pas leur existence. Les contraintes qui portent sur le CORPUS et non sur chaque texte sont le taux de H2 en question, la longueur, le TL;DR (seul bloc facultatif) et l'Answer-Explanation-Example ; données structurées par type de page, workflow images (MCP nano-mentionbox), infrastructure GEO (llms.txt, robots.txt), maillage interne, sources datées, FR+EN, anti-cannibalisation par frontière head-nu/long-tail, monitoring de citabilité. À lire/appliquer pour toute rédaction d'article de blog sur un site EMD.
+version: 1.12.0
+description: Doctrine canonique de rédaction SEO/GEO des sites EMD — structure d'article optimisée pour le référencement Google ET la citabilité par les LLM (ChatGPT/Gemini/AI Overview), avec rotation par PILIERS lus dans content/piliers.md, minage de longue traîne Cuik en double appel BE+FR, angle propre par site (recouvrement autorisé, doublon de traitement interdit), trois piliers transversaux obligatoires (lexique, questions pures, matériel), donnée propriétaire belge par article, répartition ½ comparatifs de marques et modèles déclinés par persona / ¼ evergreen pratique / ¼ informationnel, monétisation par mention sans affiliation, et liens d'autorité sortants obligatoires. Source de vérité unique : CINQ FORMES d'article en rotation (enquête, guide pratique, face-à-face, réponse rapide, décryptage) posées au-dessus d'un PLANCHER GEO présent dans TOUT article — au moins un tableau, au moins une liste à puces, une FAQ, un TL;DR ; ce qui varie d'une forme à l'autre, c'est leur TAILLE et leur NATURE, pas leur existence. Les contraintes qui portent sur le CORPUS et non sur chaque texte sont le taux de H2 en question, la longueur et l'Answer-Explanation-Example ; données structurées par type de page, workflow images (MCP nano-mentionbox), infrastructure GEO (llms.txt, robots.txt), maillage interne, sources datées, FR+EN, anti-cannibalisation par frontière head-nu/long-tail, monitoring de citabilité. À lire/appliquer pour toute rédaction d'article de blog sur un site EMD.
 ---
 
 # seo-geo-redaction — Doctrine GEO canonique EMD
@@ -122,9 +122,9 @@ Un sujet infaisable (source introuvable, doublon découvert, aucune demande) se 
 ## 9. Journalisation — c'est elle qui rend la rotation possible
 
 Chaque run note dans `PROGRESS.md`, en plus des informations habituelles :
-**le pilier traité, la FORME d'article retenue, le nombre de questions de la FAQ, les seeds Cuik utilisés, et les variantes de la grappe couvertes.**
+**le pilier traité, la FORME d'article retenue, le nombre de questions de la FAQ, le nombre de puces du TL;DR, les seeds Cuik utilisés, et les variantes de la grappe couvertes.**
 
-Sans ces éléments, le run suivant ne peut ni faire tourner les piliers, ni faire tourner les formes, ni éviter de reprendre le même nombre de questions de FAQ, ni éviter de re-miner les mêmes seeds. C'est aussi **l'instrument de contrôle de conformité** du réseau : un journal muet signale une tâche qui n'a pas suivi son prompt.
+Sans ces éléments, le run suivant ne peut ni faire tourner les piliers, ni faire tourner les formes, ni éviter de reprendre le même nombre de questions de FAQ ou le même nombre de puces de TL;DR, ni éviter de re-miner les mêmes seeds. C'est aussi **l'instrument de contrôle de conformité** du réseau : un journal muet signale une tâche qui n'a pas suivi son prompt.
 
 ---
 
@@ -134,7 +134,7 @@ Sans ces éléments, le run suivant ne peut ni faire tourner les piliers, ni fai
 3. **Sinon, rotation par pilier** (§2 du socle) puis choix du sujet dans le plan du site ou par content gap, en respectant la frontière des assets et la répartition ½ / ¼ / ¼.
 4. **Minage Cuik en double appel** (§4 du socle) → head term exact + grappe.
 5. **SERP analysis (obligatoire, non remplacée par le volume)** : WebSearch sur le head term retenu → top 3 Google.be (titre, chapô, longueur, H2, FAQ, tableau) + **PAA visibles → candidates FAQ**. Différenciateur documenté. Pas de SERP = run échoué. Sujet saturé **par un concurrent externe** sans angle neuf → reviens au minage. Sujet couvert par un **site frère** → tu peux y aller, sous ton angle.
-6. **Choix de la FORME** (section ci-dessous) : ni celle du run précédent, ni celle du run d'avant. La forme fixe la longueur, le taux de H2 en question, le **nombre** de questions de la FAQ, la **nature** du tableau et la présence ou non d'un TL;DR. Elle ne décide jamais de la *présence* du tableau, de la liste à puces ni de la FAQ : c'est le plancher GEO, il vaut pour tout article.
+6. **Choix de la FORME** (section ci-dessous) : ni celle du run précédent, ni celle du run d'avant. La forme fixe la longueur, le taux de H2 en question, le **nombre** de questions de la FAQ, la **nature** du tableau et la **longueur** du TL;DR. Elle ne décide jamais de la *présence* du tableau, de la liste à puces, de la FAQ ni du TL;DR : c'est le plancher GEO, il vaut pour tout article.
 7. **Brief + outline** avant rédaction. Les H2 et la FAQ reprennent les variantes de la grappe, reformulées naturellement.
 8. **Rédaction** selon la forme retenue et la structure GEO ci-dessous, via `humaniser-fr`.
 9. **Images**, **i18n**, **publication**, **journalisation** (§9 du socle).
@@ -149,37 +149,38 @@ Sans ces éléments, le run suivant ne peut ni faire tourner les piliers, ni fai
 
 **Le bénéfice GEO vient de la masse de questions indexées sur le site, pas de leur répartition dans chaque texte.** Un article à 30 % de H2-questions et un autre à 90 % valent mieux que deux articles à 70 % : même total de questions couvertes, deux textes qui ne se ressemblent pas. Ces contraintes-là portent donc sur le **CORPUS**, et ce sont les formes qui les portent.
 
-| Forme | H2 en question | Longueur corps | FAQ (nb de questions) | TL;DR | Tableau — sa nature | Answer-Explanation-Example |
+| Forme | H2 en question | Longueur corps | FAQ (nb de questions) | TL;DR (nb de puces) | Tableau — sa nature | Answer-Explanation-Example |
 |---|---|---|---|---|---|---|
 | **L'enquête** | 30-50 % | 1800-2500 mots | 3-4 | court, 3 puces | tableau de données ou de chronologie | sur la moitié des sections |
-| **Le guide pratique** | 60-80 % | 900-1400 | 5-7 | oui | matériel, coûts, durées | remplacé par des étapes numérotées |
-| **Le face-à-face** | 40-60 % | 1200-1600 | 4-5 | oui | comparatif, central | sur les sections de critère |
-| **La réponse rapide** | 70-90 % | 900-1200 | 6-8 | oui, développé | « cas → que faire » | oui, sections courtes |
-| **Le décryptage** | 40-60 % | 1400-2000 | 3-5 | non | chiffres à l'appui de la thèse | thèse → objection → nuance |
+| **Le guide pratique** | 60-80 % | 900-1400 | 5-7 | 4-5 puces | matériel, coûts, durées | remplacé par des étapes numérotées |
+| **Le face-à-face** | 40-60 % | 1200-1600 | 4-5 | 3-4 puces | comparatif, central | sur les sections de critère |
+| **La réponse rapide** | 70-90 % | 900-1200 | 6-8 | développé, 5-6 puces | « cas → que faire » | oui, sections courtes |
+| **Le décryptage** | 40-60 % | 1400-2000 | 3-5 | court, 3 puces | chiffres à l'appui de la thèse | thèse → objection → nuance |
 
 > ### LE PLANCHER GEO — dans chaque article, sans exception
 >
 > - **Un tableau au minimum.** Sa **nature** vient de la forme — comparatif, données, chronologie, matériel et coûts, « cas → que faire ». Ce n'est pas toujours un comparatif de marques, et ça ne doit pas l'être.
-> - **Une liste à puces au minimum**, et **pas seulement le TL;DR** : critères retenus, erreurs fréquentes, points de contrôle, ce qui est inclus et ce qui ne l'est pas.
+> - **Une liste à puces au minimum**, et **qui n'est pas le TL;DR** : critères retenus, erreurs fréquentes, points de contrôle, ce qui est inclus et ce qui ne l'est pas.
 > - **Une FAQ, toujours.** Son **nombre de questions** vient de la fourchette de la forme — **et à l'intérieur de cette fourchette, ne reprends pas le compte de l'article précédent.** Six questions puis six questions puis six questions, c'est exactement la signature qu'on cherche à faire disparaître.
+> - **Un TL;DR, toujours.** C'est le bloc que les moteurs reprennent en résumé et que les LLM citent en premier — s'en priver sur une forme, c'est renoncer à la citation la plus facile. Sa **longueur** vient de la forme, de trois à six puces. Comme pour la FAQ : **ne reprends pas le compte de l'article précédent.**
 >
-> **Pourquoi ces trois-là et pas d'autres.** Ce sont les blocs que Google extrait en featured snippet et que les LLM reprennent tels quels, mot pour mot : un tableau se cite entier, une liste à puces se cite entière, une paire question-réponse se cite entière. Les rendre facultatifs selon la forme **coûtait des citations** — deux formes sur cinq publiaient sans FAQ ou sans tableau, donc sans prise pour l'extraction. Ce qui devait varier, c'était leur **forme**, pas leur **existence**.
+> **La liste à puces exigée par le plancher n'est PAS le TL;DR.** C'est le point qui prête le plus à confusion, donc il est écrit noir sur blanc : ce sont **deux blocs distincts**, et il en faut deux. Le TL;DR **résume** l'article ; la liste à puces **développe un point du corps** — critères, erreurs fréquentes, points de contrôle, ce qui est inclus et ce qui ne l'est pas. Un article dont la seule liste est son TL;DR ne satisfait pas le plancher.
 >
-> Seul le **TL;DR** reste facultatif, et son absence sur le décryptage est délibérée : un décryptage qui s'auto-résume en tête se sabote, il aplatit le raisonnement qui fait toute sa valeur.
+> **Pourquoi ces quatre-là et pas d'autres.** Ce sont les blocs que Google extrait en featured snippet et que les LLM reprennent tels quels, mot pour mot : un tableau se cite entier, une liste à puces se cite entière, une paire question-réponse se cite entière, un résumé se cite entier. Les rendre facultatifs selon la forme **coûtait des citations** — deux formes sur cinq publiaient sans FAQ ou sans tableau, et le décryptage sans TL;DR, donc sans prise pour l'extraction. Ce qui devait varier, c'était leur **forme**, pas leur **existence**.
 
 **Ce que chaque forme est.**
-- **L'enquête** creuse un sujet qu'on n'a pas encore vu traité correctement : on remonte aux sources, on relève des prix, on compte, et on raconte ce qu'on a trouvé. Peu de titres, longs développements — le corps *est* la réponse, et la FAQ finale, courte (trois ou quatre questions), ne fait que ramasser ce que le récit n'aborde pas frontalement. Le tableau y est un tableau de données relevées ou une chronologie, pas un comparatif.
-- **Le guide pratique** fait faire quelque chose au lecteur. Étapes numérotées, matériel, durée, coût, erreurs fréquentes, quand appeler un pro. Le tableau y porte le matériel, les coûts et les durées. C'est le format que les LLM citent le plus volontiers. JSON-LD `HowTo`.
-- **Le face-à-face** oppose deux ou trois options sur des critères explicites. Le tableau comparatif est le cœur de l'article, pas un ornement ; chaque section de critère tranche.
-- **La réponse rapide** répond à une question fermée et à ses satellites. Sections courtes, beaucoup de titres interrogatifs, FAQ chargée, tableau « cas → que faire ». C'est la forme la plus « GEO » — raison de plus pour ne pas la servir tout le temps.
-- **Le décryptage** explique pourquoi les choses sont comme elles sont. Il avance une thèse, la confronte à l'objection sérieuse, puis nuance ; ses chiffres sont rassemblés dans un tableau à l'appui de la thèse. Pas de TL;DR — ce serait aplatir le raisonnement. La FAQ, elle, reste : trois à cinq questions, en fin d'article, là où elle ne court-circuite rien.
+- **L'enquête** creuse un sujet qu'on n'a pas encore vu traité correctement : on remonte aux sources, on relève des prix, on compte, et on raconte ce qu'on a trouvé. Peu de titres, longs développements — le corps *est* la réponse, et la FAQ finale, courte (trois ou quatre questions), ne fait que ramasser ce que le récit n'aborde pas frontalement. Le TL;DR y tient en trois puces : ce qu'on a cherché, ce qu'on a trouvé, ce que ça change. Le tableau y est un tableau de données relevées ou une chronologie, pas un comparatif.
+- **Le guide pratique** fait faire quelque chose au lecteur. Étapes numérotées, matériel, durée, coût, erreurs fréquentes, quand appeler un pro. Le TL;DR y court sur quatre à cinq puces (durée, coût, matériel, difficulté, le piège principal). Le tableau y porte le matériel, les coûts et les durées. C'est le format que les LLM citent le plus volontiers. JSON-LD `HowTo`.
+- **Le face-à-face** oppose deux ou trois options sur des critères explicites. Le tableau comparatif est le cœur de l'article, pas un ornement ; chaque section de critère tranche. Le TL;DR, trois à quatre puces, donne le verdict par profil sans attendre le tableau.
+- **La réponse rapide** répond à une question fermée et à ses satellites. Sections courtes, beaucoup de titres interrogatifs, FAQ chargée, tableau « cas → que faire ». C'est la forme la plus « GEO » — TL;DR développé, cinq à six puces — raison de plus pour ne pas la servir tout le temps.
+- **Le décryptage** explique pourquoi les choses sont comme elles sont. Il avance une thèse, la confronte à l'objection sérieuse, puis nuance ; ses chiffres sont rassemblés dans un tableau à l'appui de la thèse. Son TL;DR est le plus court de tous — **trois puces**, pas davantage : assez pour donner la prise de citation, trop peu pour dérouler le raisonnement à la place du corps. La FAQ, elle, reste : trois à cinq questions, en fin d'article, là où elle ne court-circuite rien.
 
 ### Règles d'usage
 
 - **Tu ne calcules aucune moyenne de corpus.** Elle s'obtient toute seule par la rotation des formes. Ne compte rien, ne rattrape rien : choisis une forme, applique-la.
-- **Tu ne reprends pas la forme des DEUX articles précédents.** Vérifie dans `PROGRESS.md` ou dans la liste des articles publiés. **Note la forme retenue et le nombre de questions de FAQ dans ton rapport de run** (§9 du socle) — sans ça, le run suivant est aveugle.
+- **Tu ne reprends pas la forme des DEUX articles précédents.** Vérifie dans `PROGRESS.md` ou dans la liste des articles publiés. **Note la forme retenue, le nombre de questions de FAQ et le nombre de puces du TL;DR dans ton rapport de run** (§9 du socle) — sans ça, le run suivant est aveugle.
 - **Le sujet suggère une forme, il ne l'impose pas.** Une procédure appelle le guide pratique, un « X vs Y » le face-à-face, une question fermée la réponse rapide. Mais un sujet peut légitimement être traité en enquête ou en décryptage, et c'est souvent là que naît le meilleur article du mois.
-- **Le tableau, la liste à puces et la FAQ sont SYSTÉMATIQUES ; seul le TL;DR est facultatif.** Ce que la forme fait varier, c'est leur taille et leur nature (plancher GEO ci-dessus). Un tableau posé sur un sujet qui ne compare rien n'est pas un motif pour supprimer le tableau : c'est le signe qu'il fallait un tableau de données, de chronologie ou de cas, et non un comparatif de marques.
+- **Le tableau, la liste à puces, la FAQ et le TL;DR sont SYSTÉMATIQUES.** Ce que la forme fait varier, c'est leur taille et leur nature (plancher GEO ci-dessus). Un tableau posé sur un sujet qui ne compare rien n'est pas un motif pour supprimer le tableau : c'est le signe qu'il fallait un tableau de données, de chronologie ou de cas, et non un comparatif de marques.
 - **Les fourchettes de longueur sont celles du corps de l'article**, hors frontmatter, hors FAQ, hors légendes. En dessous du bas de la fourchette, l'article est thin pour sa forme ; au-dessus du haut, c'est en général qu'il fallait deux articles.
 - **Un run peut mixer** : une enquête peut se terminer par un tableau récapitulatif, un guide peut ouvrir sur trois puces. Ce que la doctrine interdit, c'est que tous les articles fassent la même chose, de la même taille, au même endroit.
 
@@ -188,7 +189,7 @@ Sans ces éléments, le run suivant ne peut ni faire tourner les piliers, ni fai
 ## Structure GEO — ce qui est fixe, ce qui dépend de la forme
 
 **Fixe sur tout article, quelle que soit la forme :**
-- **Le plancher GEO** : **au moins un tableau**, **au moins une liste à puces** qui n'est pas le TL;DR, **une FAQ**. Voir « Les cinq formes d'article » pour la taille et la nature de chacun.
+- **Le plancher GEO** : **au moins un tableau**, **au moins une liste à puces** qui n'est pas le TL;DR, **une FAQ**, **un TL;DR**. Voir « Les cinq formes d'article » pour la taille et la nature de chacun.
 - **H1** ≤ 60 caractères, head term en tête (sans année).
 - **Accord en genre (OBLIGATOIRE).** Accorde TOUJOURS au genre réel de l'entité (`niche.config.entityGender`) : entité féminine → « les **meilleures** néobanques », « **Quelle** néobanque » ; masculine → « les meilleurs opérateurs ». JAMAIS de masculin par défaut. Vaut pour H1, titres, metadata, intros, classement, FAQ.
 - **Lead/chapô** 40-60 mots = **réponse directe** dès la première phrase.
@@ -204,7 +205,7 @@ Sans ces éléments, le run suivant ne peut ni faire tourner les piliers, ni fai
 **Dépend de la FORME retenue** (voir le tableau ci-dessus) :
 - **Le taux de H2 en QUESTION stricte** — de 30 % sur une enquête à 90 % sur une réponse rapide. Les H2 non interrogatifs sont factuels, jamais du clickbait. Aucun article n'est tenu à 70 %, et le corpus y arrive quand même par la rotation.
 - **La longueur du corps.**
-- **Le TL;DR / résumé IA — le SEUL bloc facultatif.** Quand la forme en demande un, 3-5 bullets chiffrés **dans le frontmatter**, jamais en dur dans le corps. Le décryptage n'en porte pas, et c'est voulu. Le TL;DR ne compte jamais comme « la » liste à puces de l'article.
+- **La LONGUEUR du TL;DR / résumé IA** — de 3 puces sur une enquête ou un décryptage à 5-6 puces développées sur une réponse rapide ; le TL;DR lui-même n'est **jamais** absent, il fait partie du plancher GEO. Puces chiffrées, **dans le frontmatter**, jamais en dur dans le corps. À l'intérieur de la fourchette de la forme, **ne reprends pas le compte de puces de l'article précédent**. Le TL;DR ne compte jamais comme « la » liste à puces de l'article : ce sont deux blocs distincts, et il en faut deux.
 - **Le NOMBRE de questions de la FAQ-bloc finale** — de 3 à 8 selon la forme ; la FAQ elle-même n'est **jamais** absente. À l'intérieur de la fourchette de la forme, **ne reprends pas le compte de l'article précédent**. Réponses ≤ 4 phrases. La **FAQ in-flow** (H3) et l'**anticipation de 3-4 follow-ups** restent disponibles sur toutes les formes : ce sont des outils de rédaction **en plus** du bloc final, jamais à sa place.
 - **La NATURE du tableau** — comparatif et central sur le face-à-face ; matériel, coûts et durées sur le guide pratique ; données relevées ou chronologie sur l'enquête ; « cas → que faire » sur la réponse rapide ; chiffres à l'appui de la thèse sur le décryptage. Un article de lexique ou de question pure porte un tableau des termes ou des cas, parce que c'est la forme même de sa réponse. Ce qui est proscrit, ce n'est pas le tableau : c'est le réflexe du comparatif de marques quand le sujet ne compare pas de marques.
 - **Le pattern Answer-Explanation-Example** — voir juste en dessous.
@@ -237,7 +238,7 @@ Certaines sections n'ont besoin que d'une affirmation nette, tenue en trois lign
 
 Champs obligatoires d'un Article : `headline`, `datePublished`, `dateModified`, `author` (Person + `sameAs`), `publisher`, `description`, `inLanguage` (`fr-BE`, `en-BE`). **Speakable** sur le TL;DR. `author` = l'auteur/persona du site (jamais « la rédaction »).
 
-> `FAQPage` est **obligatoire sur tout article** : c'est le corollaire direct du plancher GEO, tout article porte une FAQ. Le balisage suit la FAQ réellement publiée, question pour question — un balisage FAQ sans FAQ visible reste une erreur de données structurées. **Speakable**, en revanche, n'a de cible que si l'article porte un TL;DR : pas de TL;DR sur un décryptage, donc pas de `Speakable`.
+> `FAQPage` est **obligatoire sur tout article** : c'est le corollaire direct du plancher GEO, tout article porte une FAQ. Le balisage suit la FAQ réellement publiée, question pour question — un balisage FAQ sans FAQ visible reste une erreur de données structurées. **`Speakable` est obligatoire sur tout article pour la même raison** : le TL;DR fait désormais partie du plancher, donc tout article a une cible `Speakable`. Un article sans `Speakable` signale un article sans TL;DR, c'est-à-dire un plancher non respecté.
 
 ## Infrastructure GEO (site)
 - **`public/llms.txt`** : index à destination des crawlers LLM, présent et à jour.
@@ -265,14 +266,15 @@ Miroir FR + EN : slug naturel par langue, FAQ traduite, acronymes belges explici
 - [ ] **Frontière des assets respectée** : pas de head nu de classement, de comparateur ni de « quel X choisir » ; maille vers l'asset.
 - [ ] Page classement (si c'est l'objet) **≥ 1000 mots**.
 - [ ] H1 ≤ 60 car. ; lead = réponse directe ; **accord en genre**.
-- [ ] **PLANCHER GEO présent** : **≥ 1 tableau** (de la nature qu'appelle la forme, pas un comparatif par défaut), **≥ 1 liste à puces qui n'est pas le TL;DR**, **une FAQ**.
+- [ ] **PLANCHER GEO présent** : **≥ 1 tableau** (de la nature qu'appelle la forme, pas un comparatif par défaut), **≥ 1 liste à puces qui n'est pas le TL;DR**, **une FAQ**, **un TL;DR**.
 - [ ] **Nombre de questions de la FAQ** dans la fourchette de la forme **et différent de celui de l'article précédent**.
-- [ ] **FORME choisie et différente de celles des DEUX runs précédents** ; taux de H2 en question, longueur, présence ou non du TL;DR, nombre de questions de FAQ et nature du tableau conformes à cette forme — **aucune moyenne de corpus à calculer**.
+- [ ] **Nombre de puces du TL;DR** dans la fourchette de la forme **et différent de celui de l'article précédent**.
+- [ ] **FORME choisie et différente de celles des DEUX runs précédents** ; taux de H2 en question, longueur, longueur du TL;DR, nombre de questions de FAQ et nature du tableau conformes à cette forme — **aucune moyenne de corpus à calculer**.
 - [ ] **Answer-Explanation-Example sur la majorité des sections, jamais toutes** ; au moins une section traitée autrement (affirmation nette, tableau commenté, récit).
 - [ ] ≥ 3 signaux d'Expérience ; sources datées .be.
-- [ ] 2-4 liens internes valides ; TL;DR (s'il y en a un) dans le frontmatter, jamais en dur.
+- [ ] 2-4 liens internes valides ; **TL;DR dans le frontmatter, jamais en dur dans le corps**.
 - [ ] **Images** : 1 cover générée + in-content réutilisées ; alt manuel dans toutes les locales.
-- [ ] JSON-LD conforme (`FAQPage` sur tout article, Speakable seulement s'il y a un TL;DR) ; année dynamique ; `llms.txt` et `robots.txt` intacts.
+- [ ] JSON-LD conforme (`FAQPage` et `Speakable` sur tout article, `Speakable` pointant le TL;DR) ; année dynamique ; `llms.txt` et `robots.txt` intacts.
 - [ ] FR + EN + mapping i18n ; passé par `humaniser-fr` ; signé par l'auteur.
 - [ ] **Plan réalimenté** s'il restait moins de 8 entrées ; sujets infaisables marqués `- [!]`.
-- [ ] **`PROGRESS.md` journalise le pilier, la forme, le nombre de questions de FAQ, les seeds Cuik et la grappe couverte.**
+- [ ] **`PROGRESS.md` journalise le pilier, la forme, le nombre de questions de FAQ, le nombre de puces du TL;DR, les seeds Cuik et la grappe couverte.**
