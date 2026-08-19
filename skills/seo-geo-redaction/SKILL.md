@@ -1,7 +1,7 @@
 ---
 name: seo-geo-redaction
-version: 1.9.0
-description: Doctrine canonique de rédaction SEO/GEO des sites EMD — structure d'article optimisée pour le référencement Google ET la citabilité par les LLM (ChatGPT/Gemini/AI Overview), avec rotation par PILIERS lus dans content/piliers.md, minage de longue traîne Cuik en double appel BE+FR, angle propre par site (recouvrement autorisé, doublon de traitement interdit), trois piliers transversaux obligatoires (lexique, questions pures, matériel), donnée propriétaire belge par article, répartition ½ comparatifs de marques et modèles déclinés par persona / ¼ evergreen pratique / ¼ informationnel, monétisation par mention sans affiliation, et liens d'autorité sortants obligatoires. Source de vérité unique : ≥70% de H2 en question, pattern Answer-Explanation-Example, FAQ, données structurées par type de page, workflow images (MCP nano-mentionbox), infrastructure GEO (llms.txt, robots.txt), maillage interne, sources datées, FR+EN, anti-cannibalisation par frontière head-nu/long-tail, monitoring de citabilité. À lire/appliquer pour toute rédaction d'article de blog sur un site EMD.
+version: 1.10.0
+description: Doctrine canonique de rédaction SEO/GEO des sites EMD — structure d'article optimisée pour le référencement Google ET la citabilité par les LLM (ChatGPT/Gemini/AI Overview), avec rotation par PILIERS lus dans content/piliers.md, minage de longue traîne Cuik en double appel BE+FR, angle propre par site (recouvrement autorisé, doublon de traitement interdit), trois piliers transversaux obligatoires (lexique, questions pures, matériel), donnée propriétaire belge par article, répartition ½ comparatifs de marques et modèles déclinés par persona / ¼ evergreen pratique / ¼ informationnel, monétisation par mention sans affiliation, et liens d'autorité sortants obligatoires. Source de vérité unique : CINQ FORMES d'article en rotation (enquête, guide pratique, face-à-face, réponse rapide, décryptage) — les contraintes de structure (H2 en question, TL;DR, FAQ, tableau, Answer-Explanation-Example) portent sur le CORPUS du site, jamais sur chaque texte ; données structurées par type de page, workflow images (MCP nano-mentionbox), infrastructure GEO (llms.txt, robots.txt), maillage interne, sources datées, FR+EN, anti-cannibalisation par frontière head-nu/long-tail, monitoring de citabilité. À lire/appliquer pour toute rédaction d'article de blog sur un site EMD.
 ---
 
 # seo-geo-redaction — Doctrine GEO canonique EMD
@@ -122,9 +122,9 @@ Un sujet infaisable (source introuvable, doublon découvert, aucune demande) se 
 ## 9. Journalisation — c'est elle qui rend la rotation possible
 
 Chaque run note dans `PROGRESS.md`, en plus des informations habituelles :
-**le pilier traité, les seeds Cuik utilisés, et les variantes de la grappe couvertes.**
+**le pilier traité, la FORME d'article retenue, les seeds Cuik utilisés, et les variantes de la grappe couvertes.**
 
-Sans ces trois éléments, le run suivant ne peut ni faire tourner les piliers, ni éviter de re-miner les mêmes seeds. C'est aussi **l'instrument de contrôle de conformité** du réseau : un journal muet signale une tâche qui n'a pas suivi son prompt.
+Sans ces quatre éléments, le run suivant ne peut ni faire tourner les piliers, ni faire tourner les formes, ni éviter de re-miner les mêmes seeds. C'est aussi **l'instrument de contrôle de conformité** du réseau : un journal muet signale une tâche qui n'a pas suivi son prompt.
 
 ---
 
@@ -134,28 +134,79 @@ Sans ces trois éléments, le run suivant ne peut ni faire tourner les piliers, 
 3. **Sinon, rotation par pilier** (§2 du socle) puis choix du sujet dans le plan du site ou par content gap, en respectant la frontière des assets et la répartition ½ / ¼ / ¼.
 4. **Minage Cuik en double appel** (§4 du socle) → head term exact + grappe.
 5. **SERP analysis (obligatoire, non remplacée par le volume)** : WebSearch sur le head term retenu → top 3 Google.be (titre, chapô, longueur, H2, FAQ, tableau) + **PAA visibles → candidates FAQ**. Différenciateur documenté. Pas de SERP = run échoué. Sujet saturé **par un concurrent externe** sans angle neuf → reviens au minage. Sujet couvert par un **site frère** → tu peux y aller, sous ton angle.
-6. **Brief + outline** avant rédaction. Les H2 et la FAQ reprennent les variantes de la grappe, reformulées naturellement.
-7. **Rédaction** selon la structure GEO ci-dessous, via `humaniser-fr`.
-8. **Images**, **i18n**, **publication**, **journalisation** (§9 du socle).
+6. **Choix de la FORME** (section ci-dessous) : ni celle du run précédent, ni celle du run d'avant. La forme fixe la longueur, le taux de H2 en question, la présence de FAQ, de TL;DR et de tableau.
+7. **Brief + outline** avant rédaction. Les H2 et la FAQ reprennent les variantes de la grappe, reformulées naturellement.
+8. **Rédaction** selon la forme retenue et la structure GEO ci-dessous, via `humaniser-fr`.
+9. **Images**, **i18n**, **publication**, **journalisation** (§9 du socle).
 
-## Structure GEO obligatoire
+---
+
+## Les cinq formes d'article — une par texte, en rotation
+
+**Le problème que cette section corrige.** Appliquées à chaque article, nos propres règles de structure *étaient* le gabarit : 70 % de H2 en question, Answer-Explanation-Example dans chaque section, TL;DR de 3-5 puces, FAQ de 6-7 questions, un tableau. Chaque règle est bonne isolément. Ensemble, elles donnaient le même squelette à tous les articles de tous les sites — un métronome à trois temps, section après section, reconnaissable en trois secondes par un lecteur comme par un classifieur.
+
+**Le bénéfice GEO vient de la masse de questions indexées sur le site, pas de leur répartition dans chaque texte.** Un article à 30 % de H2-questions et un autre à 90 % valent mieux que deux articles à 70 % : même total de questions couvertes, deux textes qui ne se ressemblent pas. Les contraintes portent donc sur le **CORPUS**, et ce sont les formes qui les portent.
+
+| Forme | H2 en question | Longueur corps | FAQ finale | TL;DR | Tableau | Answer-Explanation-Example |
+|---|---|---|---|---|---|---|
+| **L'enquête** | 30-50 % | 1800-2500 mots | non | court, 3 puces | si comparaison | sur la moitié des sections |
+| **Le guide pratique** | 60-80 % | 900-1400 | 4-6 questions | oui | non — une liste de matériel | remplacé par des étapes numérotées |
+| **Le face-à-face** | 40-60 % | 1200-1600 | 4-5 | oui | oui, central | sur les sections de critère |
+| **La réponse rapide** | 70-90 % | 900-1200 | 6-8 | oui, développé | non | oui, sections courtes |
+| **Le décryptage** | 40-60 % | 1400-2000 | non, ou 3-4 | non | si chiffres | thèse → objection → nuance |
+
+**Ce que chaque forme est.**
+- **L'enquête** creuse un sujet qu'on n'a pas encore vu traité correctement : on remonte aux sources, on relève des prix, on compte, et on raconte ce qu'on a trouvé. Peu de titres, longs développements, pas de FAQ — l'article *est* la réponse.
+- **Le guide pratique** fait faire quelque chose au lecteur. Étapes numérotées, matériel, durée, coût, erreurs fréquentes, quand appeler un pro. C'est le format que les LLM citent le plus volontiers. JSON-LD `HowTo`.
+- **Le face-à-face** oppose deux ou trois options sur des critères explicites. Le tableau est le cœur de l'article, pas un ornement ; chaque section de critère tranche.
+- **La réponse rapide** répond à une question fermée et à ses satellites. Sections courtes, beaucoup de titres interrogatifs, FAQ chargée. C'est la forme la plus « GEO » — raison de plus pour ne pas la servir tout le temps.
+- **Le décryptage** explique pourquoi les choses sont comme elles sont. Il avance une thèse, la confronte à l'objection sérieuse, puis nuance. Pas de FAQ décorative, pas de TL;DR : ce serait aplatir le raisonnement qui fait la valeur de l'article.
+
+### Règles d'usage
+
+- **Tu ne calcules aucune moyenne de corpus.** Elle s'obtient toute seule par la rotation des formes. Ne compte rien, ne rattrape rien : choisis une forme, applique-la.
+- **Tu ne reprends pas la forme des DEUX articles précédents.** Vérifie dans `PROGRESS.md` ou dans la liste des articles publiés. **Note la forme retenue dans ton rapport de run** (§9 du socle) — sans ça, le run suivant est aveugle.
+- **Le sujet suggère une forme, il ne l'impose pas.** Une procédure appelle le guide pratique, un « X vs Y » le face-à-face, une question fermée la réponse rapide. Mais un sujet peut légitimement être traité en enquête ou en décryptage, et c'est souvent là que naît le meilleur article du mois.
+- **Le TL;DR, la FAQ et le tableau deviennent fréquents, pas systématiques.** Un article sur cinq sans FAQ ne coûte rien et casse le moule. Un tableau posé sur un sujet qui ne compare rien est un tableau qui se voit.
+- **Les fourchettes de longueur sont celles du corps de l'article**, hors frontmatter, hors FAQ, hors légendes. En dessous du bas de la fourchette, l'article est thin pour sa forme ; au-dessus du haut, c'est en général qu'il fallait deux articles.
+- **Un run peut mixer** : une enquête peut se terminer par un tableau récapitulatif, un guide peut ouvrir sur trois puces. Ce que la doctrine interdit, c'est que tous les articles fassent la même chose au même endroit.
+
+---
+
+## Structure GEO — ce qui est fixe, ce qui dépend de la forme
+
+**Fixe sur tout article, quelle que soit la forme :**
 - **H1** ≤ 60 caractères, head term en tête (sans année).
 - **Accord en genre (OBLIGATOIRE).** Accorde TOUJOURS au genre réel de l'entité (`niche.config.entityGender`) : entité féminine → « les **meilleures** néobanques », « **Quelle** néobanque » ; masculine → « les meilleurs opérateurs ». JAMAIS de masculin par défaut. Vaut pour H1, titres, metadata, intros, classement, FAQ.
 - **Lead/chapô** 40-60 mots = **réponse directe** dès la première phrase.
-- **TL;DR / résumé IA** : 3-5 bullets chiffrés dans le frontmatter (jamais en dur dans le corps).
-- **≥ 70 % des H2 en QUESTION stricte**. 30 % factuels (pas de clickbait).
-- **Pattern Answer-Explanation-Example dans CHAQUE H2** : (1) réponse directe < 60 mots citable, (2) explication 2-4 §, (3) exemple chiffré / cas belge / donnée originale.
 - **Signal de définition** pour le concept central. **Désambiguïsation** si la requête a plusieurs intentions.
 - **≥ 3 signaux d'Expérience** : dates précises, données belges, faits négatifs, cas limites.
 - **≥ 1 donnée propriétaire** (§5 du socle).
-- **FAQ in-flow** (H3) + **FAQ-bloc finale 6-7 questions**, réponses ≤ 4 phrases.
-- **Anticipation de 3-4 follow-ups** en H3.
-- **≥ 1 tableau comparatif** dès que le sujet compare des marques/modèles, et **systématiquement** sur un article de lexique, de question pure ou de guide d'achat.
 - **Maillage interne** : 2-4 liens contextuels (slugs vérifiés), dont 1 vers la page pilier/comparateur du cluster + 1 vers l'asset commercial.
 - **Liens sortants — deux natures, à ne jamais confondre :**
   - **Liens d'AUTORITÉ : ≥ 2 par article, en dofollow normal.** Source officielle, régulateur, administration, Wikipédia, documentation constructeur, étude datée. Priorité .be / institutionnel. Une page qui ne cite personne a l'air d'une page qui ne sait rien. **Ne JAMAIS leur mettre `nofollow`** : ce serait garder le lien et jeter le signal.
   - **Liens PRODUIT : uniquement si le produit s'achète en ligne**, là où ça rend service, en `rel="noopener noreferrer nofollow"`, **deux au maximum par article**. **Aucune affiliation, aucun tag, aucun prix barré.**
 - **Année dynamique** (`currentYear()` / `[[date]]`) — jamais d'année en dur.
+
+**Dépend de la FORME retenue** (voir le tableau ci-dessus) :
+- **Le taux de H2 en QUESTION stricte** — de 30 % sur une enquête à 90 % sur une réponse rapide. Les H2 non interrogatifs sont factuels, jamais du clickbait. Aucun article n'est tenu à 70 %, et le corpus y arrive quand même par la rotation.
+- **La longueur du corps.**
+- **Le TL;DR / résumé IA** — quand la forme en demande un, 3-5 bullets chiffrés **dans le frontmatter**, jamais en dur dans le corps. Le décryptage n'en porte pas.
+- **La FAQ-bloc finale** — de 3-4 questions à 8 selon la forme, absente sur l'enquête. Réponses ≤ 4 phrases. La **FAQ in-flow** (H3) et l'**anticipation de 3-4 follow-ups** restent disponibles sur toutes les formes : ce sont des outils de rédaction, pas un bloc obligatoire.
+- **Le tableau** — central sur le face-à-face, remplacé par une liste de matériel sur le guide pratique, présent partout où le sujet compare vraiment des marques, des gammes, des régions ou des cas. Un article de lexique ou de question pure en porte quasiment toujours un, parce que c'est la forme même de sa réponse — mais parce que le contenu l'appelle, pas parce qu'une case doit être cochée.
+- **Le pattern Answer-Explanation-Example** — voir juste en dessous.
+
+### Answer-Explanation-Example — sur la majorité des sections, jamais toutes
+
+Le pattern reste bon : (1) réponse directe < 60 mots, citable telle quelle ; (2) explication en 2-4 paragraphes ; (3) exemple chiffré, cas belge ou donnée originale.
+
+Il s'applique sur la **majorité** des sections d'un article. **Jamais sur toutes.**
+
+Certaines sections n'ont besoin que d'une affirmation nette, tenue en trois lignes. D'autres d'un tableau et de deux lignes de commentaire. D'autres d'un récit — ce qu'on a mesuré, où ça a coincé, ce qu'on en a conclu. D'autres encore posent une objection et la laissent ouverte.
+
+**Le pattern appliqué mécaniquement à toutes les sections est la première cause de texte qui sonne généré.** Trois temps identiques, section après section : le lecteur le sent au troisième H2, un classifieur le voit au premier. Un article dont chaque section suit le même gabarit interne est un article que personne ne finit de lire, et le temps de lecture est un signal.
+
+---
 
 ## Stratégie d'images (workflow MCP nano-mentionbox)
 - **Cover (obligatoire, LA SEULE image générée)** : `[slug]-cover.webp`, 1280×720 (16:9). Prompt ≤ 20 mots dérivé du H1 + DA du site, finissant par « no text, no logos, no watermark » ; **jamais de marque réelle dans le prompt**. Alt factuel ≤ 125 caractères, écrit à la main, dans toutes les locales.
@@ -172,6 +223,8 @@ Sans ces trois éléments, le run suivant ne peut ni faire tourner les piliers, 
 | Guide / pilier / procédure | Article (+ HowTo si étapes) |
 
 Champs obligatoires d'un Article : `headline`, `datePublished`, `dateModified`, `author` (Person + `sameAs`), `publisher`, `description`, `inLanguage` (`fr-BE`, `en-BE`). **Speakable** sur le TL;DR. `author` = l'auteur/persona du site (jamais « la rédaction »).
+
+> `FAQPage` suit la FAQ : un article sans FAQ-bloc finale (enquête, décryptage sans FAQ) ne porte **pas** de `FAQPage`. Un balisage FAQ sans FAQ visible est une erreur de données structurées. De même, **Speakable** n'a de cible que si l'article porte un TL;DR.
 
 ## Infrastructure GEO (site)
 - **`public/llms.txt`** : index à destination des crawlers LLM, présent et à jour.
@@ -199,10 +252,12 @@ Miroir FR + EN : slug naturel par langue, FAQ traduite, acronymes belges explici
 - [ ] **Frontière des assets respectée** : pas de head nu de classement, de comparateur ni de « quel X choisir » ; maille vers l'asset.
 - [ ] Page classement (si c'est l'objet) **≥ 1000 mots**.
 - [ ] H1 ≤ 60 car. ; lead = réponse directe ; **accord en genre**.
-- [ ] ≥ 70 % H2 en question ; Answer-Explanation-Example par H2 ; ≥ 3 signaux d'Expérience ; sources datées .be.
-- [ ] FAQ 6-7 ; TL;DR 3-5 bullets ; tableau comparatif ; 2-4 liens internes valides.
+- [ ] **FORME choisie et différente de celles des DEUX runs précédents** ; taux de H2 en question, longueur, TL;DR, FAQ et tableau conformes à cette forme — **aucune moyenne de corpus à calculer**.
+- [ ] **Answer-Explanation-Example sur la majorité des sections, jamais toutes** ; au moins une section traitée autrement (affirmation nette, tableau commenté, récit).
+- [ ] ≥ 3 signaux d'Expérience ; sources datées .be.
+- [ ] 2-4 liens internes valides ; TL;DR (s'il y en a un) dans le frontmatter, jamais en dur.
 - [ ] **Images** : 1 cover générée + in-content réutilisées ; alt manuel dans toutes les locales.
-- [ ] JSON-LD conforme (+ Speakable) ; année dynamique ; `llms.txt` et `robots.txt` intacts.
+- [ ] JSON-LD conforme (`FAQPage` seulement s'il y a une FAQ, Speakable seulement s'il y a un TL;DR) ; année dynamique ; `llms.txt` et `robots.txt` intacts.
 - [ ] FR + EN + mapping i18n ; passé par `humaniser-fr` ; signé par l'auteur.
 - [ ] **Plan réalimenté** s'il restait moins de 8 entrées ; sujets infaisables marqués `- [!]`.
-- [ ] **`PROGRESS.md` journalise le pilier, les seeds Cuik et la grappe couverte.**
+- [ ] **`PROGRESS.md` journalise le pilier, la forme, les seeds Cuik et la grappe couverte.**
