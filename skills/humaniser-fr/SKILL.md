@@ -1,7 +1,7 @@
 ---
 name: humaniser-fr
-version: 1.1.2
-description: Détecte ET prévient les marqueurs de rédaction par IA dans tout texte français. À utiliser dans DEUX cas. (1) Mode production : quand l'utilisateur demande à Claude de produire du contenu en français — « rédige un article », « écris une fiche produit », « crée une page À propos », « rédige la FAQ », « génère le texte de », « fais-moi un comparatif », « produis un brief », « compose un titre SEO », « rédige l'intro », « écris une newsletter ». Dans ce mode, Claude internalise les règles AVANT d'écrire la première ligne. (2) Mode review : quand l'utilisateur fait relire un texte existant — « humanise ce texte », « ça sonne IA », « ça sent ChatGPT », « retire les tics IA », « relis cet article SEO ». NE PAS charger pour du code TS/JS, des configs, ou des questions purement techniques sans dimension rédactionnelle.
+version: 1.2.0
+description: Détecte ET prévient les marqueurs de rédaction par IA dans tout texte français — vocabulaire, tournures, typographie, structure, ET RYTHME (longueur de phrase, de paragraphe, de section : le signal le plus fort de tous). À utiliser dans DEUX cas. (1) Mode production : quand l'utilisateur demande à Claude de produire du contenu en français — « rédige un article », « écris une fiche produit », « crée une page À propos », « rédige la FAQ », « génère le texte de », « fais-moi un comparatif », « produis un brief », « compose un titre SEO », « rédige l'intro », « écris une newsletter ». Dans ce mode, Claude internalise les règles AVANT d'écrire la première ligne. (2) Mode review : quand l'utilisateur fait relire un texte existant — « humanise ce texte », « ça sonne IA », « ça sent ChatGPT », « retire les tics IA », « relis cet article SEO ». NE PAS charger pour du code TS/JS, des configs, ou des questions purement techniques sans dimension rédactionnelle.
 allowed-tools:
   - Read
   - Write
@@ -22,7 +22,7 @@ L'utilisateur te demande de produire un texte : article, fiche produit, page (À
 
 Procédure courte :
 
-1. **Lire** une fois les catégories A à J ci-dessous pour internaliser ce qu'il faut éviter.
+1. **Lire** une fois les catégories A à J ci-dessous pour internaliser ce qu'il faut éviter, **et la section « Le rythme »** — c'est celle qui décide de l'impression générale.
 2. **Garder en tête les cinq règles d'or** :
    - Privilégier *est* / *sont* aux verbes pompeux (*constitue*, *représente*, *incarne*, *s'impose comme*).
    - Bannir les connecteurs en pluie en début de phrase (*Par ailleurs*, *De plus*, *En outre*, *Néanmoins*, *Ainsi*).
@@ -31,7 +31,7 @@ Procédure courte :
    - Respecter la typographie française (« » avec espace insécable, espace insécable avant `:` `;` `?` `!`, accents sur majuscules : *À, É, È, Ê, Ô*).
    - **Accord en genre/nombre.** Respecter le genre réel des noms (entité de la niche : `niche.config.entityGender`). Une faute d'accord (« meilleurs néobanques », « le néobanque ») est un défaut BLOQUANT : relire et corriger participes, adjectifs, déterminants, possessifs avant publication.
 3. **Écrire directement propre.** Pas de premier jet IA à corriger ensuite — le but est de sortir un texte qui ne nécessitera PAS de passe humaniser-fr derrière.
-4. **Audit interne** avant de livrer : appliquer en silence les cinq tests rapides ci-dessous (verbe être, connecteur d'ouverture, opinion, chiffres concrets, *véritable*). Corriger ce qui sonne encore IA.
+4. **Audit interne** avant de livrer : appliquer en silence les cinq tests rapides ci-dessous (verbe être, connecteur d'ouverture, opinion, chiffres concrets, *véritable*) **plus le test du rythme**. Corriger ce qui sonne encore IA.
 5. **Livrer.**
 
 Le réflexe à acquérir : un bon texte n'est pas un texte IA *qui a été corrigé*. C'est un texte qui n'a jamais été IA dès le départ.
@@ -54,7 +54,7 @@ Les guides anti-IA publics (Wikipedia : Signs of AI writing, plugins de détecti
 - Elle massacre la typographie française : guillemets anglais, espaces insécables absentes avant `:` `;` `?` `!`, accents oubliés sur les majuscules (*Etat*, *Apres*, *A propos*).
 - Sur les blogs SEO d'autorité et comparateurs, elle tombe systématiquement dans le registre « blog d'autorité » générique (*notre comparateur indépendant*, *les meilleurs produits testés et approuvés*, *notre coup de cœur sans hésiter*) — patterns que Google a vu passer dix millions de fois et qui sont la signature numéro un d'un texte généré.
 
-Ce skill couvre ces points, plus les marqueurs anti-footprint inter-sites (formules identiques d'un site éditorial à l'autre).
+Ce skill couvre ces points, plus le **rythme** (section dédiée plus bas) et les marqueurs anti-footprint inter-sites (formules identiques d'un site éditorial à l'autre).
 
 ---
 
@@ -69,6 +69,56 @@ Ce skill couvre ces points, plus les marqueurs anti-footprint inter-sites (formu
 5. **Test du *véritable*.** Compte les occurrences de *véritable* avant un nom (*un véritable atout*, *une véritable révolution*). Plus de zéro = à reformuler.
 
 Trois tests sur cinq positifs = le texte est IA, intervenir.
+
+**Sixième test, et c'est le plus discriminant** — le test du rythme : prends trois phrases consécutives et compte leurs mots. Si les trois tiennent entre douze et vingt-cinq, le texte est généré, même s'il passe les cinq autres. Voir la section suivante.
+
+---
+
+## Le rythme — ce qui trahit le plus
+
+Tous les marqueurs des catégories A à J portent sur des **mots**. Le rythme porte sur la **forme des phrases**, et c'est lui qu'on entend en premier — avant même d'avoir repéré un seul *véritable*. Un texte peut être irréprochable au niveau lexical et sonner généré du premier au dernier paragraphe, uniquement parce qu'il bat la mesure.
+
+### Longueur de phrase : écart-type ≥ 8 mots
+
+Un humain écrit une phrase de quatre mots juste après une de quarante. Un LLM converge vers quinze-vingt mots, invariablement, phrase après phrase — et c'est exactement ce qui s'entend. La moyenne n'est pas le problème : c'est la **dispersion**.
+
+Cibles :
+- **écart-type des longueurs de phrase ≥ 8 mots** sur l'article ;
+- **au moins une phrase sous 6 mots** ;
+- **au moins une phrase au-dessus de 35 mots.**
+
+Une phrase courte n'est pas un effet de style à réserver aux chutes de paragraphe. C'est ce qui fait respirer le reste. Et une phrase longue n'est pas un défaut à corriger : c'est une pensée qui prend le temps de se poser, avec ses subordonnées et son incise, avant d'arriver là où elle voulait aller depuis le début.
+
+### Paragraphes de 1 à 6 phrases
+
+Le paragraphe de trois phrases répété vingt fois est la signature visuelle du texte généré — visible avant même la lecture, à la seule silhouette du bloc de texte.
+
+Cibles :
+- **paragraphes de 1 à 6 phrases** ;
+- **au moins un paragraphe d'une seule ligne** dans l'article ;
+- **au moins un paragraphe de cinq phrases ou plus.**
+
+### Rapport section la plus longue / section la plus courte ≥ 3
+
+Toutes les sections ne méritent pas le même développement, et le prétendre est un **mensonge de structure**. Quand chaque H2 fait 180 mots, le texte annonce au lecteur que le sujet a été découpé avant d'être pensé.
+
+Une section peut faire quarante mots parce qu'il n'y a rien de plus à en dire. Une autre en fait six cents parce que c'est là qu'est le sujet. **Rapport ≥ 3 entre la plus longue et la plus courte.**
+
+### Varie les ouvertures de section
+
+Pas toutes en réponse directe. Pas toutes en question. Pas toutes en chiffre. Ouvre une section sur une affirmation tranchée, la suivante sur un cas concret, une autre sur une objection, une autre sur une date. Quatre sections qui démarrent de la même manière valent un aveu.
+
+### La prosodie vient du site, pas de toi
+
+Le rythme propre à chaque site se lit dans **`content/voice-profile.json`, champ `rhythm`** — ou, sur les sites qui n'ont pas encore de voice-profile, dans **`content/ton-of-voice.md`**. Lis-le avant d'écrire.
+
+Deux sites du réseau ne doivent pas seulement différer par le vocabulaire : ils doivent **respirer** différemment. « Phrases courtes, chiffres avant les adjectifs » ne s'écrit pas comme « longues subordonnées, ton de rapport ». Si les articles de deux sites sont interchangeables une fois les noms propres retirés, la prosodie n'a pas été lue.
+
+### Statut de ces cibles
+
+Ce sont des **objectifs de relecture, pas des refus**. On ne bloque aucune publication sur un écart-type. Mais un texte qui rate ces cibles est un texte qui sonne généré, et il faut le **réécrire avant de le pousser** — pas le publier en notant l'écart.
+
+Le test définitif reste l'oreille : **lis trois paragraphes à voix haute.** Si ta respiration tombe au même endroit à chaque fois, le rythme est plat.
 
 ---
 
@@ -318,6 +368,10 @@ Convertis en prose, ou en liste sans en-tête en gras. Si la liste est vraiment 
 
 L'IA évite la répétition à tout prix en cyclant des synonymes qui rendent le texte difficile à suivre. Répète le nom sans honte : c'est plus clair que de jongler entre quatre désignations.
 
+### F6. Sections calibrées au cordeau
+
+Toutes les sections font la même longueur, tous les paragraphes le même nombre de phrases, chaque H2 est suivi du même enchaînement (réponse, explication, exemple). C'est le pendant structurel de F3, en moins visible et en plus grave. Traité en détail dans la section « Le rythme ».
+
 ---
 
 ## Catégorie G — Spécifique comparateurs, blogs SEO d'autorité
@@ -347,6 +401,8 @@ Les pages structurelles (À propos, Mentions légales, FAQ, Méthodologie, Polit
 - Avoir un **wording propre** : ne JAMAIS copier-coller le texte d'un autre site de la même galaxie. Si tu n'as pas le temps de réécrire, passe d'abord par humaniser-fr.
 
 **Test du footprint** : prends une phrase au hasard de la page « À propos » du site, mets-la entre guillemets dans Google. Si Google retourne d'autres pages de la galaxie avec la même phrase, footprint détecté.
+
+**Footprint de rythme** : le footprint ne porte pas que sur les mots. Deux sites dont tous les articles ont la même silhouette (même longueur de section, même découpage, même cadence de phrase) forment un réseau visible même sans une phrase en commun. La prosodie propre à chaque site se lit dans `content/voice-profile.json` (`rhythm`).
 
 ### G3. Conclusions de fiche produit génériques
 
@@ -432,7 +488,7 @@ Miroir inverse du délayage soutenu : quand on demande à l'IA d'être « plus n
 C'est le piège ultime : un texte peut être nettoyé de tous les marqueurs ci-dessus et sonner encore IA, parce qu'il n'a **aucune voix**.
 
 ### Signes d'un texte sans voix
-- Toutes les phrases ont la même longueur.
+- Toutes les phrases ont la même longueur (mesures et cibles dans la section « Le rythme »).
 - Aucune opinion, juste des faits neutres alignés.
 - Aucun doute, aucune nuance, aucun sentiment mêlé.
 - Pas de première personne quand le contexte s'y prête.
@@ -443,7 +499,7 @@ C'est le piège ultime : un texte peut être nettoyé de tous les marqueurs ci-d
 
 **Avoir une opinion.** Ne pas se contenter de rapporter : réagir. *Honnêtement, je trouve ce produit largement surévalué pour son prix* est plus humain que *ce produit présente certains avantages et inconvénients.*
 
-**Varier le rythme.** Phrases courtes. Puis une phrase plus longue, qui prend le temps de poser le contexte avant d'arriver à l'idée. Mélange.
+**Varier le rythme.** Phrases courtes. Puis une phrase plus longue, qui prend le temps de poser le contexte avant d'arriver à l'idée. Mélange. Les cibles chiffrées sont dans la section « Le rythme ».
 
 **Reconnaître la complexité.** Les vrais gens ont des sentiments mêlés. *C'est bluffant techniquement mais ça me met mal à l'aise sur la vie privée* bat *cette technologie présente des aspects positifs et négatifs.*
 
@@ -460,12 +516,15 @@ C'est le piège ultime : un texte peut être nettoyé de tous les marqueurs ci-d
 Applicable quand l'utilisateur te donne un texte existant à humaniser. En mode production, applique plutôt la procédure courte en haut du document.
 
 1. **Lecture rapide** du texte d'entrée. Identifier le registre attendu (pro, familier, technique, narratif).
-2. **Passe rapide** sur les cinq tests rapides (verbe être, connecteur, opinion, chiffres, *véritable*).
-3. **Marquage** des occurrences problématiques par catégorie (A à J).
+2. **Passe rapide** sur les cinq tests rapides (verbe être, connecteur, opinion, chiffres, *véritable*) **et le test du rythme**.
+3. **Marquage** des occurrences problématiques par catégorie (A à J) **et des zones où le rythme est plat**.
 4. **Première réécriture** : reformule chaque passage marqué. Garde le sens, accepte que la formulation change parfois beaucoup.
 5. **Vérifications après réécriture** :
    - Le texte sonne juste à voix haute ?
-   - Les structures de phrase varient ?
+   - Les structures de phrase varient ? **Écart-type ≥ 8 mots, au moins une phrase sous 6 mots et une au-dessus de 35 ?**
+   - **Paragraphes de 1 à 6 phrases, dont un d'une seule ligne et un de cinq ou plus ?**
+   - **Rapport section la plus longue / la plus courte ≥ 3 ? Ouvertures de section variées ?**
+   - **Le champ `rhythm` de `content/voice-profile.json` (ou `content/ton-of-voice.md`) est-il respecté ?**
    - Y a-t-il au moins un fait concret par paragraphe ?
    - La typographie française est correcte (« », espaces insécables, accents) ?
    - **Les accords en genre/nombre sont corrects** (participes, adjectifs, déterminants, possessifs accordés au genre réel des noms, notamment l'entité de la niche) ?
@@ -515,6 +574,7 @@ Applicable quand l'utilisateur te donne un texte existant à humaniser. En mode 
 **Qu'est-ce qui sonne encore IA dans ce texte ?**
 - Le ton est cohérent mais légèrement « manifeste » : la structure *ce qu'on fait / ce qu'on ne fait pas* sent un peu le plan.
 - *Beaucoup trop de temps à comparer* peut sonner cliché.
+- Les trois paragraphes font la même longueur et la même cadence.
 
 **Version finale**
 
@@ -527,7 +587,7 @@ Applicable quand l'utilisateur te donne un texte existant à humaniser. En mode 
 **Changements faits**
 - Supprimé : artefacts conversationnels (*Bienvenue*, *N'hésitez pas*), inflation (*véritable référence*, *plébiscité par la presse*, *méthodologie rigoureuse*), méta-discours d'autorité (*notre comparateur indépendant*), parallélisme négatif (*ce n'est pas un simple X, c'est un véritable Y*), liste à puces avec en-têtes en gras, connecteurs en pluie (*Par ailleurs*, *De plus*, *En définitive*), anglicisme (*basé sur*, *délivrer*).
 - Ajouté : un nom propre (Mathias), un lieu (Bruxelles), une date (2022), une expérience datée (2011), une méthodo concrète (trois semaines, 3-4 usages).
-- Ramené : une voix (première personne, anecdote du Air mort en 2018, petite digression sur Crossover).
+- Ramené : une voix (première personne, anecdote du Air mort en 2018, petite digression sur Crossover) et du rythme (paragraphes de longueurs inégales, une phrase de sept mots — *Si on n'a pas eu le temps, on ne publie pas* — après une de trente-cinq).
 
 ---
 
