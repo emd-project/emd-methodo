@@ -23,7 +23,8 @@ L'utilisateur te demande de produire un texte : article, fiche produit, page (À
 Procédure courte :
 
 1. **Lire** une fois les catégories A à J ci-dessous pour internaliser ce qu'il faut éviter, **et la section « Le rythme »** — c'est celle qui décide de l'impression générale.
-2. **Garder en tête les cinq règles d'or** :
+2. **Garder en tête les règles d'or** :
+   - **Zéro tiret cadratin (—) et zéro « Ce que + X » en titre.** Les deux marqueurs les plus visibles, détaillés en F1 et F7. Ils se contrôlent par recherche dans le texte final avant de pousser.
    - Privilégier *est* / *sont* aux verbes pompeux (*constitue*, *représente*, *incarne*, *s'impose comme*).
    - Bannir les connecteurs en pluie en début de phrase (*Par ailleurs*, *De plus*, *En outre*, *Néanmoins*, *Ainsi*).
    - Donner au moins un fait concret (chiffre, date, nom propre, source) par paragraphe — pas du remplissage adjectival.
@@ -338,9 +339,31 @@ Le signal IA le plus net : un paragraphe avec tous les accents, le suivant sans.
 
 ## Catégorie F — La structure obsessionnelle des LLM
 
-### F1. Surutilisation du tiret cadratin (—)
+### F1. Tiret cadratin (—) — QUOTA ZÉRO dans le corps de texte
 
-L'IA utilise le tiret cadratin cinq à dix fois plus que les francophones natifs. En français, hors dialogue, c'est rare. Remplace par une virgule, un deux-points, ou une parenthèse.
+C'est le marqueur numéro un, celui qui se voit avant même la lecture. L'IA emploie le tiret cadratin cinq à dix fois plus qu'un francophone natif, qui ne l'utilise pratiquement que pour les dialogues.
+
+**La règle est binaire : zéro tiret cadratin (—) et zéro tiret demi-cadratin (–) dans le corps d'un article, dans un chapô, dans un H1 ou un H2, dans une meta-description, dans un `aiSummary` et dans une réponse de FAQ.** Aucune exception pour l'incise, aucune pour l'apposition, aucune pour « ça respire mieux ». Le seul emploi toléré est le tiret de dialogue en début de réplique, qui n'apparaît jamais sur ces sites.
+
+Ce qui remplace, selon ce que le tiret faisait :
+
+| Ce que le tiret faisait | Remplacement |
+|---|---|
+| Une incise au milieu de la phrase (`X — précision — Y`) | Deux virgules, ou des parenthèses |
+| Une apposition en fin de phrase (`… Y — surtout en ville.`) | Une virgule, ou un point et une phrase courte |
+| Une explication qui suit une affirmation | Un deux-points |
+| Une opposition (`X — pas Y`) | Une virgule, ou deux phrases |
+| Une énumération inline | Une vraie liste à puces, ou des virgules |
+
+**Avant**
+> Une diesel Euro 5 — première immatriculation entre 2011 et août 2015 — est interdite à Bruxelles, alors qu'elle passe à Anvers — et à Gand.
+
+**Après**
+> Une diesel Euro 5, immatriculée pour la première fois entre 2011 et août 2015, est interdite à Bruxelles. À Anvers et à Gand, elle passe encore.
+
+Deux pièges. Le tiret cadratin **survit au copier-coller** depuis un brouillon ou une source : relis le texte final, pas ton intention. Et **remplacer mécaniquement chaque `—` par une virgule ne suffit pas** : la phrase qui portait deux incises garde son rythme haché, qui est lui aussi un marqueur. Recompose la phrase entière.
+
+**Contrôle avant commit** : cherche `—` et `–` dans le MDX final, frontmatter compris. Un seul résultat, tu réécris avant de pousser.
 
 ### F2. Gras mécanique
 
@@ -371,6 +394,28 @@ L'IA évite la répétition à tout prix en cyclant des synonymes qui rendent le
 ### F6. Sections calibrées au cordeau
 
 Toutes les sections font la même longueur, tous les paragraphes le même nombre de phrases, chaque H2 est suivi du même enchaînement (réponse, explication, exemple). C'est le pendant structurel de F3, en moins visible et en plus grave. Traité en détail dans la section « Le rythme ».
+
+### F7. Les titres et amorces « Ce que + X »
+
+Famille entière, et signature IA immédiate : *Ce que ça change vraiment*, *Ce que ça veut dire pour vous*, *Ce qu'il faut retenir*, *Ce qu'on en pense*, *Ce que dit la loi*, *Ce que le pass ne fait pas*, *Ce que personne ne vous dit*, *Ce qu'il faut savoir avant de*, *Ce que révèlent les chiffres*.
+
+Le procédé est toujours le même : au lieu de dire la chose, on annonce qu'on va la dire. C'est la méta-annonce (B9) promue en titre, et c'est devenu le tic de H2 le plus reconnaissable du contenu généré.
+
+**La règle : zéro H2, zéro H3 et zéro amorce de paragraphe commençant par « Ce que », « Ce qu'il », « Ce qui », « Ce dont ».** Un titre annonce un contenu, il ne promet pas qu'il y en a un.
+
+| Titre IA | Titre qui dit la chose |
+|---|---|
+| Ce que le pass journalier ne fait pas | Le pass ne se reporte pas, et il expire à 6 h du matin |
+| Ce que ça change vraiment | Une Polo de 2013 vaut 900 € de moins à Bruxelles qu'à Namur |
+| Ce qu'il faut retenir | Trois villes, trois calendriers |
+| Ce qu'on en pense | Je ne changerais pas de voiture juste pour ça |
+| Ce que dit la loi | Le décret wallon a été abrogé en avril 2024 |
+
+Le test : si le titre reste vrai en le collant sur n'importe quel autre article du site, il ne dit rien. Un bon H2 porte un fait, un chiffre, un nom propre ou un verdict.
+
+**Même verdict pour les cousines** : *Pourquoi c'est important*, *Le vrai sujet*, *En clair*, *Concrètement*, *Dans les faits*, *Ce qu'il se passe ensuite*, *La question à se poser*, *Le mot de la fin*. Toutes annoncent au lieu de dire.
+
+Attention à la version en corps de texte, plus discrète et tout aussi datée : un paragraphe qui s'ouvre sur *Ce qu'il faut comprendre ici, c'est que…* ou une liste introduite par *Ce que ça implique :*. Attaque directement par le fait.
 
 ---
 
@@ -520,6 +565,8 @@ Applicable quand l'utilisateur te donne un texte existant à humaniser. En mode 
 3. **Marquage** des occurrences problématiques par catégorie (A à J) **et des zones où le rythme est plat**.
 4. **Première réécriture** : reformule chaque passage marqué. Garde le sens, accepte que la formulation change parfois beaucoup.
 5. **Vérifications après réécriture** :
+   - **Zéro `—` et zéro `–` dans tout le fichier, frontmatter compris ?**
+   - **Aucun titre ni aucune amorce en « Ce que / Ce qu'il / Ce qui / Ce dont » ?**
    - Le texte sonne juste à voix haute ?
    - Les structures de phrase varient ? **Écart-type ≥ 8 mots, au moins une phrase sous 6 mots et une au-dessus de 35 ?**
    - **Paragraphes de 1 à 6 phrases, dont un d'une seule ligne et un de cinq ou plus ?**
