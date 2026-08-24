@@ -1,6 +1,6 @@
 ---
 name: seo-geo-redaction
-version: 1.12.0
+version: 1.13.0
 description: Doctrine canonique de rédaction SEO/GEO des sites EMD — structure d'article optimisée pour le référencement Google ET la citabilité par les LLM (ChatGPT/Gemini/AI Overview), avec rotation par PILIERS lus dans content/piliers.md, minage de longue traîne Cuik en double appel BE+FR, angle propre par site (recouvrement autorisé, doublon de traitement interdit), trois piliers transversaux obligatoires (lexique, questions pures, matériel), donnée propriétaire belge par article, répartition ½ comparatifs de marques et modèles déclinés par persona / ¼ evergreen pratique / ¼ informationnel, monétisation par mention sans affiliation, et liens d'autorité sortants obligatoires. Source de vérité unique : CINQ FORMES d'article en rotation (enquête, guide pratique, face-à-face, réponse rapide, décryptage) posées au-dessus d'un PLANCHER GEO présent dans TOUT article — au moins un tableau, au moins une liste à puces, une FAQ, un TL;DR ; ce qui varie d'une forme à l'autre, c'est leur TAILLE et leur NATURE, pas leur existence. Les contraintes qui portent sur le CORPUS et non sur chaque texte sont le taux de H2 en question, la longueur et l'Answer-Explanation-Example ; données structurées par type de page, workflow images (MCP nano-mentionbox), infrastructure GEO (llms.txt, robots.txt), maillage interne, sources datées, FR+EN, anti-cannibalisation par frontière head-nu/long-tail, monitoring de citabilité. À lire/appliquer pour toute rédaction d'article de blog sur un site EMD.
 ---
 
@@ -95,6 +95,8 @@ Ce qui **disqualifie** un sujet : déjà couvert sur ce site, rien de vérifiabl
 
 **Contraintes d'usage.** Un appel coûte un crédit : groupe les seeds, jamais de boucle. **Jamais `get_ranked_keywords`** — la réponse dépasse 200 000 caractères et fait exploser le run. Si une réponse dépasse la taille maximale, elle est écrite dans un fichier : **lis le fichier, ne relance pas l'appel**. Outil indisponible ou en erreur → continue au jugement et signale-le ; un run ne doit jamais échouer à cause de Cuik.
 
+> ⚠️ **Ces chiffres servent à CHOISIR le sujet. Ils n'apparaissent JAMAIS dans l'article.** Volume, difficulté, position, concurrents analysés : tout cela reste dans le brief. Un article qui cite « 480 recherches mensuelles » montre au lecteur qu'il a été commandé par un mot-clé. Cf. `humaniser-fr`, « Ne jamais montrer les coulisses ».
+
 ## 5. La donnée propriétaire — une par article, sans exception
 
 Sur un sujet générique, tu affrontes des sites français ou des comparateurs installés depuis quinze ans. **Chaque article doit contenir au moins un élément qu'ils n'ont pas** : un prix relevé et daté sur le marché belge, un calcul chiffré, une comparaison entre les trois régions, une mesure, un tableau construit à partir de sources primaires.
@@ -134,6 +136,8 @@ Sans ces éléments, le run suivant ne peut ni faire tourner les piliers, ni fai
 3. **Sinon, rotation par pilier** (§2 du socle) puis choix du sujet dans le plan du site ou par content gap, en respectant la frontière des assets et la répartition ½ / ¼ / ¼.
 4. **Minage Cuik en double appel** (§4 du socle) → head term exact + grappe.
 5. **SERP analysis (obligatoire, non remplacée par le volume)** : WebSearch sur le head term retenu → top 3 Google.be (titre, chapô, longueur, H2, FAQ, tableau) + **PAA visibles → candidates FAQ**. Différenciateur documenté. Pas de SERP = run échoué. Sujet saturé **par un concurrent externe** sans angle neuf → reviens au minage. Sujet couvert par un **site frère** → tu peux y aller, sous ton angle.
+
+   ⚠️ **Ces chiffres servent à CHOISIR le sujet. Ils n'apparaissent JAMAIS dans l'article.** Volume, difficulté, position, concurrents analysés : tout cela reste dans le brief. Un article qui cite « 480 recherches mensuelles » montre au lecteur qu'il a été commandé par un mot-clé. Cf. `humaniser-fr`, « Ne jamais montrer les coulisses ».
 6. **Choix de la FORME** (section ci-dessous) : ni celle du run précédent, ni celle du run d'avant. La forme fixe la longueur, le taux de H2 en question, le **nombre** de questions de la FAQ, la **nature** du tableau et la **longueur** du TL;DR. Elle ne décide jamais de la *présence* du tableau, de la liste à puces, de la FAQ ni du TL;DR : c'est le plancher GEO, il vaut pour tout article.
 7. **Brief + outline** avant rédaction. Les H2 et la FAQ reprennent les variantes de la grappe, reformulées naturellement.
 8. **Rédaction** selon la forme retenue et la structure GEO ci-dessous, via `humaniser-fr`.
@@ -256,6 +260,7 @@ Miroir FR + EN : slug naturel par langue, FAQ traduite, acronymes belges explici
 - [ ] **Test d'angle passé** : l'article ne pourrait pas être publié tel quel par un site frère.
 - [ ] **Minage Cuik fait en double appel** (BE `2056` puis FR `2250`, `language_id 1002`, seeds groupés, un crédit par appel, jamais `get_ranked_keywords`) → head term exact + grappe. Repli au jugement si l'outil est indisponible, jamais de run bloqué.
 - [ ] **Les H2 et la FAQ reprennent les variantes de la grappe.**
+- [ ] **Aucune coulisse dans l'article** : pas un volume de recherche, pas un nom d'outil (Cuik, Keyword Planner, Trends, Search Console…), pas de *requête* / *mot-clé* / *longue traîne* / *SERP* / *position*, pas de « les internautes recherchent », pas d'analyse des pages concurrentes. Volume, difficulté, position et concurrents restent dans le brief. Un chiffre de recherche cité = article à réécrire. Cf. `humaniser-fr`, « Ne jamais montrer les coulisses ».
 - [ ] **`references/garde-fous.md` respecté** : commit seulement si contenu non-vide, aucun écrasement.
 - [ ] **Brief `priorites-geo.md` non coché traité en priorité s'il en existe** (puis coché).
 - [ ] Répartition ½ marques-modèles / ¼ evergreen pratique / ¼ info vérifiée **contre ce qui est déjà publié** ; persona varié ; marques + persona tagués. **Aucun élément affilié.**
