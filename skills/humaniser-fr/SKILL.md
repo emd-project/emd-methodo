@@ -1,6 +1,6 @@
 ---
 name: humaniser-fr
-version: 1.2.0
+version: 1.3.0
 description: Détecte ET prévient les marqueurs de rédaction par IA dans tout texte français — vocabulaire, tournures, typographie, structure, ET RYTHME (longueur de phrase, de paragraphe, de section : le signal le plus fort de tous). À utiliser dans DEUX cas. (1) Mode production : quand l'utilisateur demande à Claude de produire du contenu en français — « rédige un article », « écris une fiche produit », « crée une page À propos », « rédige la FAQ », « génère le texte de », « fais-moi un comparatif », « produis un brief », « compose un titre SEO », « rédige l'intro », « écris une newsletter ». Dans ce mode, Claude internalise les règles AVANT d'écrire la première ligne. (2) Mode review : quand l'utilisateur fait relire un texte existant — « humanise ce texte », « ça sonne IA », « ça sent ChatGPT », « retire les tics IA », « relis cet article SEO ». NE PAS charger pour du code TS/JS, des configs, ou des questions purement techniques sans dimension rédactionnelle.
 allowed-tools:
   - Read
@@ -25,6 +25,7 @@ Procédure courte :
 1. **Lire** une fois les catégories A à J ci-dessous pour internaliser ce qu'il faut éviter, **et la section « Le rythme »** — c'est celle qui décide de l'impression générale.
 2. **Garder en tête les règles d'or** :
    - **Zéro tiret cadratin (—) et zéro « Ce que + X » en titre.** Les deux marqueurs les plus visibles, détaillés en F1 et F7. Ils se contrôlent par recherche dans le texte final avant de pousser.
+   - **Zéro coulisse.** Rien de ce qui a servi à produire l'article n'apparaît dedans : ni volume de recherche, ni nom d'outil, ni vocabulaire SEO. Section « Ne jamais montrer les coulisses ».
    - Privilégier *est* / *sont* aux verbes pompeux (*constitue*, *représente*, *incarne*, *s'impose comme*).
    - Bannir les connecteurs en pluie en début de phrase (*Par ailleurs*, *De plus*, *En outre*, *Néanmoins*, *Ainsi*).
    - Donner au moins un fait concret (chiffre, date, nom propre, source) par paragraphe — pas du remplissage adjectival.
@@ -32,7 +33,7 @@ Procédure courte :
    - Respecter la typographie française (« » avec espace insécable, espace insécable avant `:` `;` `?` `!`, accents sur majuscules : *À, É, È, Ê, Ô*).
    - **Accord en genre/nombre.** Respecter le genre réel des noms (entité de la niche : `niche.config.entityGender`). Une faute d'accord (« meilleurs néobanques », « le néobanque ») est un défaut BLOQUANT : relire et corriger participes, adjectifs, déterminants, possessifs avant publication.
 3. **Écrire directement propre.** Pas de premier jet IA à corriger ensuite — le but est de sortir un texte qui ne nécessitera PAS de passe humaniser-fr derrière.
-4. **Audit interne** avant de livrer : appliquer en silence les cinq tests rapides ci-dessous (verbe être, connecteur d'ouverture, opinion, chiffres concrets, *véritable*) **plus le test du rythme**. Corriger ce qui sonne encore IA.
+4. **Audit interne** avant de livrer : appliquer en silence les cinq tests rapides ci-dessous (verbe être, connecteur d'ouverture, opinion, chiffres concrets, *véritable*) **plus le test du rythme et le test des coulisses**. Corriger ce qui sonne encore IA.
 5. **Livrer.**
 
 Le réflexe à acquérir : un bon texte n'est pas un texte IA *qui a été corrigé*. C'est un texte qui n'a jamais été IA dès le départ.
@@ -72,6 +73,8 @@ Ce skill couvre ces points, plus le **rythme** (section dédiée plus bas) et le
 Trois tests sur cinq positifs = le texte est IA, intervenir.
 
 **Sixième test, et c'est le plus discriminant** — le test du rythme : prends trois phrases consécutives et compte leurs mots. Si les trois tiennent entre douze et vingt-cinq, le texte est généré, même s'il passe les cinq autres. Voir la section suivante.
+
+**Septième test, et celui-là est éliminatoire à lui seul** — le test des coulisses : cherche dans le texte un volume de recherche, un nom d'outil SEO, le mot *requête* ou *mot-clé*, une phrase sur ce que « les internautes » cherchent. **Un article qui cite un chiffre de recherche est à réécrire, pas à corriger** : le passage n'est pas maladroit, il est déplacé, et ce qui l'entoure a probablement été construit autour de lui. Voir « Ne jamais montrer les coulisses ».
 
 ---
 
@@ -120,6 +123,51 @@ Deux sites du réseau ne doivent pas seulement différer par le vocabulaire : il
 Ce sont des **objectifs de relecture, pas des refus**. On ne bloque aucune publication sur un écart-type. Mais un texte qui rate ces cibles est un texte qui sonne généré, et il faut le **réécrire avant de le pousser** — pas le publier en notant l'écart.
 
 Le test définitif reste l'oreille : **lis trois paragraphes à voix haute.** Si ta respiration tombe au même endroit à chaque fois, le rythme est plat.
+
+---
+
+## Ne jamais montrer les coulisses
+
+Règle dure, et celle-ci ne se négocie pas : **rien de ce qui a servi à PRODUIRE l'article n'apparaît DANS l'article.**
+
+Le lecteur a un problème à résoudre. Il n'est pas un segment de trafic, il n'est pas une ligne dans un outil, et on ne lui explique jamais pourquoi la page existe. Le jour où il l'apprend, il ne lit plus un article : il lit une commande. La position éditoriale ne s'abîme pas, elle s'effondre, et une seule phrase suffit.
+
+### Sont proscrits, sans exception
+
+- **Les volumes de recherche.** « Environ 480 recherches mensuelles », « une requête très recherchée », « peu de volume sur ce sujet », « les recherches ont explosé cette année ». Aucun chiffre de recherche, même arrondi, même approximatif, même présenté comme une curiosité.
+- **Le vocabulaire du métier.** *Requête*, *mot-clé*, *longue traîne*, *intention de recherche*, *SERP*, *position*, *featured snippet*, *head term*, *grappe*, *content gap*. Ces mots n'existent pas pour le lecteur d'un article sur les extincteurs de voiture.
+- **Les outils.** Google Trends, Keyword Planner, Ahrefs, Semrush, Search Console, Cuik, et le nom de tout autre. Un outil de production ne se cite pas ; une source publique et datée, oui, et c'est autre chose.
+- **Les internautes comme masse.** « Les internautes recherchent », « vous êtes nombreux à vous demander », « une question qui revient souvent dans les recherches », « beaucoup de gens tapent cette question ». On parle à une personne, pas à une audience agrégée.
+- **L'analyse concurrentielle.** « Les pages qui se positionnent en tête », « nos analyses des résultats de recherche montrent », « la plupart des sites qui ressortent sur ce sujet ». Ce qu'on a observé de la concurrence sert à écrire mieux, pas à être raconté.
+- **Le méta-discours sur l'article.** « Dans cet article, nous allons voir », « comme mentionné plus haut », « cette page a pour but de », « ce guide a été conçu pour ». Recoupe B9 et B10, et se traite pareil : on supprime, on attaque le fait.
+
+### La règle de conversion — garde l'observation, jette la donnée
+
+C'est le cœur de la section, et c'est ce qui la rend applicable plutôt que frustrante.
+
+Une donnée de recherche produit souvent une observation juste, et cette observation mérite de rester. Ce qui doit disparaître, c'est la télémétrie qui y a mené. **Garde l'observation, jette la donnée.**
+
+« Beaucoup de pages sur ce sujet sont écrites pour la France » se dit très bien sans citer un volume. Le fait reste vrai, le lecteur peut le vérifier en trois clics, et il n'a aucun besoin de savoir comment tu l'as su.
+
+### Le cas réel
+
+Un article publié contenait ce paragraphe :
+
+> Google enregistre en France environ 480 recherches mensuelles sur « extincteur voiture obligatoire », et 70 sur « extincteur voiture obligatoire dans quel pays ». En Belgique, la même requête plafonne à 30 par mois. Le décalage est révélateur : la demande de contenu vient d'un pays où l'objet n'est pas obligatoire, et les réponses françaises qui remontent en tête de résultats sont donc fausses pour un conducteur belge.
+
+Tout y est exact, et c'est exactement le problème : c'est l'appareillage de production exposé au lecteur, qui découvre au passage que l'article existe parce qu'un mot-clé fait 480 recherches par mois.
+
+Et pourtant l'observation en dessous est juste et utile. La demande vient d'un pays où l'objet n'est pas obligatoire, donc les réponses françaises trompent un conducteur belge. Il fallait garder ce constat et jeter les chiffres qui y ont mené.
+
+Version acceptable du même passage :
+
+> En France, l'extincteur n'est obligatoire que dans certains véhicules professionnels, et l'essentiel des pages qui traitent la question sont écrites pour des conducteurs français. En Belgique, la règle est différente : …
+
+Même information, même utilité, plus de coulisses.
+
+### Statut de la règle
+
+Contrairement aux cibles de rythme, celle-ci n'est pas un objectif de relecture. **Un article qui cite un chiffre de recherche est à réécrire, pas à corriger** : neuf fois sur dix, le paragraphe fautif tient le raisonnement de la section entière, et retirer la phrase laisse un trou. Réécris le passage à partir du constat, sans la donnée.
 
 ---
 
@@ -567,6 +615,7 @@ Applicable quand l'utilisateur te donne un texte existant à humaniser. En mode 
 5. **Vérifications après réécriture** :
    - **Zéro `—` et zéro `–` dans tout le fichier, frontmatter compris ?**
    - **Aucun titre ni aucune amorce en « Ce que / Ce qu'il / Ce qui / Ce dont » ?**
+   - **Aucune coulisse : ni volume de recherche, ni nom d'outil SEO, ni *requête* / *mot-clé* / *intention de recherche*, ni « les internautes », ni analyse des pages concurrentes, ni méta-discours sur l'article ?** Un chiffre de recherche = passage à réécrire, pas à retoucher.
    - Le texte sonne juste à voix haute ?
    - Les structures de phrase varient ? **Écart-type ≥ 8 mots, au moins une phrase sous 6 mots et une au-dessus de 35 ?**
    - **Paragraphes de 1 à 6 phrases, dont un d'une seule ligne et un de cinq ou plus ?**
