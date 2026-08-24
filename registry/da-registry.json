@@ -313,6 +313,61 @@
         "layoutHome `marche` partage avec meilleure-banque.be et comparer-abonnement-tv.be : collision de squelette assumee par la doctrine (service souscriptible), divergence portee par la peau — mode inverse, teinte a 31+ degres, trois polices inedites",
         "permutations sharp/hairline/deep : combinaison absente du parc (meilleure-banque.be = sharp/bold/flat, quelle-assurance-auto.be = sharp/hairline/flat)"
       ]
+    },
+    {
+      "domain": "quel-abonnement-gsm-choisir.be",
+      "repo": "quel-abonnement-gsm-choisir.be",
+      "registeredAt": "2026-08-24",
+      "authorName": "Fabrice D.",
+      "fonts": { "display": "Manrope", "body": "Source Sans 3", "mono": "Fira Code" },
+      "accent1": "#A01A52", "accent1Hue": 334.9, "accent2": "#35548F",
+      "accent1Dark": "#E4568F",
+      "bgPrimary": "#F7EFF1", "bgSurface": "#FDF9FA", "mode": "light",
+      "bgPrimaryDark": "#171014", "bgSurfaceDark": "#1F1720",
+      "layoutHome": "marche", "permutations": { "shape": "soft", "border": "bold", "shadow": "standard" },
+      "signature": "chaque formule porte deux chiffres et une procedure : ce qu'elle coute sur 24 mois avec le solde de l'appareil compte a part du forfait, ce qu'elle coute au treizieme mois quand la promotion tombe, et ce qu'il faut faire exactement pour en sortir",
+      "partiPris": "exemplaire rose du contrat d'abonnement — papier autocopiant, carbone violace, cases a cocher et cadre de signature",
+      "paletteSource": "docs/DA-DIRECTIONS.md — direction papier imprime / encre, teinte portee a 334,9 degres (encre rose-magenta de l'exemplaire autocopiant), dans le creux 307,1-351,4 du parc",
+      "effects": ["papier-autocopiant", "report-carbone", "cases-a-cocher", "filets-de-formulaire", "cadre-de-signature"],
+      "styleTokens": { "effects": "none", "cards": "filled" },
+      "contrast": {
+        "light": {
+          "textPrimary/bgPrimary": 14.47,
+          "textPrimary/bgSurface": 15.74,
+          "textSecondary/bgPrimary": 7.52,
+          "textSecondary/bgSurface": 8.15,
+          "textMuted/bgPrimary": 4.57,
+          "accent1/bgPrimary": 6.76,
+          "accent1/bgSurface": 7.27,
+          "textOnAccent1(#FFFFFF)": 7.59,
+          "accent2/bgPrimary": 6.69,
+          "accent3(#8A6318)/bgPrimary": 4.78,
+          "borderStrong(#9A8290)/bgPrimary": 3.11,
+          "borderStrong(#9A8290)/bgSurface": 3.37
+        },
+        "dark": {
+          "textPrimary/bgPrimary": 15.86,
+          "textPrimary/bgSurface": 14.73,
+          "textSecondary/bgPrimary": 8.48,
+          "textMuted/bgPrimary": 4.96,
+          "textMuted/bgSurface": 4.60,
+          "accent1Dark/bgPrimary": 5.38,
+          "accent1Dark/bgSurface": 4.99,
+          "textOnAccent1Dark(#171014)": 5.38,
+          "borderStrong(#7E6C78)/bgSurface": 3.57
+        }
+      },
+      "flags": [
+        "ecart minimal a la fenetre des 8 derniers : 27,8 degres (meilleure-banque.be, 307,1) — plancher 25 ; tous les autres au-dela de 38",
+        "premier rose-magenta du parc : le creux 307,1-351,4 etait le plus large du cercle (44,3 degres)",
+        "PARC ENTIER : 16,5 degres de simulateur-assurance-auto.be (351,4) et 16,9 de quel-fournisseur-energie.be (351,8), tous deux HORS fenetre d'exclusion. Ecart assume et note : la bande rouge du parc est un bordeaux sombre sur creme, celle-ci est un rose-magenta clair sur papier rose, en mode clair mais avec un couple de fonds et une typo sans recouvrement",
+        "Manrope, Source Sans 3 et Fira Code absents de tout le parc",
+        "couple de fonds #F7EFF1 / #FDF9FA inedit : premier couple ROSE du parc — les 14 couples clairs existants sont blanc pur, creme ou gris froid",
+        "permutations soft/bold/standard : combinaison absente du parc",
+        "style.effects = `none` : 2e site du parc a sortir sans aucun degradé (apres comparer-carte-credit.be)",
+        "layoutHome `marche` partage avec meilleure-banque.be, comparer-abonnement-tv.be et comparer-carte-credit.be : collision de squelette assumee par la doctrine (service souscriptible), divergence portee par la peau",
+        "5e site clair consecutif hors comparer-carte-credit.be : la bande sombre du parc reste peu peuplee, a surveiller pour le prochain site"
+      ]
     }
   ]
 }
