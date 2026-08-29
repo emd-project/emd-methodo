@@ -83,6 +83,7 @@ arrêté d'avance : le jour où le site sort, il n'y a rien à décider.
 | `quel-abonnement-gsm-choisir.be` | Quel Abonnement GSM Choisir - Trouver le forfait au bon prix |
 | `meilleur-abonnement-5g.be` | Meilleur Abonnement 5G - Trouver le forfait 5G le moins cher |
 | `meilleure-fibre-internet.be` | Meilleure Fibre Internet - Trouver la fibre la plus rapide |
+| `meilleur-operateur-internet.be` | Meilleur Opérateur Internet - Couverture, débit & pannes |
 | `comparer-abonnement-tv.be` | Comparer Abonnement TV - Chaînes, prix & options comparés |
 | `internet-pas-cher.be` ⚠️ | Internet Pas Cher - Trouver l'abonnement le moins cher |
 
@@ -112,3 +113,5 @@ arrêté d'avance : le jour où le site sort, il n'y a rien à décider.
 « Simulateur Assurance Auto - Estimer votre prime en 2 minutes » fait **exactement 60 caractères** : c'est la limite dure, pas la cible. Ne t'en sers pas comme modèle de longueur.
 
 Le compte de caractères porte sur la **chaîne complète**, espaces et séparateur inclus.
+
+`meilleur-operateur-internet.be` (2026-08-28) est en registre **facettes** : les cinq autres titres télécom ouvrent sur « Trouver », et un sixième aurait rendu la section illisible. Version EN écrite dans sa propre langue, pas traduite — « Best Internet Provider - Coverage, speed & support », 50 caractères.
