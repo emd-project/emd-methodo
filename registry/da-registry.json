@@ -96,7 +96,8 @@
         "couple de fonds #0E1210 / #161B17 inedit : seul noir-vert du parc, les 4 autres sites sombres sont en bleu-noir",
         "reste sombre alors que meilleure-voiture.be (meme secteur) est clair — les deux sites auto ne doivent pas se confondre",
         "layoutHome `magazine` partage avec quel-fournisseur-energie.be, meilleur-chocolat.be, meilleure-voiture-de-luxe.be et meilleure-voiture-7-places.be : collision de squelette assumee par la doctrine, divergence portee par la peau",
-        "borders passes en filets pleins (#2A322B / #5E6A60) et permutations.border laisse a `standard` pour que PermutationStyle n'ecrase pas les ratios"
+        "borders passes en filets pleins (#2A322B / #5E6A60) et permutations.border laisse a `standard` pour que PermutationStyle n'ecrase pas les ratios",
+        "2026-08-28 : voisin le plus proche du parc devenu meilleur-operateur-internet.be (117,0) a 14,2 deg — HORS fenetre d'exclusion des deux cotes, ecart documente dans l'entree de ce dernier"
       ]
     },
     {
@@ -129,7 +130,7 @@
       "partiPris": "listing de parc automobile — papier comptable a bandes vertes, encre carbone d'ordre de reparation, tampon d'atelier",
       "paletteSource": "lib/da-presets/palettes.json — preset Agriculture/Farm Tech, teinte mutee -40,5 degres (142,4 -> 101,9)",
       "effects": ["chiffres-du-releve", "bande-de-listing", "marge-carbone", "reglure", "tampon"],
-      "flags": ["accent1 a 59,5 degres du voisin le plus proche du parc (meilleur-operateur-mobile.be, 42,4) — plancher 25", "premier vert franc du parc : la bande 60,8-142,3 etait vide", "depuis le 2026-08-17, voisin le plus proche = meilleure-citadine.be (131,2) a 29,3 degres"]
+      "flags": ["accent1 a 59,5 degres du voisin le plus proche du parc (meilleur-operateur-mobile.be, 42,4) — plancher 25", "premier vert franc du parc : la bande 60,8-142,3 etait vide", "depuis le 2026-08-17, voisin le plus proche = meilleure-citadine.be (131,2) a 29,3 degres", "2026-08-28 : meilleur-operateur-internet.be (117,0) se place a 15,1 degres — hors fenetre des deux cotes"]
     },
 
     {
@@ -156,7 +157,7 @@
       "bgPrimary": "#EDF2F7", "bgSurface": "#FFFFFF", "mode": "light",
       "layoutHome": "comparateur", "permutations": { "shape": "soft", "border": "standard", "shadow": "flat" },
       "signature": "le debit reel d'abord",
-      "flags": ["accent1 a 3,7 degres de meilleur-fournisseur-electricite.be", "la collision a 1,4 degre avec meilleure-citadine.be est LEVEE depuis le 2026-08-17 (citadine mutee a 131,2)"]
+      "flags": ["accent1 a 3,7 degres de meilleur-fournisseur-electricite.be", "la collision a 1,4 degre avec meilleure-citadine.be est LEVEE depuis le 2026-08-17 (citadine mutee a 131,2)", "2026-08-28 : meilleur-operateur-internet.be a DELIBEREMENT evite la bande bleu-cyan pour ne pas se confondre avec ce site frere — 75,9 degres d'ecart"]
     },
     {
       "domain": "www.meilleur-suv.be", "repo": "meilleur-suv.be", "registeredAt": null, "backfilledAt": "2026-08-01",
@@ -367,6 +368,64 @@
         "style.effects = `none` : 2e site du parc a sortir sans aucun degradé (apres comparer-carte-credit.be)",
         "layoutHome `marche` partage avec meilleure-banque.be, comparer-abonnement-tv.be et comparer-carte-credit.be : collision de squelette assumee par la doctrine (service souscriptible), divergence portee par la peau",
         "5e site clair consecutif hors comparer-carte-credit.be : la bande sombre du parc reste peu peuplee, a surveiller pour le prochain site"
+      ]
+    },
+    {
+      "domain": "meilleur-operateur-internet.be",
+      "repo": "meilleur-operateur-internet.be",
+      "registeredAt": "2026-08-28",
+      "authorName": "Gaetan M.",
+      "fonts": { "display": "Libre Franklin", "body": "Lora", "mono": "Overpass Mono" },
+      "accent1": "#57C851", "accent1Hue": 117.0, "accent2": "#D8912F",
+      "accent1Light": "#1C6D17",
+      "bgPrimary": "#0F1113", "bgSurface": "#171A1C", "mode": "dark",
+      "bgPrimaryLight": "#EEF1EA", "bgSurfaceLight": "#F8FAF5",
+      "layoutHome": "marche", "permutations": { "shape": "rounded", "border": "hairline", "shadow": "standard" },
+      "signature": "aucune offre n'est jugee sans dire d'abord quelle technologie arrive physiquement a l'adresse — fibre, coaxial ou cuivre — et ce qui se passe apres l'installation : le materiel fourni, le delai d'intervention en panne, et qui envoie le technicien",
+      "partiPris": "releve de raccordement — chambre de tirage ouverte, gaines annelees, trace au trait et craie de marquage verte sur trottoir mouille",
+      "paletteSource": "docs/DA-DIRECTIONS.md — registre de chantier / marquage au sol. Teinte portee a 117,0 degres : le code couleur europeen de reperage des reseaux enterres attribue le VERT aux telecoms, ce qui ancre la teinte dans le sujet au lieu de la choisir par elimination. Dans le creux 101,9-131,2 du parc.",
+      "effects": ["craie-de-marquage", "chiffres-de-releve", "trace-au-trait", "gaine-annelee", "anneau-de-focus-signe"],
+      "styleTokens": { "effects": "none", "cards": "minimal" },
+      "contrast": {
+        "dark": {
+          "textPrimary/bgPrimary": 16.35,
+          "textPrimary/bgSurface": 15.11,
+          "textPrimary/bgSurface2": 13.34,
+          "textSecondary/bgPrimary": 8.13,
+          "textSecondary/bgSurface": 7.51,
+          "textMuted/bgPrimary": 5.02,
+          "textMuted/bgSurface": 4.64,
+          "accent1/bgPrimary": 8.81,
+          "accent1/bgSurface": 8.14,
+          "accent2/bgPrimary": 7.21,
+          "textOnAccent1(#0F1113)": 8.81,
+          "border(#606A63)/bgSurface": 3.11,
+          "borderStrong+focus(#7C867F)/bgPrimary": 5.02
+        },
+        "light": {
+          "textPrimary/bgPrimary": 15.63,
+          "textPrimary/bgSurface": 16.97,
+          "textSecondary/bgPrimary": 7.53,
+          "textMuted/bgPrimary": 4.92,
+          "accent1Light/bgPrimary": 5.66,
+          "accent1Light/bgSurface": 6.15,
+          "textOnAccent1Light(#FFFFFF)": 6.46,
+          "border(#8B9482)/bgSurface": 3.00,
+          "borderStrong+focus(#6E7A72)/bgPrimary": 3.92
+        }
+      },
+      "flags": [
+        "ecart minimal a la fenetre des 8 derniers : 45,0 degres (comparer-carte-credit.be, 72,0) — plancher 25 ; tous les autres au-dela de 50",
+        "PARC ENTIER : 14,2 degres de meilleure-citadine.be (131,2) et 15,1 de meilleure-voiture-de-luxe.be (101,9), tous deux HORS fenetre. Arbitrage documente : les deux seules plages degageant 25 degres de CHACUN des 8 derniers sont [97-142,3] et [192,3-219,5] ; la seconde est la bande ou vit meilleure-fibre-internet.be (192,9), le site FRERE dont le sujet recouvre le plus celui-ci. La confusion telecom/telecom a ete jugee plus couteuse que la proximite avec deux sites automobiles hors fenetre. Teinte placee au point optimal de la premiere plage.",
+        "VIGILANCE meilleure-citadine.be : les deux sites sont un vert vif sur fond quasi noir. La demarcation tient au fond (graphite NEUTRE #0F1113 contre noir-VERT #0E1210), a la typo (aucun recouvrement), au layout (marche contre magazine) et aux effets.",
+        "premier graphite NEUTRE du parc : les 6 autres sites sombres sont bleu-noir (4), noir-vert (1) ou noir-kaki chaud (1)",
+        "Libre Franklin, Lora et Overpass Mono absents de tout le parc — Lora est le PREMIER body serif du parc",
+        "permutations rounded/hairline/standard : combinaison absente du parc (seul autre `rounded` = meilleur-parti-politique.be en rounded/standard/flat)",
+        "style.cards = `minimal` : PREMIER du parc. La separation des cartes est portee par un filet de plan dans da-site.css, pas par une surface.",
+        "style.effects = `none` : 3e site du parc sans aucun degrade (apres comparer-carte-credit.be et quel-abonnement-gsm-choisir.be)",
+        "REPASSE EN SOMBRE apres 5 sites clairs consecutifs — le registre signalait que la bande sombre se depeuplait",
+        "layoutHome `marche` partage avec meilleure-banque.be, comparer-abonnement-tv.be, comparer-carte-credit.be et quel-abonnement-gsm-choisir.be : collision de squelette assumee par la doctrine (service souscriptible)",
+        "ECART DE TIRAGE : suggestVariants rendait home=`magazine` (classifyNiche range encore le telecom dans la famille `comparateur`, variante supprimee le 2026-08-02). La doctrine art-director tranche `marche` pour un service souscriptible — c'est elle qui a ete suivie."
       ]
     }
   ]
