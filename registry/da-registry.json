@@ -157,7 +157,7 @@
       "bgPrimary": "#EDF2F7", "bgSurface": "#FFFFFF", "mode": "light",
       "layoutHome": "comparateur", "permutations": { "shape": "soft", "border": "standard", "shadow": "flat" },
       "signature": "le debit reel d'abord",
-      "flags": ["accent1 a 3,7 degres de meilleur-fournisseur-electricite.be", "la collision a 1,4 degre avec meilleure-citadine.be est LEVEE depuis le 2026-08-17 (citadine mutee a 131,2)", "2026-08-28 : meilleur-operateur-internet.be a DELIBEREMENT evite la bande bleu-cyan pour ne pas se confondre avec ce site frere — 75,9 degres d'ecart"]
+      "flags": ["accent1 a 3,7 degres de meilleur-fournisseur-electricite.be", "la collision a 1,4 degre avec meilleure-citadine.be est LEVEE depuis le 2026-08-17 (citadine mutee a 131,2)", "2026-08-28 : meilleur-operateur-internet.be a DELIBEREMENT evite la bande bleu-cyan pour ne pas se confondre avec ce site frere — 75,9 degres d'ecart", "2026-09-03 : meilleure-voiture-hybride.be (209,0) se place a 16,1 degres — hors fenetre des deux cotes, arbitrage documente dans l'entree de ce dernier"]
     },
     {
       "domain": "www.meilleur-suv.be", "repo": "meilleur-suv.be", "registeredAt": null, "backfilledAt": "2026-08-01",
@@ -175,7 +175,7 @@
       "bgPrimary": "#F2F4F8", "bgSurface": "#FFFFFF", "mode": "light",
       "layoutHome": null, "permutations": null,
       "signature": "bande categories sombre + mosaique hero decalee",
-      "flags": ["niche.config.layouts absent — le resolver retombe sur magazine, c'est bien la home rendue"]
+      "flags": ["niche.config.layouts absent — le resolver retombe sur magazine, c'est bien la home rendue", "2026-09-03 : meilleure-voiture-hybride.be (209,0) se place a 16,2 degres — hors fenetre, mais c'est le SEUL site frere automobile a moins de 25 degres ; demarcation portee par le mode (sombre contre clair), le fond (brun-noir chaud contre gris froid), la saturation et la typo"]
     },
     {
       "domain": "www.meilleure-voiture-familiale.be", "repo": "meilleure-voiture-familiale.be", "registeredAt": null, "backfilledAt": "2026-08-01",
@@ -426,6 +426,73 @@
         "REPASSE EN SOMBRE apres 5 sites clairs consecutifs — le registre signalait que la bande sombre se depeuplait",
         "layoutHome `marche` partage avec meilleure-banque.be, comparer-abonnement-tv.be, comparer-carte-credit.be et quel-abonnement-gsm-choisir.be : collision de squelette assumee par la doctrine (service souscriptible)",
         "ECART DE TIRAGE : suggestVariants rendait home=`magazine` (classifyNiche range encore le telecom dans la famille `comparateur`, variante supprimee le 2026-08-02). La doctrine art-director tranche `marche` pour un service souscriptible — c'est elle qui a ete suivie."
+      ]
+    },
+    {
+      "domain": "meilleure-voiture-hybride.be",
+      "repo": "meilleure-voiture-hybride.be",
+      "registeredAt": "2026-09-03",
+      "authorName": "Olivier M.",
+      "fonts": { "display": "Epilogue", "body": "Rubik", "mono": "Red Hat Mono" },
+      "accent1": "#5A9BD8", "accent1Hue": 209.0, "accent2": "#D47254",
+      "accent1Light": "#235E95",
+      "bgPrimary": "#12100E", "bgSurface": "#1A1714", "mode": "dark",
+      "bgPrimaryLight": "#F1EEE7", "bgSurfaceLight": "#FBF9F4",
+      "layoutHome": "magazine", "permutations": { "shape": "rounded", "border": "bold", "shadow": "deep" },
+      "signature": "aucune hybride n'est jugee sans dire laquelle des trois elle est — legere, complete ou rechargeable —, quelle part du trajet elle fait reellement a l'electrique en usage belge, et ce que sa batterie de traction coute a remplacer une fois la garantie passee",
+      "partiPris": "ordinateur de bord d'hybride la nuit — habitacle brun-noir, ecran de flux d'energie azur retroeclaire, jauge EV/ECO, chiffres a cristaux liquides ; l'azur est la chaine electrique, le rouge-brique la chaine thermique",
+      "paletteSource": "docs/DA-DIRECTIONS.md — direction instrumentation / afficheur retroeclaire. Teinte portee a 209,0 degres (azur d'ecran LCD retroeclaire) dans le creux 192,3-250,9 de la fenetre ; accent2 re-accorde a 14,1 degres (rouge-brique du temoin thermique). Les deux accents disent litteralement le sujet du site : deux chaines de traction.",
+      "effects": ["chiffres-de-bord", "jauge-ev-eco", "retroeclairage", "verre-d-instrument", "segment-lcd"],
+      "styleTokens": { "effects": "subtle", "cards": "minimal" },
+      "contrast": {
+        "dark": {
+          "textPrimary/bgPrimary": 16.43,
+          "textPrimary/bgSurface": 15.44,
+          "textPrimary/bgSurface2": 14.06,
+          "textSecondary/bgPrimary": 8.67,
+          "textSecondary/bgSurface": 8.15,
+          "textMuted/bgPrimary": 5.09,
+          "textMuted/bgSurface": 4.79,
+          "textMuted/bgSurface2": 4.36,
+          "accent1/bgPrimary": 6.43,
+          "accent1/bgSurface": 6.05,
+          "accent1/bgSurface2": 5.51,
+          "accent2/bgPrimary": 5.73,
+          "accent3/bgPrimary": 8.57,
+          "accent4/bgPrimary": 8.02,
+          "accent5/bgPrimary": 6.15,
+          "textOnAccent1(#12100E)": 6.43,
+          "borderStrong+focus(#7A7268)/bgPrimary": 4.01,
+          "borderStrong+focus(#7A7268)/bgSurface": 3.77
+        },
+        "light": {
+          "textPrimary/bgPrimary": 15.42,
+          "textPrimary/bgSurface": 16.98,
+          "textSecondary/bgPrimary": 8.31,
+          "textSecondary/bgSurface": 9.15,
+          "textMuted/bgPrimary": 5.05,
+          "textMuted/bgSurface": 5.56,
+          "accent1Light/bgPrimary": 5.83,
+          "accent1Light/bgSurface": 6.42,
+          "accent2Light(#9A3B1E)/bgPrimary": 6.00,
+          "accent3Light(#7A5410)/bgPrimary": 5.84,
+          "accent4Light(#165F6E)/bgPrimary": 6.26,
+          "accent5Light(#5B3A80)/bgPrimary": 7.67,
+          "textOnAccent1Light(#FFFFFF)": 6.76,
+          "border(#8A8378)/bgPrimary": 3.24,
+          "border(#8A8378)/bgSurface": 3.57
+        }
+      },
+      "flags": [
+        "ecart minimal a la fenetre des 8 derniers : 41,7 degres (meilleures-assurances-auto.be, 167,3) — plancher 25 ; tous les autres au-dela de 66",
+        "PARC ENTIER : 16,1 degres de meilleure-fibre-internet.be (192,9), 16,2 de meilleure-voiture.be (225,2) et 19,8 de meilleur-fournisseur-electricite.be (189,2), tous HORS fenetre. Arbitrage documente : les deux seules plages degageant 25 degres de CHACUN des 8 derniers sont [142,0-142,3] — un point unique, a 11,0 degres de meilleure-citadine.be (131,2), site automobile FRERE, dans une bande verte deja occupee par trois sites — et [192,3-250,9]. La seconde a ete retenue, et 209,0 est le point qui MAXIMISE l'ecart minimal a l'interieur (16,1 d'un cote, 16,2 de l'autre). L'ecart symetrique a ete prefere a un sacrifice d'un cote.",
+        "VIGILANCE meilleure-voiture.be : seul site FRERE automobile a moins de 25 degres. La demarcation ne tient pas sur la teinte mais sur le mode (sombre contre clair), le fond (brun-noir chaud #12100E contre gris froid #F2F4F8), la saturation (azur desature S 62 % L 60 % contre bleu roi #1C3FAA) et la typo (aucun recouvrement).",
+        "premier brun-noir CHAUD du parc : les 7 autres sites sombres sont bleu-noir (4), noir-vert froid (1), noir-kaki (1) ou graphite neutre (1) — ici R > G > B franchement, ce qu'aucun des sept ne fait",
+        "Epilogue, Rubik et Red Hat Mono absents de tout le parc",
+        "permutations rounded/bold/deep : combinaison absente du parc (les deux autres `rounded` sont meilleur-parti-politique.be en rounded/standard/flat et meilleur-operateur-internet.be en rounded/hairline/standard)",
+        "style.cards = `minimal` : 2e du parc apres meilleur-operateur-internet.be",
+        "layoutHome `magazine` partage avec quel-fournisseur-energie.be, meilleure-citadine.be, meilleure-voiture-de-luxe.be, meilleure-voiture-7-places.be et meilleur-chocolat.be : collision de squelette assumee par la doctrine (la voiture n'est pas un service souscriptible), divergence portee par la peau",
+        "2e site sombre consecutif apres meilleur-operateur-internet.be — le sombre est ici un choix de DEMARCATION, les deux voisins de teinte du parc etant tous deux clairs"
       ]
     }
   ]
