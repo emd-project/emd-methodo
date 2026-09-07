@@ -494,6 +494,70 @@
         "layoutHome `magazine` partage avec quel-fournisseur-energie.be, meilleure-citadine.be, meilleure-voiture-de-luxe.be, meilleure-voiture-7-places.be et meilleur-chocolat.be : collision de squelette assumee par la doctrine (la voiture n'est pas un service souscriptible), divergence portee par la peau",
         "2e site sombre consecutif apres meilleur-operateur-internet.be — le sombre est ici un choix de DEMARCATION, les deux voisins de teinte du parc etant tous deux clairs"
       ]
+    },
+    {
+      "domain": "internet-pas-cher.be",
+      "repo": "internet-pas-cher.be",
+      "registeredAt": "2026-09-07",
+      "authorName": "Ludivine B.",
+      "fonts": { "display": "Schibsted Grotesk", "body": "Cabin", "mono": "Anonymous Pro" },
+      "accent1": "#227747", "accent1Hue": 146.1, "accent2": "#96501C",
+      "accent1Dark": "#4FB77B",
+      "bgPrimary": "#ECEEEC", "bgSurface": "#F7F8F6", "mode": "light",
+      "bgPrimaryDark": "#101312", "bgSurfaceDark": "#181C1A",
+      "layoutHome": "marche", "permutations": { "shape": "sharp", "border": "hairline", "shadow": "standard" },
+      "signature": "aucune offre n'est retenue sans son prix plancher tenu sur douze mois hors promotion, et sans dire a qui elle est reellement accessible : le tarif social telecom, la disponibilite a l'adresse ou la condition de pack decident du montant avant le choix de la marque",
+      "partiPris": "carte de recharge prepayee grattee — carton fin, film argente ecaille, code a quatorze chiffres et vert de comptoir",
+      "paletteSource": "docs/DA-DIRECTIONS.md — direction carton imprime / film metallique. Teinte portee a 146,1 degres (vert de comptoir des cartes de recharge), point qui MAXIMISE l'ecart minimal a l'interieur de la plage [142,0-184,0], seule plage utilisable avec [234,0-250,9].",
+      "effects": ["carton-fin", "film-argente", "code-a-quatorze-chiffres", "dentelure-de-predecoupe", "prix-barre"],
+      "styleTokens": { "effects": "none", "cards": "filled" },
+      "contrast": {
+        "light": {
+          "textPrimary/bgPrimary": 15.16,
+          "textPrimary/bgSurface": 16.60,
+          "textSecondary/bgPrimary": 6.89,
+          "textSecondary/bgSurface": 7.54,
+          "textMuted/bgPrimary": 4.70,
+          "textMuted/bgSurface": 5.14,
+          "accent1/bgPrimary": 4.74,
+          "accent1/bgSurface": 5.19,
+          "textOnAccent1(#FFFFFF)": 5.53,
+          "accent2/bgPrimary": 5.20,
+          "accent3(#175E68)/bgPrimary": 6.35,
+          "accent4(#5C3F78)/bgPrimary": 7.39,
+          "accent5(#7A5410)/bgPrimary": 5.80,
+          "borderStrong+focus(#7B837F)/bgPrimary": 3.34,
+          "borderStrong+focus(#7B837F)/bgSurface": 3.65
+        },
+        "dark": {
+          "textPrimary/bgPrimary": 16.06,
+          "textPrimary/bgSurface": 14.80,
+          "textSecondary/bgPrimary": 8.09,
+          "textSecondary/bgSurface": 7.45,
+          "textMuted/bgPrimary": 4.91,
+          "textMuted/bgSurface": 4.53,
+          "accent1Dark/bgPrimary": 7.47,
+          "accent1Dark/bgSurface": 6.88,
+          "textOnAccent1Dark(#101312)": 7.47,
+          "accent2Dark(#D4854A)/bgPrimary": 6.46,
+          "accent3Dark(#4FA8B5)/bgPrimary": 6.76,
+          "accent4Dark(#A98BC7)/bgPrimary": 6.41,
+          "accent5Dark(#C99A3C)/bgPrimary": 7.28,
+          "borderStrong+focus(#6B746F)/bgPrimary": 3.87,
+          "borderStrong+focus(#6B746F)/bgSurface": 3.57
+        }
+      },
+      "flags": [
+        "ecart minimal a la fenetre des 8 derniers : 29,1 degres (meilleur-operateur-internet.be, 117,0) — plancher 25 ; tous les autres au-dela de 62",
+        "PARC ENTIER : 14,9 degres de meilleure-citadine.be (131,2) et 15,3 de meilleure-neobanque.be (161,4), tous deux HORS fenetre. Arbitrage documente : les deux seules plages degageant 25 degres de CHACUN des 8 derniers sont [142,0-184,0] et [234,0-250,9]. La seconde contient meilleur-parti-politique.be (244,5) et laisse au mieux 9,7 degres, dans la bande indigo signalee comme cliche IA. 146,1 est le point de la premiere plage qui maximise l'ecart minimal (14,9 / 15,3, quasi symetrique).",
+        "VIGILANCE meilleure-citadine.be et meilleur-operateur-internet.be : trois verts a moins de 30 degres. La demarcation tient au MODE — ce site est CLAIR, les deux autres sont SOMBRES — au fond (carton argente #ECEEEC contre noir-vert #0E1210 et graphite #0F1113), a la desaturation (S 55 % L 30 % contre des verts vifs) et a la typo (aucun recouvrement).",
+        "premier couple de fonds ARGENTE du parc : #ECEEEC / #F7F8F6, gris-vert tres pale ; les 16 couples clairs existants sont blanc pur, creme, gris froid ou rose",
+        "Schibsted Grotesk, Cabin et Anonymous Pro absents de tout le parc",
+        "permutations sharp/hairline/standard : combinaison absente du parc (quelle-assurance-auto.be = sharp/hairline/flat, comparer-carte-credit.be = sharp/hairline/deep)",
+        "style.effects = `none` : 4e site du parc sans aucun degrade (apres comparer-carte-credit.be, quel-abonnement-gsm-choisir.be et meilleur-operateur-internet.be)",
+        "REPASSE EN CLAIR apres deux sites sombres consecutifs (meilleur-operateur-internet.be, meilleure-voiture-hybride.be) — et le clair est ici le levier principal de demarcation des deux voisins verts du parc, tous deux sombres",
+        "layoutHome `marche` partage avec meilleure-banque.be, comparer-abonnement-tv.be, comparer-carte-credit.be, quel-abonnement-gsm-choisir.be et meilleur-operateur-internet.be : collision de squelette assumee par la doctrine (service souscriptible), divergence portee par la peau"
+      ]
     }
   ]
 }
