@@ -558,6 +558,57 @@
         "REPASSE EN CLAIR apres deux sites sombres consecutifs (meilleur-operateur-internet.be, meilleure-voiture-hybride.be) — et le clair est ici le levier principal de demarcation des deux voisins verts du parc, tous deux sombres",
         "layoutHome `marche` partage avec meilleure-banque.be, comparer-abonnement-tv.be, comparer-carte-credit.be, quel-abonnement-gsm-choisir.be et meilleur-operateur-internet.be : collision de squelette assumee par la doctrine (service souscriptible), divergence portee par la peau"
       ]
+    },
+    {
+      "domain": "comparer-compte-epargne.be",
+      "repo": "comparer-compte-epargne.be",
+      "registeredAt": "2026-09-10",
+      "authorName": "Florence W.",
+      "fonts": { "display": "Petrona", "body": "Assistant", "mono": "Cutive Mono" },
+      "accent1": "#A32922", "accent1Hue": 3.3, "accent2": "#2C4E86",
+      "bgPrimary": "#EFE9E7", "bgSurface": "#FAF6F5", "mode": "light",
+      "layoutHome": "marche", "permutations": { "shape": "soft", "border": "standard", "shadow": "deep" },
+      "signature": "aucun compte n'est presente par son taux affiche : le taux de base et la prime de fidelite sont toujours imprimes separement, avec la duree de detention qu'il faut tenir pour toucher la seconde et la date a laquelle la grille a ete relevee",
+      "partiPris": "le livret de depot tamponne — papier de registre gris-rose, encre rouge du cachet date, reglure bleue de colonne et laiton du guichet",
+      "paletteSource": "docs/DA-DIRECTIONS.md — direction papier imprime / encre. Teinte portee a 3,3 degres (encre rouge de cachet de guichet), point qui MAXIMISE l'ecart minimal a l'interieur de la plage [359,9-6,1]. accent2 re-accorde a 217,3 degres (reglure bleue de colonne).",
+      "effects": ["filigrane-de-registre", "reglure-de-colonne", "chiffres-de-livret", "cachet-date", "talon-de-depot"],
+      "styleTokens": { "effects": "none", "cards": "bordered" },
+      "contrast": {
+        "light": {
+          "textPrimary/bgPrimary": 15.12,
+          "textPrimary/bgSurface": 16.92,
+          "textPrimary/bgSurface2": 13.24,
+          "textSecondary/bgPrimary": 8.08,
+          "textSecondary/bgSurface": 9.04,
+          "textMuted/bgPrimary": 4.65,
+          "textMuted/bgSurface": 5.21,
+          "accent1/bgPrimary": 6.04,
+          "accent1/bgSurface": 6.75,
+          "accent2/bgPrimary": 6.90,
+          "accent3/bgPrimary": 5.43,
+          "accent4/bgPrimary": 4.85,
+          "accent5/bgPrimary": 8.16,
+          "textOnAccent1(#FFFFFF)": 7.25,
+          "borderStrong+focus(#8A7A7C)/bgPrimary": 3.40,
+          "borderStrong+focus(#8A7A7C)/bgSurface": 3.80
+        },
+        "dark": {
+          "note": "site LIGHT FIXE — le bloc html[data-theme=dark] rend la meme palette, les ratios sont identiques par construction"
+        }
+      },
+      "flags": [
+        "ecart minimal a la fenetre des 8 derniers : 27,8 degres (meilleure-voiture-utilitaire.be, 31,1) et 28,4 degres (quel-abonnement-gsm-choisir.be, 334,9) — plancher 25 ; tous les autres au-dela de 56",
+        "PARC ENTIER : 9,7 degres de meilleure-voiture-7-places.be (13,0), 10,3 de quelle-assurance-auto.be (353,0), 11,5 de quel-fournisseur-energie.be (351,8) et 11,9 de simulateur-assurance-auto.be (351,4) — tous HORS fenetre. Arbitrage documente : les trois seules plages degageant 25 degres de CHACUN des 8 derniers sont [171,1-184,0], [234,0-250,9] et [359,9-6,1]. La premiere tombe dans la bande vert-teal-cyan (7 sites, dont meilleur-abonnement-5g.be a 174,5 exactement dedans) et contient meilleure-neobanque.be (161,4), site FRERE bancaire. La deuxieme contient meilleur-parti-politique.be (244,5) dans la bande indigo signalee comme cliche IA. La troisieme a ete retenue.",
+        "VIGILANCE bande rouge du parc (349,5-353,0, 4 sites) : aucun n'est un site frere bancaire — trois sont automobile ou assurance, un est energie. La demarcation ne tient pas sur la teinte mais sur le couple de fonds (papier gris-rose contre creme jaune ou blanc pur), la saturation (encre vive contre bordeaux sombre) et la typo (aucun recouvrement).",
+        "premier couple de fonds GRIS-ROSE CHAUD du parc : #EFE9E7 / #FAF6F5. Les 17 couples clairs existants sont blanc pur, creme jaune, gris froid, argente ou rose-magenta. Le plus proche est #F7EFF1 de quel-abonnement-gsm-choisir.be : teinte de fond 345 degres contre 15 degres ici. Aucune surface n'est en blanc pur.",
+        "Petrona, Assistant et Cutive Mono absents de tout le parc. Cutive Mono est la PREMIERE mono a empattements de machine du parc — les 9 monos existantes sont des grotesques techniques. Le fork ne chargeait AUCUNE mono alors que --next-font-mono etait reference dans globals.css : corrige.",
+        "permutations soft/standard/deep : combinaison absente du parc",
+        "style.effects = 'none' : 5e site du parc sans aucun degrade (apres comparer-carte-credit.be, quel-abonnement-gsm-choisir.be, meilleur-operateur-internet.be et internet-pas-cher.be)",
+        "cards = 'bordered' retenu VOLONTAIREMENT sur un site de tableaux : le filet EST la reglure du livret. 'minimal' aurait retire la structure qui porte le sens.",
+        "layoutHome 'marche' partage avec meilleure-banque.be, comparer-abonnement-tv.be, comparer-carte-credit.be, quel-abonnement-gsm-choisir.be, meilleur-operateur-internet.be et internet-pas-cher.be : collision de squelette assumee par la doctrine (service souscriptible)",
+        "2e site clair consecutif apres internet-pas-cher.be — le clair est ici le registre juste du sujet (papier de registre) ET une contrainte du moteur : le fork est en light fixe, sans bloc html[data-theme=dark] d'origine",
+        "DETTE : le favicon app/icon.svg et le logo header portent encore la teinte teal #0A6E77 du fork, pas #A32922"
+      ]
     }
   ]
 }
