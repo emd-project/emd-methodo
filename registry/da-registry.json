@@ -175,7 +175,7 @@
       "bgPrimary": "#F2F4F8", "bgSurface": "#FFFFFF", "mode": "light",
       "layoutHome": null, "permutations": null,
       "signature": "bande categories sombre + mosaique hero decalee",
-      "flags": ["niche.config.layouts absent — le resolver retombe sur magazine, c'est bien la home rendue", "2026-09-03 : meilleure-voiture-hybride.be (209,0) se place a 16,2 degres — hors fenetre, mais c'est le SEUL site frere automobile a moins de 25 degres ; demarcation portee par le mode (sombre contre clair), le fond (brun-noir chaud contre gris froid), la saturation et la typo"]
+      "flags": ["niche.config.layouts absent — le resolver retombe sur magazine, c'est bien la home rendue", "2026-09-03 : meilleure-voiture-hybride.be (209,0) se place a 16,2 degres — hors fenetre, mais c'est le SEUL site frere automobile a moins de 25 degres ; demarcation portee par le mode (sombre contre clair), le fond (brun-noir chaud contre gris froid), la saturation et la typo", "2026-09-14 : meilleur-shampoing.be (235,0) se place a 9,8 degres — hors fenetre des deux cotes, arbitrage documente dans l'entree de ce dernier ; aucun recouvrement de secteur"]
     },
     {
       "domain": "www.meilleure-voiture-familiale.be", "repo": "meilleure-voiture-familiale.be", "registeredAt": null, "backfilledAt": "2026-08-01",
@@ -202,7 +202,7 @@
       "bgPrimary": "#F4F2EC", "bgSurface": "#FFFFFF", "mode": "light",
       "layoutHome": "comparateur", "permutations": { "shape": "rounded", "border": "standard", "shadow": "flat" },
       "signature": "le badge +/− sur chaque mesure",
-      "flags": ["display = police par defaut du template", "accent1 indigo — proche du cliche IA a surveiller"]
+      "flags": ["display = police par defaut du template", "accent1 indigo — proche du cliche IA a surveiller", "2026-09-14 : meilleur-shampoing.be (235,0) se place a 9,5 degres — hors fenetre des deux cotes. Ce site reste le SEUL indigo sature du parc ; le nouveau venu est un pervenche desature sur fond sombre, demarcation documentee dans son entree"]
     },
     {
       "domain": "www.meilleures-assurances-auto.be", "repo": "meilleures-assurances-auto.be", "registeredAt": null, "backfilledAt": "2026-08-01",
@@ -608,6 +608,70 @@
         "layoutHome 'marche' partage avec meilleure-banque.be, comparer-abonnement-tv.be, comparer-carte-credit.be, quel-abonnement-gsm-choisir.be, meilleur-operateur-internet.be et internet-pas-cher.be : collision de squelette assumee par la doctrine (service souscriptible)",
         "2e site clair consecutif apres internet-pas-cher.be — le clair est ici le registre juste du sujet (papier de registre) ET une contrainte du moteur : le fork est en light fixe, sans bloc html[data-theme=dark] d'origine",
         "DETTE : le favicon app/icon.svg et le logo header portent encore la teinte teal #0A6E77 du fork, pas #A32922"
+      ]
+    },
+    {
+      "domain": "meilleur-shampoing.be",
+      "repo": "meilleur-shampoing.be",
+      "registeredAt": "2026-09-14",
+      "authorName": "Aurelie V.",
+      "fonts": { "display": "Syne", "body": "Urbanist", "mono": "Syne Mono" },
+      "accent1": "#8188DA", "accent1Hue": 235.0, "accent2": "#D3A14A",
+      "accent1Light": "#2E3793",
+      "bgPrimary": "#131018", "bgSurface": "#1B1722", "mode": "dark",
+      "bgPrimaryLight": "#E9E7EE", "bgSurfaceLight": "#F7F6FA",
+      "layoutHome": "magazine", "permutations": { "shape": "rounded", "border": "standard", "shadow": "deep" },
+      "signature": "aucun shampoing n'est retenu sans son tensioactif principal nomme tel qu'il figure a l'INCI, sans le rang qu'il occupe dans la liste, et sans son prix ramene au lavage plutot qu'au flacon — le type de cheveux imprime sur l'etiquette ne decide de rien",
+      "partiPris": "le dos du flacon lu sous la lampe de la salle de bain — etiquette adhesive qui se decolle, micro-typographie de liste INCI, code de lot a l'encre violette, pictogramme PAO, plastique sombre et gouttes d'eau",
+      "paletteSource": "docs/DA-DIRECTIONS.md — direction plastique imprime / etiquette adhesive. Teinte portee a 235,0 degres (encre violette du code de lot imprime au jet sur le flanc du flacon), point qui maximise l'ecart minimal a l'interieur de la plage [234,0-250,9].",
+      "effects": ["etiquette-decollee", "micro-typographie-inci", "code-de-lot", "filet-de-remplissage", "goutte"],
+      "styleTokens": { "effects": "subtle", "cards": "filled" },
+      "contrast": {
+        "dark": {
+          "textPrimary/bgPrimary": 17.10,
+          "textPrimary/bgSurface": 16.43,
+          "textSecondary/bgPrimary": 9.12,
+          "textSecondary/bgSurface": 8.76,
+          "textMuted/bgPrimary": 5.30,
+          "textMuted/bgSurface": 5.09,
+          "accent1/bgPrimary": 5.86,
+          "accent1/bgSurface": 5.63,
+          "textOnAccent1(#131018)": 5.86,
+          "accent2/bgPrimary": 8.04,
+          "accent3(#6FB8A4)/bgPrimary": 8.21,
+          "accent4(#9FA6BC)/bgPrimary": 7.84,
+          "accent5(#C48FA8)/bgPrimary": 7.07,
+          "focusRing(accent1)/bgPrimary": 5.86
+        },
+        "light": {
+          "textPrimary/bgPrimary": 14.43,
+          "textPrimary/bgSurface": 16.44,
+          "textSecondary/bgPrimary": 7.16,
+          "textSecondary/bgSurface": 8.16,
+          "textMuted/bgPrimary": 4.93,
+          "textMuted/bgSurface": 5.62,
+          "accent1Light/bgPrimary": 8.11,
+          "accent1Light/bgSurface": 9.23,
+          "textOnAccent1Light(#FFFFFF)": 9.94,
+          "accent2Light(#7E5714)/bgPrimary": 5.25,
+          "accent3Light(#1D6B5A)/bgPrimary": 5.19,
+          "accent4Light(#4A5270)/bgPrimary": 6.27,
+          "accent5Light(#8A3F60)/bgPrimary": 5.80,
+          "focusRing(accent1Light)/bgPrimary": 8.11
+        }
+      },
+      "flags": [
+        "ecart minimal a la fenetre des 8 derniers : 26,0 degres (meilleure-voiture-hybride.be, 209,0) — plancher 25 ; puis 40,9 (comparer-abonnement-tv.be, 275,9), tous les autres au-dela de 66",
+        "PARC ENTIER : 9,5 degres de meilleur-parti-politique.be (244,5) et 9,8 de meilleure-voiture.be (225,2), tous deux HORS fenetre. Arbitrage documente : les trois seules plages degageant 25 degres de CHACUN des 8 derniers sont [28,3-47,0], [171,1-184,0] et [234,0-250,9]. La premiere tombe dans la bande orange-cuivre (6 sites : 13,0 / 17,6 / 24,4 / 31,1 / 35,8 / 42,4) et ne laisse au mieux que 4,6 degres. La deuxieme tombe dans la bande vert-teal-cyan (7 sites) et contient meilleur-abonnement-5g.be a 174,5 exactement dedans, pour au mieux 7,0 degres. La troisieme offre 9,5 degres au point optimal : c'est le meilleur ecart minimal des trois, et elle a ete retenue.",
+        "VIGILANCE bande bleu-indigo, signalee au registre comme proche du cliche IA. La demarcation ne tient donc PAS sur la teinte : accent-1 est un PERVENCHE DESATURE (HSL 235 / 55 % / 68 %) et non l'indigo sature #4B40D4 de meilleur-parti-politique.be ; ce site est SOMBRE quand les deux voisins de teinte du parc sont tous deux CLAIRS ; le couple de fonds est inedit ; et la typo n'a aucun recouvrement.",
+        "premier NOIR-VIOLACE du parc : #131018 / #1B1722, R ~ B > G. Les 8 autres sites sombres sont bleu-noir (4), noir-vert froid (1), noir-kaki chaud (1), graphite neutre (1) ou brun-noir chaud (1). Aucun ne porte de dominante violette.",
+        "Syne, Urbanist et Syne Mono absents de tout le parc. Syne Mono est la premiere mono a dessin EXPRESSIF du parc — les 10 monos existantes sont des grotesques techniques ou, depuis le 2026-09-10, une mono a empattements de machine. Le fork ne chargeait AUCUNE mono alors que --next-font-mono etait reference dans globals.css (compteur de sections, code inline) : corrige.",
+        "permutations rounded/standard/deep : combinaison absente du parc (meilleur-parti-politique.be = rounded/standard/flat, meilleur-operateur-internet.be = rounded/hairline/standard, meilleure-voiture-hybride.be = rounded/bold/deep)",
+        "style.effects = 'subtle' : 2e du parc apres meilleure-voiture-hybride.be. 'none' a ete ecarte volontairement — le halo attenue est ce qui fait exister le flacon dans le noir ; a surveiller, cinq sites du parc sortent deja sans aucun degrade.",
+        "style.cards = 'filled' : partage avec quel-abonnement-gsm-choisir.be et internet-pas-cher.be. Retenu parce que la carte EST une etiquette collee, donc une surface pleine.",
+        "REPASSE EN SOMBRE apres deux sites clairs consecutifs (internet-pas-cher.be, comparer-compte-epargne.be) — et le sombre est ici le levier principal de demarcation des deux voisins de teinte du parc, tous deux clairs",
+        "layoutHome 'magazine' partage avec quel-fournisseur-energie.be, meilleure-citadine.be, meilleure-voiture-de-luxe.be, meilleure-voiture-7-places.be, meilleur-chocolat.be et meilleure-voiture-hybride.be : collision de squelette assumee par la doctrine (le shampoing n'est pas un service souscriptible)",
+        "PREMIER site beaute du parc hors meilleure-beaute-demo (repo de demonstration). Six sites freres capillaires sont au pipeline : quand ils sortiront, la bande 234-251 sera deja prise et ils devront chercher ailleurs."
       ]
     }
   ]
