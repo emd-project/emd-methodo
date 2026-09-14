@@ -1,17 +1,17 @@
 DOMAINE,CATÉGORIE,SOUS-TYPE,STATUT,URL,ACHETÉ
-152,0,141,7% live,,30
+158,0,122,17% live,,33
 meilleure-voiture.be,Voiture,Générique,Live,https://www.meilleure-voiture.be/,Acheté
 meilleur-suv.be,Voiture,Type,Live,https://www.meilleur-suv.be/,Acheté
 meilleure-voiture-familiale.be,Voiture,Type,Live,https://www.meilleure-voiture-familiale.be/,Acheté
 meilleure-voiture-utilitaire.be,Voiture,Type,Live,https://www.meilleure-voiture-utilitaire.be/,Acheté
 meilleure-voiture-7-places.be,Voiture,Type,Live,https://www.meilleure-voiture-7-places.be/,Acheté
-meilleure-citadine.be,Voiture,Type,Configuré,https://meilleure-citadine-be.vercel.app,Acheté
-voiture-familiale.be,Voiture,Type,À faire,,À acheter
+meilleure-citadine.be,Voiture,Type,Live,https://www.meilleure-citadine.be/,Acheté
+voiture-familiale.be,Voiture,Type,Configuré,https://voiture-familiale-be.vercel.app,À acheter
 quelle-voiture-de-societe.be,Voiture,Type,À faire,,À acheter
-meilleure-voiture-electrique.be,Voiture,Motorisation,Live,https://www.meilleure-voiture-electrique.be,Acheté
-meilleure-voiture-hybride.be,Voiture,Motorisation,Configuré,https://meilleure-voiture-hybride-be.vercel.app,Acheté
+meilleure-voiture-electrique.be,Voiture,Motorisation,Live,https://meilleure-voiture-electrique.be/fr,Acheté
+meilleure-voiture-hybride.be,Voiture,Motorisation,Live,https://meilleure-voiture-hybride.be/,Acheté
 quelle-voiture-electrique-choisir.be,Voiture,Motorisation,À faire,,À acheter
-meilleure-voiture-de-luxe.be,Voiture,Persona,Configuré,https://meilleure-voiture-de-luxe-be.vercel.app,Acheté
+meilleure-voiture-de-luxe.be,Voiture,Persona,Live,https://www.meilleure-voiture-de-luxe.be/,Acheté
 meilleure-voiture-pour-senior.be,Voiture,Persona,À faire,,À acheter
 meilleure-voiture-jeune-conducteur.be,Voiture,Persona,À faire,,À acheter
 ma-voiture-de-societe.be,Voiture,Persona,À faire,,À acheter
@@ -22,27 +22,27 @@ ma-voiture-familiale.be,Voiture,Usage,À faire,,À acheter
 leasing-ou-renting.be,Voiture,Financement,À faire,,À acheter
 credit-ballon.be,Voiture,Financement,À faire,,À acheter
 quel-leasing-choisir.be,Voiture,Financement,À faire,,À acheter
-meilleur-operateur-mobile.be,Télécom,Générique,Configuré,https://meilleur-operateur-mobile-be.vercel.app,Acheté
-quel-operateur-choisir.be,Télécom,Opérateur,Live,https://www.quel-operateur-choisir.be,Acheté
-quel-abonnement-gsm-choisir.be,Télécom,Opérateur,Configuré,https://quel-abonnement-gsm-choisir-be.vercel.app,Acheté
+meilleur-operateur-mobile.be,Télécom,Générique,Cassé,https://www.meilleur-operateur-mobile.be/ (404),Acheté
+quel-operateur-choisir.be,Télécom,Opérateur,Live,https://www.quel-operateur-choisir.be/,Acheté
+quel-abonnement-gsm-choisir.be,Télécom,Opérateur,Live,https://www.quel-abonnement-gsm-choisir.be/,Acheté
 meilleur-operateur-internet.be,Télécom,Opérateur,Configuré,https://meilleur-operateur-internet-be.vercel.app,Acheté
 quel-operateur-internet.be,Télécom,Opérateur,À faire,,À acheter
-meilleur-abonnement-5g.be,Télécom,Abonnement 5G,Configuré,https://meilleur-abonnement-5g-be.vercel.app,Acheté
+meilleur-abonnement-5g.be,Télécom,Abonnement 5G,Live,https://www.meilleur-abonnement-5g.be/,Acheté
 abonnement-5g.be,Télécom,Abonnement 5G,À faire,,À acheter
-meilleure-fibre-internet.be,Télécom,Internet / Fibre,Configuré,https://meilleure-fibre-internet-be.vercel.app,Acheté
+meilleure-fibre-internet.be,Télécom,Internet / Fibre,Live,https://www.meilleure-fibre-internet.be/,Acheté
 internet-pas-cher.be,Télécom,Internet / Fibre,Configuré,https://internet-pas-cher-be.vercel.app,Acheté
 internet-haut-debit.be,Télécom,Internet / Fibre,À faire,,À acheter
 ma-box-internet.be,Télécom,Internet / Fibre,À faire,,À acheter
 comparer-abonnement-internet.be,Télécom,Internet / Fibre,À faire,,À acheter
 meilleur-esim-belgique.be,Télécom,Internet / Fibre,À faire,,À acheter
-comparer-abonnement-tv.be,Télécom,TV,Configuré,https://comparer-abonnement-tv-be.vercel.app,Acheté
+comparer-abonnement-tv.be,Télécom,TV,Live,https://www.comparer-abonnement-tv.be/,Acheté
 quel-abonnement-tv.be,Télécom,TV,À faire,,À acheter
 mon-abonnement-tv.be,Télécom,TV,À faire,,À acheter
 connexion-satellite.be,Télécom,Satellite,À faire,,À acheter
 comparer-connexion-satellite.be,Télécom,Satellite,À faire,,À acheter
-meilleur-fournisseur-energie.be,Énergie,Générique,Live,https://www.meilleur-fournisseur-energie.be,Acheté
-quel-fournisseur-energie.be,Énergie,Fournisseur,Configuré,https://quel-fournisseur-energie-be.vercel.app,Acheté
-meilleur-fournisseur-electricite.be,Énergie,Fournisseur,Configuré,,Acheté
+meilleur-fournisseur-energie.be,Énergie,Générique,Live,https://www.meilleur-fournisseur-energie.be/,Acheté
+quel-fournisseur-energie.be,Énergie,Fournisseur,Live,https://www.quel-fournisseur-energie.be/,Acheté
+meilleur-fournisseur-electricite.be,Énergie,Fournisseur,Live,https://www.meilleur-fournisseur-electricite.be/,Acheté
 avis-fournisseur-electricite.be,Énergie,Fournisseur,À faire,,À acheter
 mon-comparateur-energie.be,Énergie,Comparateur,À faire,,À acheter
 comparer-mon-energie.be,Énergie,Comparateur,À faire,,À acheter
@@ -56,9 +56,9 @@ comparer-panneaux-solaires.be,Énergie,Solaire,À faire,,À acheter
 meilleur-panneau-solaire.be,Énergie,Solaire,À faire,,À acheter
 mes-panneaux-solaires.be,Énergie,Solaire,À faire,,À acheter
 meilleure-assurance.be,Assurance,Générique,À faire,,À acheter
-quelle-assurance-auto.be,Assurance,Auto,À faire,,Acheté
-meilleures-assurances-auto.be,Assurance,Auto,Live,https://www.meilleures-assurances-auto.be,Acheté
-simulateur-assurance-auto.be,Assurance,Auto,Configuré,https://simulateur-assurance-auto-be.vercel.app,Acheté
+quelle-assurance-auto.be,Assurance,Auto,Live,https://www.quelle-assurance-auto.be/,Acheté
+meilleures-assurances-auto.be,Assurance,Auto,Live,https://meilleures-assurances-auto.be/,Acheté
+simulateur-assurance-auto.be,Assurance,Auto,Live,https://www.simulateur-assurance-auto.be/,Acheté
 comparateur-credit-auto.be,Assurance,Auto / Crédit,À faire,,À acheter
 simulateur-credit-auto.be,Assurance,Auto / Crédit,À faire,,À acheter
 quelle-assurance-habitation.be,Assurance,Habitation,À faire,,À acheter
@@ -67,27 +67,28 @@ credit-hypothecaire-belgique.be,Assurance,Immobilier,À faire,,À acheter
 quel-credit-hypothecaire.be,Assurance,Immobilier,À faire,,À acheter
 simulateur-credit-immobilier.be,Assurance,Immobilier,À faire,,À acheter
 mon-credit-immobilier.be,Assurance,Immobilier,À faire,,À acheter
-meilleure-banque.be,Banque,Générique,Configuré,https://meilleure-banque-be.vercel.app,Acheté
-comparer-banque.be,Banque,Comparateur,Configuré,https://comparer-banque-be.vercel.app,Acheté
+meilleure-banque.be,Banque,Générique,Cassé,https://www.meilleure-banque.be/ (404),Acheté
+comparer-banque.be,Banque,Comparateur,Live,https://www.comparer-banque.be/,Acheté
 quelle-banque-choisir.be,Banque,Comparateur,À faire,,À acheter
-meilleure-carte-credit.be,Banque,Carte,Live,https://www.meilleure-carte-credit.be,Acheté
-comparer-carte-credit.be,Banque,Carte,Configuré,https://comparer-carte-credit-be.vercel.app,Acheté
-comparer-compte-epargne.be,Banque,Épargne,À faire,,Acheté
+meilleure-carte-credit.be,Banque,Carte,Live,https://www.meilleure-carte-credit.be/,Acheté
+comparer-carte-credit.be,Banque,Carte,Live,https://www.comparer-carte-credit.be/,Acheté
+comparer-compte-epargne.be,Banque,Épargne,Incomplet,,Acheté
 quel-compte-epargne.be,Banque,Épargne,À faire,,À acheter
-meilleure-neobanque.be,Banque,En ligne / Néo,Configuré,,Acheté
+meilleure-neobanque.be,Banque,En ligne / Néo,Live,https://www.meilleure-neobanque.be/,Acheté
 meilleure-banque-en-ligne.be,Banque,En ligne / Néo,À faire,,À acheter
 comparer-comptes-jeunes.be,Banque,Jeunes,À faire,,À acheter
 meilleur-compte-jeune.be,Banque,Jeunes,À faire,,À acheter
 meilleur-pret.be,Banque,Prêt,À faire,,À acheter
 meilleur-compte-bancaire.be,Banque,Compte,À faire,,À acheter
-meilleur-credit.be,Banque,Crédit,À faire,,
-meilleur-credit-immobilier.be,Banque,Crédit,À faire,,
-meilleur-credit-auto.be,Banque,Crédit,À faire,,
-meilleur-credit-personnel.be,Banque,Crédit,À faire,,
-meilleur-compte-epargne.be,Banque,Épargne,À faire,,
-meilleure-carte-bancaire.be,Banque,Carte,À faire,,
-meilleure-banque-pro.be,Banque,Pro,À faire,,
-meilleur-compte-professionnel.be,Banque,Pro,À faire,,
+meilleur-credit.be,Banque,Crédit,À faire,,À acheter
+meilleur-credit-immobilier.be,Banque,Crédit,À faire,,À acheter
+meilleur-credit-auto.be,Banque,Crédit,À faire,,À acheter
+meilleur-credit-personnel.be,Banque,Crédit,À faire,,À acheter
+meilleur-compte-epargne.be,Banque,Épargne,À faire,,À acheter
+meilleure-carte-bancaire.be,Banque,Carte,À faire,,À acheter
+meilleure-banque-pro.be,Banque,Pro,À faire,,À acheter
+meilleur-compte-professionnel.be,Banque,Pro,À faire,,À acheter
+meilleure-compte-pro.be,Banque,Pro,À faire,,À acheter
 meilleur-casino-online.be,Casino & Paris,Générique,À faire,,À acheter
 meilleur-casino-belgique.be,Casino & Paris,Casino,À faire,,À acheter
 quel-casino-choisir.be,Casino & Paris,Casino,À faire,,À acheter
@@ -145,10 +146,15 @@ meilleur-cosmetique.be,Beauty,Maquillage,À faire,,À acheter
 meilleur-maquillage.be,Beauty,Maquillage,À faire,,À acheter
 meilleur-fond-de-teint.be,Beauty,Maquillage,À faire,,À acheter
 meilleur-demaquillant.be,Beauty,Maquillage,À faire,,À acheter
-meilleur-hotel.be,Hospitality,Hôtel,À faire,,
-meilleur-hotel-belgique.be,Hospitality,Hôtel,À faire,,
-meilleur-hotel-bruxelles.be,Hospitality,Hôtel,À faire,,
-meilleur-hotel-bruges.be,Hospitality,Hôtel,À faire,,
-meilleur-hotel-luxe.be,Hospitality,Hôtel,À faire,,
-meilleur-restaurant.be,Hospitality,Restaurant,À faire,,
-meilleur-cabinet-avocat.be,Juridique,Annuaire,Configuré,,Acheté
+meilleur-hotel.be,Hospitality,Hôtel,À faire,,À acheter
+meilleur-hotel-belgique.be,Hospitality,Hôtel,À faire,,À acheter
+meilleur-hotel-bruxelles.be,Hospitality,Hôtel,À faire,,À acheter
+meilleur-hotel-bruges.be,Hospitality,Hôtel,À faire,,À acheter
+meilleur-hotel-luxe.be,Hospitality,Hôtel,À faire,,À acheter
+meilleur-restaurant.be,Hospitality,Restaurant,À faire,,À acheter
+meilleur-chocolat.be,Retailer & Tech,Alimentaire,Live,https://www.meilleur-chocolat.be/,Acheté
+meilleur-parti-politique.be,Divers,Politique,Live,https://www.meilleur-parti-politique.be/,Acheté
+meilleure-beaute-demo.be,Beauty,Démo interne,Configuré,https://meilleure-beaute-demo.vercel.app,n/a (repo démo)
+mon-aspirateur.be,Retailer & Tech,Électroménager,Live,https://www.mon-aspirateur.be/fr,Acheté
+meilleur-cabinet-avocat.be,Juridique,Annuaire,Live,https://www.meilleur-cabinet-avocat.be/,Acheté
+meilleur-avocat.be,Juridique,Annuaire,Configuré,https://meilleur-avocat-be.vercel.app,À acheter
