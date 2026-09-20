@@ -69,19 +69,43 @@ Elle avait été retirée le **2026-08-02** au motif qu'elle était maintenue po
 
 `layouts.home` reste renseigné : il n'est pas lu tant que l'identité est `presse`, mais il est le repli si un site repasse en `standard`.
 
-## Le rebranchement — trois fichiers
+## Le rebranchement — quatre fichiers
 
 Dans `emd-template`, **tout était resté en place** sauf deux points : `isPresse()` rendait `false` en dur (`@deprecated`), et `HomeRouter` ne dispatchait plus `PresseHome`. Étaient intacts : les sept composants `components/presse/*`, les branches `if (isPresse())` du hub blog, de la catégorie et de l'article, les deux layouts FR/EN, et les clés de traduction `presse.*` en FR et en EN.
 
 1. `niche.config.ts` → ajouter `identity?: 'standard' | 'presse'` au type `layouts`, puis `identity: 'presse'`
 2. `lib/variants.ts` → `isPresse()` relit `niche.layouts?.identity`, et `suggestVariants` rend `identity: 'presse'` quand la famille est `beaute`
 3. `components/home/HomeRouter.tsx` → dispatcher `PresseHome` quand `isPresse()`, **sauf** sur les routes preview `/home-vN`
+4. **`PresseMasthead` + les deux layouts** → la nav de catégories (voir ci-dessous)
 
 Première application : **meilleur-shampoing.be**, le 2026-09-17, teinte **235,0°** (encre violette) contre 339,3° pour le démo.
 
+## La nav de catégories ne doit lier que les catégories REMPLIES
+
+**Constaté le 2026-09-20 sur meilleur-shampoing.be : six liens morts dans le masthead** (trois catégories × deux locales), au lendemain du provisionnement.
+
+Le mécanisme, et il vaut pour **tout site presse fraîchement provisionné** :
+
+- `niche.config.categories` déclare 4 à 6 catégories — c'est ce que `seo-architect` demande ;
+- `budget.seedArticles` vaut **1** — c'est ce que la doctrine impose ;
+- `app/(site)/blog/[categorie]/page.tsx` fait `if (all.length === 0) notFound()`, et `generateStaticParams()` dérive de `getCategories()`, qui part des articles **publiés** ;
+- `PresseMasthead` liait `niche.categories`, donc **toutes** les catégories déclarées.
+
+Résultat : autant de 404 dans le menu que de catégories vides, jusqu'à ce que la tâche quotidienne les remplisse — et la règle de rotation lui interdit deux runs consécutifs dans la même catégorie, donc ça dure plusieurs jours.
+
+**Le correctif** — `PresseMasthead` prend une prop optionnelle `categories?: { slug, label }[]` :
+
+- prop **absente** → repli sur `niche.categories`, comportement d'avant, aucun fork cassé ;
+- prop **présente** → la nav lie exactement cette liste ;
+- `app/(site)/layout.tsx` passe `getCategories()`, `app/en/layout.tsx` passe **`getCategoriesEn()`** — une catégorie peut être remplie en FR et pas encore en EN ;
+- les deux listes sont **réordonnées selon `niche.config.categories`**, sinon la barre change d'ordre à chaque publication ;
+- l'accent de la pastille vient du **slug** (`categoryAccents()`), jamais de l'index de la liste rendue — sinon filtrer décalerait toutes les couleurs.
+
+Les catégories **reviennent seules** dans le menu dès qu'elles reçoivent leur premier article. Aucun contenu inventé, aucune page creuse indexée.
+
 ## Dette ouverte
 
-- [ ] **Porter les trois changements dans `emd-project/emd-template`**, pour que les forks suivants naissent avec `identity` dans le type et `isPresse()` fonctionnel. Tant que ce n'est pas fait, chaque site beauté doit rejouer les trois éditions à la main.
+- [ ] **Porter les QUATRE changements dans `emd-project/emd-template`**, pour que les forks suivants naissent avec `identity` dans le type, `isPresse()` fonctionnel, le dispatch `PresseHome` et la nav filtrée. Tant que ce n'est pas fait, chaque site beauté doit rejouer les quatre éditions à la main.
 - [ ] **Mettre à jour le skill `art-director`** : le levier 2 dit encore « il n'y a plus que DEUX homes, et le choix n'en est pas un », et les leviers 3 et 4 imposent un tirage de palette et de typo que cette famille n'applique plus. Y écrire la règle de copie.
 - [ ] **Bug i18n dans `PresseHome`** : les kickers de catégorie lisent `niche.categories[].label`, donc la locale de BASE. Sur `/en`, les libellés restent en français. Le correctif est de passer par `categoryLabelL(locale, slug)` (`lib/niche-l10n.ts`) dans `catLabel()`. Constaté sur meilleur-shampoing.be le 2026-09-17, à corriger dans le template.
 - [ ] **Chaîne `presse.letterDesc`** (`content/translations/fr.json`) : « Nos guides et nos **coups de cœur** » emploie un tic proscrit par `humaniser-fr`, et il s'affiche sur la home de tous les sites presse.
