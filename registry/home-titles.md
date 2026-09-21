@@ -104,6 +104,7 @@ arrêté d'avance : le jour où le site sort, il n'y a rien à décider.
 | `meilleure-beaute-demo` | Édito Beauté - Soins, cheveux, maquillage & parfum |
 | `mon-aspirateur-be` ⚠️ | Mon Aspirateur - Trouver l'aspirateur fait pour vous |
 | `meilleur-shampoing.be` | Meilleur Shampoing - Composition, format & prix au lavage |
+| `meilleur-hotel-bruges.be` | Meilleur Hôtel Bruges - Quartiers, saisons & prix réels |
 
 ---
 
@@ -118,3 +119,5 @@ Le compte de caractères porte sur la **chaîne complète**, espaces et séparat
 `meilleur-operateur-internet.be` (2026-08-28) est en registre **facettes** : les cinq autres titres télécom ouvrent sur « Trouver », et un sixième aurait rendu la section illisible. Version EN écrite dans sa propre langue, pas traduite — « Best Internet Provider - Coverage, speed & support », 50 caractères.
 
 `meilleur-shampoing.be` (2026-09-14) est en registre **facettes**, 56 caractères. La section « Autres » en tenait quatre, dont deux ouvraient sur « Trouver » ; un troisième aurait fait de la beauté une redite de l'électroménager. Les trois facettes sont exactement les trois critères de jugement du site — composition, format, prix au lavage — et non trois mots choisis pour la longueur. Version EN écrite dans sa propre langue, pas traduite : « Best Shampoo - Ingredients, formats & cost per wash », 51 caractères — « cost per wash » est la formule anglaise usuelle, une traduction littérale de « prix au lavage » aurait donné une ligne plate.
+
+`meilleur-hotel-bruges.be` (2026-09-21) est en registre **facettes**, 55 caractères. Les trois facettes sont exactement les trois critères de jugement du site — le quartier, la saison et le prix réellement payé — et non trois mots choisis pour la longueur. La section « Autres » comptait déjà deux titres ouvrant sur « Trouver » ; un troisième l'aurait rendue illisible. Version EN écrite dans sa propre langue, pas traduite : « Best Hotel Bruges - Areas, seasons & real prices », 48 caractères.
