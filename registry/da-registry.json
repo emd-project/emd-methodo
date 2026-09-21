@@ -692,6 +692,52 @@
         "style.effects = 'none' : 6e site du parc sans aucun degrade.",
         "DETTE : le bug i18n de PresseHome (kickers de categorie en francais sur /en) affecte ce site — cf. references/identite-presse-beaute.md."
       ]
+    },
+    {
+      "domain": "meilleur-hotel-bruges.be",
+      "repo": "meilleur-hotel-bruges.be",
+      "registeredAt": "2026-09-21",
+      "authorName": "Helene D.",
+      "sector": "Hospitality",
+      "fonts": { "display": "Literata", "body": "Be Vietnam Pro", "mono": null },
+      "accent1": "#4FC3C7", "accent1Hue": 182.0, "accent2": "#C9A227",
+      "accent3": "#2E7D7F", "accent4": "#8FD4D2", "accent5": "#1D3A3F",
+      "bgPrimary": "#0D1B1E", "bgSurface": "#142A2E", "bgSurface2": "#1D3A3F", "mode": "dark",
+      "textPrimary": "#ECF2F1", "textSecondary": "#A9BDBC", "textMuted": "#7D9695",
+      "layoutHome": "magazine", "permutations": { "shape": "soft", "border": "hairline", "shadow": "deep" },
+      "styleTokens": { "effects": "subtle", "cards": "filled", "hero": "split", "uiStyle": "comptoir-de-nuit" },
+      "signature": "aucune adresse n'est citee sans etre situee — le quartier, les minutes a pied du Markt et ce qu'on entend la nuit sous les fenetres — ni sans dire de quel mois date le tarif mentionne ; l'etoile et la note de plateforme ne decident de rien",
+      "partiPris": "le comptoir de nuit — chene sombre, laiton patine, eau noire des reien",
+      "paletteSource": "Teinte portee a 182,0 degres (eau noire des reien la nuit), point retenu dans la fenetre teal 171-184 laissee ouverte par les 8 derniers sites. accent2 en laiton patine (#C9A227), accent3 et accent4 en degrades de la meme eau, accent5 en ton le plus profond du chene sombre.",
+      "contrast": {
+        "dark": {
+          "textPrimary/bgPrimary": 15.54,
+          "textPrimary/bgSurface": 13.24,
+          "textPrimary/bgSurface2": 10.72,
+          "textSecondary/bgPrimary": 8.97,
+          "textSecondary/bgSurface": 7.64,
+          "textMuted/bgPrimary": 5.59,
+          "textMuted/bgSurface": 4.76,
+          "accent1/bgPrimary": 8.35,
+          "accent1/bgSurface": 7.11,
+          "accent2/bgPrimary": 7.28,
+          "accent3/bgPrimary": 3.65,
+          "accent4/bgPrimary": 10.49,
+          "textOnAccent1(#0D1B1E)": 8.35,
+          "focusRing(accent1)/bgPrimary": 8.35
+        }
+      },
+      "flags": [
+        "ecart de teinte controle contre les 8 derniers du registre : meilleur-shampoing.be (234,7), comparer-compte-epargne.be (3,3), internet-pas-cher.be (146,1), meilleure-voiture-hybride.be (209,0), meilleur-operateur-internet.be (117,0), quel-abonnement-gsm-choisir.be (334,9), comparer-carte-credit.be (72,0), comparer-abonnement-tv.be (275,9). Ecart minimal 27,0 degres contre meilleure-voiture-hybride.be (209,0) — plancher 25.",
+        "trois fenetres seulement etaient ouvertes : 28-47 degres (bande orange-cuivre deja saturee, 13 sites), 171-184 degres et 301-310 degres. La fenetre teal a ete retenue pour l'eau des reien.",
+        "couple de fonds #0D1B1E / #142A2E : unique dans le parc.",
+        "ni Literata ni Be Vietnam Pro n'apparaissent nulle part dans le registre.",
+        "SITE SOMBRE. Le brief d'enregistrement le donnait pour le troisieme site sombre du parc ; le registre compte en realite 8 entrees en mode dark, dont trois portent une variante claire (comparer-carte-credit.be, meilleur-operateur-internet.be, meilleure-voiture-hybride.be). Ecart signale, le compte n'a pas ete recopie tel quel.",
+        "layouts : home magazine, category editorial, article classic. Seul layoutHome est un champ du registre ; les deux autres sont consignes ici.",
+        "accent5 #1D3A3F est identique a bgSurface2 : c'est le ton le plus profond de la palette, employe en aplat de structure et jamais en texte — son ratio sur bgSurface2 vaut 1,0 par construction, ce n'est pas un defaut de contraste.",
+        "PREMIER site Hospitality du parc. Le champ `sector` n'existait sur aucune entree anterieure : il est introduit ici.",
+        "styleTokens etendu de deux cles absentes des entrees anterieures : `hero` (split) et `uiStyle` (comptoir-de-nuit)."
+      ]
     }
   ]
 }
