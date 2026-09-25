@@ -73,6 +73,7 @@ arrêté d'avance : le jour où le site sort, il n'y a rien à décider.
 | `meilleure-carte-credit.be` | Meilleure Carte Crédit - Trouver la carte faite pour vous |
 | `comparer-carte-credit.be` | Comparer Carte Crédit - Cotisation, taux & avantages |
 | `comparer-compte-epargne.be` | Comparer Épargne - Trouver le compte qui rapporte le plus |
+| `meilleure-carte-bancaire.be` | Meilleure Carte Bancaire - Frais, plafonds & étranger |
 
 ## Télécom
 
@@ -121,3 +122,5 @@ Le compte de caractères porte sur la **chaîne complète**, espaces et séparat
 `meilleur-shampoing.be` (2026-09-14) est en registre **facettes**, 56 caractères. La section « Autres » en tenait quatre, dont deux ouvraient sur « Trouver » ; un troisième aurait fait de la beauté une redite de l'électroménager. Les trois facettes sont exactement les trois critères de jugement du site — composition, format, prix au lavage — et non trois mots choisis pour la longueur. Version EN écrite dans sa propre langue, pas traduite : « Best Shampoo - Ingredients, formats & cost per wash », 51 caractères — « cost per wash » est la formule anglaise usuelle, une traduction littérale de « prix au lavage » aurait donné une ligne plate.
 
 `meilleur-hotel-bruges.be` (2026-09-21) est en registre **facettes**, 55 caractères. Les trois facettes sont exactement les trois critères de jugement du site — le quartier, la saison et le prix réellement payé — et non trois mots choisis pour la longueur. La section « Autres » comptait déjà deux titres ouvrant sur « Trouver » ; un troisième l'aurait rendue illisible. Version EN écrite dans sa propre langue, pas traduite : « Best Hotel Bruges - Areas, seasons & real prices », 48 caractères.
+
+`meilleure-carte-bancaire.be` (2026-09-25) est en registre **facettes**, 53 caractères. La section « Banque & finance » comptait six titres, dont quatre ouvrant sur « Trouver » — un cinquième aurait achevé de rendre la section interchangeable. Les trois facettes sont exactement les trois critères de jugement du site : la ligne de tenue de carte facturée à part du compte, les plafonds de paiement et de retrait, et ce que la carte devient hors de Belgique. Le mot « crédit » en est volontairement absent : il appartient aux deux sites frères `meilleure-carte-credit.be` et `comparer-carte-credit.be`, et ce site ne parle que de la carte de débit. Version EN écrite dans sa propre langue, pas traduite : « Best Debit Card Belgium - Fees, limits & abroad », 47 caractères — « debit card » lève l'ambiguïté que « bank card » laisserait entière en anglais, et « Belgium » est nécessaire là où le `.be` la portait en français.
