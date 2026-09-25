@@ -222,7 +222,7 @@
       "bgPrimary": "#F4F2EC", "bgSurface": "#FFFFFF", "mode": "light",
       "layoutHome": "comparateur", "permutations": { "shape": "rounded", "border": "standard", "shadow": "flat" },
       "signature": "le badge +/− sur chaque mesure",
-      "flags": ["display = police par defaut du template", "accent1 indigo — proche du cliche IA a surveiller", "2026-09-17 : meilleur-shampoing.be (235,0) se place a 9,5 degres — hors fenetre des deux cotes. Ce site reste le SEUL indigo SATURE du parc ; le nouveau venu est une encre sombre desaturee sur papier creme, dans une famille au chrome entierement different."]
+      "flags": ["display = police par defaut du template", "accent1 indigo — proche du cliche IA a surveiller", "2026-09-17 : meilleur-shampoing.be (235,0) se place a 9,5 degres — hors fenetre des deux cotes. Ce site reste le SEUL indigo SATURE du parc ; le nouveau venu est une encre sombre desaturee sur papier creme, dans une famille au chrome entierement different.", "2026-09-25 : meilleure-carte-bancaire.be (262,1) se place a 17,6 degres — hors fenetre des deux cotes. Ce site reste l'indigo SATURE clair ; le nouveau venu est un violet plus chaud, plus sombre et desature, sur un gris-violet dense."]
     },
     {
       "domain": "www.meilleures-assurances-auto.be", "repo": "meilleures-assurances-auto.be", "registeredAt": null, "backfilledAt": "2026-08-01",
@@ -262,7 +262,7 @@
       "partiPris": "carnet a souches d'agence bancaire — papier cheque filigrane, encre violette de tampon guichet, laiton de la plaque de facade",
       "paletteSource": "docs/DA-DIRECTIONS.md — direction fiduciaire, teinte mutee vers la bande violette vide du parc (aucun site entre 244,5 et 349,5 degres)",
       "effects": ["perforation", "talon-de-souche", "filigrane-fiduciaire", "chiffres-de-souche", "tampon-violet"],
-      "flags": ["accent1 a 62,6 degres du voisin le plus proche de la fenetre des 8 derniers (meilleur-parti-politique.be, 244,5) et a 42,4 degres du plus proche du parc entier (bande rouge 349,5) — plancher 25", "premier violet-magenta du parc : la bande 244,5-349,5 etait entierement vide", "Newsreader, Karla et Space Mono absents de tout le parc"]
+      "flags": ["accent1 a 62,6 degres du voisin le plus proche de la fenetre des 8 derniers (meilleur-parti-politique.be, 244,5) et a 42,4 degres du plus proche du parc entier (bande rouge 349,5) — plancher 25", "premier violet-magenta du parc : la bande 244,5-349,5 etait entierement vide", "Newsreader, Karla et Space Mono absents de tout le parc", "2026-09-25 : meilleure-carte-bancaire.be reprend la MEME combinaison de permutations (sharp/bold/flat) et le MEME layoutHome (marche), en mode clair et dans le meme secteur. La demarcation est portee par la teinte (45,0 degres), le couple de fonds, la typo et surtout les styleTokens : ce site garde les defauts (aurora/bordered, donc degrades visibles), le nouveau venu est en none/filled."]
     },
     {
       "domain": "comparer-abonnement-tv.be",
@@ -282,7 +282,8 @@
         "layoutHome `marche` partage avec meilleure-banque.be : collision de squelette attendue (meme famille de secteur), divergence portee par la peau",
         "Roboto Condensed, Work Sans et Roboto Mono absents de tout le parc",
         "couple de fonds #EFEBE0 / #F9F7F1 inedit — les 13 couples existants sont soit #FFFFFF en surface, soit un blanc casse plus froid",
-        "3e site clair consecutif : a surveiller, la bande sombre du parc se depeuple"
+        "3e site clair consecutif : a surveiller, la bande sombre du parc se depeuple",
+        "2026-09-25 : meilleure-carte-bancaire.be (262,1) se place a 13,8 degres — c'est desormais le voisin le plus proche du parc entier, HORS fenetre des deux cotes. Demarcation : papier journal chaud contre gris-violet froid, Roboto Condensed contre Gabarito, et un violet bleute clair contre un violet sombre desature."
       ]
     },
     {
@@ -737,6 +738,80 @@
         "accent5 #1D3A3F est identique a bgSurface2 : c'est le ton le plus profond de la palette, employe en aplat de structure et jamais en texte — son ratio sur bgSurface2 vaut 1,0 par construction, ce n'est pas un defaut de contraste.",
         "PREMIER site Hospitality du parc. Le champ `sector` n'existait sur aucune entree anterieure : il est introduit ici.",
         "styleTokens etendu de deux cles absentes des entrees anterieures : `hero` (split) et `uiStyle` (comptoir-de-nuit)."
+      ]
+    },
+    {
+      "domain": "meilleure-carte-bancaire.be",
+      "repo": "meilleure-carte-bancaire.be",
+      "registeredAt": "2026-09-25",
+      "authorName": "Benoit P.",
+      "sector": "Banque",
+      "fonts": { "display": "Gabarito", "body": "Onest", "mono": "Martian Mono" },
+      "accent1": "#532C96", "accent1Hue": 262.1, "accent2": "#775B0F",
+      "accent3": "#2F1857", "accent4": "#6A4DAE", "accent5": "#4A3A66",
+      "accent1Dark": "#A78BE8",
+      "bgPrimary": "#E9E7EE", "bgSurface": "#FDFCFE", "bgSurface2": "#DCD8E6", "mode": "light",
+      "bgPrimaryDark": "#141220", "bgSurfaceDark": "#1E1A2E", "bgSurface2Dark": "#2A2440",
+      "textPrimary": "#191426", "textSecondary": "#4E4763", "textMuted": "#635C77",
+      "layoutHome": "marche", "permutations": { "shape": "sharp", "border": "bold", "shadow": "flat" },
+      "styleTokens": { "effects": "none", "cards": "filled", "hero": "minimal", "uiStyle": "grille-de-contacts" },
+      "signature": "aucune carte n'est jugee sans dire quel schema elle embarque reellement — Bancontact, debit Mastercard, Visa Debit ou Maestro residuel — ce qu'elle porte comme ligne de tenue de carte a cote du compte, et ce qu'elle devient des qu'on la sort de Belgique ou qu'on la presente a un site qui n'accepte pas Bancontact",
+      "partiPris": "la grille de contacts de la puce — gravure fine, filets de routage orthogonaux, violet d'encre technique sur blanc d'atelier",
+      "paletteSource": "Le parc occupe 31 teintes ; le plus grand intervalle libre du cercle est 244,5 -> 275,9 (31,4 degres). Teinte portee a 262,1 degres, son milieu exact — violet d'encre technique. accent2 re-accorde a 43,8 degres (laiton des contacts dores du module de puce) : les deux accents disent litteralement l'objet, le contact et l'encre qui le decrit.",
+      "effects": ["grille-de-contacts", "filets-de-routage", "chiffres-graves", "lettrine-de-module", "anneau-de-focus-carre"],
+      "contrast": {
+        "light": {
+          "textPrimary/bgPrimary": 14.65,
+          "textPrimary/bgSurface": 17.56,
+          "textPrimary/bgSurface2": 12.83,
+          "textSecondary/bgPrimary": 7.12,
+          "textSecondary/bgSurface": 8.54,
+          "textSecondary/bgSurface2": 6.24,
+          "textMuted/bgPrimary": 5.15,
+          "textMuted/bgSurface": 6.17,
+          "textMuted/bgSurface2": 4.51,
+          "accent1/bgPrimary": 7.90,
+          "accent1/bgSurface": 9.47,
+          "accent2/bgPrimary": 5.21,
+          "accent3/bgPrimary": 12.33,
+          "accent4/bgPrimary": 5.21,
+          "textOnAccent1(#FFFFFF)": 9.68,
+          "borderStrong+focus(#7B7391)/bgPrimary": 3.64,
+          "borderStrong+focus(#7B7391)/bgSurface": 4.37,
+          "borderStrong+focus(#7B7391)/bgSurface2": 3.19
+        },
+        "dark": {
+          "textPrimary/bgPrimary": 15.57,
+          "textPrimary/bgSurface": 14.25,
+          "textPrimary/bgSurface2": 12.42,
+          "textSecondary/bgPrimary": 8.88,
+          "textSecondary/bgSurface": 8.13,
+          "textMuted/bgPrimary": 6.24,
+          "textMuted/bgSurface2": 4.98,
+          "accent1Dark/bgPrimary": 6.60,
+          "accent1Dark/bgSurface": 6.04,
+          "accent2Dark(#D6B65A)/bgPrimary": 9.41,
+          "accent3Dark(#C9B6F0)/bgPrimary": 10.05,
+          "accent4Dark(#9C82DE)/bgPrimary": 5.86,
+          "textOnAccent1Dark(#141220)": 6.60,
+          "borderStrong+focus(#7C749A)/bgPrimary": 4.24,
+          "borderStrong+focus(#7C749A)/bgSurface2": 3.38
+        }
+      },
+      "flags": [
+        "ecart minimal a la fenetre des 8 derniers : 27,4 degres (meilleur-shampoing.be, 234,7) — plancher 25 ; puis 53,1 (meilleure-voiture-hybride.be, 209,0) et 72,8 (quel-abonnement-gsm-choisir.be, 334,9), tous les autres au-dela de 80.",
+        "PARC ENTIER : 13,8 degres de comparer-abonnement-tv.be (275,9) et 17,6 de meilleur-parti-politique.be (244,5), tous deux HORS fenetre. Arbitrage documente : le plus grand intervalle libre du cercle est 244,5-275,9 (31,4 degres) et son milieu ne degage que 15,7 degres de chaque cote — AUCUN point du cercle ne fait mieux sur le parc entier, les autres creux (275,9-307,1 a 31,2 ; 42,4-72,0 a 29,6 ; 72,0-101,9 a 29,9) sont tous plus serres ou occupes par un site frere. 262,1 a ete retenu plutot que 260,2 pour degager 27,4 degres de meilleur-shampoing.be, qui est DANS la fenetre.",
+        "VIGILANCE comparer-abonnement-tv.be : voisin le plus proche du parc. La demarcation ne tient pas sur la teinte mais sur le couple de fonds (gris-violet froid #E9E7EE contre papier journal chaud #EFEBE0), la saturation (violet sombre desature L 38 % contre violet bleute L 40 % plus sature), la typo (aucun recouvrement) et les styleTokens (none/filled contre les defauts).",
+        "COLLISION ASSUMEE avec meilleure-banque.be : meme layoutHome (marche), MEME combinaison de permutations (sharp/bold/flat), meme secteur, meme mode clair, et deux violets. C'est la ressemblance la plus serieuse du parc pour cette entree. Elle est tenue par quatre leviers : 45,0 degres d'ecart de teinte, un couple de fonds nettement plus dense (#E9E7EE / #FDFCFE contre #F3F0F6 / #FCFBFD), trois polices sans recouvrement, et surtout les styleTokens — meilleure-banque.be garde les defauts (aurora/bordered, degrades visibles), celui-ci est en none/filled, donc sans un seul degrade. A RELIRE si un troisieme site bancaire clair sort en sharp/bold/flat : il faudra alors changer une permutation.",
+        "premier couple de fonds GRIS-VIOLET DENSE du parc : #E9E7EE / #FDFCFE. Les 18 couples clairs existants sont blanc pur, creme jaune, gris froid, argente, rose-magenta ou gris-rose. Le plus proche est #F3F0F6 de meilleure-banque.be, nettement plus clair (L 95 % contre 92 %) et moins sature.",
+        "Gabarito, Onest et Martian Mono absents de tout le parc. Martian Mono est la premiere mono LARGE du parc — les 10 monos existantes sont etroites ou a empattements de machine.",
+        "style.effects = 'none' : 7e site du parc sans aucun degrade.",
+        "style.cards = 'filled' : la separation des cartes n'est pas portee par un filet mais par deux amorces d'angle en accent-1 (effet `filets-de-routage` de da-site.css) — un cadre complet aurait contredit le motif de routage.",
+        "rayons a 0 sur les quatre tokens (--radius-sm/md/lg/xl) : le site ne porte AUCUN coin arrondi, seul --radius-full est conserve pour les pastilles.",
+        "layoutHome 'marche' partage avec meilleure-banque.be, comparer-abonnement-tv.be, comparer-carte-credit.be, quel-abonnement-gsm-choisir.be, meilleur-operateur-internet.be, internet-pas-cher.be et comparer-compte-epargne.be : collision de squelette assumee par la doctrine (service souscriptible).",
+        "3e site clair consecutif hors meilleur-hotel-bruges.be — a surveiller pour le prochain site.",
+        "SEPTIEME site bancaire du parc. meilleure-carte-credit.be, le site frere le plus proche par le sujet, est ABSENT de ce registre : son ecart de teinte n'a pas pu etre calcule. A verifier lors d'un prochain passage.",
+        "docs/DA-EFFETS.md n'a pas ete relu avant d'ecrire les cinq effets : ils sont derives directement du parti pris et ne portent donc pas de reference de paragraphe au catalogue."
       ]
     }
   ]
