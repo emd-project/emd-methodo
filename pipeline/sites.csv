@@ -105,7 +105,7 @@ parier-en-ligne.be,Casino & Paris,Bonus,À faire,,À acheter
 meilleur-electromenager.be,Retailer & Tech,Générique,À faire,,À acheter
 comparateur-electromenager.be,Retailer & Tech,Électroménager,À faire,,À acheter
 meilleur-frigo.be,Retailer & Tech,Électroménager,À faire,,À acheter
-meilleur-lave-linge.be,Retailer & Tech,Électroménager,À faire,,À acheter
+meilleur-lave-linge.be,Retailer & Tech,Électroménager,Configuré,https://meilleur-lave-linge-be.vercel.app,À acheter
 meilleur-aspirateur.be,Retailer & Tech,Électroménager,À faire,,À acheter
 meilleur-robot-culinaire.be,Retailer & Tech,Électroménager,À faire,,À acheter
 meilleure-bouilloire.be,Retailer & Tech,Électroménager,À faire,,À acheter
@@ -157,5 +157,5 @@ meilleur-parti-politique.be,Divers,Politique,Live,https://www.meilleur-parti-pol
 meilleure-beaute-demo.be,Beauty,Démo interne,Configuré,https://meilleure-beaute-demo.vercel.app,n/a (repo démo)
 mon-aspirateur.be,Retailer & Tech,Électroménager,Live,https://www.mon-aspirateur.be/fr,Acheté
 meilleur-cabinet-avocat.be,Juridique,Annuaire,Live,https://www.meilleur-cabinet-avocat.be/,Acheté
-meilleur-avocat.be,Juridique,Annuaire,Configuré,https://meilleur-avocat-be.vercel.app,À acheter
+meilleur-avocat.be,Juridique,Annuaire,À refaire — fork duplique de meilleur-cabinet-avocat.be,https://meilleur-avocat-be.vercel.app,À acheter
 gestion-copropriete.be,Juridique,Copropriété,Configuré,https://gestion-copropriete-be.vercel.app,À vérifier
