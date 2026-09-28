@@ -813,6 +813,38 @@
         "SEPTIEME site bancaire du parc. meilleure-carte-credit.be, le site frere le plus proche par le sujet, est ABSENT de ce registre : son ecart de teinte n'a pas pu etre calcule. A verifier lors d'un prochain passage.",
         "docs/DA-EFFETS.md n'a pas ete relu avant d'ecrire les cinq effets : ils sont derives directement du parti pris et ne portent donc pas de reference de paragraphe au catalogue."
       ]
+    },
+    {
+      "domain": "meilleur-lave-linge.be",
+      "repo": "meilleur-lave-linge.be",
+      "registeredAt": "2026-09-28",
+      "authorName": "Xavier D.",
+      "fonts": { "display": "Zilla Slab", "body": "Inter Tight", "mono": "Space Mono" },
+      "accent1": "#6A6112", "accent1Hue": 53.9, "accent2": "#2B4C58",
+      "accent3": "#8C4A2A", "accent4": "#3F4A31", "accent5": "#5F6B4C",
+      "bgPrimary": "#EBEEE8", "bgSurface": "#F8FAF6", "bgSurface2": "#DFE3DA", "mode": "light",
+      "textPrimary": "#191C18", "textSecondary": "#4E5349", "textMuted": "#6E7468",
+      "accent1Dark": "#C9B85A", "accent2Dark": "#77AEBD",
+      "bgPrimaryDark": "#12150F", "bgSurfaceDark": "#1A1E16", "bgSurface2Dark": "#232819",
+      "layoutHome": "magazine", "permutations": { "shape": "sharp", "border": "bold", "shadow": "flat" },
+      "styleTokens": { "effects": "none", "cards": "bordered", "hero": "centered", "uiStyle": "plaque-signaletique" },
+      "signature": "aucun lave-linge n'est retenu sans sa consommation relevee sur le programme Eco 40-60 — kWh pour 100 cycles et litres d'eau par cycle —, sans la duree de disponibilite des pieces annoncee par le fabricant, et sans son niveau sonore a l'essorage en dB(A) ; la lettre de l'etiquette energie ne decide de rien a elle seule",
+      "partiPris": "buanderie carrelee et plaque signaletique — carrelage emaille, acier brosse, chiffres graves et laiton de robinetterie",
+      "paletteSource": "docs/DA-DIRECTIONS.md — direction minerale/papier, teinte de marque poussee a 53,9 degres (laiton oxyde de robinetterie) dans le trou de 113,7 degres laisse entre comparer-compte-epargne.be (3,3) et meilleur-operateur-internet.be (117,0) ; accent2 re-accorde a 196,0 degres (eau froide / ardoise humide)",
+      "effects": ["plaque-gravee", "joint-de-carrelage", "chiffres-de-plaque", "bandeau-de-durete", "voyant-de-cycle"],
+      "contrastChecked": {
+        "light": { "textPrimaryOnSurface": 16.36, "textSecondaryOnSurface": 7.51, "textMutedOnSurface": 4.58, "accent1OnSurface": 5.99, "whiteOnAccent1": 6.3, "borderStrongComposited": 3.11 },
+        "dark": { "textPrimaryOnPrimary": 15.83, "textSecondaryOnPrimary": 9.14, "textMutedOnPrimary": 5.38, "accent1OnSurface": 8.45, "darkTextOnAccent1": 9.19, "borderStrongComposited": 3.65 }
+      },
+      "flags": [
+        "accent1 a 50,6 degres du voisin le plus proche de la fenetre des 8 derniers (comparer-compte-epargne.be, 3,3) — plancher 25, soit le double",
+        "voisin le plus proche du PARC ENTIER : meilleur-operateur-mobile.be (42,4) a 11,5 degres, et comparer-carte-credit.be (72,0) a 18,1 degres — HORS fenetre d'exclusion tous les deux, ecart signale par honnetete. Demarcation : les deux voisins sont respectivement un or sature sur #F8FAFC/#FFFFFF et un vert-citron vif sur fond sombre olive ; celui-ci est un laiton oxyde desature sur un carrelage vert-gris clair, dans un secteur sans recouvrement",
+        "couple de fonds #EBEEE8 / #F8FAF6 inedit : bgSurface n'est PAS du blanc pur, ce qui le distingue immediatement des 8 derniers, et les deux stacks satures du parc (#F8FAFC/#FFFFFF et #FBF6F1/#FFFFFF) sont evites",
+        "Zilla Slab, Inter Tight et Space Mono : aucune des trois ne figure dans les polices des 8 derniers sites. Space Mono est deja porte par meilleure-banque.be, HORS fenetre",
+        "premiere entree Electromenager du registre — mon-aspirateur.be est live mais n'a jamais ete enregistre, entree a creer",
+        "styleTokens none/bordered partages avec meilleur-shampoing.be et comparer-compte-epargne.be, tous deux dans la fenetre : la divergence est portee par les permutations (sharp + bold ici, contre arrondi + capillaire chez eux) et par la palette",
+        "effects: 'none' — le site sort sans un seul degrade, y compris l'anneau du comparateur, la bande de tete d'article et le reflet de la nav collante"
+      ]
     }
   ]
 }
