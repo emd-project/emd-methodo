@@ -845,6 +845,46 @@
         "styleTokens none/bordered partages avec meilleur-shampoing.be et comparer-compte-epargne.be, tous deux dans la fenetre : la divergence est portee par les permutations (sharp + bold ici, contre arrondi + capillaire chez eux) et par la palette",
         "effects: 'none' — le site sort sans un seul degrade, y compris l'anneau du comparateur, la bande de tete d'article et le reflet de la nav collante"
       ]
+    },
+    {
+      "domain": "besttennisshoes.be",
+      "repo": "besttennisshoes.be",
+      "registeredAt": "2026-09-29",
+      "authorName": "Julien S.",
+      "fonts": {
+        "display": "Archivo",
+        "body": "Archivo",
+        "mono": "IBM Plex Mono"
+      },
+      "accent1": "#1D3FB8",
+      "accent1Hue": 226.8,
+      "accent2": "#B8461F",
+      "accent3": "#1F6B45",
+      "accent4": "#0B1640",
+      "accent5": "#4A5A8C",
+      "bgPrimary": "#F4F6FB",
+      "bgSurface": "#FFFFFF",
+      "bgSurface2": "#E4E9F5",
+      "mode": "light",
+      "textPrimary": "#0B1640",
+      "textSecondary": "#3A4368",
+      "textMuted": "#5A6385",
+      "layoutHome": "magazine",
+      "permutations": {
+        "shape": "sharp",
+        "border": "bold",
+        "shadow": "flat"
+      },
+      "styleTokens": {
+        "effects": "none",
+        "cards": "bordered",
+        "hero": "split"
+      },
+      "identity": "claude-design",
+      "signature": "aucune paire n'est jugée sans la durée de vie estimée de sa semelle",
+      "partiPris": "court de dur bleu, balle jaune fluo, lignes blanches à la craie — tableau de marque de tournoi",
+      "paletteSource": "livrable Claude Design (integrate-claude-design), accent-2 assombri de #D4582A à #B8461F pour le contraste ; chrome invariant balle #DDF23B",
+      "note": "Anti-clone vérifié contre les 3 derniers (182°, 262,1°, 53,9°) : écart ≥ 35°, fonds et fonts distincts. Détail : DECISIONS.md du site."
     }
   ]
 }
