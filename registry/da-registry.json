@@ -885,6 +885,46 @@
       "partiPris": "court de dur bleu, balle jaune fluo, lignes blanches à la craie — tableau de marque de tournoi",
       "paletteSource": "livrable Claude Design (integrate-claude-design), accent-2 assombri de #D4582A à #B8461F pour le contraste ; chrome invariant balle #DDF23B",
       "note": "Anti-clone vérifié contre les 3 derniers (182°, 262,1°, 53,9°) : écart ≥ 35°, fonds et fonts distincts. Détail : DECISIONS.md du site."
+    },
+    {
+      "domain": "beste-waterfontein.be",
+      "repo": "beste-waterfontein.be",
+      "registeredAt": "2026-10-01",
+      "authorName": "Wouter D.",
+      "fonts": {
+        "display": "Domine",
+        "body": "Nunito Sans",
+        "mono": null
+      },
+      "accent1": "#0B5A7A",
+      "accent1Hue": 197.3,
+      "accent2": "#3E7F96",
+      "accent3": "#4F6B3A",
+      "accent4": "#8A5634",
+      "accent5": "#5C6FA8",
+      "bgPrimary": "#F3F7F9",
+      "bgSurface": "#FFFFFF",
+      "bgSurface2": "#E6EFF3",
+      "mode": "light",
+      "textPrimary": "#0F2430",
+      "textSecondary": "#3C5462",
+      "textMuted": "#536B78",
+      "layoutHome": "magazine",
+      "permutations": {
+        "shape": "soft",
+        "border": "standard",
+        "shadow": "standard"
+      },
+      "styleTokens": {
+        "effects": "none",
+        "cards": "filled",
+        "hero": "centered"
+      },
+      "identity": "auto (art-director)",
+      "signature": "elke fontein wordt beoordeeld op wat er in het glas komt",
+      "partiPris": "analysetabel d'une étiquette d'eau minérale — colonnes mg/l alignées, bleu profond de la source des Hoge Venen, papier blanc froid, filets fins ; zéro dégradé",
+      "paletteSource": "bleu imposé par le client (couleur de marque Spadel/SPA, traité comme brandColor → accent-1), reste de la palette composé et vérifié WCAG ; dark accent-1 #5BB8DA",
+      "note": "EXCEPTION DA-03 assumée : toute la bande bleue 182–235° est occupée par les 8 derniers sites (meilleur-hotel-bruges 182°, meilleure-voiture-hybride 209°, besttennisshoes 226,8°, meilleur-shampoing 235°) ; écart au plus proche 11,7° (hybride) et 15,3° (hotel-bruges). Divergence portée par la lightness (bleu très profond L≈26 % vs bleus clairs/moyens des voisins), la typo serif Domine × Nunito Sans, effects none + cards filled, shape soft, fond bleuté #F3F7F9."
     }
   ]
 }
