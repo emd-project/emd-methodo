@@ -98,6 +98,8 @@ L'image in-content est **réutilisée** : `/images/categories/<categorie>.webp`,
 - **Maillage** : chaque article maille vers `/classement/cartes-bancaires` et, quand c'est pertinent, vers `/comparer/cartes-bancaires` ou `/choisir/cartes-bancaires`. Le head nu « meilleure carte bancaire », « cartes bancaires », « carte de paiement », « carte de débit » appartient au **classement** : un article ne le revendique jamais.
 - **Le quiz est désactivé** sur ce site et `/quiz` renvoie un 404 en FR comme en EN. Ne lie jamais vers lui.
 - **Déploiement** : Vercel se déclenche au push sur `main`. Vérifie en fin de run que la home et l'article répondent en HTML sans JS.
+- **ZÉRO tiret cadratin (—) et ZÉRO tiret demi-cadratin (–)** dans tout ce que tu écris : corps, chapô, H1, H2, `title`, `description`, `aiSummary`, `faq`, alt d'image, miroir EN. Avant le commit, cherche `—` et `–` dans chaque fichier produit ; une seule occurrence et tu réécris la phrase (tu recomposes, pas de remplacement mécanique par une virgule). Doctrine : `skills/humaniser-fr/SKILL.md` §F1.
+- **ZÉRO titre et ZÉRO amorce en « Ce que / Ce qu'il / Ce qui / Ce dont »** : ni H2, ni H3, ni début de paragraphe, ni intitulé de liste, ni `title`, `description`, `aiSummary` ou `faq`. Un titre porte un fait, un chiffre, un nom propre ou un verdict. Doctrine : `skills/humaniser-fr/SKILL.md` §F7.
 
 **Ne lance aucun script `scripts/validate-*.mjs`, aucun `check-ui-guards.mjs`, aucun `npm run check:placeholders`** — ce dernier échoue sur les trois gabarits neutralisés du template, qui ne peuvent pas être supprimés.
 

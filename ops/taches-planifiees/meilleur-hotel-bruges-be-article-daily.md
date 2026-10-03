@@ -75,5 +75,7 @@ Les deux locales partagent les mêmes images.
 - **Maillage** : chaque article maille vers `/classement/hotels-bruges` et vers un autre article de la même grappe quand il existe. Le head nu « hotel bruges » appartient au classement et à lui seul.
 - **Éteints à l'init, ne les réveille pas sans données** : `/comparer`, `/quiz`, `/simulateur`, `/deals` renvoient 404 et le comparateur attend le premier relevé mensuel des grilles tarifaires.
 - **Déploiement** : Vercel, projet `meilleur-hotel-bruges-be`, prod https://meilleur-hotel-bruges-be.vercel.app — le push sur `main` déclenche le déploiement.
+- **ZÉRO tiret cadratin (—) et ZÉRO tiret demi-cadratin (–)** dans tout ce que tu écris : corps, chapô, H1, H2, `title`, `description`, `aiSummary`, `faq`, alt d'image, miroir EN. Avant le commit, cherche `—` et `–` dans chaque fichier produit ; une seule occurrence et tu réécris la phrase (tu recomposes, pas de remplacement mécanique par une virgule). Doctrine : `skills/humaniser-fr/SKILL.md` §F1.
+- **ZÉRO titre et ZÉRO amorce en « Ce que / Ce qu'il / Ce qui / Ce dont »** : ni H2, ni H3, ni début de paragraphe, ni intitulé de liste, ni `title`, `description`, `aiSummary` ou `faq`. Un titre porte un fait, un chiffre, un nom propre ou un verdict. Doctrine : `skills/humaniser-fr/SKILL.md` §F7.
 
 **Ne t'arrête jamais pour poser une question.** Si quelque chose ne peut pas être fait correctement, fais au mieux, continue, et écris-le en fin de run.
