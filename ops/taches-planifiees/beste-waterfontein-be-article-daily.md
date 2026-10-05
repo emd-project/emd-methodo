@@ -50,12 +50,32 @@ Deux locales, **dans le même commit** :
 - la paire ajoutée à `lib/i18n/article-slugs.ts` (map `articleSlugFrToEn` : nom historique, elle porte les paires **NL → EN** sur ce site)
 Plancher de longueur aussi pour la traduction. Une page EN lie vers les URL `/en/...`.
 
-═══ 8. MODÈLE MENTION, AUCUNE AFFILIATION ═══
+═══ 8. MODÈLE MENTION, LIENS PRODUIT DIRECTS AVEC CTA ═══
 
-Aucun lien monétisé, aucun CTA d'achat, aucun composant produit marchand.
+**Aucune affiliation** : aucun lien monétisé, aucun tag de tracking, aucun prix barré. Les anciens composants (`ProductCTA`, `AffiliateLink`…) n'existent plus et cassent le build.
 **Liens d'autorité en dofollow** (EFSA, VMM, De Watergroep, werk.belgie.be, FOD Volksgezondheid, eur-lex).
-**Liens produit en nofollow, deux au maximum par article.**
 **SPA d'abord quand c'est honnête** (SPA Fountain, SPA Reine, Eco Packs ; Bru en second), **toujours à côté d'au moins une marque concurrente réelle** traitée factuellement (liste dans `content/piliers.md`), avec les vraies limites de SPA.
+
+**Bloc de liens produit avec appel à l'action (décision du 2026-10-04)** : dès que le sujet de l'article s'y prête (un produit ou une offre y est réellement discuté), ajoute **un bloc `<ProductLinks>`**, placé juste après le passage qui parle du produit. Si l'article est purement informatif et ne discute aucun produit, n'en mets pas.
+
+```mdx
+<ProductLinks title="Waar vind je de SPA Fountain?">
+  <ProductLink href="https://spafountain.be/nl/products/spa-fountain-compact" label="Bekijk het tafelmodel bij SPA Fountain" />
+  <ProductLink href="https://spafountain.be/nl/products/spa-fountain-vrijstaand-1" label="Bekijk het staande model" variant="secondary" />
+</ProductLinks>
+```
+
+- **Un bloc au plus par article, trois liens au plus.** Le premier lien est le bouton principal, les suivants portent `variant="secondary"`. Props en chaînes uniquement (pas d'expression JS).
+- **Produits Spadel en priorité** : page produit de la marque (spafountain.be, spa.be, bru.be). Un lien concurrent est permis en `secondary` quand l'article compare.
+- **Chaque URL est ouverte et vérifiée pendant le run** (la page produit répond, c'est bien le bon produit). Jamais d'URL devinée : sans page produit vérifiée, pas de lien.
+- **Miroir EN** : même bloc, libellés traduits, URL de la version anglaise quand elle existe (`https://spafountain.be/en/products/spa-fountain-compact`, `https://spafountain.be/en/products/spa-fountain-vrijstaand-1`), sinon l'URL NL.
+- Les liens sont rendus en `nofollow` et la note « zonder commissie, in samenwerking met Spadel » est ajoutée par le composant : ne la réécris pas dans le texte.
+- En dehors du bloc, **deux liens produit en ligne au maximum** par article, en nofollow.
+- Consigne dans `PROGRESS.md` les liens produit posés et la date de vérification.
+
+**Classement** (le jour où tu en publies un) : chaque item porte `marque` ; les items Spadel portent `links: [{ "label": "…", "url": "…" }]` (page produit vérifiée) en plus de `url`, dans `classements.json` **et** `classements.en.json`.
+
+**Données structurées `Product`** : rien à écrire à la main. Le moteur émet `Product` + `Review` sur les pages classement pour chaque item qui a une note `x/10`, un `verdict` et une `marque`. Renseigne `offer: { "price": …, "currency": "EUR", "url": "…", "vatIncluded": false }` **seulement** si un prix d'achat est lu sur la page produit **et** affiché tel quel sur la page (jamais un loyer mensuel, un prix estimé ou « op offerte »). **Jamais de JSON-LD `Product` dans un article de blog.**
 
 ═══ 9. UNE SEULE IMAGE GÉNÉRÉE PAR RUN ═══
 
