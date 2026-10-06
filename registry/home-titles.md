@@ -107,7 +107,7 @@ arrêté d'avance : le jour où le site sort, il n'y a rien à décider.
 | `meilleur-shampoing.be` | Meilleur Shampoing - Composition, format & prix au lavage |
 | `meilleur-hotel-bruges.be` | Meilleur Hôtel Bruges - Quartiers, saisons & prix réels |
 | `meilleur-lave-linge.be` | Meilleur Lave-Linge - Consommation, bruit & réparabilité |
-| `beste-waterfontein.be` | Beste Waterfontein - Water, plaatsing & kost per liter |
+| `beste-waterdispenser.be` | Beste Waterdispenser - Water, plaatsing & kost per liter |
 
 ---
 
@@ -129,4 +129,4 @@ Le compte de caractères porte sur la **chaîne complète**, espaces et séparat
 
 `meilleur-lave-linge.be` (2026-09-28) est en registre **facettes**, 56 caractères. La section « Autres » comptait sept titres, dont deux ouvrant sur « Trouver » (`mon-aspirateur-be` et `meilleur-parti-politique` par son verbe implicite) : un troisième aurait rendu la famille Électroménager indistincte, d'autant que `mon-aspirateur-be` est son plus proche voisin sectoriel. Les trois facettes sont exactement les trois critères de jugement du site — la consommation relevée sur Eco 40-60, le niveau sonore à l'essorage, et la durée de disponibilité des pièces — et non trois mots choisis pour la longueur. « réparabilité » est préféré à « pièces » parce qu'il porte l'idée de durée que « pièces » seul ne porte pas. Version EN écrite dans sa propre langue, pas traduite : « Best Washing Machine - Energy, noise & repairs », 45 caractères — « repairs » dit en un mot ce que « repairability » dirait lourdement, et « Energy » couvre à la fois l'électricité et l'eau là où le français « consommation » le fait déjà.
 
-`beste-waterfontein.be` (2026-10-01) est le premier titre **néerlandais** du registre, en registre **facettes**, 54 caractères. Les trois facettes sont les trois critères de jugement du site — l'eau servie, la contrainte de placement (leiding ou pas) et le coût ramené au litre — et non trois mots choisis pour la longueur. « kost per liter » est la formule flamande courante. Version EN écrite dans sa propre langue : « Best Water Cooler - Office water, set-up & cost per litre », 57 caractères — « water cooler » est le terme anglais du bureau, « fountain » aurait évoqué la fontaine de jardin.
+`beste-waterdispenser.be` (2026-10-01) est le premier titre **néerlandais** du registre, en registre **facettes**, 54 caractères. Les trois facettes sont les trois critères de jugement du site — l'eau servie, la contrainte de placement (leiding ou pas) et le coût ramené au litre — et non trois mots choisis pour la longueur. « kost per liter » est la formule flamande courante. Version EN écrite dans sa propre langue : « Best Water Cooler - Office water, set-up & cost per litre », 57 caractères — « water cooler » est le terme anglais du bureau, « fountain » aurait évoqué la fontaine de jardin.

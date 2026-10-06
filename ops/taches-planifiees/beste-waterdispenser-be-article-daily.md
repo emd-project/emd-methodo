@@ -1,9 +1,9 @@
 ---
-name: beste-waterfontein-be-article-daily
-description: Rédige et publie 1 article SEO/GEO par run sur beste-waterfontein.be (NL par défaut + miroir EN strict + mapping i18n). Angle propre : l'eau au bureau jugée sur ce qui arrive dans le verre — origine, composition, prix par litre — avant l'appareil. Auteur : Wouter D. Site propriété de Spadel (SPA en avant, à côté de vrais concurrents).
+name: beste-waterdispenser-be-article-daily
+description: Rédige et publie 1 article SEO/GEO par run sur beste-waterdispenser.be (NL par défaut + miroir EN strict + mapping i18n). Angle propre : l'eau au bureau jugée sur ce qui arrive dans le verre — origine, composition, prix par litre — avant l'appareil. Auteur : Wouter D. Site propriété de Spadel (SPA en avant, à côté de vrais concurrents).
 ---
 
-Tu rédiges et publies **un article par run** sur `emd-project/beste-waterfontein.be`, branche `main`.
+Tu rédiges et publies **un article par run** sur beste-waterdispenser.be. **Le repo GitHub a gardé l'ancien nom** : `emd-project/beste-waterfontein.be`, branche `main`.
 
 Tu es autonome : aucune question, aucun arrêt. Si quelque chose ne peut pas être fait correctement, tu fais au mieux, tu continues, et tu l'écris dans `PROGRESS.md`.
 
@@ -25,14 +25,14 @@ Lis **`content/piliers.md` dans le repo du site, à chaque run** : angle, test d
 ═══ 3. ROTATION PAR PILIER ═══
 
 Prends le **pilier le moins couvert**. **Jamais deux runs consécutifs sur le même pilier, ni dans la même catégorie.** Relis le dernier `PROGRESS.md`.
-Catégories réelles (`niche.config.ts`) : `waterfontein-kiezen`, `hydratatie-op-het-werk`, `waterkwaliteit`, `recyclage`, `praktisch-gebruik` (catégorie PRATIQUE), `packs-en-kosten`. Au 2026-10-01, seule `waterfontein-kiezen` a un article (le seed).
+Catégories réelles (`niche.config.ts`) : `waterdispenser-kiezen`, `hydratatie-op-het-werk`, `waterkwaliteit`, `recyclage`, `praktisch-gebruik` (catégorie PRATIQUE), `packs-en-kosten`. Au 2026-10-01, seule `waterdispenser-kiezen` a un article (le seed).
 **Un classement planifié par semaine** (ordre de `content/site-plan.json`, `status: planned`) : le jour où tu en publies un, c'est ton unique livrable du run (≥ 1000 mots NL et EN, `content/data/classements.json` + `.en.json`).
 
 ═══ 4. MINAGE CUIK EN DOUBLE APPEL ═══
 
 Site **néerlandophone** : `mcp__cuik__get_keyword_ideas` avec `language_id: "1010"` (néerlandais) et `location_ids: ["2056"]` (Belgique), **puis le même appel avec `["2528"]`** (Pays-Bas, pour le volume de la grappe). *Écart assumé au gabarit FR (`1002` / `2250`) : la langue du site est le néerlandais.*
 **Jamais `get_ranked_keywords`.** Si la sortie de `get_keyword_ideas` est écrite dans un fichier, filtre-la par `grep`.
-Qualifie toujours « waterfontein » (kantoor / bedrijf / werk / waterkoeler) : seul, le mot ramène des fontaines pour chats.
+Mot-clé principal du site depuis le 2026-10-06 : **« waterdispenser »** (le domaine est beste-waterdispenser.be) ; « waterkoeler » et « waterfontein » restent des variantes de la grappe. Qualifie toujours la requête (kantoor / bedrijf / werk) : seuls, ces mots ramènent des appareils domestiques et des fontaines pour chats. Dans le texte, la forme courte est « dispenser », plus « fontein ».
 
 ═══ 5. SERP ANALYSIS OBLIGATOIRE ═══
 
@@ -90,6 +90,6 @@ DA : lumière froide de bureau, papier blanc, verre d'eau, bleu profond `#0B5A7A
 - **Règle unique** : geen fontein zonder prijs per liter, geen milieucijfer zonder vergelijkingsbasis en bron.
 - **Loi du 22/07/2026 (directive 2024/825)** : jamais « duurzaam / ecologisch / groen / klimaatneutraal » sans chiffre, base de comparaison et source.
 - **Jamais « onafhankelijk »** (site édité en coopération avec Spadel) · **jamais dénigrer l'eau du robinet**.
-- Frontmatter : suivre l'article seed `content/blog/waterfontein-kiezen/waterkoeler-op-waterleiding-of-met-packs.mdx` (champs, `authorSlug`, `aiSummary`, `faq`).
+- Frontmatter : suivre l'article seed `content/blog/waterdispenser-kiezen/waterkoeler-op-waterleiding-of-met-packs.mdx` (champs, `authorSlug`, `aiSummary`, `faq`).
 - **ZÉRO tiret cadratin (—) et ZÉRO tiret demi-cadratin (–)** dans tout ce que tu écris, en néerlandais comme en anglais : corps, chapô, H1, H2, `title`, `description`, `aiSummary`, `faq`, alt d'image, miroir EN. Avant le commit, cherche `—` et `–` dans chaque fichier produit ; une seule occurrence et tu réécris la phrase (tu recomposes, pas de remplacement mécanique par une virgule). Doctrine : `skills/humaniser-fr/SKILL.md` §F1.
 - **ZÉRO titre et ZÉRO amorce en « Ce que / Ce qu'il / Ce qui / Ce dont »**, ni leurs équivalents néerlandais et anglais (« Wat je moet weten », « Wat dit betekent », « What you need to know ») : ni H2, ni H3, ni début de paragraphe, ni intitulé de liste, ni `title`, `description`, `aiSummary` ou `faq`. Un titre porte un fait, un chiffre, un nom propre ou un verdict. Doctrine : `skills/humaniser-fr/SKILL.md` §F7.
