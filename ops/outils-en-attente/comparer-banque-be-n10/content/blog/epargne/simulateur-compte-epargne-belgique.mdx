@@ -1,0 +1,144 @@
+---
+title: "Simulateur compte épargne : deux comptes, en euros"
+description: "Un simulateur de compte d'épargne belge qui applique le plafond de versement et ne compte la prime de fidélité qu'une fois acquise. Sur douze mois, 10 000 € rapportent 61,13 € à 3,15 % plafonné et 200 € à 2,00 % sans plafond. Taux relevés le 7 octobre 2026."
+featureImage: "/images/categories/epargne.webp"
+featureImageAlt: "Carnet de comptes et pièces posés sur une table en bois clair"
+publishedAt: "2026-10-07"
+updatedAt: "2026-10-07"
+readingTimeMin: 9
+categorie: "epargne"
+authorSlug: "marion"
+tags: ["simulateur compte épargne", "calcul intérêts compte épargne", "prime de fidélité", "plafond de versement", "KBC Start2Save", "Keytrade High Fidelity", "Belfius Flow", "NIBC Opti", "Belgique", "2026"]
+aiSummary:
+  - "Sur douze mois sans retrait, 10 000 € rapportent 61,13 € bruts sur un KBC Start2Save à 3,15 % (plafond de 500 € par mois) et 200 € sur un Keytrade High Fidelity à 2,00 % sans plafond. Taux relevés le 7 octobre 2026."
+  - "Le calcul sépare trois lignes : les intérêts de base au prorata des mois de présence, les primes de fidélité acquises après douze mois pleins, et la prime encore en cours, perdue en cas de retrait."
+  - "Entre ces deux comptes, le classement s'inverse à 1 525 € de capital de départ sur douze mois, à 6 736 € sur vingt-quatre mois et à 10 823 € sur trente-six mois."
+  - "Pour 500 € versés chaque mois pendant deux ans, le compte plafonné reprend l'avantage : 279,75 € contre 147,50 €."
+  - "Le résultat est une estimation à taux constants, précompte mobilier non déduit. Le décompte de la banque et la fiche d'informations clés pour l'épargnant font seuls foi."
+faq:
+  - q: "Comment calculer les intérêts d'un compte d'épargne en Belgique ?"
+    a: "En deux temps. Les intérêts de base valent dépôt × taux de base × durée de présence, comptée en jours par la banque. La prime de fidélité vaut dépôt × taux de prime pour chaque période de douze mois complète sans retrait. Un versement resté huit mois ne touche donc que le taux de base."
+  - q: "Combien rapportent 10 000 € sur un compte d'épargne en un an ?"
+    a: "Cela dépend du plafond de versement plus que du taux affiché. Aux taux relevés le 7 octobre 2026, 10 000 € rapportent 200 € bruts sur un Keytrade High Fidelity à 2,00 % sans plafond, et 61,13 € sur un KBC Start2Save à 3,15 %, qui n'accepte que 500 € par mois, soit 6 000 € en douze mois."
+  - q: "Le simulateur tient-il compte du plafond de versement mensuel ?"
+    a: "Oui, c'est sa raison d'être. Chaque mois, il verse l'argent disponible dans la limite du plafond saisi et reporte le surplus au mois suivant. La somme qui n'est jamais entrée sur le compte apparaît sur une ligne séparée et elle est comptée comme ne rapportant rien."
+  - q: "La prime de fidélité est-elle comptée avant douze mois ?"
+    a: "Non. Le simulateur ne l'ajoute au total qu'après douze mois pleins de présence pour chaque versement. La prime qui est encore en train de mûrir au terme de la durée figure sur une ligne à part : c'est la somme que vous abandonneriez en retirant l'argent ce jour-là."
+  - q: "Puis-je simuler mon propre compte d'épargne ?"
+    a: "Oui. Toutes les valeurs sont modifiables : remplacez le taux de base, la prime de fidélité et le plafond par ceux de la fiche d'informations clés pour l'épargnant de votre compte. Pour un versement ancien, saisissez la prime en vigueur au jour du versement, puisqu'elle est figée pendant douze mois."
+  - q: "Le précompte mobilier est-il déduit du résultat ?"
+    a: "Non, le résultat est brut. En 2026, les intérêts d'un compte d'épargne réglementé sont exonérés jusqu'à 1 020 € par personne et par an, et un précompte de 15 % frappe l'excédent. Le simulateur affiche un rappel quand le rythme annuel d'intérêts dépasse ce seuil, sans faire la déduction."
+  - q: "Le résultat est-il celui que ma banque me versera ?"
+    a: "Pas au centime près, pour trois raisons. La banque compte en jours et le simulateur en mois. Le taux de base peut changer en cours de route alors que le calcul le suppose constant. Enfin, les intérêts de base crédités chaque 1er janvier produisent à leur tour des intérêts, que le simulateur ne réinvestit pas."
+---
+
+Un simulateur de compte d'épargne utile en Belgique doit faire deux choses que le taux affiché ne fait pas : appliquer le **plafond de versement** et ne compter la **prime de fidélité** qu'une fois acquise. Sur douze mois, 10 000 € rapportent alors 61,13 € sur un compte à 3,15 % plafonné, et 200 € sur un compte à 2,00 % qui ne l'est pas.
+
+## 3,15 % d'un côté, 2,00 % de l'autre, et le second gagne
+
+L'outil ci-dessous met deux comptes côte à côte et répond en euros. Il est préréglé sur deux structures opposées du marché belge : un compte à taux élevé limité à 500 € par mois, et un compte au taux plus bas qui accepte tout le capital d'un coup. Changez le capital, le versement mensuel, la durée ou n'importe quel taux, le résultat suit.
+
+<EpargneCompare />
+
+Les valeurs par défaut sont celles du [KBC Start2Save](https://www.kbc.be/content/particulieren/fr/epargner/comptes-epargne/start2save.html) (1,65 % de taux de base, 1,50 % de prime, 500 € par mois, page lue le 7 octobre 2026) et du Keytrade High Fidelity (0,50 % et 1,50 %, sans plafond, relevé par Test-Achats le 21 septembre 2026). Ce sont des exemples, pas une sélection. Le [classement des banques belges](/classement/banques) juge les établissements sur leur coût annuel complet, compte à vue compris.
+
+## Comment le simulateur calcule-t-il les intérêts ?
+
+Il additionne deux lignes qui n'obéissent pas à la même horloge, puis il en isole une troisième.
+
+**Les intérêts de base.** Pour chaque versement : montant × taux de base × mois de présence ÷ 12. La règle vient de [Wikifin, le site de la FSMA](https://www.wikifin.be/fr/epargner-et-investir/compte-depargne/que-vous-rapporte-votre-compte-depargne) : l'intérêt de base court au plus tard dès le lendemain du dépôt et il est versé une fois par an, autour du 1er janvier.
+
+**Les primes de fidélité acquises.** Pour chaque versement : montant × taux de prime, autant de fois que le versement a passé douze mois pleins sur le compte. Toujours selon Wikifin, la prime est fixée pour douze mois au moment du versement et payée par trimestre, le 1er janvier, le 1er avril, le 1er juillet ou le 1er octobre.
+
+**La prime en cours.** C'est la fraction de prime accumulée par les versements qui n'ont pas encore atteint leur anniversaire. Elle n'entre pas dans le total. Elle figure à part parce qu'elle a un prix : un retrait la fait disparaître.
+
+Le plafond intervient avant tout cela. Chaque mois, le simulateur verse l'argent disponible dans la limite autorisée et reporte le reste au mois suivant. Le capital de départ arrive au mois 0 et le premier versement mensuel un mois plus tard, convention reprise du [comparateur de comptes d'épargne de Wikifin](https://www.wikifin.be/fr/epargner-et-investir/simulateur-de-comptes-depargne), qui la décrit dans sa [notice de fonctionnement](https://www.wikifin.be/fr/fonctionnement-du-comparateur).
+
+Trois simplifications sont assumées. Les mois valent un douzième d'année, alors que la banque compte les jours. Les taux restent constants sur toute la durée. Les intérêts versés ne sont pas réinvestis.
+
+## Que donne le calcul à la main sur 10 000 € ?
+
+61,13 € pour le compte plafonné, 200 € pour l'autre. Voici le déroulé, que vous pouvez refaire avec une calculatrice.
+
+Sur le compte A, le plafond de 500 € laisse entrer douze versements en un an, soit 6 000 €. Les 4 000 € restants n'y entrent jamais. Le premier versement reste douze mois, le deuxième onze, et ainsi de suite jusqu'au dernier, qui reste un mois : en tout, 12 + 11 + … + 1 = 78 mois de présence. Les intérêts de base valent donc 500 × 1,65 % × 78 ÷ 12, soit **53,63 €**. Un seul versement atteint ses douze mois, le premier : 500 × 1,50 % = **7,50 €** de prime. Total : 61,13 €, soit 0,61 % des 10 000 € que vous aviez à placer.
+
+Sur le compte B, tout entre le premier jour. 10 000 × 0,50 % = 50 € d'intérêts de base, 10 000 × 1,50 % = 150 € de prime, acquise au douzième mois. Total : **200 €**.
+
+Écart : 138,87 € en faveur du taux le plus bas.
+
+Le compte A garde tout de même 41,25 € de prime en cours à cette date, qui mûriront si l'argent reste. Sur vingt-quatre mois, l'écart se resserre (304,38 € contre 400 €) sans s'inverser.
+
+## Et pour 500 € versés chaque mois pendant deux ans ?
+
+Le classement se retourne. Sans capital de départ, avec 500 € par mois pendant vingt-quatre mois, le plafond ne gêne plus personne : les deux comptes reçoivent les mêmes 11 500 €, en vingt-trois versements.
+
+Les mois de présence s'additionnent de 23 à 1, soit 276. Sur le compte A : 500 × 1,65 % × 276 ÷ 12 = 189,75 € d'intérêts de base. Sur le compte B, au taux de base de 0,50 % : 57,50 €. La prime est identique des deux côtés, puisque le taux de prime est le même et que douze versements ont franchi leur anniversaire : 12 × 7,50 € = 90 €.
+
+Résultat : **279,75 € contre 147,50 €**. Un compte plafonné rémunère un versement régulier, pas un capital déjà constitué.
+
+## À partir de quel capital le compte sans plafond passe-t-il devant ?
+
+Très tôt sur un an, beaucoup plus tard sur trois. Le simulateur cherche ce point de bascule à chaque réglage ; voici ses résultats pour un capital placé en une fois, sans versement mensuel, face au Keytrade High Fidelity à 2,00 %.
+
+| Compte plafonné à 500 € par mois | Bascule sur 12 mois | Bascule sur 24 mois | Bascule sur 36 mois |
+|---|---|---|---|
+| KBC Start2Save, 1,65 % + 1,50 % | 1 525 € | 6 736 € | 10 823 € |
+| NIBC Opti, 2,00 % + 1,50 % | 2 375 € | 8 187 € | 13 500 € |
+
+*Calcul propre du 7 octobre 2026, taux supposés constants. Lecture : avec 5 000 € à placer pour deux ans, le Start2Save rapporte plus ; avec 8 000 €, le compte sans plafond passe devant.*
+
+La durée change tout. Plus vous laissez le temps au compte plafonné de se remplir, plus le capital qu'il peut absorber augmente. Mais pendant ces trente-six mois, son taux de base peut être modifié à tout moment, et c'est lui qui porte l'avantage.
+
+## Combien rapportent cinq comptes belges sur 12 et 24 mois ?
+
+Le tableau suivant sert de repère même sans toucher à l'outil. Chaque ligne porte son taux de base, sa prime, son plafond et la date du relevé.
+
+| Compte d'épargne (date du relevé) | Base + prime | Plafond | 10 000 € sur 12 mois | 10 000 € sur 24 mois | 300 € par mois sur 24 mois |
+|---|---|---|---|---|---|
+| KBC Start2Save (7 octobre 2026) | 1,65 % + 1,50 % | 500 €/mois | 61,13 € | 304,38 € | 167,85 € |
+| Belfius Flow (18 septembre 2026) | 1,83 % + 1,50 % | 600 €/mois | 80,37 € | 372,44 € | 180,27 € |
+| NIBC Opti (19 août 2026) | 2,00 % + 1,50 % | 500 €/mois | 72,50 € | 346,67 € | 192,00 € |
+| Keytrade High Fidelity (21 septembre 2026) | 0,50 % + 1,50 % | aucun | 200,00 € | 400,00 € | 88,50 € |
+| Belfius Fidelity (18 septembre 2026) | 0,15 % + 1,50 % | aucun | 165,00 € | 330,00 € | 64,35 € |
+
+*Intérêts bruts acquis, calculés le 7 octobre 2026 avec la méthode décrite plus haut. Les taux Belfius et NIBC sont ceux de notre relevé du 3 octobre 2026 et n'ont pas été relus depuis.*
+
+Deux colonnes, deux classements inversés. Le compte qui arrive dernier sur un capital de 10 000 € arrive dans les premiers sur un versement de 300 € par mois, et le NIBC Opti, premier sur le versement mensuel, reste loin derrière sur le capital. Aucun de ces comptes n'est le meilleur dans l'absolu.
+
+## Pourquoi le résultat diffère-t-il du décompte de la banque ?
+
+Parce que c'est une estimation, et qu'elle repose sur des hypothèses que la réalité ne respecte pas toujours.
+
+La première tient au calendrier. Une banque compte en jours et applique une date de valeur ; le simulateur compte en mois. L'écart ne dépasse pas un ou deux jours d'intérêts de base par versement. La deuxième tient aux taux : la banque peut modifier le taux de base quand elle veut, y compris sur l'argent déjà déposé, et rien ne permet de prévoir ce qu'il sera dans dix-huit mois. La prime, elle, est figée pour douze mois à compter de chaque versement, mais la suivante se fixera au taux du jour.
+
+Viennent ensuite les éléments que l'outil laisse de côté : les intérêts de base réinvestis chaque 1er janvier, les plafonds de solde total que certains comptes ajoutent au plafond mensuel, les frais éventuels du compte à vue que la banque exige, et le délai de paiement de la prime, versée le premier jour du trimestre qui suit son acquisition.
+
+Je préfère un calcul simple dont on voit toutes les hypothèses à un calcul au jour près dont on ne voit aucune. Pour la valeur qui fait foi, c'est le décompte de la banque. Et pour passer en revue tous les comptes du marché, le comparateur de Wikifin reste la référence officielle : il n'a pas le même objet que cet outil, qui en confronte deux et montre ce que le plafond laisse dehors.
+
+## Quelles erreurs de lecture reviennent le plus souvent ?
+
+- **Prendre la prime en cours pour de l'argent gagné.** Elle ne l'est qu'à la date anniversaire de chaque versement. Notre article sur [le coût d'un transfert de compte d'épargne](/blog/epargne/transfert-compte-epargne-autre-banque-belgique) chiffre ce qu'un départ anticipé fait perdre.
+- **Oublier la somme restée dehors.** Les 4 000 € de l'exemple dorment quelque part, souvent sur un compte à vue à 0 %. Si vous les placez ailleurs, ajoutez ce rendement de tête.
+- **Saisir le taux affiché aujourd'hui pour un versement ancien.** Votre prime est celle du jour du versement, comme l'explique [notre article sur la prime de fidélité](/blog/epargne/prime-de-fidelite-compte-epargne-belgique).
+- **Comparer sur une durée qui n'est pas la vôtre.** Sur six mois, aucune prime n'est acquise, et seuls les taux de base se comparent.
+- **Lire le résultat comme un rendement garanti.** Seule la prime des versements déjà effectués l'est, pour douze mois.
+
+## Faut-il déduire le précompte mobilier ?
+
+Rarement. En 2026, les intérêts d'un compte d'épargne réglementé sont exonérés jusqu'à 1 020 € par personne et par an, 2 040 € pour un couple marié ou cohabitant légal, et le [précompte mobilier](https://finances.belgium.be/fr/particuliers/declaration_impot/revenus_mobiliers) de 15 % ne porte que sur l'excédent. À 2,00 %, il faut 51 000 € sur le compte pour y arriver.
+
+Le simulateur affiche un rappel quand le rythme annuel d'intérêts dépasse 1 020 €. Il ne fait pas la déduction : l'exonération se calcule par contribuable, tous comptes confondus, et l'outil ne connaît que les deux que vous lui montrez.
+
+<Warning>Ce simulateur compare des conditions. Il ne recommande aucun placement et ne remplace ni le décompte de votre banque, ni la fiche d'informations clés pour l'épargnant, ni un conseil personnalisé. En cas de désaccord avec une banque sur le calcul d'une prime, [Ombudsfin](https://www.ombudsfin.be/fr/particuliers/introduire-une-plainte/) traite les plaintes gratuitement, après passage par le service interne de l'établissement.</Warning>
+
+Si l'argent peut rester bloqué, l'arbitrage n'est plus le même, et [compte à terme ou compte d'épargne](/blog/epargne/compte-a-terme-ou-compte-epargne-belgique) pose les chiffres. Pour mettre le taux d'épargne en regard du coût du compte à vue de la même banque, le [comparateur des banques belges](/comparer/banques) les affiche côte à côte.
+
+## Sources
+
+- Wikifin (FSMA), [Que vous rapporte votre compte d'épargne ?](https://www.wikifin.be/fr/epargner-et-investir/compte-depargne/que-vous-rapporte-votre-compte-depargne) : point de départ de l'intérêt de base, acquisition et paiement de la prime, ordre des retraits, exonération de 1 020 € en 2026. Page mise à jour le 12 mai 2026, consultée le 7 octobre 2026.
+- Wikifin (FSMA), [Comparateur de comptes d'épargne](https://www.wikifin.be/fr/epargner-et-investir/simulateur-de-comptes-depargne) et sa [notice de fonctionnement](https://www.wikifin.be/fr/fonctionnement-du-comparateur) : montant initial en date de valeur du jour, premier versement régulier un mois plus tard. Consultés le 7 octobre 2026.
+- KBC, <a href="https://www.kbc.be/content/particulieren/fr/epargner/comptes-epargne/start2save.html" rel="noopener noreferrer nofollow">Compte d'épargne KBC-Start2Save</a> : 1,65 % de taux de base, 1,50 % de prime de fidélité, 500 € par mois au maximum. Page consultée le 7 octobre 2026.
+- Test-Achats, [Hausse des taux : 5 pistes pour mieux rémunérer votre épargne à court terme](https://www.test-achats.be/invest/epargner/epargne/comptes-epargne/2026/09/hausse-taux-epargne-court-terme) : 21 septembre 2026, Keytrade High Fidelity à 0,50 % + 1,50 %. Taux retrouvé à l'identique le 7 octobre 2026.
+- Belfius, communiqué du 11 septembre 2026 (Belfius Flow à 1,83 % + 1,50 % au 18 septembre, Belfius Fidelity inchangé), et Test-Achats, [NIBC Opti : le taux d'épargne passe à 3,50 %](https://www.test-achats.be/invest/epargner/epargne/comptes-epargne/2026/08/nibc-augmente-taux-epargne-opti), 19 août 2026. Relevés le 3 octobre 2026.
+- SPF Finances, [Revenus mobiliers](https://finances.belgium.be/fr/particuliers/declaration_impot/revenus_mobiliers) : précompte de 15 % sur la part imposable des comptes réglementés. Les montants 2026 cités ici sont ceux publiés par Wikifin.
+- Ombudsfin, [Introduire une plainte](https://www.ombudsfin.be/fr/particuliers/introduire-une-plainte/) : médiation gratuite en cas de litige bancaire.

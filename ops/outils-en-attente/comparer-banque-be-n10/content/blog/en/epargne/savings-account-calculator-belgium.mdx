@@ -1,0 +1,144 @@
+---
+title: "Savings account calculator: two accounts in euros"
+description: "A Belgian savings account calculator that applies the monthly deposit cap and only counts the loyalty bonus once it is earned. Over twelve months, €10,000 earns €61.13 at a capped 3.15% and €200 at an uncapped 2.00%. Rates checked on 7 October 2026."
+featureImage: "/images/categories/epargne.webp"
+featureImageAlt: "Account notebook and coins on a pale wooden table"
+publishedAt: "2026-10-07"
+updatedAt: "2026-10-07"
+readingTimeMin: 9
+categorie: "epargne"
+authorSlug: "marion"
+tags: ["savings account calculator", "savings interest calculation", "loyalty bonus", "deposit cap", "KBC Start2Save", "Keytrade High Fidelity", "Belfius Flow", "NIBC Opti", "Belgium", "2026"]
+aiSummary:
+  - "Over twelve months with no withdrawal, €10,000 earns €61.13 gross in a KBC Start2Save at 3.15% (capped at €500 a month) and €200 in a Keytrade High Fidelity at 2.00% with no cap. Rates checked on 7 October 2026."
+  - "The calculation separates three lines: base interest in proportion to the months held, loyalty bonuses earned after twelve full months, and the bonus still accruing, which a withdrawal wipes out."
+  - "Between these two accounts, the ranking flips at €1,525 of starting capital over twelve months, €6,736 over twenty-four months and €10,823 over thirty-six months."
+  - "For €500 deposited every month for two years, the capped account takes the lead again: €279.75 against €147.50."
+  - "The result is an estimate at constant rates, before withholding tax. Only the bank's own statement and the key information sheet for savers are authoritative."
+faq:
+  - q: "How do you calculate interest on a Belgian savings account?"
+    a: "In two steps. Base interest equals deposit × base rate × time held, which the bank counts in days. The loyalty bonus (prime de fidélité) equals deposit × bonus rate for each complete twelve-month period with no withdrawal. A deposit that stayed eight months therefore earns the base rate only."
+  - q: "How much does €10,000 earn in a savings account in one year?"
+    a: "It depends on the deposit cap more than on the advertised rate. At the rates checked on 7 October 2026, €10,000 earns €200 gross in a Keytrade High Fidelity at 2.00% with no cap, and €61.13 in a KBC Start2Save at 3.15%, which only accepts €500 a month, or €6,000 in twelve months."
+  - q: "Does the calculator take the monthly deposit cap into account?"
+    a: "Yes, that is its purpose. Each month it deposits the money available up to the cap you entered and carries the surplus over to the following month. The amount that never entered the account appears on a separate line and is counted as earning nothing."
+  - q: "Is the loyalty bonus counted before twelve months?"
+    a: "No. The calculator only adds it to the total after twelve full months for each deposit. The bonus still accruing at the end of the period is shown on its own line: it is the amount you would give up by withdrawing the money that day."
+  - q: "Can I simulate my own savings account?"
+    a: "Yes. Every value can be edited: replace the base rate, the loyalty bonus and the cap with those on your account's key information sheet for savers. For an older deposit, enter the bonus rate in force on the day of the deposit, since it is locked for twelve months."
+  - q: "Is withholding tax deducted from the result?"
+    a: "No, the result is gross. In 2026, interest from a regulated savings account is exempt up to €1,020 per person per year, and a 15% withholding tax (précompte mobilier) applies to the excess. The calculator shows a reminder when the annual pace of interest passes that threshold, without deducting anything."
+  - q: "Is the result what my bank will actually pay?"
+    a: "Not to the cent, for three reasons. The bank counts in days and the calculator in months. The base rate can change along the way, while the calculation assumes it stays constant. And base interest credited every 1 January earns interest in turn, which the calculator does not reinvest."
+---
+
+A savings account calculator that is useful in Belgium has to do two things the advertised rate does not: apply the **deposit cap** and count the **loyalty bonus** (*prime de fidélité*) only once it is earned. Over twelve months, €10,000 then earns €61.13 in a capped account at 3.15%, and €200 in an uncapped one at 2.00%.
+
+## 3.15% on one side, 2.00% on the other, and the second wins
+
+The tool below sets two accounts side by side and answers in euros. It is preset to two opposite structures found on the Belgian market: a high-rate account limited to €500 a month, and a lower-rate account that takes the whole capital at once. Change the capital, the monthly deposit, the period or any rate, and the result follows.
+
+<EpargneCompare />
+
+The default values are those of the [KBC Start2Save](https://www.kbc.be/content/particulieren/fr/epargner/comptes-epargne/start2save.html) (1.65% base rate, 1.50% bonus, €500 a month, page read on 7 October 2026) and the Keytrade High Fidelity (0.50% and 1.50%, no cap, surveyed by the consumer organisation Test-Achats on 21 September 2026). They are examples, not a selection. The [ranking of Belgian banks](/en/classement/banques) judges institutions on their full annual cost, current account included.
+
+## How does the calculator work out the interest?
+
+It adds two lines that do not run on the same clock, then sets a third one apart.
+
+**Base interest.** For each deposit: amount × base rate × months held ÷ 12. The rule comes from [Wikifin, the financial education site of the FSMA](https://www.wikifin.be/fr/epargner-et-investir/compte-depargne/que-vous-rapporte-votre-compte-depargne), Belgium's Financial Services and Markets Authority: base interest starts no later than the day after the deposit and is paid once a year, around 1 January.
+
+**Loyalty bonuses earned.** For each deposit: amount × bonus rate, as many times as the deposit has spent twelve full months in the account. According to Wikifin again, the bonus rate is set for twelve months at the time of the deposit and paid quarterly, on 1 January, 1 April, 1 July or 1 October.
+
+**The bonus still accruing.** This is the share of bonus built up by deposits that have not yet reached their anniversary. It is not part of the total. It sits on its own line because it has a price: a withdrawal makes it disappear.
+
+The cap comes in before all of that. Each month, the calculator deposits the money available up to the permitted limit and carries the rest over to the next month. The starting capital arrives in month 0 and the first monthly deposit one month later, a convention taken from [Wikifin's savings account comparator](https://www.wikifin.be/fr/epargner-et-investir/simulateur-de-comptes-depargne), which describes it in its [explanatory note](https://www.wikifin.be/fr/fonctionnement-du-comparateur).
+
+Three simplifications are deliberate. A month counts as one twelfth of a year, whereas the bank counts days. Rates stay constant for the whole period. Interest paid out is not reinvested.
+
+## What does the calculation by hand give on €10,000?
+
+€61.13 for the capped account, €200 for the other. Here is the working, which you can redo on a pocket calculator.
+
+In account A, the €500 cap lets twelve deposits in over a year, or €6,000. The remaining €4,000 never gets in. The first deposit stays twelve months, the second eleven, and so on down to the last, which stays one month: 12 + 11 + … + 1 = 78 months held in all. Base interest is therefore 500 × 1.65% × 78 ÷ 12, or **€53.63**. A single deposit reaches its twelve months, the first: 500 × 1.50% = **€7.50** of bonus. Total: €61.13, or 0.61% of the €10,000 you had to place.
+
+In account B, everything goes in on day one. 10,000 × 0.50% = €50 of base interest, 10,000 × 1.50% = €150 of bonus, earned in the twelfth month. Total: **€200**.
+
+Gap: €138.87 in favour of the lower rate.
+
+Account A does hold €41.25 of bonus still accruing at that date, which will mature if the money stays. Over twenty-four months the gap narrows (€304.38 against €400) without reversing.
+
+## And for €500 deposited every month for two years?
+
+The ranking turns over. With no starting capital and €500 a month for twenty-four months, the cap no longer gets in anyone's way: both accounts receive the same €11,500, in twenty-three deposits.
+
+The months held add up from 23 down to 1, which makes 276. In account A: 500 × 1.65% × 276 ÷ 12 = €189.75 of base interest. In account B, at a base rate of 0.50%: €57.50. The bonus is identical on both sides, since the bonus rate is the same and twelve deposits have passed their anniversary: 12 × €7.50 = €90.
+
+Result: **€279.75 against €147.50**. A capped account rewards a regular deposit, not capital you already hold.
+
+## From what capital does the uncapped account move ahead?
+
+Very early over one year, much later over three. The calculator looks for this tipping point at every setting; here are its results for capital placed in one go, with no monthly deposit, against the Keytrade High Fidelity at 2.00%.
+
+| Account capped at €500 a month | Tipping point over 12 months | Tipping point over 24 months | Tipping point over 36 months |
+|---|---|---|---|
+| KBC Start2Save, 1.65% + 1.50% | €1,525 | €6,736 | €10,823 |
+| NIBC Opti, 2.00% + 1.50% | €2,375 | €8,187 | €13,500 |
+
+*Our own calculation of 7 October 2026, rates assumed constant. How to read it: with €5,000 to place for two years, the Start2Save earns more; with €8,000, the uncapped account moves ahead.*
+
+The period changes everything. The longer you give the capped account to fill up, the more capital it can absorb. But during those thirty-six months its base rate can be changed at any time, and the base rate is what carries its advantage.
+
+## What do five Belgian accounts earn over 12 and 24 months?
+
+The table below works as a reference even if you never touch the tool. Each line carries its base rate, its bonus, its cap and the date the rate was recorded.
+
+| Savings account (date recorded) | Base + bonus | Cap | €10,000 over 12 months | €10,000 over 24 months | €300 a month over 24 months |
+|---|---|---|---|---|---|
+| KBC Start2Save (7 October 2026) | 1.65% + 1.50% | €500/month | €61.13 | €304.38 | €167.85 |
+| Belfius Flow (18 September 2026) | 1.83% + 1.50% | €600/month | €80.37 | €372.44 | €180.27 |
+| NIBC Opti (19 August 2026) | 2.00% + 1.50% | €500/month | €72.50 | €346.67 | €192.00 |
+| Keytrade High Fidelity (21 September 2026) | 0.50% + 1.50% | none | €200.00 | €400.00 | €88.50 |
+| Belfius Fidelity (18 September 2026) | 0.15% + 1.50% | none | €165.00 | €330.00 | €64.35 |
+
+*Gross interest earned, calculated on 7 October 2026 with the method described above. The Belfius and NIBC rates are those of our survey of 3 October 2026 and have not been re-read since.*
+
+Two columns, two opposite rankings. The account that comes last on €10,000 of capital comes near the top on a €300 monthly deposit, and the NIBC Opti, first on the monthly deposit, stays far behind on capital. None of these accounts is the best in absolute terms.
+
+## Why does the result differ from the bank's statement?
+
+Because it is an estimate, resting on assumptions that reality does not always honour.
+
+The first concerns the calendar. A bank counts in days and applies a value date; the calculator counts in months. The gap is no more than one or two days of base interest per deposit. The second concerns rates: the bank can change the base rate whenever it likes, including on money already deposited, and nothing tells you what it will be in eighteen months. The bonus is locked for twelve months from each deposit, but the next one will be set at the rate of the day.
+
+Then come the items the tool leaves aside: base interest reinvested every 1 January, the total balance caps that some accounts add to the monthly cap, any fees on the current account the bank requires, and the payment delay on the bonus, which lands on the first day of the quarter after it is earned.
+
+I would rather have a simple calculation whose every assumption is visible than a to-the-day calculation that shows none. For the figure that counts, look at the bank's statement. And to go through every account on the market, the Wikifin comparator remains the official reference: it does a different job from this tool, which pits two accounts against each other and shows how much the cap leaves outside.
+
+## Which misreadings come up most often?
+
+- **Taking the accruing bonus for money earned.** It only becomes yours on each deposit's anniversary. Our article on [the cost of moving a savings account](/en/blog/epargne/transfer-savings-account-another-bank-belgium) puts a figure on what leaving early costs.
+- **Forgetting the amount left outside.** The €4,000 in the example is sitting somewhere, often in a current account at 0%. If you place it elsewhere, add that return yourself.
+- **Entering today's advertised rate for an older deposit.** Your bonus is the one in force on the day of the deposit, as [our article on the loyalty bonus](/en/blog/epargne/savings-account-loyalty-bonus-belgium) explains.
+- **Comparing over a period that is not yours.** Over six months no bonus is earned, and only base rates can be compared.
+- **Reading the result as a guaranteed yield.** Only the bonus on deposits already made is guaranteed, for twelve months.
+
+## Should you deduct withholding tax?
+
+Rarely. In 2026, interest from a regulated savings account is exempt up to €1,020 per person per year, €2,040 for a married or legally cohabiting couple, and the 15% [withholding tax](https://finances.belgium.be/fr/particuliers/declaration_impot/revenus_mobiliers) (*précompte mobilier*) only applies to the excess. At 2.00%, you need €51,000 in the account to get there.
+
+The calculator shows a reminder when the annual pace of interest passes €1,020. It does not make the deduction: the exemption is calculated per taxpayer, across all accounts, and the tool only knows the two you show it.
+
+<Warning>This calculator compares conditions. It recommends no investment and replaces neither your bank's statement, nor the key information sheet for savers, nor personal advice. If you disagree with a bank about how a bonus was calculated, [Ombudsfin](https://www.ombudsfin.be/en/individuals/introduce-complaint/), the Belgian ombudsman for financial disputes, handles complaints free of charge once the bank's own complaints service has been through.</Warning>
+
+If the money can stay locked away, the trade-off is a different one, and [term deposit or savings account](/en/blog/epargne/term-deposit-vs-savings-account-belgium) sets out the figures. To put the savings rate next to the cost of the same bank's current account, the [Belgian bank comparator](/en/comparer/banques) shows them side by side.
+
+## Sources
+
+- Wikifin (FSMA), [What does your savings account earn you?](https://www.wikifin.be/fr/epargner-et-investir/compte-depargne/que-vous-rapporte-votre-compte-depargne) (in French): start of base interest, how the bonus is earned and paid, order of withdrawals, €1,020 exemption in 2026. Page updated 12 May 2026, accessed 7 October 2026.
+- Wikifin (FSMA), [Savings account comparator](https://www.wikifin.be/fr/epargner-et-investir/simulateur-de-comptes-depargne) and its [explanatory note](https://www.wikifin.be/fr/fonctionnement-du-comparateur): initial amount with same-day value date, first regular deposit one month later. Accessed 7 October 2026.
+- KBC, <a href="https://www.kbc.be/content/particulieren/fr/epargner/comptes-epargne/start2save.html" rel="noopener noreferrer nofollow">KBC-Start2Save savings account</a>: 1.65% base rate, 1.50% loyalty bonus, €500 a month at most. Page accessed 7 October 2026.
+- Test-Achats, [Rising rates: 5 ways to earn more on short-term savings](https://www.test-achats.be/invest/epargner/epargne/comptes-epargne/2026/09/hausse-taux-epargne-court-terme): 21 September 2026, Keytrade High Fidelity at 0.50% + 1.50%. Same rate found again on 7 October 2026.
+- Belfius, press release of 11 September 2026 (Belfius Flow at 1.83% + 1.50% from 18 September, Belfius Fidelity unchanged), and Test-Achats, [NIBC Opti: savings rate rises to 3.50%](https://www.test-achats.be/invest/epargner/epargne/comptes-epargne/2026/08/nibc-augmente-taux-epargne-opti), 19 August 2026. Recorded on 3 October 2026.
+- FPS Finance, [Movable income](https://finances.belgium.be/fr/particuliers/declaration_impot/revenus_mobiliers): 15% withholding tax on the taxable share of regulated accounts. The 2026 amounts quoted here are those published by Wikifin.
+- Ombudsfin, [Submit a complaint](https://www.ombudsfin.be/en/individuals/introduce-complaint/): free mediation for banking disputes.
