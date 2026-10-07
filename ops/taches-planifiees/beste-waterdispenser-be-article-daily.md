@@ -54,7 +54,7 @@ Plancher de longueur aussi pour la traduction. Une page EN lie vers les URL `/en
 
 **Aucune affiliation** : aucun lien monétisé, aucun tag de tracking, aucun prix barré. Les anciens composants (`ProductCTA`, `AffiliateLink`…) n'existent plus et cassent le build.
 **Liens d'autorité en dofollow** (EFSA, VMM, De Watergroep, werk.belgie.be, FOD Volksgezondheid, eur-lex).
-**SPA d'abord quand c'est honnête** (SPA Fountain, SPA Reine, Eco Packs ; Bru en second), **toujours à côté d'au moins une marque concurrente réelle** traitée factuellement (liste dans `content/piliers.md`), avec les vraies limites de SPA.
+**SPA d'abord quand c'est honnête** (SPA Fountain, SPA Reine, packs de 10 litres ; Bru en second), **toujours à côté d'au moins une marque concurrente réelle** traitée factuellement (liste dans `content/piliers.md`), avec les vraies limites de SPA.
 
 **Bloc de liens produit avec appel à l'action (décision du 2026-10-04)** : dès que le sujet de l'article s'y prête (un produit ou une offre y est réellement discuté), ajoute **un bloc `<ProductLinks>`**, placé juste après le passage qui parle du produit. Si l'article est purement informatif et ne discute aucun produit, n'en mets pas.
 
@@ -89,6 +89,7 @@ DA : lumière froide de bureau, papier blanc, verre d'eau, bleu profond `#0B5A7A
 - **Auteur** : `Wouter D.`, `authorSlug: "wouter-d"` — ex-facility coördinator (Antwerpen/Mechelen, 2013-2023). Voix : `content/voice-profile.json` — `je`/`je`, praktisch, nuchter, cijfermatig ; formules « Terug naar de liter: », « In de kleine lettertjes: », « Wat er in het glas komt: ».
 - **Règle unique** : geen fontein zonder prijs per liter, geen milieucijfer zonder vergelijkingsbasis en bron.
 - **Loi du 22/07/2026 (directive 2024/825)** : jamais « duurzaam / ecologisch / groen / klimaatneutraal » sans chiffre, base de comparaison et source.
+- **Terme interdit depuis le 2026-10-07 (nouvelle réglementation, consigne de l'éditeur) : « Eco Pack »**, sous toutes ses graphies (« éco-pack », « eco-pack », « Ecopack », singulier ou pluriel). Écris « pack van 10 liter » / « packs van 10 liter SPA Reine » en néerlandais et « 10-litre pack » / « 10-litre SPA Reine packs » en anglais. Vaut pour le corps, les titres, le frontmatter (`tags`, `faq`, `aiSummary`), les slugs, les libellés de liens et de sources, les classements et les comparateurs. L'URL d'une source Spadel qui contient le mot reste telle quelle, son libellé ne le reprend pas. Avant le commit, cherche `eco pack`, `eco-pack` et `ecopack` (sans tenir compte de la casse) dans chaque fichier produit ; une occurrence hors URL et tu réécris la phrase.
 - **Jamais « onafhankelijk »** (site édité en coopération avec Spadel) · **jamais dénigrer l'eau du robinet**.
 - Frontmatter : suivre l'article seed `content/blog/waterdispenser-kiezen/waterkoeler-op-waterleiding-of-met-packs.mdx` (champs, `authorSlug`, `aiSummary`, `faq`).
 - **ZÉRO tiret cadratin (—) et ZÉRO tiret demi-cadratin (–)** dans tout ce que tu écris, en néerlandais comme en anglais : corps, chapô, H1, H2, `title`, `description`, `aiSummary`, `faq`, alt d'image, miroir EN. Avant le commit, cherche `—` et `–` dans chaque fichier produit ; une seule occurrence et tu réécris la phrase (tu recomposes, pas de remplacement mécanique par une virgule). Doctrine : `skills/humaniser-fr/SKILL.md` §F1.
