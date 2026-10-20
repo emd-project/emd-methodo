@@ -1,10 +1,10 @@
-# Audit TECHNIQUE & i18n — LATEST (2026-10-13)
+# Audit TECHNIQUE & i18n — LATEST (2026-10-20)
 
-**Rien à auditer (aucun nouveau site ≤14j non audité pour tech).**
+**Rien à auditer (aucun nouveau site ≤14j non audité).**
 
-- Fenêtre : provisionnés depuis le 2026-09-29 (`pipeline/provisioned-log.csv`).
-- Candidats ≤14j : `besttennisshoes.be` (2026-09-29), `beste-waterdispenser.be` (2026-10-01).
-- Tous deux déjà présents dans `pipeline/audits/audited-tech.csv` (audités le 2026-10-06) → exclus.
-- Périmètre final : vide. Aucun re-scan du parc (doctrine emd-audit v1.6).
+- Fenêtre : provisionnés depuis le 2026-10-06 (`pipeline/provisioned-log.csv`).
+- Dernier site provisionné : `beste-waterdispenser.be` (2026-10-01, 19 j) → hors fenêtre.
+- Aucun candidat ≤14j ; ledger `pipeline/audits/audited-tech.csv` inchangé.
+- Périmètre final : vide. Aucun re-scan du parc (doctrine emd-audit).
 
 Dernier audit avec résultats : voir `tech-2026-10-06.md`.
