@@ -1,181 +1,171 @@
 # Audit QA : DA · UX · IMAGES · RESPONSIVE · A11y
 
-**Date :** 2026-10-07 · **Domaine d'audit :** `ux` · **Mode :** LECTURE SEULE (rendu réel, code de la branche `main`) · **Doctrine :** `skills/emd-audit/SKILL.md` v1.6.0 + `emd-template-v2/docs/DA-DIRECTIONS.md`
+**Date :** 2026-10-21 · **Domaine d'audit :** `ux` · **Mode :** LECTURE SEULE (rendu réel, code de `main` @ `b78208d`, 2026-10-20) · **Doctrine :** `skills/emd-audit/SKILL.md` v1.6.0 + `docs/DA-DIRECTIONS.md` (copie du dépôt du site)
 
-> Santé prod : **non vérifiée** (le fetch de `beste-waterfonteinbe.vercel.app` n'a pas été autorisé pendant l'exécution planifiée). Le scroll horizontal est évalué **dans le code**, pas mesuré dans un navigateur. Les contrastes sont calculés à partir des valeurs de `globals.css`.
-> Recherche des hex en dur : faite fichier par fichier sur les composants réellement rendus (Nav, Footer, MagazineHome, CategoryView, ArticleView, AuthorCard, OG, CSS chargés), sans grep exhaustif du dépôt.
+> **Méthode, nouveauté de cette semaine :** le site a été **buildé et servi en local** (`next build` + `next start`) puis mesuré dans Chromium (Playwright) à 320 / 360 / 375 / 768 / 1024 / 1440 px sur 16 URL FR + EN. Seule entorse : Google Fonts n'étant pas joignable depuis l'environnement d'audit, Manrope a été remplacée par la police de repli pour le build local. **Manrope étant plus large que la police de repli, les débordements mesurés sont un minimum.**
+> Santé prod : **non vérifiée** (fetch de `fond-investissement.vercel.app` / `www.fonds-investissement.be` bloqué par le proxy de l'exécution planifiée).
 
 ## Périmètre
 
-Sites provisionnés ≤ 14 jours (fenêtre depuis le 2026-09-23, source `pipeline/provisioned-log.csv`) et non audités par `ux` (ledger `audited-ux.csv`).
+Sites provisionnés ≤ 14 jours (fenêtre depuis le 2026-10-07, source `pipeline/provisioned-log.csv`) et non audités par `ux` (ledger `audited-ux.csv`).
 
 | Domaine | Provisionné | Statut |
 |---|---|---|
-| meilleure-carte-bancaire.be | 2026-09-25 | déjà audité le 2026-09-30 → ignoré |
-| meilleur-lave-linge.be | 2026-09-28 | déjà audité le 2026-09-30 → ignoré |
-| besttennisshoes.be | 2026-09-29 | déjà audité le 2026-09-30 → ignoré |
-| beste-waterdispenser.be | 2026-10-01 | ≤14j, non audité → **AUDITÉ** |
+| beste-waterdispenser.be | 2026-10-01 | > 14 j (et déjà audité le 2026-10-07) → hors périmètre |
+| fonds-investissement.be | 2026-10-20 | ≤14j, non audité → **AUDITÉ** |
 
 **1 site audité.** Aucun re-scan du parc.
 
-⚠️ **Nom de dépôt ≠ domaine** : le site `beste-waterdispenser.be` vit dans le dépôt **`emd-project/beste-waterfontein.be`** (`niche.config.repo`). Le dépôt `emd-project/beste-waterdispenser.be` n'existe pas. La règle « repo = domaine » du skill ne s'applique donc pas à ce site : à noter dans `pipeline/sites.csv` ou à corriger en renommant le dépôt.
+⚠️ **Nom de dépôt ≠ domaine** : le site `fonds-investissement.be` vit dans **`emd-project/fond-investissement`** (sans « s », sans `.be`, et **dépôt PUBLIC** contrairement aux autres sites du réseau). Le dépôt `emd-project/fonds-investissement.be` n'existe pas. Même cas que waterdispenser la semaine dernière : à consigner dans `pipeline/sites.csv`. Le caractère public du dépôt est un risque d'anti-footprint (tout le réseau devient lisible via `niche.config`, `CLAUDE.md`, `registry/`) : à passer en privé.
 
 ---
 
 ## Scorecard
 
-| Site | DA / Direction | Logo / Identité | Images | Responsive | A11y |
-|---|:--:|:--:|:--:|:--:|:--:|
-| beste-waterdispenser.be | ❌ | ❌ | ⚠️ | ✅ | ⚠️ |
+| Site | DA / Direction | Logo / Identité | Images | Responsive | A11y | Santé |
+|---|:--:|:--:|:--:|:--:|:--:|:--:|
+| fonds-investissement.be | ⚠️ | ❌ | ❌ | ❌ | ⚠️ | non vérifié |
 
 Légende : ✅ conforme · ⚠️ à corriger (important ou mineur) · ❌ bloquant.
 
 ---
 
-## Détail : beste-waterdispenser.be (dépôt `beste-waterfontein.be`)
+## Détail : fonds-investissement.be (dépôt `fond-investissement`)
 
-Site NL + EN, 3 articles NL + 3 EN, home `magazine`, catégorie `editorial`, article `classic`. Refonte DA du 2026-10-01 « de bron, niet het labo », déclarée « inspirée de spadel.com ».
+Site FR + EN, **31 articles FR + 31 EN**, 6 catégories. Home `marche`, catégorie `classic`, article `classic`. Parti pris déclaré (`content/da-report.json`) : « acte notarié et registre des parts — papier ivoire vergé, encre violette de tampon ».
 
-### DA ❌ : la palette rendue ne vient plus de `niche.config.palette`
+### Responsive ❌ : burger hors écran à 320 px, rogné à 360 px
 
-- **Deux palettes coexistent.** La refonte du 2026-10-01 a réécrit `globals.css` à la main, sans toucher `niche.config.palette` :
+- **Aucun scroll horizontal** à aucune largeur (`scrollWidth == clientWidth` sur les 16 URL × 6 largeurs) ✅. Garde-fou `overflow-x: clip` sur `html` et `body`, tableaux MDX wrappés dans `.table-scroll-wrap` (article biotech à 30 lignes de tableau OK), comparateur en défilement interne.
+- **Mais ce garde-fou masque un débordement réel de la Nav ❌** : le wordmark « Fonds d'Investissement » (≈ 247 px, sans ellipsis) pousse le bouton burger à **x = 325 → 367 px quelle que soit la largeur**.
+  - **320 px : burger entièrement hors écran** (325 > 320), clippé par `overflow-x: clip` → **menu mobile inaccessible**, donc plus aucun accès à Comparer / Classement / Blog / EN depuis la Nav.
+  - **360 px : burger rogné de 7 px.** 375 px : tient de justesse (8 px de marge).
+  - Avec la vraie Manrope (plus large que la police de repli), le seuil remonte probablement au-dessus de 375 px.
+  - Fix : `.nav .logo .word { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap }` + `.nav .logo { min-width: 0; flex: 1 1 auto }`, ou wordmark court sous 400 px (« fonds·investissement » est déjà dans `niche.logo`).
+- `<meta name="viewport">` présent ✅ (défaut Next).
+- Cibles tactiles < 44 px : burger **42 px** ; liens du fil d'Ariane 22 px ; byline auteur 23 px ; « Voir la fiche officielle » 23 px (×9 sur `/choisir`) ; « Tous les articles » 22 px.
+- Menu mobile fermé : seulement translaté hors écran, sans `inert` → liens tabulables au clavier.
 
-| Token | `niche.config.palette` | `globals.css` (rendu réel) |
-|---|---|---|
-| accent1 | #0B5A7A (pétrole) | **#1F4FB5** (bleu roi) |
-| accent2 | #3E7F96 | #142667 |
-| accent3 | #4F6B3A | #127A48 |
-| accent4 | #8A5634 | #A3542A |
-| accent5 | #5C6FA8 | #5B4DA0 |
-| bgPrimary / bgSurface2 | #F3F7F9 / #E6EFF3 | #FBFAF6 / #EEF3F8 |
-| textPrimary / textMuted | #0F2430 / #536B78 | #142667 / #59617D |
+### DA ⚠️ : direction n°2 assumée dans la palette, contredite par le skin `marche`
 
-  Conséquence directe : tout ce qui lit encore `niche.palette` sort dans **l'ancienne identité**. C'est le cas de l'**image OG** (fond #F3F7F9, eyebrow pétrole) et du **favicon** (rond #0B5A7A). Le site se partage donc en pétrole/gris-bleu alors qu'il s'affiche en bleu roi sur papier chaud.
-- `style.uiStyle: 'etiket'` et `signature.components` (« tableau mg/l », « filet double », « chiffre en exposant ») décrivent l'ancien parti pris « étiquette », que `da-site.css` dit avoir abandonné. La config n'est plus la trace de la DA.
-- **Direction** : n°2 Éditorial muté (papier crème #FBFAF6, serif douce, magazine) avec un accent bleu roi et des rayons généreux (6/12/18/28 px, cartes en `--radius-xl`). La direction est assumée et cohérente, ce n'est pas un skin brut. Deux réserves :
-  - **L'accent #1F4FB5 (teinte ≈ 221°) est à 6° de celui de besttennisshoes.be (#1D3FB8, ≈ 227°)**, provisionné deux jours plus tôt. La doctrine demande ≥ 25° d'écart. Voir anti-footprint.
-  - La DA est calquée sur le site d'une marque citée dans les 3 articles (SPA / Spadel). Le partenariat est déclaré (`ui.productLinksNote` : « uitgegeven in samenwerking met Spadel »), donc ce n'est pas un défaut, mais le site ressemble visuellement à un site de marque. Point éditorial à arbitrer, hors correction technique.
-- **Dégradés rendus alors que `effects: 'none'` et `forbidden: ['dégradés']`** :
-  - `.promo` de la sidebar home : `linear-gradient(150deg, var(--primary), var(--primary-d))` + halo flou `.pblob` ;
-  - `.hub-hero .glow` : disque de 420 px flouté à 90 px, sur toutes les pages catégorie ;
-  - barre de 4 px en dégradé accent1 → 4 → 3 dans l'OG.
-- **Contraste AA en échec pour un OS en mode sombre** : `volteo-hub.css` force `--text-muted: #8A8AA0` sous `prefers-color-scheme: dark`, alors que le site reste clair. Résultat ≈ **3,2:1** sur #FBFAF6 et ≈ 3,0:1 sur #EEF3F8 (dates, méta, fil d'Ariane, bio auteur).
-- **Hex en dur dans le rendu** :
-  - `ArticleView` : voile `rgba(10,10,15,.30→.88)`, H1 `#fff`, `rgba(255,255,255,…)` ;
-  - `AuthorCard` (monogramme de repli) : `rgba(255,61,87,…)` et `rgba(123,97,255,…)`, restes du template ;
-  - `volteo-hub.css` : `#8A8AA0`.
-- **Mode** : clair de fait (`:root` clair, aucun toggle monté). Mais le script du `<head>` lit toujours `localStorage.theme` et le bloc `html[data-theme="dark"]` existe : le mode n'est pas verrouillé.
+**Conforme ✅**
+- **Direction n°2 Éditorial mutée** : papier ivoire #F6F2E9 / #FFFDF8, encre prune **#6B2760** (teinte 309,7°, mutée depuis le bordeaux), laiton #7D5F17, vert registre #2C5A4D. Palette **unique** : écart d'accent ≥ 47,6° avec les 8 derniers sites, couple de fonds non partagé.
+- **`niche.config.palette` = source unique** : les **5 blocs** de `globals.css` (`@theme`, `:root`, `prefers-color-scheme: light`, `data-theme=light`, `data-theme=dark`) reprennent exactement la palette ; dark dérivé proprement. Seul manque : `--color-accent-5` dans `@theme` (mineur).
+- **`volteo.css :root` ne contient que des alias** ✅ (aucune couleur en dur).
+- `da-site.css` : 5 effets cohérents avec le parti pris (chiffres tabulaires, grain 0,03, tableaux zébrés, filets, sélection à l'encre), tokens uniquement.
+- Contrastes en clair : texte 15,3:1, muted 5,3:1 (4,8:1 sur surface 2), accent 9,0:1, blanc sur accent 10,1:1.
+- Fonts via `next/font` en variables. Ni la paire interdite, ni une paire d'un voisin.
+- Home `marche` tirée par `suggestVariants` : **pas de `comparateur`** (variante retirée du moteur).
 
-**Ce qui est conforme :**
-- `volteo.css :root` ne contient que des alias (sha `caba76e`).
-- Les blocs `:root`, `prefers-color-scheme: light`, `data-theme="light"` et `data-theme="dark"` sont cohérents entre eux. Seul manque : `--color-accent-5` dans `@theme` (mineur).
-- Fonts en variables : Fraunces (axes SOFT + opsz) × Poppins, via `next/font`. Ce n'est pas la paire interdite.
-- Contrastes en clair : texte 13,4:1, muted 5,5:1, accent 7,4:1.
-- **Home `magazine`, pas de `comparateur`** (variante retirée du moteur).
+**À corriger ⚠️**
+- **Le skin `volteo-marche.css` n'est pas neutralisé** alors que `style.effects: 'none'` (« DA papier : aucun voile coloré ») :
+  - H1 de la home : mot « fonds » en **dégradé texte** (`.md-title .grad`, primary → mobi → water) ;
+  - CTA principal et carte « Choix gagnant » en **dégradé** (`.md-btn-primary`, `.md-best` + `.blob` flouté) ;
+  - **3 halos radiaux** dans le hero, orbites et pastilles flottantes ;
+  - `.hub-hero .glow` (disque flouté 420 px) sur toutes les pages catégorie ;
+  - bloc « Au classement » et footer sur fond **chrome sombre** au milieu d'un site papier.
+  → Résultat : la home se lit comme le **gabarit comparateur `marche`** du réseau (cf. epargne et carte-bancaire), pas comme un acte notarié. À neutraliser dans `da-site.css` (`.md-title .grad { background: none; color: var(--accent-1) }`, `.md-btn-primary, .md-best { background: var(--accent-1) }`, `.md-hero` sans `radial-gradient`, `.glow, .blob { display: none }`).
+- **Copie « marché en direct » du gabarit** : « Marché en direct · à l'instant », « Le marché, en direct », colonne **« Tendance » en barres vertes** type cotation dans le classement. Il n'y a aucune donnée live sur ce site, et `signature.forbidden` exclut précisément le « graphique boursier ». Copie de `md-flow` également générique (« On classe les offres par valeur réelle, sans favoritisme »).
+- **Fonts hors registre de la direction** : la n°2 appelle une **serif de titrage** (Newsreader / Fraunces / Spectral) ; le site est en **Manrope mono-famille** (registre Électrique / Suisse). Assumé par `suggestFonts`, mais affaiblit la lecture « acte notarié ».
+- **Contraste AA en échec pour un OS en mode sombre** : `volteo-hub.css` force `--text-muted: #8A8AA0` sous `prefers-color-scheme: dark`, alors que le site reste clair. **Mesuré en navigateur** (émulation dark) : **3,0:1** sur #F6F2E9 et **2,7:1** sur #ECE6D8 (dates, méta, fil d'Ariane, compteurs). Même bug que waterdispenser et epargne : à corriger dans le template.
+- **Mode non verrouillé** : clair de fait, aucun toggle monté, mais le script du `<head>` lit toujours `localStorage.theme` et le bloc `html[data-theme="dark"]` existe.
+- **Couleurs en dur dans le rendu** (restes du template, hors palette) :
+  - `AuthorCard` : `rgba(255,61,87,…)` / `rgba(123,97,255,…)` (rose/violet Voltéo) ;
+  - `app/(site)/[article]/page.tsx` l.204 : tag `rgba(255,61,87,.1)` ;
+  - `ImagePlaceholder` : mêmes rose/violet ; `ChoisirEditorial` : `rgba(255,210,63,.35)` (jaune) ;
+  - `ArticleView` : voile `rgba(10,10,15,…)` + `#fff` ; `Pagination` `#FFFFFF` ; `Footer` `#fff`.
 
 ### Logo / Identité ❌
 
-- **Nav : mark sur mesure ✅.** Un gobelet rempli à mi-hauteur (2 `<path>`, `evenodd`), inline dans `Nav.tsx`. Ce n'est pas l'éclair réseau, ni un raster.
-- **Mais il est presque invisible dans la Nav ❌** : `.logo .mark` a un fond `var(--ink)` = #142667, et `.nav .logo .mark svg path` le remplit en `var(--primary)` = #1F4FB5. Contraste **≈ 1,9:1**, sur un pictogramme de 18 px. Le gobelet se lit comme un carré marine.
-- Footer ✅ : même mark, blanc sur #1F4FB5 (7,4:1).
-- **Favicon ❌ hors palette** : rond **#0B5A7A** (ancien accent pétrole) avec un « B », alors que le site rend #1F4FB5. Lettre en `<text>` Georgia (dépend des polices du système).
-- **OG ⚠️** : gabarit commun, rendu dans l'ancienne palette. Ligne de services « Vergelijker · Quiz · Simulator · Aanbiedingen » alors que quiz, simulateur et deals sont **désactivés**. Filigrane **★**. Tagline de 78 caractères en 72 px : débordement probable.
+- **Nav : mark sur mesure ✅.** Tampon d'acte (double cercle + barre de signature), inline dans `Nav.tsx`, papier sur encre prune (9,9:1). Ce n'est ni l'éclair, ni un raster.
+- **Footer : ÉCLAIR RÉSEAU ❌.** `Footer.tsx` l.75 rend toujours `M13 2 4.5 13.5H11l-1 8.5L19.5 10H13l0-8Z` en `#fff`, sur toutes les pages FR et EN. **5ᵉ site du réseau** à le porter (après hotel-bruges, carte-bancaire, lave-linge, besttennisshoes).
+- **Favicon ⚠️** : `app/icon.svg` = « emd-monogram v1 », **rond #6B2760 + « F »** en police système. Couleur juste, mais ce n'est pas la marque (le tampon), et c'est le même gabarit « rond + initiale » que 6 voisins.
+- **OG ❌ : l'image ne se génère pas.** En local, `/opengraph-image` et `/en/opengraph-image` renvoient une **réponse vide** : Satori lève `Expected <div> to have explicit "display: flex" … if it has more than one child node` sur l'eyebrow `{domain} · {year}` de `SiteOgImage.tsx` (3 nœuds texte dans un `div` sans `display: flex`). La home, les catégories et les pages légales déclarent cette URL en `og:image` → **aperçu de partage cassé** (les articles, eux, pointent sur leur cover ✅). Fix : `display: 'flex'` sur ce div, ou chaîne unique `` {`${domain} · ${year}`} ``. À vérifier sur la prod.
+  - Même s'il se génère, l'OG reste le **gabarit commun** : barre en dégradé (contraire à `effects: 'none'`), eyebrow `DOMAINE · ANNÉE`, filigrane ★, et ligne de services citant **Quiz et Simulateur, désactivés** sur ce site.
+- `public/icons/brand/logo.svg` = « 10min-template » (Syne, #FF3D57) : non rendu sur le site public (seul `/admin` lie `brand/favicon.svg`), mais résidu à supprimer.
 
-### Images ⚠️
+### Images ❌
 
-- **Featured ✅** : 3 covers uniques et présentes (`cover.webp`, `cover.jpeg` ×2). Formats mélangés (webp/jpeg), mineur.
-- **In-body ⚠️** : **1 seule image par article, et c'est la cover de catégorie recyclée** (`/images/categories/<slug>.webp`) au lieu de ~2 images propres. Alt descriptifs et distincts ✅.
-- **Covers de catégorie ✅** : les 6 fichiers existent dans `public/images/categories/` et `CategoryView` les rend en fond du `hub-hero` (garde `existsSync`), mobile compris. `MagazineHome` les rend en vignette 38 px. **Aucune cover de catégorie à générer sur ce site.**
-- **3 catégories renvoient 404 ❌** faute d'article : `waterkwaliteit`, `recyclage`, `packs-en-kosten` (`notFound()` si 0 article). Le footer les filtre correctement, mais **la `magnav` de la home lie les 6 catégories sans filtre** : 3 liens morts en haut de la home, en NL et en EN.
-- Alt :
-  - hero d'article en `alt=""` + `aria-hidden` (acceptable, le titre est dans le H1) ;
-  - covers de catégorie : alt gabarit « Illustratie — {label} », en néerlandais **aussi sur les pages EN** ;
-  - portrait auteur : alt **« Photo de Wouter D. » en français** sur un site NL/EN (`lib/image-slots.ts`).
-- `next/image` partout, dimensions définies, aucun `<img>` brut. Portrait `wouter-d.webp` présent ✅.
-- Home magazine sous-alimentée : la mosaïque attend 5 articles, le site en a 3. Les mêmes 3 articles reviennent dans la mosaïque, les 3 blocs catégorie et « populaires ».
-
-### Responsive ✅
-
-- Garde-fou `html { overflow-x: clip }` ✅. Viewport par défaut de Next ✅.
-- Tables wrappées (`.table-scroll-wrap`), dont le comparatif à 7 colonnes ✅. `th` en `white-space: normal` ✅.
-- Mosaïque, `cat-layout` et sidebar s'empilent à 900 / 720 / 1040 px. `magnav` et barre de filtres en défilement interne ✅. Wordmark en ellipsis ✅.
-- **Aucun scroll horizontal identifié dans le code** à 320 / 375 / 768 / 1024 / 1440. À confirmer en navigateur.
-- Cibles tactiles sous 44 px : burger **42 px**, liens `magnav` ≈ 38 px, chips de filtre ≈ 40 px.
-- `magnav` (6 catégories + 2 liens) défile sans indice visuel à 320-375 px.
+- **Featured ✅** : 31 covers uniques (aucun doublon md5), toutes présentes, 1280×720 webp, alt descriptifs. Les articles EN réutilisent la cover FR correspondante (acceptable).
+- **In-body ❌ : 0 image propre sur 62 articles.** Chaque article a **une seule** `<ArticleImage>` et c'est **la cover de sa catégorie recyclée** (`/images/categories/<cat>.webp`) :
+  - `lever-des-fonds.webp` affichée dans le corps des **10** articles de la catégorie (×2 avec l'EN = 20 fois), `comprendre-les-fonds.webp` ×12, `reprise-et-transmission.webp` ×10, etc. ;
+  - **les alt décrivent des scènes qui ne sont pas dans l'image** : sous la même photo, « Classeurs numérotés… data room », « Dirigeant relisant une term sheet avec son avocat », « Plan financier prévisionnel et table de capitalisation posés sur un bureau »… Alt mensongers = défaut a11y en plus du défaut visuel.
+  - Doctrine : ~2 images in-body **propres** par article.
+- **Covers de catégorie ✅ : 6/6 présentes ET rendues** (fond du `hub-hero` de `CategoryView`, garde `imageExists`, mobile compris ; vignettes 48 px sur la home `marche`). Vérifié en capture à 1440 px. **Aucune cover de catégorie à générer sur ce site.** Le scrim crème (58 → 84 %) les délave fortement : acceptable.
+- `next/image` partout, aucun `<img>` brut (vérifié dans le DOM rendu), dimensions définies.
+- Alt de cover de catégorie : gabarit « Illustration — {label FR} », **en français aussi sur les pages EN** (`lib/image-slots.ts`).
+- Mineur : plusieurs covers contiennent du pseudo-texte généré en anglais (« SAVINGS STATEMENT », « SAM BUSINESS PLAN ») sur un site FR.
 
 ### A11y ⚠️
 
-- **Un H1 sur la home ✅** (ajouté dans `MagazineHome`), un H1 par catégorie et par article.
-- Skip-link, `:focus-visible`, `prefers-reduced-motion` (global + `da-site.css`) ✅.
-- `<html lang="nl">` ✅ sur le NL. **EN ⚠️** : `lang="en"` posé seulement sur un `div display:contents`, `<html>` reste `nl`. Skip-link en NL sur les pages EN.
-- Menu mobile fermé seulement translaté, sans `inert` : liens tabulables. `role="dialog"` sans piège de focus.
-- `h4` du footer sans `h3` avant eux.
-- Formulaire newsletter de la sidebar **sans `action`** (soumission sans effet), `aria-label="Email"` non traduit.
-- Contraste muted en OS sombre : voir DA.
-- Hors domaine UX, à relayer à l'audit multilingue : le site est en **locale NL par défaut**, contraire à la doctrine « FR + EN, jamais de NL ». Si c'est voulu pour ce marché, la doctrine est à amender.
+- Un H1 par page sur home, catégories, articles, classement/comparer/choisir produit, auteur, légales ✅.
+- **Hubs `/comparer` et `/classement` sans H1 ❌** (0 H1 mesuré dans le DOM).
+- Sauts de niveau de titre (h2 → h4) sur home, hubs, classement, auteur, légales ; `h4` du footer sans `h3`.
+- Skip-link, `:focus-visible`, `prefers-reduced-motion` (globals, `volteo-marche`, `volteo-motion`, ticker) ✅.
+- **`lang` EN ⚠️** : `<html lang="fr">` sur toutes les pages `/en`, `lang="en"` seulement sur un `div display:contents`. Skip-link en FR sur l'EN.
+- Menu mobile `role="dialog"` sans piège de focus, menu fermé tabulable (cf. Responsive).
+- Formulaire newsletter de `MarcheHome` **sans `action`** (soumission sans effet), `aria-label="Email"` non traduit.
+- Alt in-body mensongers (cf. Images).
 
 ---
 
 ## Catégories sans cover rendue (pour `emd-fix`)
 
-> **PS demandé :** sur ce site, **les 6 covers de catégorie existent et sont rendues**. Il n'y a donc **aucune cover de catégorie à générer**. Ce qui manque, ce sont les articles et les images de corps.
+> **PS demandé :** sur ce site, **les 6 covers de catégorie existent et sont rendues** sur la page catégorie (desktop et mobile). **Aucune cover de catégorie à générer.** Ce qui manque, ce sont les **images de corps**.
 
-| Site | Catégorie (slug : libellé) | Cause | Action |
+| Site | Catégorie | Cover | Action |
 |---|---|---|---|
-| beste-waterdispenser.be | `waterkwaliteit` : Kwaliteit van mineraalwater | fichier OK, page en 404 (0 article), liée depuis la `magnav` home | publier ≥ 1 article, ou filtrer la `magnav` sur les catégories non vides |
-| beste-waterdispenser.be | `recyclage` : Duurzaamheid & recyclage | idem | idem |
-| beste-waterdispenser.be | `packs-en-kosten` : Packs bestellen & kosten | idem | idem |
+| fonds-investissement.be | les 6 (`comprendre-les-fonds`, `lever-des-fonds`, `fonds-propres-ou-dette`, `reprise-et-transmission`, `start-up-et-scale-up`, `fonds-par-region`) | présente + rendue ✅ | aucune |
 
-**Images à GÉNÉRER dans le fix** (`generate_image`, 16:9, sans texte, dans la palette rendue du site) : **2 images de corps propres par article**, pour remplacer la cover de catégorie recyclée, soit 6 images pour les 3 articles (réutilisées par leurs versions EN) :
-- `waterkoeler-op-waterleiding-of-met-packs` : par exemple une kitchenette de bureau avec arrivée d'eau, puis un stock de packs de 10 litres ;
-- `drinkwater-op-het-werk-verplicht` : par exemple un point d'eau avec gobelets dans un couloir de bureau, puis un entrepôt par forte chaleur ;
-- `waterkoeler-reinigen` : par exemple un bac récolte-gouttes rincé à l'évier, puis un technicien qui change un filtre.
+**Images à GÉNÉRER dans le fix** (`generate_image`, 16:9, sans texte lisible, palette papier ivoire / encre prune / laiton, motifs du parti pris : acte, registre des parts, tampon, table de capitalisation ; **interdits** : poignée de main, fusée, graphique boursier, pièces) : **2 images de corps propres par article FR = 62 images**, réutilisées par les 31 versions EN. Partir de l'alt existant de chaque article (il décrit déjà la scène voulue) pour la 1ʳᵉ image, et d'un H2 du milieu de l'article pour la 2ᵉ. Puis remplacer `src="/images/categories/…"` par les nouveaux chemins dans les 62 MDX.
 
 ---
 
 ## Section anti-footprint
 
-Comparaison avec les sites voisins récents (audit `ux` du 2026-09-30).
+Comparaison avec les sites voisins récents (audits `ux` du 2026-09-30 et du 2026-10-07).
 
-| Site | Direction | Accent1 · fonds · mode | Fonts (rendues) | Home réelle | Logo Nav | Favicon | OG | Auteur |
-|---|---|---|---|---|---|---|---|---|
-| **waterdispenser** | 2 Éditorial muté | **#1F4FB5** · #FBFAF6/#FFF · light | **Fraunces** × Poppins | magazine | gobelet ✅ (≈ invisible) | rond **pétrole** « B » | gabarit commun ★ (ancienne palette) | Wouter D. |
-| tennis | 1 Électrique muté | **#1D3FB8** · #F4F6FB/#FFF · light | Archivo × Archivo | CourtHome | balle ✅ | rond « B » | sur mesure | Julien S. |
-| shampoing | 2 Éditorial | #2E3793 · #FBF6F1/#FFF · light | **Fraunces** × Hanken | PresseHome | wordmark | rond « S » | gabarit commun ★ | Aurélie V. |
-| lave-linge | 5 Chaleureux muté | #6A6112 · #EBEEE8/#F8FAF6 · light* | Zilla Slab × Inter Tight | magazine | éclair | rond « L » | gabarit commun ★ | Xavier D. |
-| hotel-bruges | 4 Premium sombre muté | #4FC3C7 · #0D1B1E/#142A2E · dark* | Literata × Be Vietnam Pro | magazine | éclair | rond « H » | gabarit commun ★ | Hélène D. |
-| carte-bancaire | 3 Suisse muté | #532C96 · #E9E7EE/#FDFCFE · light | Gabarito × Onest | marche | éclair | carré « C » | gabarit commun ★ | Benoît P. |
+| Site | Direction | Accent1 · fonds · mode | Fonts | Home réelle | Logo Nav | Logo Footer | Favicon | OG | Auteur |
+|---|---|---|---|---|---|---|---|---|---|
+| **fonds-investissement** | 2 Éditorial muté | **#6B2760** · #F6F2E9/#FFFDF8 · light* | Manrope × Manrope | **marche** (skin non neutralisé) | tampon ✅ | **éclair** | rond « F » | gabarit commun ★ (cassé) | Cédric H. |
+| compte-epargne | 2 Éditorial muté « livret tamponné » | #A32922 · #EFE9E7/#FAF6F5 · light | Petrona × Assistant | **marche** (skin non neutralisé) | 3 barres | — | rond « C » | gabarit commun ★ | Florence W. |
+| carte-bancaire | 3 Suisse muté | #532C96 · #E9E7EE/#FDFCFE · light | Gabarito × Onest | **marche** (skin non neutralisé) | éclair | éclair | carré « C » | gabarit commun ★ | Benoît P. |
+| waterdispenser | 2 Éditorial muté | #1F4FB5 · #FBFAF6/#FFF · light | Fraunces × Poppins | magazine | gobelet | gobelet | rond « B » | gabarit commun ★ | Wouter D. |
+| tennis | 1 Électrique muté | #1D3FB8 · #F4F6FB/#FFF · light | Archivo | CourtHome | balle | éclair | rond « B » | sur mesure | Julien S. |
+| lave-linge | 5 Chaleureux muté | #6A6112 · #EBEEE8/#F8FAF6 · light* | Zilla Slab × Inter Tight | magazine | éclair | éclair | rond « L » | gabarit commun ★ | Xavier D. |
+
+\* mode qui peut basculer (script `localStorage.theme` / muted forcé en OS sombre).
 
 **Ce qui est distinct ✅**
-- Mark de logo unique (gobelet), pas d'éclair réseau, ni en Nav ni en Footer.
-- Couple de fonds non partagé. Paire de fonts non partagée à l'identique.
-- Auteur unique, prénom + initiale, métier propre (facility coördinator).
+- Accent prune à ≥ 47,6° de tous les voisins ; couple de fonds inédit ; fonts non partagées.
+- Mark de Nav sur mesure (tampon).
+- Auteur en prénom + initiale, métier propre (ancien analyste crédit entreprises).
 
-**Paires trop proches ❌/⚠️**
-1. ❌ **waterdispenser × besttennisshoes : accent quasi identique** (#1F4FB5 vs #1D3FB8, 6° d'écart de teinte pour ≥ 25° exigés), sur deux sites provisionnés à 2 jours d'intervalle, tous deux en clair sur surface blanche, avec le même favicon rond « B ». Les directions et les fonts diffèrent, mais boutons, liens et tags sont du même bleu.
-2. ⚠️ **waterdispenser × meilleur-shampoing** : même direction n°2 Éditorial, même serif de titrage **Fraunces**, fond crème proche (#FBFAF6 vs #FBF6F1), accent bleu foncé dans les deux cas (#1F4FB5 vs #2E3793, ≈ 13° d'écart). Trois sites à accent bleu sur les huit derniers.
-3. ⚠️ **Home `magazine` répétée** : waterdispenser, lave-linge, hotel-bruges (et tennis en déclaré). Le moteur n'a plus que deux squelettes ; la divergence repose donc sur la peau, ce qui rend le point 1 plus gênant.
-4. ⚠️ **OG gabarit commun**, désormais sur 6 sites : barre en dégradé, eyebrow `DOMAINE.BE · 2026`, tagline en 72/800, services désactivés cités, filigrane ★.
-5. ⚠️ **Bio auteur sur le même moule** : « Wouter was tien jaar … in Antwerpen en Mechelen … Sinds 2023 schrijft hij … », même gabarit « N ans à [villes belges], puis écrit depuis 20xx » qu'Aurélie, Xavier, Hélène, Benoît et Florence.
+**Paires ou groupes trop proches ❌/⚠️**
+1. ❌ **Trio finance `marche` : fonds-investissement × compte-epargne × carte-bancaire.** Trois sites finance, même home `marche`, **même skin template non neutralisé** (H1 en dégradé, CTA en dégradé, halos, carte « Choix gagnant », board sombre à barres « Tendance », ticker, statusbar « en direct »). Les palettes diffèrent, mais la silhouette de page est identique. Avec **fonds-investissement × compte-epargne**, s'ajoute le **même parti pris « tampon »** (« livret tamponné » vs « tampon à encre violette ») et la même direction n°2.
+2. ❌ **Éclair réseau en Footer** : 5ᵉ site concerné.
+3. ⚠️ **OG gabarit commun** : 7ᵉ site (barre dégradée, `DOMAINE · ANNÉE`, ★, services désactivés), et ici en plus il plante.
+4. ⚠️ **Favicon « rond + initiale »** (emd-monogram v1) : 7 des 8 derniers sites.
+5. ⚠️ **Bio auteur sur le même moule** : « Cédric a passé huit ans, de 2009 à 2017, dans le service crédits entreprises d'une banque belge à Namur… Installé à Gembloux… » = gabarit « N ans (20xx-20xx) à [ville belge], puis… » déjà relevé pour Aurélie, Xavier, Hélène, Benoît, Florence, Wouter.
+6. ⚠️ **Dépôt public** : expose la mécanique du réseau (registres DA/voix, `CLAUDE.md`, `da-report.json` listant les 8 sites voisins et leurs teintes).
 
 ---
 
 ## Top actions prioritaires
 
-1. **[DA ❌] Réaligner `niche.config.palette` sur la palette rendue, en mutant l'accent.** Choisir un accent à ≥ 25° de #1D3FB8 (besttennisshoes) et de #2E3793 (shampoing), le poser dans `niche.config.palette`, puis le propager dans les 5 blocs de `globals.css`. Mettre à jour `uiStyle` et `signature` pour qu'ils décrivent la DA actuelle.
-2. **[Logo ❌] Rendre le mark visible dans la Nav et recolorer le favicon.** Dans `da-site.css`, donner au gobelet une couleur lisible sur le fond du `.mark` (par exemple `fill: var(--bg-surface)`, ou fond du mark en `--accent-1`). Refaire `app/icon.svg` dans l'accent rendu.
-3. **[Liens 404 ❌] Supprimer les 3 liens morts de la `magnav`** (`waterkwaliteit`, `recyclage`, `packs-en-kosten`) : publier un article par catégorie, ou filtrer la `magnav` sur les catégories non vides comme le fait déjà le footer.
-4. **[Images ⚠️] Générer 2 images de corps propres par article** (6 images, liste ci-dessus) à la place de la cover de catégorie recyclée. Corriger les alt : portrait en néerlandais/anglais et non « Photo de… », alt de catégorie traduit sur les pages EN.
-5. **[A11y / OG ⚠️] Corrections transverses** : retirer l'override `--text-muted: #8A8AA0` en OS sombre (3,2:1) ; `lang="en"` sur `<html>` pour `/en` ; burger à 44 px et `inert` sur le menu fermé ; sortir de l'OG les services désactivés, le ★ et le dégradé ; neutraliser le dégradé de `.promo` et le `.glow` du hub (`effects: 'none'`) ; brancher ou retirer le formulaire newsletter.
+1. **[Responsive ❌] Débloquer la Nav sous 375 px** : wordmark en ellipsis / `min-width: 0` (ou wordmark court `fonds·investissement` sous 400 px) pour que le burger reste à l'écran à 320 et 360 px. Passer le burger à 44 px et `inert` sur le menu fermé.
+2. **[OG ❌] Réparer `SiteOgImage.tsx`** : `display: 'flex'` sur l'eyebrow (ou une seule chaîne) → l'OG de la home / catégories / légales se génère. Dans la foulée : retirer quiz/simulateur désactivés de la ligne de services, le ★ et la barre en dégradé ; y mettre le tampon.
+3. **[Images ❌] Générer 62 images de corps** (2 par article FR, cf. liste ci-dessus) et remplacer la cover de catégorie recyclée dans les 62 MDX ; corriger les alt pour qu'ils décrivent l'image réelle. **Aucune cover de catégorie à générer.**
+4. **[Logo ❌] Remplacer l'éclair du `Footer.tsx`** par le SVG du tampon (même markup que `Nav.tsx`, `currentColor`) ; refaire `app/icon.svg` avec le tampon au lieu du monogramme « F ». Supprimer `public/icons/brand/logo.svg` (10min-template).
+5. **[DA / anti-footprint ⚠️] Neutraliser le skin `marche` dans `da-site.css`** (dégradés texte/CTA/carte, halos, glow, blob) et réécrire la copie « en direct » / colonne « Tendance » pour sortir du trio finance jumeau ; retirer l'override `--text-muted: #8A8AA0` en OS sombre (3,0:1) ; H1 sur `/comparer` et `/classement` ; `lang="en"` sur `<html>` pour `/en` ; passer le dépôt en privé.
 
 ---
 
 ## Résumé exécutif
 
-- **Site audité (1)** : beste-waterdispenser.be (dépôt `beste-waterfontein.be`).
-- **❌ (3)** : palette rendue désynchronisée de `niche.config.palette` (OG et favicon dans l'ancienne identité) ; mark du logo quasi invisible dans la Nav (1,9:1) ; 3 catégories en 404 liées depuis la home.
-- **⚠️** : 1 image de corps recyclée par article ; contraste muted en OS sombre ; `lang` EN ; cibles tactiles < 44 px ; OG gabarit commun ; dégradés malgré `effects: 'none'`.
-- **Scroll horizontal** : aucun identifié dans le code (garde-fou `overflow-x: clip`, tables wrappées). Prod non mesurée.
-- **Direction DA / comparateur systématique** : direction n°2 Éditorial assumée et mutée, home `magazine`. Pas de `comparateur`. Mais la DA ne passe plus par `niche.config.palette`.
-- **Paires footprint** : waterdispenser × besttennisshoes (accent à 6°) ; waterdispenser × shampoing (Éditorial + Fraunces + bleu) ; OG commun ×6 ; bio auteur sur le même moule.
-- **Covers de catégorie** : les 6 sont présentes et rendues, rien à générer. À générer : 6 images de corps.
+- **Site audité (1)** : fonds-investissement.be (dépôt `fond-investissement`, public). Mesures faites en navigateur sur build local.
+- **❌ (4)** : burger hors écran à 320 px (menu mobile inaccessible), rogné à 360 px ; OG de la home qui ne se génère pas (erreur Satori) ; 0 image in-body propre sur 62 articles (cover de catégorie recyclée, alt mensongers) ; éclair réseau dans le Footer.
+- **⚠️** : skin `marche` à dégradés malgré `effects: 'none'` + copie « marché en direct » ; muted 3,0:1 en OS sombre ; favicon monogramme générique ; `lang` EN ; hubs sans H1 ; cibles tactiles < 44 px ; hex template résiduels.
+- **Scroll horizontal** : aucun à 320-1440 px (mesuré), mais le `overflow-x: clip` masque le débordement de la Nav.
+- **Direction DA / comparateur systématique** : direction n°2 Éditorial assumée, palette mutée et unique, tout passe par `niche.config.palette`, `volteo.css` propre. Pas de `comparateur` (home `marche`), mais **3ᵉ site finance en `marche` non neutralisé** → silhouette jumelle.
+- **Paires footprint** : trio finance fonds × epargne × carte-bancaire (même home `marche` + skin) ; fonds × epargne (même direction + parti pris « tampon ») ; éclair Footer ×5 ; OG commun ×7 ; favicon rond-initiale ×7 ; bio auteur sur le même moule.
