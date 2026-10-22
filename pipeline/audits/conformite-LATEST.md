@@ -1,69 +1,42 @@
-# Audit CONFORMITÉ & IDENTITÉ — 2026-10-15
+# Audit CONFORMITÉ & IDENTITÉ — 2026-10-22
+
+> Copie de `pipeline/audits/conformite-2026-10-22.md` (consommée par `emd-fix`).
 
 **Domaine d'audit :** conformité & identité (Légal/RGPD · Identité · Auteur/E-E-A-T)
-**Mode :** LECTURE SEULE sur les sites — rendu réel audité (layouts réellement montés, SVG inline `Nav.tsx`/`Footer.tsx`, `app/icon`, `app/opengraph-image`, JSON-LD de `ArticleView`).
-**Périmètre (restreint ≤14j = provisionné ≥ 2026-10-01, non déjà audité par ce domaine) :** 1 site.
-
-| Site | Repo | Provisionné | Statut périmètre |
-|---|---|---|---|
-| beste-waterdispenser.be | `emd-project/beste-waterfontein.be` (ancien nom conservé) | 2026-10-01 | ✅ audité (nouveau) |
-
-Aucun re-scan du parc. Site bilingue **NL (défaut) + EN** par conception (propriété Spadel) — les exigences « FR+EN » de la doctrine s'appliquent ici en NL+EN.
-Limites : clone git indisponible → lecture fichier par fichier (`github_read_file`) ; santé prod non vérifiée (pas de fetch HTTP dans ce run).
-
----
+**Mode :** LECTURE SEULE sur les sites — rendu réel audité (layouts réellement montés, SVG inline `Nav.tsx`/`Footer.tsx`, `app/icon.svg`, `app/opengraph-image.tsx`, JSON-LD de `ArticleView`, pages auteur).
+**Périmètre (restreint ≤14j = provisionné ≥ 2026-10-08, non déjà audité par ce domaine) :** 1 site — **fonds-investissement.be** (repo `emd-project/fond-investissement`, provisionné 2026-10-20). Source : `main` @ `798e6d5`. Santé prod non vérifiée (proxy).
 
 ## Scorecard
 
 | Site | Légal & RGPD | Identité | Auteur / E-E-A-T | Auteur affiché | Nom de famille ? |
 |---|:---:|:---:|:---:|---|:---:|
-| beste-waterdispenser.be | ❌ | ✅ | ✅ (⚠️ mineurs) | Wouter D. | Non ✅ |
+| fonds-investissement.be | ❌ | ✅ | ⚠️ | Cédric H. | Non ✅ |
 
-Légende : ✅ conforme · ⚠️ écart important · ❌ bloquant.
-
-**Synthèse :**
-- ❌ **Aucun bandeau cookies** (ni composant, ni montage dans `app/layout.tsx`, `app/(site)/layout.tsx`, `app/en/layout.tsx`) **et `<Analytics />` Vercel monté sans condition** dans `app/layout.tsx` — même défaut que 5/7 sites de l'audit du 2026-10-01.
-- ✅ Pages légales NL + EN remplies, `noindex,nofollow`, infos société exactes (MentionBox SRL · SRL de droit belge · BE 0784.700.405 · Rue Blanche-Eau 15, 6950 Nassogne).
-- ✅ Identité sur mesure : mark **gobelet** (pas l'éclair générique) en Nav, Footer, favicon `app/icon.svg` et OG `app/opengraph-image.tsx` (+ `app/en/opengraph-image.tsx`).
-- ✅ **Règle NOM auteur conforme** : « Wouter D. » partout (niche.config, pages auteur NL/EN, JSON-LD Person + Article.author, frontmatter en `authorSlug: "wouter-d"`).
-
----
-
-## Détail — beste-waterdispenser.be
+## Détail — fonds-investissement.be
 
 ### Légal & RGPD — ❌
-- ✅ `/juridische-informatie` + `/privacybeleid` (NL) et `/en/legal-notice` + `/en/privacy` (EN) : remplis, aucun placeholder, `robots: { index:false, follow:false }`, hreflang nl/en/x-default.
-- ✅ Infos société exactes (NL + EN legal notice). Hébergeur Vercel mentionné.
-- ❌ **Bandeau cookies absent** : `components/**` ne contient aucun composant consentement (`ui/` = AuthorByline, AuthorCard, ImagePlaceholder) ; aucun layout n'en monte. Bloquant.
-- ❌ **`<Analytics />` (`@vercel/analytics/next`) inconditionnel** dans `app/layout.tsx` → mesure d'audience chargée avant tout consentement. Les politiques NL/EN annoncent pourtant des « analytische cookies via Vercel Analytics » sans mécanisme d'acceptation/refus.
-- ⚠️ mineur : `/en/privacy` → « Data controller » omet l'adresse du siège (présente en NL).
-- ⚠️ mineur : la politique ne décrit ni la base légale du traitement analytique ni le moyen de retirer son consentement (à ajouter avec le bandeau).
+- ❌ **Bandeau cookies absent** : aucun composant consentement dans `components/**` ; rien de monté dans `app/layout.tsx`, `app/(site)/layout.tsx`, `app/en/layout.tsx`. Bloquant.
+- ❌ **`<Analytics />` (`@vercel/analytics/next`) inconditionnel** dans `app/layout.tsx` → audience mesurée avant consentement, alors que `/confidentialite` et `/en/privacy` annoncent des cookies analytiques Vercel.
+- ✅ Pages légales FR (`/mentions-legales`, `/confidentialite`) + EN (`/en/legal-notice`, `/en/privacy`) remplies, sans placeholder, `noindex,nofollow` ; infos société exactes (MentionBox SRL · SRL de droit belge · BE 0784.700.405 · Rue Blanche-Eau 15, 6950 Nassogne, Belgique) ; liens footer via `legalPath`.
+- ⚠️ mineur : `/en/privacy` « Data controller » sans adresse du siège ; politiques sans base légale analytique ni retrait du consentement.
 
 ### Identité — ✅
-- ✅ Favicon servi via **`app/icon.svg`** : carré pétrole `#0A5C7E` + gobelet blanc.
-- ✅ **Logo rendu unique** : SVG inline `Nav.tsx` = gobelet (`M5 3h14l-1.7 17.3…`), repris dans `Footer.tsx`. Pas d'éclair générique. Aucun autre site du réseau connu n'utilise ce tracé.
-- ✅ **OG unique** via `app/opengraph-image.tsx` → `components/og/SiteOgImage.tsx` (palette du site, mark gobelet, sans dégradé ni filigrane ★, services limités aux outils actifs ; refait le 2026-10-14). Variante EN montée.
-- mineur : `niche.config.logo: 'beste·waterdispenser'` n'est pas lu (le wordmark rend `siteName`) — sans impact.
+- ✅ Favicon `app/icon.svg` (prune `#6B2760` + tampon papier).
+- ✅ Logo inline `Nav.tsx` l.81 / `Footer.tsx` l.76 = tampon d'acte (`circle r9` + `circle r5.5` + `path M8.5 12h7`), unique, pas d'éclair.
+- ✅ OG `app/opengraph-image.tsx` + `app/en/opengraph-image.tsx` → `SiteOgImage.tsx` (palette du site, mark tampon, sans dégradé/★).
 
-### Auteur / E-E-A-T — ✅ (mineurs)
-- ✅ Auteur identifié **Wouter D.** — « Facility-journalist, water op het werk » ; bio E-E-A-T crédible (10 ans facility coordinator, contrats waterkoelers, calcul prix/litre), bio + titre traduits EN (`localized.en`).
-- ✅ Pages auteur `/auteurs/wouter-d` et `/en/auteurs/wouter-d` avec JSON-LD `Person` (name, jobTitle, description, worksFor) ; hreflang sur la version EN.
-- ✅ JSON-LD `Article.author` = `Person` « Wouter D. » + url + jobTitle + description (`components/article/ArticleView.tsx`) ; byline + AuthorCard rendus avec le nom.
-- ✅ Frontmatter échantillonné (`waterkoeler-op-waterleiding-of-met-packs.mdx`) : `authorSlug: "wouter-d"`, aucun patronyme. Transparence Spadel affichée sur la page auteur (bon pour la confiance).
-- ✅ Auteur unique au réseau (aucun autre « Wouter » dans emd-methodo).
-- ⚠️ mineur : `AuthorByline` et `AuthorCard` lient en dur `/auteurs/<slug>` sans `localePath` → sur les articles EN, le lien auteur pointe vers la page **NL**.
-- ⚠️ mineur (dormant) : la route legacy `app/(site)/[article]/page.tsx` appelle `AuthorByline`/`AuthorCard` **sans `authorName`** (→ nom vide) et met `name: … || 'Auteur'` en JSON-LD. Aucun `content/articles/` aujourd'hui, donc rien de rendu — à corriger avant tout article standalone.
-
----
+### Auteur / E-E-A-T — ⚠️
+- ✅ **Cédric H.** (prénom + initiale) partout : niche.config, `/auteurs/cedric-h`, `/en/auteurs/cedric-h`, JSON-LD Person + Article.author, 64/64 frontmatters `authorSlug: "cedric-h"`. Bio E-E-A-T crédible (ex-analyste crédit entreprises, Namur ; contrôleur de gestion PME Hainaut). Unique au réseau. Pas de « la rédaction ».
+- ⚠️ **Auteur non traduit en EN** : pas de `localized.en.author` ; page auteur EN, AuthorCard et JSON-LD des articles EN en français.
+- ⚠️ **Liens auteur non localisés** : `AuthorByline` l.56, `AuthorCard` l.105/124 (`/auteurs/<slug>` en dur) et `ArticleView` l.149 (`author.url`) → pages FR depuis les articles EN.
+- mineur (dormant) : route legacy `app/(site)/[article]/page.tsx` sans `authorName` + repli `'Auteur'` en JSON-LD (aucun article standalone aujourd'hui).
 
 ## Anti-footprint
-- Logo gobelet, palette pétrole `#0A5C7E` (mutée le 2026-10-14 pour s'écarter de besttennisshoes.be), auteur Wouter D. : distincts du réseau.
-
----
+- Identité distincte (mark tampon, prune, Libre Caslon Text, Cédric H.). Défauts partagés = template (cookies/Analytics, liens auteur).
 
 ## Top actions prioritaires
-1. ❌ **Créer un bandeau cookies RGPD NL+EN** (léger, Accepter / Weigeren · Accept / Decline, lien vers `/privacybeleid` · `/en/privacy`, choix mémorisé) et le **monter dans `app/layout.tsx`**.
-2. ❌ **Conditionner `<Analytics />` au consentement** (ne charger Vercel Analytics qu'après « Accepter »).
-3. ⚠️ Compléter `/privacybeleid` + `/en/privacy` : base légale (consentement), retrait du consentement via le bandeau ; ajouter l'adresse du siège dans `/en/privacy`.
-4. ⚠️ Localiser les liens auteur de `AuthorByline`/`AuthorCard` (`localePath(locale, '/auteurs/…')`).
-5. mineur : passer `authorName={niche.author.name}` dans `app/(site)/[article]/page.tsx` (route legacy dormante).
+1. ❌ fonds-investissement.be — monter un bandeau cookies RGPD FR+EN (léger, Accepter/Refuser, lien politique, choix mémorisé) dans le root layout.
+2. ❌ Conditionner `<Analytics />` au consentement.
+3. ⚠️ Corriger le template : bandeau cookies + Analytics conditionnel par défaut (3ᵉ audit consécutif avec ce bloquant).
+4. ⚠️ Ajouter `localized.en.author { title, bio }` et le consommer côté EN (page auteur, AuthorCard, JSON-LD).
+5. ⚠️ Localiser les liens auteur via `localePath` ; compléter `/en/privacy` (adresse) + base légale / retrait du consentement.
