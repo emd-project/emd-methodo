@@ -1,75 +1,27 @@
-# Audit PAGES CLÉS — 2026-10-03
+# Audit PAGES CLÉS — 2026-10-31
 
-Périmètre : sites de `pipeline/provisioned-log.csv` provisionnés ≤ 14 jours (depuis le 2026-09-19) et absents de `audited-pages.csv`. **5 sites audités**, lecture seule, sur le code des repos (branche `main`) — aucun build ni test HTTP en production. Référence : `references/pages-cles.md`.
+Périmètre : sites de `pipeline/provisioned-log.csv` provisionnés ≤ 14 jours (depuis le 2026-10-17) et absents de `audited-pages.csv`. **1 site audité** : fonds-investissement.be (provisionné le 2026-10-20, repo `emd-project/fond-investissement`, `main` @ `5c3a35f` du 29/10). Lecture seule sur le code du repo — aucun build ni test HTTP en production. Référence : `references/pages-cles.md`.
 
 ## Synthèse
 
 | Site (provisionné) | Comparateur | /choisir | Quiz | Classements | Simulateur | Deals | Verdict |
 |---|---|---|---|---|---|---|---|
-| meilleur-hotel-bruges.be (21/09) | **VIDE + liens morts** | **VIDE** | éteint | OK (1) | éteint, routes restantes | éteint, routes restantes | **À traiter** |
-| meilleure-carte-bancaire.be (25/09) | OK limite (5 items) | OK FR / 404 EN | éteint | OK (1) | éteint, routes restantes | éteint, routes restantes | Mineur |
-| meilleur-lave-linge.be (28/09) | OK (8), specs creuses | OK FR / **lien mort EN** | éteint | OK (1) | éteint, routes restantes | éteint, routes restantes | **À traiter** |
-| besttennisshoes.be (29/09) | OK (37) | OK ×3 locales | OK (3 steps ×3) | OK (7) | éteint proprement | éteint proprement | Mineur |
-| beste-waterfontein.be (01/10) | OK (6) | OK NL / 404 EN | éteint | OK (1) | éteint, routes restantes | éteint, routes restantes | Mineur |
+| fonds-investissement.be (20/10) | OK (2 slugs × 9 items, FR/EN) | OK FR (2 entrées) / 404 EN voulu | éteint proprement | OK (2, parité FR/EN) | éteint, **routes restantes** | éteint, **routes restantes** | Mineur |
 
-**Pages clés réellement vides : 1 site** (meilleur-hotel-bruges.be : comparateur + /choisir). Aucun quiz « shell » exposé : les 4 quiz à 0 step sont éteints (`quiz.enabled: false`, hors footer/sitemap).
+**Aucune page clé réellement vide exposée.** Rien à construire en data ; uniquement des écarts de code mineurs (à coder).
 
 ## « À coder » (composant NON data-driven — à traiter à part)
 
-- **Simulateur** (`const CYCLES = []` figé dans `page.tsx`) et **Deals** (FAQ/texte figés) sur hotel-bruges, carte-bancaire, lave-linge, waterfontein. Les deux sont éteints par flag et absents de nav/sitemap, mais **les routes `app/(site)/simulateur`, `app/en/simulateur`, `app/(site)/deals`, `app/en/deals` n'ont pas été supprimées** (écart au §5 de la référence). Action = suppression de routes, pas de remplissage. Sur waterfontein, ces pages contiennent du texte français sur un site NL.
-- **Liens morts dans des composants** (correctif de code, pas de data) : `Nav.tsx`/`Footer.tsx` de hotel-bruges ; `LangSwitch` de lave-linge.
+- **Simulateur** (`const CYCLES: CyclePrix[] = []` figé dans `app/(site)/simulateur/page.tsx`) et **Deals** : éteints par flag (`simulator.enabled: false`, `deals.enabled: false`), absents de nav/footer/sitemap/ToolCTA, mais **les routes `app/(site)/simulateur`, `app/en/simulateur`, `app/(site)/deals`, `app/en/deals` n'ont pas été supprimées** (écart §5). `content/pages/deals.yaml` résiduel. Action = suppression de routes.
+- **CTA quiz trompeur (FR)** : `app/(site)/comparer/[produit]/page.tsx` l.114-118 affiche « Répondez à 4 questions pour trouver votre modèle — Faire le quiz → » vers `/choisir/[produit]`, alors que le quiz n'a **0 step** : la page `/choisir` ne contient que l'éditorial. Texte en dur, gardé par `hasChoisir` (éditorial) et non par la présence de steps. Pas un lien mort, mais une promesse fausse → reformuler (« Lire le guide de choix → ») ou garder sur `hasQuizSteps('fr')`. À vérifier aussi : libellé `quizCta` de `app/(site)/classement/[produit]/page.tsx`.
 
-Tout le reste (comparateur, choisir, quiz, classement) est **data-driven** sur les 5 sites → remplissage sûr par fichiers de données.
+Tout le reste (comparateur, choisir, quiz, classement) est **data-driven** → remplissage sûr par fichiers de données.
 
-## Détail par site
+## Détail — fonds-investissement.be (FR + EN)
 
-### meilleur-hotel-bruges.be — FR + EN
-- **Comparateur : VIDE.** `content/data/comparateurs.json` et `.en.json` = `{}` ; `comparator.enabled: false` ; pages `/comparer` FR/EN en `notFound()`. **Liens morts** : `components/layout/Nav.tsx` (menu, CTA desktop, bouton mobile) et `Footer.tsx` pointent vers `/comparer` sans condition → 404 FR et EN. Sitemap correctement gardé. Data attendue : `content/data/comparateurs(.en).json` (≥ 5 items dérivés du classement). Data-driven : oui (`lib/comparateur.ts`).
-- **/choisir : VIDE.** `content/data/choisir.json` = `{}` (aucune page générée, non liée). Data-driven : oui (`lib/choisir-content.ts`).
-- **Quiz : éteint proprement.** `steps: []` FR/EN, `quiz.enabled: false`, hors footer/sitemap. Data : `content/pages/quiz(.en).yaml`. Data-driven : oui.
-- **Classements : OK.** 1 classement (`hotels-bruges`), 8 items, 5 sections, 7 FAQ, > 1 500 mots estimés, parité FR/EN. **Prix « non relevé » sur 8/8 items.** 5 catégories pour 1 classement.
-- **Simulateur / Deals** : éteints, routes non supprimées ; `content/pages/deals.yaml` et `comparer.yaml` résiduels. Non data-driven.
-- Autre : catégorie `visiter-bruges` sans aucun article mais listée au footer.
-- Non vérifié : pages EN simulateur/deals (contenu), CTA home vers `/comparer`, rendu prod.
-
-### meilleure-carte-bancaire.be — FR + EN
-- **Comparateur : OK, à la limite.** 1 slug `cartes-bancaires`, 5 modèles FR/EN (seuil = 5). Data-driven : oui.
-- **/choisir : OK en FR** (1 entrée, 4 sections, 6 FAQ) ; `/en/choisir` en 404 voulu (pas de `choisir.en.json`, CTA gardés).
-- **Quiz : éteint proprement** (`enabled: false`, `steps: []` FR/EN, hors footer/sitemap).
-- **Classements : OK.** 1 classement, 9 items, 6 sections (~1 100 mots estimés), 7 FAQ, parité FR/EN. 5 catégories pour 1 classement.
-- **Simulateur / Deals** : éteints, routes non supprimées. Non data-driven.
-- Autre : catégorie `choisir-sa-carte` sans article mais listée au footer → lien mort probable (`/blog/[categorie]` fait `notFound()` à 0 article).
-- Non vérifié : filtrage des catégories vides (`lib/niche-l10n.ts`), CTA quiz des pages FR, rendu prod.
-
-### meilleur-lave-linge.be — FR + EN
-- **Comparateur : OK mais creux.** 1 slug `lave-linge`, 8 modèles FR/EN ; **3 specs sur 8 (kWh, litres, bruit) = « non publié » sur les 8 lignes** ; les lignes sont des gammes, pas des modèles. Data : `content/data/comparateurs(.en).json`. Data-driven : oui.
-- **/choisir : OK en FR**. **Lien mort EN** : `LangSwitch` garde `choisir` dans `MIRRORED` → `/en/choisir/lave-linge` = 404.
-- **Quiz : éteint proprement** (`enabled: false`, `steps: []` FR/EN).
-- **Classements : OK.** 1 classement, 8 items, 5 sections, 7 FAQ, ~2 000 mots estimés, parité FR/EN. 5 catégories pour 1 classement.
-- **Simulateur / Deals** : éteints, routes non supprimées. Non data-driven. (Niche « bien durable » : le simulateur pourrait avoir un sens, mais il n'est pas configuré.)
-- Autre : **blog quasi vide** — 1 article publié par langue ; `marques`, `consommation`, `installation` sans dossier, `guides` = gabarit en draft, alors que le footer lie les 5 catégories. `content/settings.yaml` resté au template (`example.com`), non lu par `Nav.tsx`.
-- Non vérifié : rendu des catégories vides, filtrage des drafts, build réel.
-
-### besttennisshoes.be — FR (défaut) + EN + NL
-- **Comparateur : OK.** 1 slug, 37 modèles ×3 locales. **Prix à 0** sur `nike-air-zoom-vapor-cage-4` (et `offres: []`) et `k-swiss-hypercourt-supreme-2`. `niche.config.ts` annonce « 34 modèles » (37 réels).
-- **/choisir : OK** ×3 locales.
-- **Quiz : OK.** 3 steps, 18 outcomes ×3 locales. À vérifier : les `href` des outcomes EN/NL sont des chemins FR (`/comparer/...`, `/classement/...`) → lien mort possible si le moteur ne les localise pas. Les 18 outcomes ne recommandent que Nike (écart au traitement équitable des marques).
-- **Classements : OK.** 7 classements, 8-10 items, 1 200-1 500 mots estimés, parité ×3. Clusters sans classement : `entretien`, `comparatifs`, surfaces dur/indoor.
-- **Simulateur / Deals : éteints proprement** (flags false, routes supprimées).
-- Tous composants data-driven.
-- Non vérifié : `QuizEngine.tsx` (localisation des href), Footer, recherche de placeholders non concluante, rendu prod.
-
-### beste-waterfontein.be — NL (défaut) + EN
-- **Comparateur : OK.** 1 slug `waterfontein-kantoor`, 6 modèles NL/EN ; 4/6 à `prix: 0` (« op offerte »).
-- **/choisir : OK en NL** ; `/en/choisir` en 404 voulu (hors sitemap/hreflang).
-- **Quiz : éteint proprement** (`enabled: false`, `steps: []` NL/EN). `tools` reste dans `homeSections`.
-- **Classements : OK.** 1 classement, 6 items, 5 sections, 7 FAQ, ~1 400 mots estimés, parité NL/EN.
-- **Simulateur / Deals** : éteints, routes non supprimées, texte résiduel en français. Non data-driven.
-- Autre : 6 catégories, **1 seule couverte** (1 article NL + 1 EN) ; 5 clusters sans article ni classement.
-- Non vérifié : `Footer.tsx`, rendu de la section `tools`, rendu prod.
-
-## Priorités
-1. **hotel-bruges** : remplir `comparateurs(.en).json` (≥ 5 hôtels, dérivés du classement) + `choisir.json`, ou conditionner les liens `/comparer` de Nav/Footer à `comparator.enabled`.
-2. **lave-linge** : retirer `choisir` de `MIRRORED` (ou créer le miroir EN) ; renseigner kWh/litres/bruit.
-3. **4 sites** : supprimer les routes simulateur/deals (§5).
-4. Catégories sans article listées au footer (hotel-bruges, carte-bancaire, lave-linge, waterfontein) ; classements par cluster à compléter (1 seul classement sur 4 sites).
+- **Comparateur : OK.** `content/data/comparateurs.json` + `.en.json` : 2 slugs (`fonds-investissement-pme`, `invests-wallons`), 9 items chacun, parité FR/EN, `sourceUrl` neutre sur 18/18, aucune spec vide. `comparator.enabled: true`. **Prix (= ticket) ≤ 0 sur 6/9 et 7/9 items** → rendu « — » (« non publié par la source », géré par `components/comparer`). Pas un shell, mais colonne prix peu informative. Data-driven : oui (`lib/comparateur.ts`).
+- **/choisir : OK en FR.** `content/data/choisir.json` : 1 entrée par slug comparateur (2/2). `/en/choisir/[produit]` en 404 voulu (pas d'éditorial EN, `quiz.en.yaml` vide) ; CTA EN (`comparer`, `classement`) et sitemap EN correctement gardés par `hasQuizSteps('en')`. Data-driven : oui (`lib/choisir-content.ts`).
+- **Quiz : éteint proprement.** `quiz.enabled: false`, `steps: []` dans `content/pages/quiz.yaml` et `quiz.en.yaml`. Footer, home (`ComparateurHome`) et sitemap gardés. Data attendue : `content/pages/quiz(.en).yaml` (3-6 steps, `value` = slug comparateur) + `niche.config.ts` (`quiz.question`, `quiz.criteria`). Data-driven : oui (`components/quiz/QuizEngine.tsx`). Optionnel : l'activer rendrait `/en/choisir` disponible.
+- **Classements : OK.** `content/data/classements.json` + `.en.json` : `fonds-investissement-pme` (9 items, 5 sections, 7 FAQ, ~2 040 mots FR / ~1 810 EN) et `invests-wallons` (9 items, 5 sections, 7 FAQ, ~2 425 FR / ~2 265 EN), `excerpt` présents, parité FR/EN. Prix « non publié » sur 4-6/9 items (tickets non communiqués par les invests — factuel). Corps `sections` seul = 624-930 mots (le reste vient de FAQ/items). 6 catégories éditoriales pour 2 classements ; d'autres classements sont `planned` dans `content/site-plan.json` (complétés par la tâche `fond-investissement-article-daily`). Data-driven : oui (`lib/classement.ts`).
+- **Simulateur / Deals** : voir « À coder ».
+- Non vérifié : rendu prod, statut HTTP réel des routes simulateur/deals, libellés i18n EN des CTA.
