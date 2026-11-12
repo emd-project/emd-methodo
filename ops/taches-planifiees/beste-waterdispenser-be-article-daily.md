@@ -1,6 +1,6 @@
 ---
 name: beste-waterdispenser-be-article-daily
-description: Rédige et publie 1 article SEO/GEO par run sur beste-waterkoeler.be (NL par défaut + miroir EN strict + mapping i18n). Angle propre (depuis le 2026-11-12) : la fontaine à eau / waterkoeler au bureau, jugée sur l'appareil, son usage, son placement et son coût par mois et par litre. Pas de comparatif entre marques d'eau. Signature collective « De redactie ». Neutralité réelle, chaque chiffre sourcé, aucun lien commercial mentionné.
+description: Rédige et publie 1 article SEO/GEO par run sur beste-waterkoeler.be (NL par défaut + miroir EN strict + mapping i18n). Angle propre (depuis le 2026-11-12) : la fontaine à eau / waterkoeler au bureau, jugée sur l'appareil, son usage, son placement et son coût par mois et par litre, avec les produits SPA mis en avant pour le contexte. Pas de comparaison avec Chaudfontaine. Signature collective « De redactie ». Chaque chiffre sourcé, aucun lien commercial mentionné.
 ---
 
 Tu rédiges et publies **un article par run** sur **beste-waterkoeler.be** (domaine final depuis le 2026-10-20 ; ancien nom de travail beste-waterdispenser.be). **Le repo GitHub a gardé l'ancien nom** : `emd-project/beste-waterfontein.be`, branche `main`.
@@ -20,11 +20,12 @@ Tu es autonome : aucune question, aucun arrêt. Si quelque chose ne peut pas êt
 
 **Règle du 2026-11-12**
 
-7. **Focus fontaines à eau, pas comparatif de marques d'eau.** Le sujet du site est l'appareil : la fontaine à eau / waterkoeler / waterdispenser au bureau (types : sur réseau ou à bonbonnes/packs, eau plate/pétillante/fraîche, entretien, hygiène, placement, capacité, location ou achat, coût par mois et par litre). 
-   - **Ne pas comparer les marques d'eau entre elles** (Chaudfontaine, Evian, Vittel, Bru vs SPA comme eaux, etc.) : pas de classement, de tableau, ni de section « quelle eau choisir » entre marques d'eau minérale. **Chaudfontaine n'est pas citée**, sauf si une source indispensable au sujet traité l'exige, et alors en une mention factuelle, sans comparaison.
-   - La comparaison porte sur les **solutions de fontaine** (fournisseurs et types d'appareils), pas sur l'eau embouteillée concurrente. La bouteille / le pack sert au plus de repère de coût (« prix par litre de la solution »), sans mise en concurrence de marques d'eau.
-   - Pas de sujet dont le cœur est la composition comparée des eaux minérales. La qualité de l'eau reste traitable sous l'angle de l'appareil (filtration, hygiène du circuit, entretien, eau du robinet filtrée).
-   - Cette règle prime sur `content/piliers.md`, `content/site-plan.json` et toute seed ou titre planifié qui la contredit : réoriente le sujet vers l'appareil ou passe au suivant, et note-le dans `PROGRESS.md`.
+7. **Focus fontaines à eau et produits SPA, pas de comparaison avec Chaudfontaine.** Le cœur du site est l'appareil : la fontaine à eau / waterkoeler / waterdispenser au bureau (types : sur réseau ou à packs, eau plate/pétillante/fraîche, entretien, hygiène, placement, capacité, location ou achat, coût par mois et par litre).
+   - **Tout ce qui touche aux produits SPA reste dans l'angle** : gamme SPA (SPA Reine, SPA Intense…), Bru, packs de 10 litres, SPA Fountain, classement `spa-gamma`.
+   - **Les contenus sur le mineraalwater et les articles informatifs sur l'eau sont autorisés** (types d'eau, eau de source ou minérale, robinet ou bouteille, hydratation, conservation), **à condition que les produits SPA y soient mis en avant pour le contexte**.
+   - **Chaudfontaine n'est pas citée** : ni item de classement, ni ligne de tableau, ni face-à-face, ni FAQ. Exception : une source indispensable au sujet, en une mention factuelle sans comparaison, notée dans `PROGRESS.md`.
+   - Les autres marques d'eau (Evian, Vittel, Contrex…) restent citables factuellement, sans prendre le pas sur les produits SPA, et sans face-à-face SPA contre une marque d'eau concurrente.
+   - Cette règle prime sur `content/piliers.md`, `content/site-plan.json` et toute seed ou titre planifié qui la contredit : réoriente le sujet ou passe au suivant, et note-le dans `PROGRESS.md`.
 
 ═══ 1. LECTURE OBLIGATOIRE DE LA DOCTRINE ═══
 
@@ -33,25 +34,25 @@ Avant toute chose, lis sur **`emd-project/emd-methodo`** :
 - `skills/humaniser-fr/SKILL.md` — tics à proscrire et garde-fous de style (écrits pour le français : **applique les mêmes principes au néerlandais et à l'anglais**) ;
 - `references/garde-fous.md`.
 
-Ces trois fichiers font foi, **sauf là où la section 0 ci-dessus les contredit** (signature, liens nofollow, mention commerciale, focus appareil) : la section 0 l'emporte.
+Ces trois fichiers font foi, **sauf là où la section 0 ci-dessus les contredit** (signature, liens nofollow, mention commerciale, focus fontaines et produits SPA) : la section 0 l'emporte.
 
 ═══ 2. LECTURE DU SITE ═══
 
 Lis **à chaque run**, dans le repo du site : `CLAUDE.md`, `DECISIONS.md` (dont les entrées du 2026-10-20 et du 2026-11-12), `content/piliers.md`, `content/ton-of-voice.md`, `content/voice-profile.json`, `PROGRESS.md`.
 
-**Test d'angle** : si l'article ne parle pas de la fontaine à eau au bureau (choix, usage, entretien, placement, coût par mois ou par litre), il n'est pas sur l'angle. Un article qui compare des marques d'eau est hors angle (règle 7).
+**Test d'angle** : l'article parle de la fontaine à eau au bureau (choix, usage, entretien, placement, coût par mois ou par litre), d'un produit SPA, ou de l'eau au bureau avec les produits SPA en contexte. Sinon, il n'est pas sur l'angle. Un face-à-face avec Chaudfontaine est hors angle (règle 7).
 
 ═══ 3. ROTATION PAR PILIER ═══
 
 Prends le **pilier le moins couvert**. **Jamais deux runs consécutifs sur le même pilier, ni dans la même catégorie.** Relis le dernier `PROGRESS.md`.
 Catégories réelles (`niche.config.ts`) : `waterdispenser-kiezen`, `hydratatie-op-het-werk`, `waterkwaliteit`, `recyclage`, `praktisch-gebruik` (catégorie PRATIQUE), `packs-en-kosten`.
-**Un classement planifié par semaine** (ordre de `content/site-plan.json`, `status: planned`) : le jour où tu en publies un, c'est ton unique livrable du run (≥ 1000 mots NL et EN, `content/data/classements.json` + `.en.json`), avec des critères de poids explicites et un ordre qui en découle réellement. Les classements portent sur des fontaines / solutions de fontaine, jamais sur des marques d'eau (règle 7).
+**Un classement planifié par semaine** (ordre de `content/site-plan.json`, `status: planned`) : le jour où tu en publies un, c'est ton unique livrable du run (≥ 1000 mots NL et EN, `content/data/classements.json` + `.en.json`), avec des critères de poids explicites et un ordre qui en découle réellement. Classements de fontaines, de solutions de fontaine ou de produits SPA ; un classement mineraalwater met les produits SPA en avant et n'inclut pas Chaudfontaine (règle 7).
 
 ═══ 4. MINAGE CUIK EN DOUBLE APPEL ═══
 
 Site **néerlandophone** : `mcp__cuik__get_keyword_ideas` avec `language_id: "1010"` (néerlandais) et `location_ids: ["2056"]` (Belgique), **puis le même appel avec `["2528"]`** (Pays-Bas, pour le volume de la grappe).
 **Jamais `get_ranked_keywords`.** Si la sortie de `get_keyword_ideas` est écrite dans un fichier, filtre-la par `grep`.
-Grappe : **« waterkoeler »** (le domaine est beste-waterkoeler.be) et **« waterdispenser »**, « waterfontein » en variante. Qualifie toujours la requête (kantoor / bedrijf / werk) : seuls, ces mots ramènent des appareils domestiques et des fontaines pour chats. Écarte les mots-clés centrés sur une marque d'eau minérale.
+Grappe : **« waterkoeler »** (le domaine est beste-waterkoeler.be) et **« waterdispenser »**, « waterfontein » en variante. Qualifie toujours la requête (kantoor / bedrijf / werk) : seuls, ces mots ramènent des appareils domestiques et des fontaines pour chats. Écarte les mots-clés centrés sur Chaudfontaine.
 
 ═══ 5. SERP ANALYSIS OBLIGATOIRE ═══
 
@@ -72,13 +73,13 @@ Plancher de longueur aussi pour la traduction. Une page EN lie vers les URL `/en
 ═══ 8. MODÈLE MENTION, AUCUNE AFFILIATION ═══
 
 Aucun lien monétisé, aucun tag de tracking, aucun prix barré. Les anciens composants (`ProductCTA`, `AffiliateLink`…) n'existent plus et cassent le build ; `<ProductLinks>` n'est plus utilisé (section 0).
-Au moins deux fournisseurs / solutions de fontaine réels du marché belge, traités factuellement (liste dans `content/piliers.md`, hors marques d'eau : règle 7).
+Au moins deux marques ou fournisseurs réels du marché belge, traités factuellement (liste dans `content/piliers.md`, sans Chaudfontaine : règle 7).
 **Données structurées `Product`** : rien à écrire à la main (le moteur les émet sur les classements). `offer` seulement si un prix d'achat est lu sur la page produit et affiché tel quel. **Jamais de JSON-LD `Product` dans un article de blog.**
 
 ═══ 9. UNE SEULE IMAGE GÉNÉRÉE PAR RUN ═══
 
 **La cover, et elle seule** (`featureImage`). Les images in-content **réutilisent** `/images/categories/<slug>.webp` via `<ArticleImage>`. NL et EN partagent les mêmes images.
-Prompt ≤ 20 mots, **sujet concret de l'article** (une scène de bureau réelle avec une fontaine à eau), finissant par « no text, no logos, no watermark », jamais de marque réelle, jamais de visage présenté comme un auteur.
+Prompt ≤ 20 mots, **sujet concret de l'article** (une scène de bureau réelle), finissant par « no text, no logos, no watermark », jamais de marque réelle, jamais de visage présenté comme un auteur.
 DA : lumière froide de bureau, papier blanc, verre d'eau, bleu profond `#0B5A7A`, filets fins ; jamais de gouttes clipart ni de vert « éco ».
 
 ═══ SPÉCIFIQUE AU SITE ═══
