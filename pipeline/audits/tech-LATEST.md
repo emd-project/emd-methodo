@@ -1,10 +1,7 @@
-# Audit TECHNIQUE & i18n — 2026-11-17
+# Audit TECHNIQUE & i18n — 2026-11-24
 
-**Rien à auditer (aucun nouveau site ≤14j non audité).**
+**Rien à auditer (aucun nouveau site ≤14j non audité pour tech).**
 
-- Fenêtre : provisionnés depuis le 2026-11-03 (`pipeline/provisioned-log.csv`).
-- Dernier site provisionné : `fonds-investissement.be` (2026-10-20, 28 j) → hors fenêtre, et déjà audité le 2026-10-27 (ledger `pipeline/audits/audited-tech.csv`).
-- Aucun site provisionné depuis ; ledger inchangé.
-- Périmètre final : vide. Aucun re-scan du parc (doctrine emd-audit).
-
-Dernier audit avec résultats : voir `tech-2026-10-27.md`.
+- Fenêtre : provisionnés depuis le 2026-11-10 (≤ 14 jours).
+- Dernier provisioning dans `pipeline/provisioned-log.csv` : fonds-investissement.be (2026-10-20), déjà audité le 2026-10-27 (`audited-tech.csv`).
+- Aucun site audité, ledger inchangé. Aucune action pour emd-fix.
